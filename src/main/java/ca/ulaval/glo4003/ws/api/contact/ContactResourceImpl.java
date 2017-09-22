@@ -33,7 +33,7 @@ public class ContactResourceImpl implements ContactResource {
             contactService.updateContact(id, contactDto);
         } catch (ContactNotFoundException e) {
             throw new WebApplicationException(
-                    Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build());
+                Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build());
         }
     }
 

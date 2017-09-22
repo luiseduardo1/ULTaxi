@@ -27,7 +27,8 @@ import static org.junit.Assert.assertThat;
         contactService = new ContactService(contactRepository, contactAssembler);
     }
 
-    @Test public void givenContactsInRepository_whenFindAllContacts_thenReturnDtos() throws Exception {
+    @Test public void givenContactsInRepository_whenFindAllContacts_thenReturnDtos()
+        throws Exception {
         // given
         BDDMockito.given(contactRepository.findAll()).willReturn(Lists.newArrayList(contact));
         BDDMockito.given(contactAssembler.create(contact)).willReturn(contactDto);

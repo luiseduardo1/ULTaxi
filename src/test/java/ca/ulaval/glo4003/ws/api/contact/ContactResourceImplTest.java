@@ -28,7 +28,8 @@ import static org.junit.Assert.assertThat;
 
     @Test public void whenFindAllContacts_thenDelegateToService() {
         // given
-        BDDMockito.given(contactService.findAllContacts()).willReturn(Lists.newArrayList(contactDto));
+        BDDMockito.given(contactService.findAllContacts())
+            .willReturn(Lists.newArrayList(contactDto));
 
         // when
         List<ContactDto> contactDtos = contactResource.getContacts();
