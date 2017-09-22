@@ -6,18 +6,15 @@ public class UserAssembler {
 
     public User create(UserDto userDto) {
         User user = new User();
-        user.setAddress(userDto.address);
-        user.setTelephoneNumber(userDto.telephoneNumber);
-        user.setName(userDto.name);
+        user.setName(userDto.getName());
+        user.setPassword(userDto.getPassword());
         return user;
     }
 
     public UserDto create(User user) {
         UserDto userDto = new UserDto();
-        userDto.address = user.getAddress();
-        userDto.telephoneNumber = user.getTelephoneNumber();
-        userDto.name = user.getName();
-        userDto.id = user.getId();
+        userDto.setName(user.getName());
+        userDto.setPassword(user.getPassword());
         return userDto;
     }
 }

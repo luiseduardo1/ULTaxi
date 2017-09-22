@@ -15,26 +15,7 @@ import java.util.List;
 
 @Path("/users")
 public interface UserResource {
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    List<UserDto> getUsers();
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
-    UserDto getUser(
-        @PathParam("id") String id);
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     void createUser(UserDto userDto);
-
-    @PUT
-    @Path("{id}")
-    void updateUser(@PathParam("id") String id, UserDto userDto);
-
-    @DELETE
-    @Path("{id}")
-    void deleteUser(@PathParam("id") String id);
 }

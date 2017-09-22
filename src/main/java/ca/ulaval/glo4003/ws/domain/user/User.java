@@ -2,10 +2,9 @@ package ca.ulaval.glo4003.ws.domain.user;
 
 public class User {
 
-    private String id;
-    private String telephoneNumber;
-    private String address;
     private String name;
+    private String password;
+    private String id;
 
     public String getId() {
         return id;
@@ -15,20 +14,12 @@ public class User {
         this.id = id;
     }
 
-    public String getTelephoneNumber() {
-        return telephoneNumber;
+    public String getPassword() {
+        return password;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
