@@ -15,33 +15,27 @@ import java.util.List;
 
 import static org.junit.Assert.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ContactResourceImplTest {
-  @Mock
-  private ContactService contactService;
-  @Mock
-  private ContactDto contactDto;
+@RunWith(MockitoJUnitRunner.class) public class ContactResourceImplTest {
 
-  private ContactResource contactResource;
+    @Mock private ContactService contactService;
+    @Mock private ContactDto contactDto;
 
+    private ContactResource contactResource;
 
-  @Before
-  public void setUp()
-          throws Exception {
-    contactResource = new ContactResourceImpl(contactService);
-  }
+    @Before public void setUp() throws Exception {
+        contactResource = new ContactResourceImpl(contactService);
+    }
 
-  @Test
-  public void whenFindAllContacts_thenDelegateToService() {
-    // given
-    BDDMockito.given(contactService.findAllContacts()).willReturn(Lists.newArrayList(contactDto));
+    @Test public void whenFindAllContacts_thenDelegateToService() {
+        // given
+        BDDMockito.given(contactService.findAllContacts()).willReturn(Lists.newArrayList(contactDto));
 
-    // when
-    List<ContactDto> contactDtos = contactResource.getContacts();
+        // when
+        List<ContactDto> contactDtos = contactResource.getContacts();
 
-    // then
-    assertThat(contactDtos, org.hamcrest.Matchers.hasItem(contactDto));
-    Mockito.verify(contactService).findAllContacts();
-  }
+        // then
+        assertThat(contactDtos, org.hamcrest.Matchers.hasItem(contactDto));
+        Mockito.verify(contactService).findAllContacts();
+    }
 
 }

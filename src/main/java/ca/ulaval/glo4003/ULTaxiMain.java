@@ -26,68 +26,66 @@ import java.util.Set;
 /**
  * RESTApi setup without using DI or spring
  */
-@SuppressWarnings("all")
-public class ULTaxiMain {
-  public static boolean isDev = true; // Would be a JVM argument or in a .property file
+@SuppressWarnings("all") public class ULTaxiMain {
 
-  public static void main(String[] args)
-          throws Exception {
+    public static boolean isDev = true; // Would be a JVM argument or in a .property file
 
-    // Setup resources (API)
-    ContactResource contactResource = createContactResource();
+    public static void main(String[] args) throws Exception {
 
-    // Setup API context (JERSEY + JETTY)
-    ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-    context.setContextPath("/api/");
-    ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
-      @Override
-      public Set<Object> getSingletons() {
-        HashSet<Object> resources = new HashSet<>();
-        // Add resources to context
-        resources.add(contactResource);
-        return resources;
-      }
-    });
-    resourceConfig.register(CORSResponseFilter.class);
+        // Setup resources (API)
+        ContactResource contactResource = createContactResource();
 
-    ServletContainer servletContainer = new ServletContainer(resourceConfig);
-    ServletHolder servletHolder = new ServletHolder(servletContainer);
-    context.addServlet(servletHolder, "/*");
+        // Setup API context (JERSEY + JETTY)
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/api/");
+        ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
+            @Override public Set<Object> getSingletons() {
+                HashSet<Object> resources = new HashSet<>();
+                // Add resources to context
+                resources.add(contactResource);
+                return resources;
+            }
+        });
+        resourceConfig.register(CORSResponseFilter.class);
 
-    // Setup static file context (WEBAPP)
-    WebAppContext webapp = new WebAppContext();
-    webapp.setResourceBase("src/main/webapp");
-    webapp.setContextPath("/");
+        ServletContainer servletContainer = new ServletContainer(resourceConfig);
+        ServletHolder servletHolder = new ServletHolder(servletContainer);
+        context.addServlet(servletHolder, "/*");
 
-    // Setup http server
-    ContextHandlerCollection contexts = new ContextHandlerCollection();
-    contexts.setHandlers(new Handler[] { context, webapp });
-    Server server = new Server(8080);
-    server.setHandler(contexts);
+        // Setup static file context (WEBAPP)
+        WebAppContext webapp = new WebAppContext();
+        webapp.setResourceBase("src/main/webapp");
+        webapp.setContextPath("/");
 
-    try {
-      server.start();
-      server.join();
-    } finally {
-      server.destroy();
-    }
-  }
+        // Setup http server
+        ContextHandlerCollection contexts = new ContextHandlerCollection();
+        contexts.setHandlers(new Handler[] { context, webapp });
+        Server server = new Server(8080);
+        server.setHandler(contexts);
 
-  private static ContactResource createContactResource() {
-    // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
-    ContactRepository contactRepository = new ContactRepositoryInMemory();
-
-    // For development ease
-    if (isDev) {
-      ContactDevDataFactory contactDevDataFactory = new ContactDevDataFactory();
-      List<Contact> contacts = contactDevDataFactory.createMockData();
-      contacts.stream().forEach(contactRepository::save);
+        try {
+            server.start();
+            server.join();
+        } finally {
+            server.destroy();
+        }
     }
 
-    ContactAssembler contactAssembler = new ContactAssembler();
-    ContactService contactService = new ContactService(contactRepository, contactAssembler);
+    private static ContactResource createContactResource() {
+        // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
+        ContactRepository contactRepository = new ContactRepositoryInMemory();
 
-    return new ContactResourceImpl(contactService);
-  }
+        // For development ease
+        if (isDev) {
+            ContactDevDataFactory contactDevDataFactory = new ContactDevDataFactory();
+            List<Contact> contacts = contactDevDataFactory.createMockData();
+            contacts.stream().forEach(contactRepository::save);
+        }
+
+        ContactAssembler contactAssembler = new ContactAssembler();
+        ContactService contactService = new ContactService(contactRepository, contactAssembler);
+
+        return new ContactResourceImpl(contactService);
+    }
 
 }
