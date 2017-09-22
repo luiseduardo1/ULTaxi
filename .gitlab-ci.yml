@@ -1,0 +1,13 @@
+stages:
+    - build
+    - test
+
+maven-build:
+    image: maven:3-jdk-8
+    stage: build
+    script: "mvn compile -B"
+
+maven-test:
+    image: maven:3-jdk-8
+    stage: test
+    script: "mvn test -B"
