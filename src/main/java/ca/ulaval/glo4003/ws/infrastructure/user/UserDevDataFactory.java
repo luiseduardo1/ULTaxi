@@ -1,36 +1,36 @@
-package ca.ulaval.glo4003.ws.infrastructure.contact;
+package ca.ulaval.glo4003.ws.infrastructure.user;
 
-import ca.ulaval.glo4003.ws.domain.contact.Contact;
+import ca.ulaval.glo4003.ws.domain.user.User;
 import jersey.repackaged.com.google.common.collect.Lists;
 
 import java.util.List;
 
-public class ContactDevDataFactory {
+public class UserDevDataFactory {
 
-    public List<Contact> createMockData() {
-        List<Contact> contacts = Lists.newArrayList();
-        Contact jobs = new Contact();
+    public List<User> createMockData() {
+        List<User> users = Lists.newArrayList();
+        User jobs = new User();
         jobs.setId("1");
         jobs.setName("Steve Jobs");
         jobs.setAddress("California");
         jobs.setTelephoneNumber("514-999-0000");
-        contacts.add(jobs);
+        users.add(jobs);
 
-        Contact balmer = new Contact();
+        User balmer = new User();
         balmer.setId("2");
         balmer.setName("Steve Balmer");
         balmer.setAddress("Manitoba");
         balmer.setTelephoneNumber("781-888-1111");
-        contacts.add(balmer);
+        users.add(balmer);
 
-        Contact franklin = new Contact();
+        User franklin = new User();
         franklin.setId("3");
         franklin.setName("Benjamin Franklin");
         franklin.setAddress("Washington");
         franklin.setTelephoneNumber("964-543-6475");
-        contacts.add(franklin);
+        users.add(franklin);
 
-        return contacts;
+        return users;
     }
 
 }

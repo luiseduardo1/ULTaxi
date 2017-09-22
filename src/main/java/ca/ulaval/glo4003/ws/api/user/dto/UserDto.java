@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.ws.api.contact.dto;
+package ca.ulaval.glo4003.ws.api.user.dto;
 
-public class ContactDto {
+public class UserDto {
 
     public String id;
     public String telephoneNumber;
@@ -9,7 +9,7 @@ public class ContactDto {
 
     @Override
     public String toString() {
-        return "ContactDto{" + "id='" + id + '\'' + ", telephoneNumber='" + telephoneNumber + '\''
+        return "UserDto{" + "id='" + id + '\'' + ", telephoneNumber='" + telephoneNumber + '\''
             + ", address='" + address + '\'' + ", name='" + name + '\'' + '}';
     }
 }

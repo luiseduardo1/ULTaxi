@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.ws.domain.contact;
+package ca.ulaval.glo4003.ws.domain.user;
 
-public class Contact {
+public class User {
 
     private String id;
     private String telephoneNumber;
