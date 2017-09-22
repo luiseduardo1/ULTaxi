@@ -13,15 +13,18 @@ public class ContactRepositoryInMemory implements ContactRepository {
 
     private Map<String, Contact> contacts = new HashMap<>();
 
-    @Override public List<Contact> findAll() {
+    @Override
+    public List<Contact> findAll() {
         return Lists.newArrayList(contacts.values());
     }
 
-    @Override public Contact findById(String id) {
+    @Override
+    public Contact findById(String id) {
         return contacts.get(id);
     }
 
-    @Override public void update(Contact contact) throws ContactNotFoundException {
+    @Override
+    public void update(Contact contact) throws ContactNotFoundException {
         Contact foundContact = contacts.get(contact.getId());
         if (foundContact != null) {
             contacts.put(contact.getId(), contact);
@@ -30,11 +33,13 @@ public class ContactRepositoryInMemory implements ContactRepository {
         }
     }
 
-    @Override public void save(Contact contact) {
+    @Override
+    public void save(Contact contact) {
         contacts.put(contact.getId(), contact);
     }
 
-    @Override public void remove(String id) {
+    @Override
+    public void remove(String id) {
         contacts.remove(id);
     }
 }

@@ -7,7 +7,8 @@ public class ContactDto {
     public String address;
     public String name;
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "ContactDto{" + "id='" + id + '\'' + ", telephoneNumber='" + telephoneNumber + '\''
             + ", address='" + address + '\'' + ", name='" + name + '\'' + '}';
     }

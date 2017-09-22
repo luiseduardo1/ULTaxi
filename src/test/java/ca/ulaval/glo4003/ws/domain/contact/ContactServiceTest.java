@@ -14,20 +14,27 @@ import java.util.List;
 
 import static org.junit.Assert.assertThat;
 
-@RunWith(MockitoJUnitRunner.class) public class ContactServiceTest {
+@RunWith(MockitoJUnitRunner.class)
+public class ContactServiceTest {
 
-    @Mock private Contact contact;
-    @Mock private ContactDto contactDto;
-    @Mock private ContactRepository contactRepository;
-    @Mock private ContactAssembler contactAssembler;
+    @Mock
+    private Contact contact;
+    @Mock
+    private ContactDto contactDto;
+    @Mock
+    private ContactRepository contactRepository;
+    @Mock
+    private ContactAssembler contactAssembler;
 
     private ContactService contactService;
 
-    @Before public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         contactService = new ContactService(contactRepository, contactAssembler);
     }
 
-    @Test public void givenContactsInRepository_whenFindAllContacts_thenReturnDtos()
+    @Test
+    public void givenContactsInRepository_whenFindAllContacts_thenReturnDtos()
         throws Exception {
         // given
         BDDMockito.given(contactRepository.findAll()).willReturn(Lists.newArrayList(contact));

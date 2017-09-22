@@ -12,20 +12,24 @@ import java.util.List;
 
 import static org.junit.Assert.assertThat;
 
-@RunWith(MockitoJUnitRunner.class) public class ContactRepositoryInMemoryTest {
+@RunWith(MockitoJUnitRunner.class)
+public class ContactRepositoryInMemoryTest {
 
     private static final String CONTACT_ID = "id";
 
-    @Mock private Contact contact;
+    @Mock
+    private Contact contact;
 
     private ContactRepositoryInMemory contactRepositoryInMemory;
 
-    @Before public void setUp() {
+    @Before
+    public void setUp() {
         contactRepositoryInMemory = new ContactRepositoryInMemory();
         BDDMockito.given(contact.getId()).willReturn(CONTACT_ID);
     }
 
-    @Test public void givenContact_whenFindAll_ThenReturnContactInMemory() {
+    @Test
+    public void givenContact_whenFindAll_ThenReturnContactInMemory() {
         //given
         contactRepositoryInMemory.save(contact);
 

@@ -26,7 +26,8 @@ import java.util.Set;
 /**
  * RESTApi setup without using DI or spring
  */
-@SuppressWarnings("all") public class ULTaxiMain {
+@SuppressWarnings("all")
+public class ULTaxiMain {
 
     public static boolean isDev = true; // Would be a JVM argument or in a .property file
 
@@ -39,7 +40,8 @@ import java.util.Set;
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/api/");
         ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
-            @Override public Set<Object> getSingletons() {
+            @Override
+            public Set<Object> getSingletons() {
                 HashSet<Object> resources = new HashSet<>();
                 // Add resources to context
                 resources.add(contactResource);
@@ -59,7 +61,7 @@ import java.util.Set;
 
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] { context, webapp });
+        contexts.setHandlers(new Handler[] {context, webapp});
         Server server = new Server(8080);
         server.setHandler(contexts);
 

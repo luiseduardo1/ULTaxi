@@ -16,19 +16,23 @@ public class ContactResourceImpl implements ContactResource {
         this.contactService = contactService;
     }
 
-    @Override public List<ContactDto> getContacts() {
+    @Override
+    public List<ContactDto> getContacts() {
         return contactService.findAllContacts();
     }
 
-    @Override public ContactDto getContact(String id) {
+    @Override
+    public ContactDto getContact(String id) {
         return contactService.findContact(id);
     }
 
-    @Override public void addContact(ContactDto contactDto) {
+    @Override
+    public void addContact(ContactDto contactDto) {
         contactService.addContact(contactDto);
     }
 
-    @Override public void updateContact(String id, ContactDto contactDto) {
+    @Override
+    public void updateContact(String id, ContactDto contactDto) {
         try {
             contactService.updateContact(id, contactDto);
         } catch (ContactNotFoundException e) {
@@ -37,7 +41,8 @@ public class ContactResourceImpl implements ContactResource {
         }
     }
 
-    @Override public void deleteContact(String id) {
+    @Override
+    public void deleteContact(String id) {
         contactService.deleteContact(id);
     }
 }

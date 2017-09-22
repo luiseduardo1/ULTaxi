@@ -9,9 +9,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static io.restassured.RestAssured.get;
 
-@RunWith(MockitoJUnitRunner.class) public class ContactResourceIT {
+@RunWith(MockitoJUnitRunner.class)
+public class ContactResourceIT {
 
-    @Before public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         Thread t = new Thread() {
             public void run() {
                 try {
@@ -25,7 +27,8 @@ import static io.restassured.RestAssured.get;
         t.start();
     }
 
-    @Test public void givenContacts_whenGetAllContacts_thenContactsReturned() {
+    @Test
+    public void givenContacts_whenGetAllContacts_thenContactsReturned() {
         get("/api/telephony/contacts").then().body("name", Matchers.hasItem("Steve Jobs"));
     }
 }
