@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.ULTaxiMain;
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 
-import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.post;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceIT {

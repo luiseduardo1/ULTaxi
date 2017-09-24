@@ -2,11 +2,13 @@ package ca.ulaval.glo4003;
 
 import ca.ulaval.glo4003.ws.api.user.UserResource;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
+import ca.ulaval.glo4003.ws.domain.email.EmailService;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.http.CORSResponseFilter;
+import ca.ulaval.glo4003.ws.infrastructure.email.EmailSender;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
 import org.eclipse.jetty.server.Handler;
@@ -29,7 +31,8 @@ import java.util.Set;
 @SuppressWarnings("all")
 public class ULTaxiMain {
 
-    public static boolean isDev = true; // Would be a JVM argument or in a .property file
+    private static final int SERVER_PORT = 8080;
+    private static boolean isDev = true; // Would be a JVM argument or in a .property file
 
     public static void main(String[] args) throws Exception {
 
@@ -59,10 +62,21 @@ public class ULTaxiMain {
         webapp.setResourceBase("src/main/webapp");
         webapp.setContextPath("/");
 
+        // Sending an email - test purpose
+        EmailSender emailSender = new EmailSender();
+        EmailService emailService = new EmailService(emailSender);
+        String userAddress = "luiseduardo.obando@gmail.com";
+        boolean emailSend = emailService.sendRegistrationEmail(userAddress);
+        if (emailSend) {
+            System.out.println("Email sent.");
+        } else {
+            System.out.println("Failed to sent email.");
+        }
+
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {context, webapp});
-        Server server = new Server(8080);
+        Server server = new Server(SERVER_PORT);
         server.setHandler(contexts);
 
         try {

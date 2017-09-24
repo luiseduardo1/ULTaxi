@@ -7,7 +7,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.verify;
+import static org.mockito.BDDMockito.willReturn;
 
 
 @RunWith(MockitoJUnitRunner.class)

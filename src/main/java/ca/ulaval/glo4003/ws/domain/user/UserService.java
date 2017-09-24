@@ -2,10 +2,7 @@ package ca.ulaval.glo4003.ws.domain.user;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 
-import java.util.List;
-import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class UserService {
 
