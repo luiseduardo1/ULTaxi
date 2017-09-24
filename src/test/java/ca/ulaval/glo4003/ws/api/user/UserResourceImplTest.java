@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceImplTest {

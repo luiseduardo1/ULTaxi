@@ -14,7 +14,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppContext;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
@@ -54,14 +53,9 @@ public class ULTaxiMain {
         ServletHolder servletHolder = new ServletHolder(servletContainer);
         context.addServlet(servletHolder, "/*");
 
-        // Setup static file context (WEBAPP)
-        WebAppContext webapp = new WebAppContext();
-        webapp.setResourceBase("src/main/webapp");
-        webapp.setContextPath("/");
-
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {context, webapp});
+        contexts.setHandlers(new Handler[] {context});
         Server server = new Server(8080);
         server.setHandler(contexts);
 
