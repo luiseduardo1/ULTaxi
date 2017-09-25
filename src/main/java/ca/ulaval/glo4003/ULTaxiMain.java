@@ -59,7 +59,7 @@ public class ULTaxiMain {
 
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {context, webapp});
+        contexts.setHandlers(new Handler[] {context});
         Server server = new Server(SERVER_PORT);
         server.setHandler(contexts);
 
