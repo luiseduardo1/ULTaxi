@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
+import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
@@ -41,6 +42,13 @@ public class UserRepositoryInMemoryTest {
         willReturn(A_NAME).given(user).getName();
 
         userRepository.save(user);
+        userRepository.save(user);
+    }
+
+    @Test(expected = InvalidUserNameException.class)
+    public void givenUserWithInvalidName_whenSave_thenThrowsException() {
+        willReturn("ronald.beaubrun@ulaval.ca").given(user).getName();
+
         userRepository.save(user);
     }
 }
