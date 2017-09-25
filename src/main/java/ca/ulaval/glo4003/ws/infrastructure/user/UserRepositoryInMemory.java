@@ -11,12 +11,12 @@ public class UserRepositoryInMemory implements UserRepository {
     private Map<String, User> users = new HashMap<>();
 
     @Override
-    public User findById(String id) {
+    public User findByName(String id) {
         return users.get(id);
     }
 
     @Override
     public void save(User user) {
-        users.put(user.getId(), user);
+        users.put(user.getName(), user);
     }
 }

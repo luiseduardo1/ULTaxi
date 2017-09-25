@@ -1,17 +1,8 @@
 package ca.ulaval.glo4003.ws.api.user.dto;
 
 public class UserDto {
-    private String id;
     private String name;
     private String password;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

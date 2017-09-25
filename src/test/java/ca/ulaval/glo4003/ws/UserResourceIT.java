@@ -56,7 +56,6 @@ public class UserResourceIT {
 
     private String withUser() {
         UserDto userDto = new UserDto();
-        userDto.setId(AN_ID);
         userDto.setName(A_VALID_NAME);
         userDto.setPassword(A_VALID_PASSWORD);
         Gson gson = new Gson();

@@ -19,7 +19,6 @@ public class UserRepositoryInMemoryTest {
     public void setUp() throws Exception {
         userRepository = new UserRepositoryInMemory();
         user = new User();
-        user.setId("Ronald Beaubrun");
         user.setName("Ronald");
         user.setPassword("Beaubrun");
     }
@@ -27,7 +26,7 @@ public class UserRepositoryInMemoryTest {
     @Test
     public void givenUser_whenSave_thenUserHasSameParameters() {
         userRepository.save(user);
-        User anotherUser = userRepository.findById(user.getId());
+        User anotherUser = userRepository.findByName(user.getName());
 
         assertEquals(user, anotherUser);
     }
