@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 public class UserRepositoryInMemory implements UserRepository {
 
     private Map<String, User> users = new HashMap<>();
+    private static final Pattern INVALID_NAME_PATTERN = Pattern.compile(".+@.+", Pattern.CASE_INSENSITIVE);
 
     @Override
     public User findById(String id) {
@@ -20,7 +21,7 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void save(User user) {
-        if (isValidName(user.getName())) {
+        if (isInvalidName(user.getName())) {
             throw new InvalidUserNameException(
                 String.format("%s is not a valid name.", user.getName())
             );
@@ -33,15 +34,17 @@ public class UserRepositoryInMemory implements UserRepository {
         users.put(user.getId(), user);
     }
 
-    private boolean isValidName(String name) {
-        return Pattern.matches(".*@.*", name);
+    private boolean isInvalidName(String name) {
+        return INVALID_NAME_PATTERN
+            .matcher(name)
+            .find();
     }
 
     private boolean isUserPresent(User user) {
         return users
-                .values()
-                .stream()
-                .anyMatch(x -> user.getName().equals(x.getName()));
+            .values()
+            .stream()
+            .anyMatch(x -> user.getName().equals(x.getName()));
 
     }
 }

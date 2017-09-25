@@ -39,7 +39,7 @@ public class UserResourceIT {
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
         givenBaseUserServer()
-            .body(withUser())
+            .body(givenUser())
             .when()
             .post(API_USERS)
             .then()
@@ -49,12 +49,22 @@ public class UserResourceIT {
     @Test
     public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
         givenBaseUserServer()
-            .body(withUser())
+            .body(givenUser())
             .when()
             .post(API_USERS);
 
         givenBaseUserServer()
-            .body(withUser())
+            .body(givenUser())
+            .when()
+            .post(API_USERS)
+            .then()
+            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test
+    public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
+        givenBaseUserServer()
+            .body(givenUserWithInvalidName())
             .when()
             .post(API_USERS)
             .then()
@@ -69,10 +79,19 @@ public class UserResourceIT {
             .contentType(ContentType.JSON);
     }
 
-    private String withUser() {
+    private String givenUser() {
         UserDto userDto = new UserDto();
         userDto.setId(AN_ID);
         userDto.setName(A_VALID_NAME);
+        userDto.setPassword(A_VALID_PASSWORD);
+        Gson gson = new Gson();
+        return gson.toJson(userDto);
+    }
+
+    private String givenUserWithInvalidName() {
+        UserDto userDto = new UserDto();
+        userDto.setId(AN_ID);
+        userDto.setName("ronald.beaubrun@ulaval.ca");
         userDto.setPassword(A_VALID_PASSWORD);
         Gson gson = new Gson();
         return gson.toJson(userDto);

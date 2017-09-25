@@ -30,6 +30,7 @@ public class UserRepositoryInMemoryTest {
     @Test
     public void givenUser_whenSave_thenUserHasSameParameters() {
         willReturn(AN_ID).given(user).getId();
+        willReturn(A_NAME).given(user).getName();
 
         userRepository.save(user);
         User anotherUser = userRepository.findById(user.getId());
