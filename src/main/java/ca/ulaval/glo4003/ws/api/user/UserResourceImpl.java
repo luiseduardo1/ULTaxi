@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ws.api.user;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
+import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 
 import javax.ws.rs.core.Response;
@@ -15,7 +16,11 @@ public class UserResourceImpl implements UserResource {
 
     @Override
     public Response createUser(UserDto userDto) {
-        userService.addUser(userDto);
-        return Response.ok().build();
+        try {
+            userService.addUser(userDto);
+            return Response.ok().build();
+        } catch (UserAlreadyExistsException exception) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
 }
