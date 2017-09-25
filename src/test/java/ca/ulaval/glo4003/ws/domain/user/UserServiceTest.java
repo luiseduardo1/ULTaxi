@@ -9,6 +9,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.BDDMockito.verify;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.doNothing;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,13 +29,26 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         userService = new UserService(userRepository, userAssembler);
-        willReturn(user).given(userAssembler).create(userDto);
     }
 
     @Test
     public void givenUserWithValidName_whenAddUser_thenUserIsAdded() {
+        willReturn(user).given(userAssembler).create(userDto);
+
         userService.addUser(userDto);
 
         verify(userRepository).save(user);
+    }
+
+    @Test(expected = UserAlreadyExistsException.class)
+    public void givenAlreadyExistingUser_whenAddUser_thenThrowsException() {
+        willReturn(user).given(userAssembler).create(userDto);
+        doNothing()
+            .doThrow(new UserAlreadyExistsException("User already exists."))
+            .when(userRepository)
+            .save(user);
+
+        userService.addUser(userDto);
+        userService.addUser(userDto);
     }
 }
