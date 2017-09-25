@@ -20,7 +20,6 @@ public class UserResourceIT {
     private static final int USER_TEST_SERVER_PORT = 8080;
     private static final String A_VALID_NAME = "Ronald";
     private static final String A_VALID_PASSWORD = "Beaubrun";
-    private static final String AN_ID = "Ronald Beaubrun";
     private static final String API_USERS = "/api/users";
 
     @Before
