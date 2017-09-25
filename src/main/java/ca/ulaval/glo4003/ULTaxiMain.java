@@ -33,7 +33,7 @@ public class ULTaxiMain {
     public static void main(String[] args) throws Exception {
 
         // Setup resources (API)
-        UserResource userResource = createContactResource();
+        UserResource userResource = createUserResource();
 
         // Setup API context (JERSEY + JETTY)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -67,7 +67,7 @@ public class ULTaxiMain {
         }
     }
 
-    private static UserResource createContactResource() {
+    private static UserResource createUserResource() {
         // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
         UserRepository userRepository = new UserRepositoryInMemory();
 
