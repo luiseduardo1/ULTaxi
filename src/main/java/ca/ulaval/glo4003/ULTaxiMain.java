@@ -57,22 +57,6 @@ public class ULTaxiMain {
         ServletHolder servletHolder = new ServletHolder(servletContainer);
         context.addServlet(servletHolder, "/*");
 
-        // Setup static file context (WEBAPP)
-        WebAppContext webapp = new WebAppContext();
-        webapp.setResourceBase("src/main/webapp");
-        webapp.setContextPath("/");
-
-        // Sending an email - test purpose
-        EmailSender emailSender = new EmailSender();
-        EmailService emailService = new EmailService(emailSender);
-        String userAddress = "luiseduardo.obando@gmail.com";
-        boolean emailSend = emailService.sendRegistrationEmail(userAddress);
-        if (emailSend) {
-            System.out.println("Email sent.");
-        } else {
-            System.out.println("Failed to sent email.");
-        }
-
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {context, webapp});
@@ -98,8 +82,10 @@ public class ULTaxiMain {
             users.stream().forEach(userRepository::save);
         }
 
+        EmailSender emailSender = new EmailSender();
+        EmailService emailService = new EmailService(emailSender);
         UserAssembler userAssembler = new UserAssembler();
-        UserService userService = new UserService(userRepository, userAssembler);
+        UserService userService = new UserService(userRepository, userAssembler, emailService);
 
         return new UserResourceImpl(userService);
     }

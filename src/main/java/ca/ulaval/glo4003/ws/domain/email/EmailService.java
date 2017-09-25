@@ -17,16 +17,10 @@ public class EmailService {
         this.emailSender = emailSender;
     }
 
-    public boolean sendRegistrationEmail(String userAddress) {
+    public void sendRegistrationEmail(String userAddress) throws EmailSendingFailureException {
         logger.info(String.format("EmailService: Send registration email to %s", userAddress));
         Email registrationEmail = new Email(userAddress, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
 
-        if (this.emailSender.sendEmail(registrationEmail)) {
-            logger.info("Registration email successfully sended.");
-            return true;
-        } else {
-            logger.info("Registration email couldn't be sended.");
-            return false;
-        }
+        this.emailSender.sendEmail(registrationEmail);
     }
 }

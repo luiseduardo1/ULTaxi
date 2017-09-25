@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ws.infrastructure.email;
 
 import ca.ulaval.glo4003.ws.domain.email.Email;
+import ca.ulaval.glo4003.ws.domain.email.EmailSendingFailureException;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -37,7 +38,7 @@ public class EmailSender {
         }
     }
 
-    public boolean sendEmail(Email email) {
+    public void sendEmail(Email email) throws EmailSendingFailureException {
         try {
             System.out.println("Sending email...");
             Session mailSession = createNewMailSession();
@@ -51,13 +52,12 @@ public class EmailSender {
             msg.setText(email.getContent() + email.getSignature());
 
             Transport.send(msg);
-            return true;
         } catch (MessagingException e) {
             logger.info("Email sending failed.");
-            return false;
+            throw new EmailSendingFailureException(e);
         } catch (UnsupportedEncodingException e) {
             logger.info("Email sending failed.");
-            return false;
+            throw new EmailSendingFailureException(e);
         }
     }
 
