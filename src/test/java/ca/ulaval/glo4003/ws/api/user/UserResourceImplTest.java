@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.doThrow;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,8 +51,8 @@ public class UserResourceImplTest {
 
     @Test
     public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
-        doThrow(new InvalidUserNameException("User has an invalid name."))
-            .when(userService)
+        willThrow(new InvalidUserNameException("User has an invalid name."))
+            .given(userService)
             .addUser(userDto);
 
         Response response = userResource.createUser(userDto);
