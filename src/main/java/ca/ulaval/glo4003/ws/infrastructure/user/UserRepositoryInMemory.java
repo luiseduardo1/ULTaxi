@@ -27,10 +27,13 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     private boolean isUserPresent(User user) {
+        String name = user.getName().toLowerCase().trim();
         return users
-                .values()
-                .stream()
-                .anyMatch(x -> user.getName().equals(x.getName()));
+            .values()
+            .stream()
+            .anyMatch(
+                x -> name.equals(x.getName().toLowerCase().trim())
+            );
 
     }
 }
