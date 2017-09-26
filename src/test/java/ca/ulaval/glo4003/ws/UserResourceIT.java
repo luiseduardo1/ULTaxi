@@ -20,7 +20,9 @@ public class UserResourceIT {
     private static final int USER_TEST_SERVER_PORT = 8080;
     private static final String A_VALID_NAME = "Ronald";
     private static final String A_VALID_PASSWORD = "Beaubrun";
+    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
     private static final String API_USERS = "/api/users";
+    private static final String URL_BASE = "http://localhost";
 
     @Before
     public void setUp() throws Exception {
@@ -38,7 +40,7 @@ public class UserResourceIT {
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
         givenBaseUserServer()
-            .body(withUser())
+            .body(givenUser())
             .when()
             .post(API_USERS)
             .then()
@@ -48,12 +50,22 @@ public class UserResourceIT {
     @Test
     public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
         givenBaseUserServer()
-            .body(withUser())
+            .body(givenUser())
             .when()
             .post(API_USERS);
 
         givenBaseUserServer()
-            .body(withUser())
+            .body(givenUser())
+            .when()
+            .post(API_USERS)
+            .then()
+            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test
+    public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
+        givenBaseUserServer()
+            .body(givenUserWithInvalidName())
             .when()
             .post(API_USERS)
             .then()
@@ -62,15 +74,23 @@ public class UserResourceIT {
 
     private RequestSpecification givenBaseUserServer() {
         return given()
-            .baseUri("http://localhost")
+            .baseUri(URL_BASE)
             .accept(ContentType.JSON)
             .port(USER_TEST_SERVER_PORT)
             .contentType(ContentType.JSON);
     }
 
-    private String withUser() {
+    private String givenUser() {
         UserDto userDto = new UserDto();
         userDto.setName(A_VALID_NAME);
+        userDto.setPassword(A_VALID_PASSWORD);
+        Gson gson = new Gson();
+        return gson.toJson(userDto);
+    }
+
+    private String givenUserWithInvalidName() {
+        UserDto userDto = new UserDto();
+        userDto.setName(AN_INVALID_NAME);
         userDto.setPassword(A_VALID_PASSWORD);
         Gson gson = new Gson();
         return gson.toJson(userDto);
