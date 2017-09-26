@@ -12,7 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.BDDMockito.willThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceImplTest {
@@ -38,11 +38,9 @@ public class UserResourceImplTest {
 
     @Test
     public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
-        doNothing()
-            .doThrow(new UserAlreadyExistsException("User already exists."))
-            .when(userService)
+        willThrow(new UserAlreadyExistsException("User already exists."))
+            .given(userService)
             .addUser(userDto);
-        userResource.createUser(userDto);
 
         Response response = userResource.createUser(userDto);
 
