@@ -45,6 +45,21 @@ public class UserResourceIT {
             .statusCode(Response.Status.OK.getStatusCode());
     }
 
+    @Test
+    public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
+        givenBaseUserServer()
+            .body(withUser())
+            .when()
+            .post(API_USERS);
+
+        givenBaseUserServer()
+            .body(withUser())
+            .when()
+            .post(API_USERS)
+            .then()
+            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
     private RequestSpecification givenBaseUserServer() {
         return given()
             .baseUri("http://localhost")

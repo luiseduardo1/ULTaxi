@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ws.api.user;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
+import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.BDDMockito.verify;
+import javax.ws.rs.core.Response;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceImplTest {
@@ -26,9 +30,20 @@ public class UserResourceImplTest {
     }
 
     @Test
-    public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
-        userResource.createUser(userDto);
+    public void givenUserWithValidName_whenCreateUser_thenReturnsOk() {
+        Response response = userResource.createUser(userDto);
 
-        verify(userService).addUser(userDto);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
+        willThrow(new UserAlreadyExistsException("User already exists."))
+            .given(userService)
+            .addUser(userDto);
+
+        Response response = userResource.createUser(userDto);
+
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 }

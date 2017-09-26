@@ -28,11 +28,12 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         userService = new UserService(userRepository, userAssembler);
-        willReturn(user).given(userAssembler).create(userDto);
     }
 
     @Test
     public void givenUserWithValidName_whenAddUser_thenUserIsAdded() {
+        willReturn(user).given(userAssembler).create(userDto);
+
         userService.addUser(userDto);
 
         verify(userRepository).save(user);
