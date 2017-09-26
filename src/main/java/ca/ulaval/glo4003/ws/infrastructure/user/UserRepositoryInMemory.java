@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class UserRepositoryInMemory implements UserRepository {
 
