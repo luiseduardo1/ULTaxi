@@ -39,16 +39,4 @@ public class UserServiceTest {
 
         verify(userRepository).save(user);
     }
-
-    @Test(expected = UserAlreadyExistsException.class)
-    public void givenAlreadyExistingUser_whenAddUser_thenThrowsException() {
-        willReturn(user).given(userAssembler).create(userDto);
-        doNothing()
-            .doThrow(new UserAlreadyExistsException("User already exists."))
-            .when(userRepository)
-            .save(user);
-
-        userService.addUser(userDto);
-        userService.addUser(userDto);
-    }
 }
