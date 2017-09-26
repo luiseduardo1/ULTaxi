@@ -20,7 +20,9 @@ public class UserResourceIT {
     private static final int USER_TEST_SERVER_PORT = 8080;
     private static final String A_VALID_NAME = "Ronald";
     private static final String A_VALID_PASSWORD = "Beaubrun";
+    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
     private static final String API_USERS = "/api/users";
+    private static final String URL_BASE = "http://localhost";
 
     @Before
     public void setUp() throws Exception {
@@ -72,7 +74,7 @@ public class UserResourceIT {
 
     private RequestSpecification givenBaseUserServer() {
         return given()
-            .baseUri("http://localhost")
+            .baseUri(URL_BASE)
             .accept(ContentType.JSON)
             .port(USER_TEST_SERVER_PORT)
             .contentType(ContentType.JSON);
@@ -88,7 +90,7 @@ public class UserResourceIT {
 
     private String givenUserWithInvalidName() {
         UserDto userDto = new UserDto();
-        userDto.setName("ronald.beaubrun@ulaval.ca");
+        userDto.setName(AN_INVALID_NAME);
         userDto.setPassword(A_VALID_PASSWORD);
         Gson gson = new Gson();
         return gson.toJson(userDto);

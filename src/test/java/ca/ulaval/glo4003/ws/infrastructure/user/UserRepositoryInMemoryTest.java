@@ -20,6 +20,7 @@ public class UserRepositoryInMemoryTest {
     private User user;
     private UserRepository userRepository;
     private static final String A_NAME = "Ronald";
+    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
 
     @Before
     public void setUp() throws Exception {
@@ -46,7 +47,7 @@ public class UserRepositoryInMemoryTest {
 
     @Test(expected = InvalidUserNameException.class)
     public void givenUserWithInvalidName_whenSave_thenThrowsException() {
-        willReturn("ronald.beaubrun@ulaval.ca").given(user).getName();
+        willReturn(AN_INVALID_NAME).given(user).getName();
 
         userRepository.save(user);
     }
