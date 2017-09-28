@@ -16,7 +16,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppContext;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
@@ -37,7 +36,7 @@ public class ULTaxiMain {
     public static void main(String[] args) throws Exception {
 
         // Setup resources (API)
-        UserResource userResource = createContactResource();
+        UserResource userResource = createUserResource();
 
         // Setup API context (JERSEY + JETTY)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -71,7 +70,7 @@ public class ULTaxiMain {
         }
     }
 
-    private static UserResource createContactResource() {
+    private static UserResource createUserResource() {
         // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
         UserRepository userRepository = new UserRepositoryInMemory();
 
