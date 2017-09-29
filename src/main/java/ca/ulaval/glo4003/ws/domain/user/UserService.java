@@ -21,4 +21,11 @@ public class UserService {
         User user = userAssembler.create(userDto);
         userRepository.save(user);
     }
+
+    public boolean authenticate(UserDto userDto) {
+        logger.info(String.format("Authicating user %s", userDto));
+        User user = userAssembler.create(userDto);
+        return userRepository.authenticate(user);
+    }
+
 }

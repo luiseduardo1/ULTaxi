@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003;
 
+import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResource;
+import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResourceImpl;
 import ca.ulaval.glo4003.ws.api.user.UserResource;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
 import ca.ulaval.glo4003.ws.domain.user.User;
@@ -18,6 +20,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.ws.rs.core.Application;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +36,14 @@ public class ULTaxiMain {
     public static void main(String[] args) throws Exception {
 
         // Setup resources (API)
-        UserResource userResource = createUserResource();
+        List<Object> resources = createUserResource();
+
+        UserResource userResource = (UserResource)resources.get(0);
+       UserAuthenticationResource userAuthenticationResource =
+            (UserAuthenticationResource)resources.get(1);
+
+
+
 
         // Setup API context (JERSEY + JETTY)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -44,6 +54,7 @@ public class ULTaxiMain {
                 HashSet<Object> resources = new HashSet<>();
                 // Add resources to context
                 resources.add(userResource);
+                resources.add(userAuthenticationResource);
                 return resources;
             }
         });
@@ -67,7 +78,10 @@ public class ULTaxiMain {
         }
     }
 
-    private static UserResource createUserResource() {
+    private static List<Object> createUserResource() {
+
+        List<Object> resources = new ArrayList<Object>();
+
         // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
         UserRepository userRepository = new UserRepositoryInMemory();
 
@@ -81,7 +95,10 @@ public class ULTaxiMain {
         UserAssembler userAssembler = new UserAssembler();
         UserService userService = new UserService(userRepository, userAssembler);
 
-        return new UserResourceImpl(userService);
+        resources.add(new UserResourceImpl(userService));
+        resources.add(new UserAuthenticationResourceImpl(userService));
+
+        return resources;
     }
 
 }
