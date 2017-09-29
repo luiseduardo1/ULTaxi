@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/users")
+@Path("/users/auth")
 public interface UserAuthenticationResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)

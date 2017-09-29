@@ -38,4 +38,13 @@ public class UserServiceTest {
 
         verify(userRepository).save(user);
     }
+
+    @Test
+    public void givenUserWithValidCredentials_whenAuthenticating_thenUserIsAuthenticated() {
+        willReturn(user).given(userAssembler).create(userDto);
+
+        userService.authenticate(userDto);
+
+        verify(userRepository).authenticate(user);
+    }
 }

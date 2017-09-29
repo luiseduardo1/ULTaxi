@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResource;
 import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResourceImpl;
-import ca.ulaval.glo4003.ws.api.user.UserResource;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
@@ -20,7 +18,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.ws.rs.core.Application;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,27 +32,13 @@ public class ULTaxiMain {
 
     public static void main(String[] args) throws Exception {
 
-        // Setup resources (API)
-        List<Object> resources = createUserResource();
-
-        UserResource userResource = (UserResource)resources.get(0);
-       UserAuthenticationResource userAuthenticationResource =
-            (UserAuthenticationResource)resources.get(1);
-
-
-
-
         // Setup API context (JERSEY + JETTY)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/api/");
         ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
             @Override
             public Set<Object> getSingletons() {
-                HashSet<Object> resources = new HashSet<>();
-                // Add resources to context
-                resources.add(userResource);
-                resources.add(userAuthenticationResource);
-                return resources;
+                return createUserResource();
             }
         });
         resourceConfig.register(CORSResponseFilter.class);
@@ -78,9 +61,9 @@ public class ULTaxiMain {
         }
     }
 
-    private static List<Object> createUserResource() {
+    private static Set<Object> createUserResource() {
 
-        List<Object> resources = new ArrayList<Object>();
+        Set<Object> resources = new HashSet<Object>();
 
         // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
         UserRepository userRepository = new UserRepositoryInMemory();
@@ -89,7 +72,7 @@ public class ULTaxiMain {
         if (isDev) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
             List<User> users = userDevDataFactory.createMockData();
-            users.stream().forEach(userRepository::save);
+            //users.stream().forEach(userRepository::save);
         }
 
         UserAssembler userAssembler = new UserAssembler();

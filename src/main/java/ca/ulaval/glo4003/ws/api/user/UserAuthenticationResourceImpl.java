@@ -17,7 +17,7 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     @Override
     public Response authenticateUser(UserDto userDto) {
         try {
-            if(userService.authenticate(userDto)){
+            if (userService.authenticate(userDto)) {
                 return Response.ok().build();
             }
         } catch (InvalidCredentialsException exception) {

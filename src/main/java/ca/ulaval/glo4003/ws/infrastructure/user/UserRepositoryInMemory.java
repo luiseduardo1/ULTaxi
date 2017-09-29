@@ -42,8 +42,7 @@ public class UserRepositoryInMemory implements UserRepository {
             String password = userToAuthenticate.getPassword();
             if (user.getPassword().equals(password)) {
                 return true;
-            }
-            else {
+            } else {
                 throw new InvalidCredentialsException(
                     String.format("User, %s, credentials are invalid", user.getName())
                 );
