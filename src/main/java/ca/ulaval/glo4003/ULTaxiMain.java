@@ -1,20 +1,19 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.ws.api.contact.ContactResource;
-import ca.ulaval.glo4003.ws.api.contact.ContactResourceImpl;
-import ca.ulaval.glo4003.ws.domain.contact.Contact;
-import ca.ulaval.glo4003.ws.domain.contact.ContactAssembler;
-import ca.ulaval.glo4003.ws.domain.contact.ContactRepository;
-import ca.ulaval.glo4003.ws.domain.contact.ContactService;
+import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResourceImpl;
+import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
+import ca.ulaval.glo4003.ws.domain.user.User;
+import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
+import ca.ulaval.glo4003.ws.domain.user.UserRepository;
+import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.http.CORSResponseFilter;
-import ca.ulaval.glo4003.ws.infrastructure.contact.ContactDevDataFactory;
-import ca.ulaval.glo4003.ws.infrastructure.contact.ContactRepositoryInMemory;
+import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
+import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppContext;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
@@ -33,19 +32,13 @@ public class ULTaxiMain {
 
     public static void main(String[] args) throws Exception {
 
-        // Setup resources (API)
-        ContactResource contactResource = createContactResource();
-
         // Setup API context (JERSEY + JETTY)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/api/");
         ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
             @Override
             public Set<Object> getSingletons() {
-                HashSet<Object> resources = new HashSet<>();
-                // Add resources to context
-                resources.add(contactResource);
-                return resources;
+                return createUserResource();
             }
         });
         resourceConfig.register(CORSResponseFilter.class);
@@ -54,14 +47,9 @@ public class ULTaxiMain {
         ServletHolder servletHolder = new ServletHolder(servletContainer);
         context.addServlet(servletHolder, "/*");
 
-        // Setup static file context (WEBAPP)
-        WebAppContext webapp = new WebAppContext();
-        webapp.setResourceBase("src/main/webapp");
-        webapp.setContextPath("/");
-
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {context, webapp});
+        contexts.setHandlers(new Handler[] {context});
         Server server = new Server(8080);
         server.setHandler(contexts);
 
@@ -73,21 +61,27 @@ public class ULTaxiMain {
         }
     }
 
-    private static ContactResource createContactResource() {
+    private static Set<Object> createUserResource() {
+
+        Set<Object> resources = new HashSet<Object>();
+
         // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
-        ContactRepository contactRepository = new ContactRepositoryInMemory();
+        UserRepository userRepository = new UserRepositoryInMemory();
 
         // For development ease
         if (isDev) {
-            ContactDevDataFactory contactDevDataFactory = new ContactDevDataFactory();
-            List<Contact> contacts = contactDevDataFactory.createMockData();
-            contacts.stream().forEach(contactRepository::save);
+            UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
+            List<User> users = userDevDataFactory.createMockData();
+            //users.stream().forEach(userRepository::save);
         }
 
-        ContactAssembler contactAssembler = new ContactAssembler();
-        ContactService contactService = new ContactService(contactRepository, contactAssembler);
+        UserAssembler userAssembler = new UserAssembler();
+        UserService userService = new UserService(userRepository, userAssembler);
 
-        return new ContactResourceImpl(contactService);
+        resources.add(new UserResourceImpl(userService));
+        resources.add(new UserAuthenticationResourceImpl(userService));
+
+        return resources;
     }
 
 }
