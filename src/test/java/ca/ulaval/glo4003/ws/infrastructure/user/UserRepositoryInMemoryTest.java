@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -17,11 +16,11 @@ import static org.mockito.BDDMockito.willReturn;
 @RunWith(MockitoJUnitRunner.class)
 public class UserRepositoryInMemoryTest {
 
+    private static final String A_NAME = "Ronald";
+    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
     @Mock
     private User user;
     private UserRepository userRepository;
-    private static final String A_NAME = "Ronald";
-    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
 
     @Before
     public void setUp() throws Exception {

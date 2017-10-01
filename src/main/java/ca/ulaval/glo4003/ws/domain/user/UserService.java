@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.ws.domain.user;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
-import ca.ulaval.glo4003.ws.domain.email.EmailService;
+import ca.ulaval.glo4003.ws.domain.messaging.Message;
+import ca.ulaval.glo4003.ws.domain.messaging.MessageProducerService;
 
 import java.util.logging.Logger;
 
@@ -11,12 +12,12 @@ public class UserService {
 
     private UserRepository userRepository;
     private UserAssembler userAssembler;
-    private EmailService emailService;
+    private MessageProducerService messagingService;
 
-    public UserService(UserRepository userRepository, UserAssembler userAssembler, EmailService emailService) {
+    public UserService(UserRepository userRepository, UserAssembler userAssembler, MessageProducerService messagingService) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
-        this.emailService = emailService;
+        this.messagingService = messagingService;
     }
 
     public void addUser(UserDto userDto) {
@@ -24,6 +25,7 @@ public class UserService {
         User user = userAssembler.create(userDto);
         userRepository.save(user);
 
-        emailService.sendRegistrationEmail(user.getEmail());
+        Message registrationMessage = new Message(user.getEmail(), "Registration");
+        messagingService.enqueueMessage(registrationMessage);
     }
 }

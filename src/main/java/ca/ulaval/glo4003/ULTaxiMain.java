@@ -2,13 +2,15 @@ package ca.ulaval.glo4003;
 
 import ca.ulaval.glo4003.ws.api.user.UserResource;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
-import ca.ulaval.glo4003.ws.domain.email.EmailService;
+import ca.ulaval.glo4003.ws.domain.messaging.MessageProducerService;
+import ca.ulaval.glo4003.ws.domain.messaging.MessageQueue;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.http.CORSResponseFilter;
-import ca.ulaval.glo4003.ws.infrastructure.email.EmailSender;
+import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSender;
+import ca.ulaval.glo4003.ws.infrastructure.messaging.MessageQueueInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
 import org.eclipse.jetty.server.Handler;
@@ -30,8 +32,10 @@ import java.util.Set;
 @SuppressWarnings("all")
 public class ULTaxiMain {
 
-    private static final int SERVER_PORT = 8080;
+    private static final int SERVER_PORT = 8081;
     private static boolean isDev = true; // Would be a JVM argument or in a .property file
+    private static MessageQueue messageQueueInMemory = new MessageQueueInMemory();
+    private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
 
     public static void main(String[] args) throws Exception {
 
@@ -55,6 +59,11 @@ public class ULTaxiMain {
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
         ServletHolder servletHolder = new ServletHolder(servletContainer);
         context.addServlet(servletHolder, "/*");
+
+        // Setup messaging thread
+        EmailSender emailSender = new EmailSender(EMAIL_SENDER_CONFIGURATION_FILENAME);
+        Thread messagingThread = new Thread(new MessagingThread(messageQueueInMemory, emailSender));
+        messagingThread.start();
 
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -81,12 +90,12 @@ public class ULTaxiMain {
             users.stream().forEach(userRepository::save);
         }
 
-        EmailSender emailSender = new EmailSender();
-        EmailService emailService = new EmailService(emailSender);
         UserAssembler userAssembler = new UserAssembler();
-        UserService userService = new UserService(userRepository, userAssembler, emailService);
+        MessageProducerService messageProducerService = new MessageProducerService(messageQueueInMemory);
 
+        UserService userService = new UserService(userRepository, userAssembler, messageProducerService);
         return new UserResourceImpl(userService);
     }
+
 
 }

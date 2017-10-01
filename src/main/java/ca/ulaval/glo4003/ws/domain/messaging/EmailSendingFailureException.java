@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws.domain.email;
+package ca.ulaval.glo4003.ws.domain.messaging;
 
 public class EmailSendingFailureException extends RuntimeException {
 

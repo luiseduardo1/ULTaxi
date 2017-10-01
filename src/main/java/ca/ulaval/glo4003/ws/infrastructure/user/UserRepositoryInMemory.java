@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 
 public class UserRepositoryInMemory implements UserRepository {
 
-    private Map<String, User> users = new HashMap<>();
     private static final Pattern INVALID_NAME_PATTERN = Pattern.compile(".*@.*", Pattern.CASE_INSENSITIVE);
+    private Map<String, User> users = new HashMap<>();
 
     @Override
     public User findByName(String id) {

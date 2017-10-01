@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceImplTest {
@@ -35,6 +36,12 @@ public class UserResourceImplTest {
         Response response = userResource.createUser(userDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenANewCreatedUser_whenRegistering_thenDelegateToUserService() {
+        userResource.createUser(userDto);
+        verify(userService).addUser(userDto);
     }
 
     @Test
