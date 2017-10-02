@@ -5,7 +5,7 @@ public class VehicleFactory {
     public static Vehicle getVehicle(String type, String color, String model, String registrationNumber) {
 
         if(type == null) {
-            throw new NullPointerException("Vehicle type cannot be null.");
+            throw new InvalidVehicleTypeException("Vehicle type cannot be null.");
         }
 
         if(type.toLowerCase().equals("car")) {
