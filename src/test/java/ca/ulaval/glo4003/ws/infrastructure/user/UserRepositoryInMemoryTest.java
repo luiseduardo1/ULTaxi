@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
-import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.User;
-import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.ws.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,17 +29,17 @@ public class UserRepositoryInMemoryTest {
 
     @Test
     public void givenUser_whenSave_thenUserHasSameParameters() {
-        willReturn(A_NAME).given(user).getName();
+        willReturn(A_NAME).given(user).getUserName();
 
         userRepository.save(user);
-        User anotherUser = userRepository.findByName(user.getName());
+        User anotherUser = userRepository.findByName(user.getUserName());
 
         assertEquals(user, anotherUser);
     }
 
     @Test(expected = UserAlreadyExistsException.class)
     public void givenExistingUser_whenSave_thenThrowsException() {
-        willReturn(A_NAME).given(user).getName();
+        willReturn(A_NAME).given(user).getUserName();
 
         userRepository.save(user);
         userRepository.save(user);
@@ -47,7 +47,7 @@ public class UserRepositoryInMemoryTest {
 
     @Test(expected = InvalidUserNameException.class)
     public void givenUserWithInvalidName_whenSave_thenThrowsException() {
-        willReturn(AN_INVALID_NAME).given(user).getName();
+        willReturn(AN_INVALID_NAME).given(user).getUserName();
 
         userRepository.save(user);
     }

@@ -1,10 +1,12 @@
 package ca.ulaval.glo4003.ws.domain.user.driver;
 
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidPhoneNumberException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverTest {
@@ -61,14 +63,14 @@ public class DriverTest {
         Assert.assertEquals(driver.getPhoneNumber(), phoneNum);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = InvalidPhoneNumberException.class)
     public void givenPhoneNumWithInvalidCentralOffice_whenSetPhoneNum_thenThrowException() {
         String phoneNum = "314 159 2653";
 
         driver.setPhoneNumber(phoneNum);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = InvalidPhoneNumberException.class)
     public void givenPhoneNumWithInvalidNPA_whenSetPhoneNum_thenThrowException() {
         String phoneNum = "123 234 5678";
 

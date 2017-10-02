@@ -10,15 +10,15 @@ public class UserDevDataFactory {
     public List<User> createMockData() {
         List<User> users = Lists.newArrayList();
         User jobs = new User();
-        jobs.setName("Steve Jobs");
+        jobs.setUserName("Steve Jobs");
         users.add(jobs);
 
         User balmer = new User();
-        balmer.setName("Steve Balmer");
+        balmer.setUserName("Steve Balmer");
         users.add(balmer);
 
         User franklin = new User();
-        franklin.setName("Benjamin Franklin");
+        franklin.setUserName("Benjamin Franklin");
         users.add(franklin);
 
         return users;
