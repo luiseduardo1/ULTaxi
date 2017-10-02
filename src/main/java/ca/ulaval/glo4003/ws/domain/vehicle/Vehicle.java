@@ -11,4 +11,18 @@ public abstract class Vehicle {
         this.model = model;
         this.registrationNumber = registrationNumber;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public abstract String getType();
 }
