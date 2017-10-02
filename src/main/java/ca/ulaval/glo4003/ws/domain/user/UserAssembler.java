@@ -6,14 +6,14 @@ public class UserAssembler {
 
     public User create(UserDto userDto) {
         User user = new User();
-        user.setName(userDto.getName());
+        user.setUserName(userDto.getUserName());
         user.setPassword(userDto.getPassword());
         return user;
     }
 
     public UserDto create(User user) {
         UserDto userDto = new UserDto();
-        userDto.setName(user.getName());
+        userDto.setUserName(user.getUserName());
         userDto.setPassword(user.getPassword());
         return userDto;
     }

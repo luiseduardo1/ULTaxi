@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
-import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.User;
-import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.ws.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 
 import java.util.HashMap;
@@ -21,17 +21,17 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void save(User user) {
-        if (isInvalidName(user.getName())) {
+        if (isInvalidName(user.getUserName())) {
             throw new InvalidUserNameException(
-                String.format("%s is not a valid name.", user.getName())
+                String.format("%s is not a valid userName.", user.getUserName())
             );
         }
         if (isUserPresent(user)) {
             throw new UserAlreadyExistsException(
-                String.format("User with name %s already exists.", user.getName())
+                String.format("User with userName %s already exists.", user.getUserName())
             );
         }
-        users.put(user.getName(), user);
+        users.put(user.getUserName(), user);
     }
 
     private boolean isInvalidName(String name) {
@@ -41,12 +41,12 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     private boolean isUserPresent(User user) {
-        String name = user.getName().toLowerCase().trim();
+        String name = user.getUserName().toLowerCase().trim();
         return users
             .values()
             .stream()
             .anyMatch(
-                x -> name.equals(x.getName().toLowerCase().trim())
+                x -> name.equals(x.getUserName().toLowerCase().trim())
             );
     }
 }
