@@ -4,15 +4,15 @@ public class VehicleFactory {
 
     public static Vehicle getVehicle(String type, String color, String model, String registrationNumber) {
 
-        if(type == null) {
+        if (type == null) {
             throw new InvalidVehicleTypeException("Vehicle type cannot be null.");
         }
 
-        if(type.toLowerCase().equals("car")) {
+        if (type.toLowerCase().equals("car")) {
             return new Car(color, model, registrationNumber);
-        } else if(type.toLowerCase().equals("van")) {
+        } else if (type.toLowerCase().equals("van")) {
             return new Van(color, model, registrationNumber);
-        } else if(type.toLowerCase().equals("limousine")) {
+        } else if (type.toLowerCase().equals("limousine")) {
             return new Limousine(color, model, registrationNumber);
         }
 

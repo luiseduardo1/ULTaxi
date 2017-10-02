@@ -2,13 +2,21 @@ package ca.ulaval.glo4003;
 
 import ca.ulaval.glo4003.ws.api.user.UserResource;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
+import ca.ulaval.glo4003.ws.api.vehicle.VehicleResource;
+import ca.ulaval.glo4003.ws.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
+import ca.ulaval.glo4003.ws.domain.vehicle.Vehicle;
+import ca.ulaval.glo4003.ws.domain.vehicle.VehicleAssembler;
+import ca.ulaval.glo4003.ws.domain.vehicle.VehicleRepository;
+import ca.ulaval.glo4003.ws.domain.vehicle.VehicleService;
 import ca.ulaval.glo4003.ws.http.CORSResponseFilter;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
+import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleDevDataFactory;
+import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleRepositoryInMemory;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -34,6 +42,7 @@ public class ULTaxiMain {
 
         // Setup resources (API)
         UserResource userResource = createUserResource();
+        VehicleResource vehicleResource = createVehicleResource();
 
         // Setup API context (JERSEY + JETTY)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -44,6 +53,7 @@ public class ULTaxiMain {
                 HashSet<Object> resources = new HashSet<>();
                 // Add resources to context
                 resources.add(userResource);
+                resources.add(vehicleResource);
                 return resources;
             }
         });
@@ -84,4 +94,20 @@ public class ULTaxiMain {
         return new UserResourceImpl(userService);
     }
 
+    private static VehicleResource createVehicleResource() {
+        // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
+        VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
+
+        // For development ease
+        if (isDev) {
+            VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
+            List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
+            vehicles.stream().forEach(vehicleRepository::save);
+        }
+
+        VehicleAssembler vehicleAssembler = new VehicleAssembler();
+        VehicleService vehicleService = new VehicleService(vehicleRepository, vehicleAssembler);
+
+        return new VehicleResourceImpl(vehicleService);
+    }
 }

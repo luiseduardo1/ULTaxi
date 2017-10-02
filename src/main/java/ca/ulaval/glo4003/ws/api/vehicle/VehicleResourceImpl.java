@@ -20,7 +20,7 @@ public class VehicleResourceImpl implements VehicleResource {
         try {
             vehicleService.addVehicle(vehicleDto);
             return Response.ok().build();
-        } catch(VehicleAlreadyExistsException | InvalidVehicleTypeException) {
+        } catch (VehicleAlreadyExistsException | InvalidVehicleTypeException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
