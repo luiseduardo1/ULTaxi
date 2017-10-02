@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.ws.domain.user;
 
 public class User {
 
-    private String name;
-    private String password;
+    protected String name;
+    protected String password;
 
     public String getPassword() {
         return password;
