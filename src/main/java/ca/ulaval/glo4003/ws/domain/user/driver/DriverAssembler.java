@@ -11,7 +11,7 @@ public class DriverAssembler {
         driver.setName(driverDto.getName());
         driver.setLastName(driverDto.getLastName());
         driver.setPhoneNumber(driverDto.getPhoneNumber());
-        driver.setNas(driverDto.getNas());
+        driver.setSin(driverDto.getSin());
         return driver;
     }
 
@@ -22,7 +22,7 @@ public class DriverAssembler {
         driverDto.setName(driver.getName());
         driverDto.setLastName(driver.getLastName());
         driverDto.setPhoneNumber(driver.getPhoneNumber());
-        driverDto.setNas(driver.getNas());
+        driverDto.setSin(driver.getSin());
         return driverDto;
     }
 }
