@@ -11,7 +11,6 @@ public class MessagingThread implements Runnable {
     private MessageConsumerService messageConsumerService;
 
     public MessagingThread(MessageQueue messageQueue, EmailSender emailSender) {
-        this.emailSender = emailSender;
         this.messageConsumerService = new MessageConsumerService(messageQueue, emailSender);
     }
 
