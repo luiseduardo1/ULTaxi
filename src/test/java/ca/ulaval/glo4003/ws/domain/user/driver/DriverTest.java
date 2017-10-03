@@ -123,8 +123,8 @@ public class DriverTest {
         driver.setSin(sin);
     }
 
-    @Test(expected = InvalidSinException.class)
-    public void givenValidSinWithEmptySpace_whenSetSin_thenThrowException() {
+    @Test
+    public void givenValidSinWithEmptySpace_whenSetSin_thenAcceptSinOk() {
         String sin = "972 487 086";
 
         driver.setSin(sin);

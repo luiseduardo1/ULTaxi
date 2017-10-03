@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class Driver extends User {
 
     private static final String PHONE_REGEX = "^\\(?([2-9][0-9]{2})\\)?[-. ]?([2-9](?!11)[0-9]{2})[-. ]?([0-9]{4})$";
-    private static final String SIN_REGEX = "^(\\d{3}-\\d{3}-\\d{3})|(\\d{9})$";
+    private static final String SIN_REGEX = "^(\\d{3}-\\d{3}-\\d{3})|(\\d{9})|(\\d{3} \\d{3} \\d{3})$";
 
     private String name;
     private String lastName;
