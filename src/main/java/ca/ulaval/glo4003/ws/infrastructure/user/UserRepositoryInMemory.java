@@ -10,8 +10,6 @@ import java.util.Map;
 
 public class UserRepositoryInMemory implements UserRepository {
 
-    private static final Pattern INVALID_NAME_PATTERN = Pattern
-                                                            .compile(".*@.*", Pattern.CASE_INSENSITIVE);
     private Map<String, User> users = new HashMap<>();
 
     @Override
@@ -25,12 +23,12 @@ public class UserRepositoryInMemory implements UserRepository {
         String name = user.getName().toLowerCase().trim();
         if (name.contains("@")) {
             throw new InvalidUserNameException(
-                                                  String.format("%s is not a valid name.", user.getName())
+                String.format("%s is not a valid name.", user.getName())
             );
         }
         if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(
-                                                    String.format("User with name %s already exists.", user.getName())
+                String.format("User with name %s already exists.", user.getName())
             );
         }
         users.put(name, user);
