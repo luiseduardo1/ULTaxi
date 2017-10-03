@@ -17,38 +17,36 @@ import static org.mockito.BDDMockito.willReturn;
 @RunWith(MockitoJUnitRunner.class)
 public class UserRepositoryInMemoryTest {
 
+    private static final String A_NAME = "Ronald";
+    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
     @Mock
     private User user;
     private UserRepository userRepository;
-    private static final String A_NAME = "Ronald";
-    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         userRepository = new UserRepositoryInMemory();
+
+        willReturn(A_NAME).given(user).getName();
     }
 
     @Test
-    public void givenInexistingUser_whenFindByName_thenReturnsNull() {
-        willReturn(A_NAME).given(user).getName();
+    public void givenNonExistingUser_whenFindByName_thenReturnsNull() {
+        User returnedUser = userRepository.findByName(user.getName());
 
-        assertNull(userRepository.findByName(user.getName()));
+        assertNull(returnedUser);
     }
 
     @Test
-    public void givenUser_whenSave_thenUserHasSameParameters() {
-        willReturn(A_NAME).given(user).getName();
-
+    public void givenUser_whenSave_thenSavesUser() {
         userRepository.save(user);
-        User anotherUser = userRepository.findByName(user.getName());
+        User savedUser = userRepository.findByName(user.getName());
 
-        assertEquals(user, anotherUser);
+        assertEquals(user, savedUser);
     }
 
     @Test(expected = UserAlreadyExistsException.class)
     public void givenExistingUser_whenSave_thenThrowsException() {
-        willReturn(A_NAME).given(user).getName();
-
         userRepository.save(user);
         userRepository.save(user);
     }
