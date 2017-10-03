@@ -108,7 +108,7 @@ public class DriverTest {
     }
 
     @Test
-    public void givenValidSinWithDasches_whenSetSin_thenAcceptSinOk() {
+    public void givenValidSinWithDashes_whenSetSin_thenAcceptSinOk() {
         String sin = "972-487-086";
 
         driver.setSin(sin);
