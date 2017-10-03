@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ws.domain.request;
 
 import ca.ulaval.glo4003.ws.api.request.dto.RequestDto;
-import ca.ulaval.glo4003.ws.domain.request.geolocation.Geolocation;
+import ca.ulaval.glo4003.ws.domain.geolocation.Geolocation;
 
 public class RequestAssembler {
 

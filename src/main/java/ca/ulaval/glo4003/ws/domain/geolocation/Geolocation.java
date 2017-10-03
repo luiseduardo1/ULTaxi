@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws.domain.request.geolocation;
+package ca.ulaval.glo4003.ws.domain.geolocation;
 
 public class Geolocation {
 

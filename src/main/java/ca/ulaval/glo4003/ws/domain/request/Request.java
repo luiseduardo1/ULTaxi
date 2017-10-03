@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ws.domain.request;
 
-import ca.ulaval.glo4003.ws.domain.request.geolocation.Geolocation;
+import ca.ulaval.glo4003.ws.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 
 public class Request {

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws.domain.request.geolocation;
+package ca.ulaval.glo4003.ws.domain.geolocation;
 
 import org.junit.Before;
 import org.junit.Test;
