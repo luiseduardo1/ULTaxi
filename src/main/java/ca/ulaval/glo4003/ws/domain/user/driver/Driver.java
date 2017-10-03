@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.ws.domain.user.driver;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidSinException;
+import ca.ulaval.glo4003.ws.domain.user.utils.LuhnAlgorithm;
+import ca.ulaval.glo4003.ws.domain.user.utils.StringUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,12 +13,14 @@ public class Driver extends User {
 
     private static final String PHONE_REGEX = "^\\(?([2-9][0-9]{2})\\)?[-. ]?([2-9](?!11)[0-9]{2})[-. ]?([0-9]{4})$";
     private static final String SIN_REGEX = "^((\\d{3}[\\s-]?){2}\\d{3})|(\\d{9})$";
-    private static final String NON_DIGITS_REGEX = "\\D";
 
     private String name;
     private String lastName;
     private String phoneNumber;
     private String sin;
+
+    private LuhnAlgorithm luhnAlgorithm;
+    private StringUtil stringUtil;
 
     public String getName() {
         return name;
@@ -51,7 +55,7 @@ public class Driver extends User {
     }
 
     public void setSin(String sin) {
-        if (!isSinValid(sin)) {
+        if (!isValidSin(sin)) {
             throw new InvalidSinException("User has an invalid sin format.");
         }
 
@@ -64,49 +68,16 @@ public class Driver extends User {
         return matcher.matches();
     }
 
-    private boolean isSinValid(String sin) {
+    private boolean isValidSin(String sin) {
         Pattern pattern = Pattern.compile(SIN_REGEX);
         Matcher matcher = pattern.matcher(sin);
 
-        if (matcher.matches())
-            return isValidSinWithLuhnAlgorithm(sin);
+        if (matcher.matches()){
+            String sinWithNonDigit = stringUtil.ReplaceNonDigitWithEmptySpace(sin);
+            int[] digits = stringUtil.StringToIntArr(sinWithNonDigit);
+            return luhnAlgorithm.checkLuhnAlgorithm(digits);
+        }
         return false;
-    }
-
-
-    private static int[] StringToIntArr(String sin) {
-        String[] s = sin.split("");
-        int[] result = new int[s.length];
-        for (int i = 0; i < s.length; i++) {
-            result[i] = Integer.parseInt(s[i]);
-        }
-        return result;
-    }
-
-    private static String ReplaceNonDigitWithEmptySpace(String nonDigitNumber) {
-        return nonDigitNumber.replaceAll(NON_DIGITS_REGEX, "");
-    }
-
-    //Luhn algorithm code come from Wikipedia , url : https://fr.wikipedia.org/wiki/Formule_de_Luhn
-    private static boolean isValidSinWithLuhnAlgorithm(String sin) {
-
-        String sinWithNonDigit = ReplaceNonDigitWithEmptySpace(sin);
-
-        int[] digits = StringToIntArr(sinWithNonDigit);
-
-        int sum = 0;
-        int length = digits.length;
-        for (int i = 0; i < length; i++) {
-            // get digits in reverse order
-            int digit = digits[length - i - 1];
-
-            // every 2nd number multiply with 2
-            if (i % 2 == 1) {
-                digit *= 2;
-            }
-            sum += digit > 9 ? digit - 9 : digit;
-        }
-        return sum % 10 == 0;
     }
 
 }

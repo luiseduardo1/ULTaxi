@@ -33,7 +33,7 @@ public class DriverResourceImplTest {
     }
 
     @Test
-    public void givenDriverWithValidNamePhoneNumberAndSin_whenCreateDriver_thenReturnsOk() {
+    public void givenValidDriver_whenCreateDriver_thenReturnsOk() {
         Response response = driverResource.createDriver(driverDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -73,7 +73,7 @@ public class DriverResourceImplTest {
     }
 
     @Test
-    public void givenInvalidSin_whenCreateDriver_thenReturnsBadRequest() {
+    public void givenDriverWithInvalidSin_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new InvalidSinException("User has an invalid sin."))
                 .given(driverService)
                 .addDriver(driverDto);

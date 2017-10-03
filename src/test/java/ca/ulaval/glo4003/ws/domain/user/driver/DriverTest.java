@@ -117,7 +117,7 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidSinException.class)
-    public void givenSinWithMoreNumber_whenSetSin_thenThrowException() {
+    public void givenSinWithTooManyDigits_whenSetSin_thenThrowException() {
         String sin = "9724870865";
 
         driver.setSin(sin);
