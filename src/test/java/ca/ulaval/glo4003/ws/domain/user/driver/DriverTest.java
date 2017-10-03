@@ -117,7 +117,7 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidSinException.class)
-    public void givenSinWithMoreNumber_whenSetSin_thenThrowExceptio() {
+    public void givenSinWithMoreNumber_whenSetSin_thenThrowException() {
         String sin = "9724870865";
 
         driver.setSin(sin);
@@ -140,14 +140,14 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidSinException.class)
-    public void givenSinWithSpecialCharacters_whenSetSin_thenTrowxception() {
+    public void givenSinWithSpecialCharacters_whenSetSin_thenThrowException() {
         String sin = "1!3 2?4 56!8";
 
         driver.setSin(sin);
     }
 
     @Test(expected = InvalidSinException.class)
-    public void givenValidSinWithDots_whenSetSin_thenTrowxception() {
+    public void givenValidSinWithDots_whenSetSin_thenThrowException() {
         String sin = "972.487.086";
 
         driver.setSin(sin);
