@@ -15,11 +15,7 @@ public class RequestResourceImpl implements RequestResource {
 
     @Override
     public Response sendTransportRequest(RequestDto requestDto) {
-        try {
-            requestService.sendTransportRequest(requestDto);
-            return Response.ok().build();
-        } catch (InvalidRequestException exception) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        requestService.sendTransportRequest(requestDto);
+        return Response.ok().build();
     }
 }

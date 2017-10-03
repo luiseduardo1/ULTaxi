@@ -4,8 +4,6 @@ import java.util.List;
 
 public interface RequestRepository {
 
-    List<Request> findAll();
-
     Request findById(String id);
 
     void save(Request request);

@@ -10,18 +10,15 @@ import java.util.Map;
 
 public class RequestRepositoryInMemory implements RequestRepository {
 
-    private Map<String, Request> commands = new HashMap<>();
+    private Map<String, Request> requests = new HashMap<>();
+
+    @Override
+    public Request findById(String id) {
+        return requests.get(id);
+    }
 
     @Override
     public void save(Request command) {
-        commands.put(command.getId(), command);
-    }
-
-    public List<Request> findAll() {
-        return Lists.newArrayList(commands.values());
-    }
-
-    public Request findById(String id){
-        return commands.get(id);
+        requests.put(command.getId(), command);
     }
 }

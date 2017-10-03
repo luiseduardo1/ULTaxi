@@ -26,7 +26,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenCommand_whenSave_ThenReturnRequestInMemory() {
+    public void givenRequest_whenSave_ThenReturnRequestInMemory() {
         requestRepository.save(request);
 
         Request foundRequest  = requestRepository.findById(request.getId());
