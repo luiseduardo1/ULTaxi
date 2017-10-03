@@ -1,6 +1,10 @@
 package ca.ulaval.glo4003.ws.domain.vehicle;
 
-public class VehicleFactory {
+public final class VehicleFactory {
+
+    private VehicleFactory() {
+        throw new AssertionError("Instantiating utility class...");
+    }
 
     public static Vehicle getVehicle(String type, String color, String model, String registrationNumber) {
 

@@ -34,9 +34,15 @@ import java.util.Set;
  * RESTApi setup without using DI or spring
  */
 @SuppressWarnings("all")
-public class ULTaxiMain {
+public final class ULTaxiMain {
 
-    public static boolean isDev = true; // Would be a JVM argument or in a .property file
+    private static final int PORT = 8080;
+
+    private static boolean isDev = true; // Would be a JVM argument or in a .property file
+
+    private ULTaxiMain() {
+        throw new AssertionError("Instantiating main class...");
+    }
 
     public static void main(String[] args) throws Exception {
 
@@ -66,7 +72,7 @@ public class ULTaxiMain {
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {context});
-        Server server = new Server(8080);
+        Server server = new Server(PORT);
         server.setHandler(contexts);
 
         try {
