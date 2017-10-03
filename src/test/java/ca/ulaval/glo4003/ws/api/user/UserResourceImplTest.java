@@ -27,7 +27,7 @@ public class UserResourceImplTest {
     private UserResource userResource;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         userResource = new UserResourceImpl(userService);
     }
 
