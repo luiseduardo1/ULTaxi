@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class UserRepositoryInMemory implements UserRepository {
 
     private static final Pattern INVALID_NAME_PATTERN = Pattern
-        .compile(".*@.*", Pattern.CASE_INSENSITIVE);
+                                                            .compile(".*@.*", Pattern.CASE_INSENSITIVE);
     private Map<String, User> users = new HashMap<>();
 
     @Override
@@ -24,12 +24,12 @@ public class UserRepositoryInMemory implements UserRepository {
     public void save(User user) {
         if (isInvalidName(user.getName())) {
             throw new InvalidUserNameException(
-                String.format("%s is not a valid name.", user.getName())
+                                                  String.format("%s is not a valid name.", user.getName())
             );
         }
         if (isUserPresent(user)) {
             throw new UserAlreadyExistsException(
-                String.format("User with name %s already exists.", user.getName())
+                                                    String.format("User with name %s already exists.", user.getName())
             );
         }
         users.put(user.getName(), user);
@@ -37,17 +37,17 @@ public class UserRepositoryInMemory implements UserRepository {
 
     private boolean isInvalidName(String name) {
         return INVALID_NAME_PATTERN
-            .matcher(name)
-            .find();
+                   .matcher(name)
+                   .find();
     }
 
     private boolean isUserPresent(User user) {
         String name = user.getName().toLowerCase().trim();
         return users
-            .values()
-            .stream()
-            .anyMatch(
-                x -> name.equals(x.getName().toLowerCase().trim())
-            );
+                   .values()
+                   .stream()
+                   .anyMatch(
+                       x -> name.equals(x.getName().toLowerCase().trim())
+                   );
     }
 }

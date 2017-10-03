@@ -6,7 +6,6 @@ public class Message {
     private String reason;
 
     public Message() {
-
     }
 
     public Message(String sendTo, String reason) {

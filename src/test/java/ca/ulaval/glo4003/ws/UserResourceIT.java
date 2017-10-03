@@ -74,10 +74,10 @@ public class UserResourceIT {
 
     private RequestSpecification givenBaseUserServer() {
         return given()
-            .baseUri(URL_BASE)
-            .accept(ContentType.JSON)
-            .port(USER_TEST_SERVER_PORT)
-            .contentType(ContentType.JSON);
+                   .baseUri(URL_BASE)
+                   .accept(ContentType.JSON)
+                   .port(USER_TEST_SERVER_PORT)
+                   .contentType(ContentType.JSON);
     }
 
     private String givenUser() {
