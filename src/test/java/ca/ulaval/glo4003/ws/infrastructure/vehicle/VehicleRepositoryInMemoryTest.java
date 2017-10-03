@@ -17,6 +17,7 @@ import static org.mockito.BDDMockito.willReturn;
 public class VehicleRepositoryInMemoryTest {
 
     private static final String A_REGISTRATION_NUMBER = "T31337";
+
     @Mock
     private Vehicle vehicle;
     private VehicleRepository vehicleRepository;
