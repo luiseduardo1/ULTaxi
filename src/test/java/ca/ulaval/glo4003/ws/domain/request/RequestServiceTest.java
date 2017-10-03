@@ -30,11 +30,12 @@ public class RequestServiceTest {
     }
 
     @Test
-    public void givenAValidRequest_whenAddRequest_thenRequestIsAdded() {
+    public void givenAValidRequest_whenSendRequest_thenRequestIsAdded() {
         willReturn(request).given(requestAssembler).create(requestDto);
 
         requestService.sendTransportRequest(requestDto);
 
         verify(requestRepository).save(request);
     }
+
 }

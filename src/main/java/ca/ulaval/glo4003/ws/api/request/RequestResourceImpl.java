@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ws.api.request;
 
 import ca.ulaval.glo4003.ws.api.request.dto.RequestDto;
 import ca.ulaval.glo4003.ws.domain.request.RequestService;
+import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 
 import javax.ws.rs.core.Response;
 
@@ -15,7 +16,11 @@ public class RequestResourceImpl implements RequestResource {
 
     @Override
     public Response sendTransportRequest(RequestDto requestDto) {
-        requestService.sendTransportRequest(requestDto);
-        return Response.ok().build();
+        try {
+            requestService.sendTransportRequest(requestDto);
+            return Response.ok().build();
+        } catch (InvalidVehicleTypeException exception) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
 }

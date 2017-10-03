@@ -1,11 +1,15 @@
 package ca.ulaval.glo4003.ws.domain.request;
 
+import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
+
 public class Request {
+
+    private static final String VEHICLE_TYPES = "car|van|limousine";
 
     private String id ;
     private String location;
     private String note;
-    private String VehiculeType;
+    private String vehicleType;
 
     public String getId() {
         return id;
@@ -24,11 +28,15 @@ public class Request {
     }
 
     public String getVehiculeType() {
-        return VehiculeType;
+        return vehicleType;
     }
 
-    public void setVehiculeType(String vehiculeType) {
-        VehiculeType = vehiculeType;
+    public void setVehiculeType(String vehicleType) {
+        if (isInvalidVehicleType(vehicleType)) {
+            throw new InvalidVehicleTypeException(
+                String.format("%s is not a valid vehicle type.", vehicleType));
+        }
+        this.vehicleType = vehicleType;
     }
 
     public String getNote() {
@@ -37,5 +45,9 @@ public class Request {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public boolean isInvalidVehicleType(String vehicleType) {
+        return vehicleType.matches(VEHICLE_TYPES);
     }
 }
