@@ -10,6 +10,8 @@ import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.http.CORSResponseFilter;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSender;
+import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
+import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.MessageQueueInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
@@ -61,7 +63,8 @@ public class ULTaxiMain {
         context.addServlet(servletHolder, "/*");
 
         // Setup messaging thread
-        EmailSender emailSender = new EmailSender(EMAIL_SENDER_CONFIGURATION_FILENAME);
+        EmailSenderConfigurationReader emailSenderConfigurationReader = new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
+        EmailSender emailSender = new EmailSender(emailSenderConfigurationReader);
         Thread messagingThread = new Thread(new MessagingThread(messageQueueInMemory, emailSender));
         messagingThread.start();
 
@@ -96,6 +99,4 @@ public class ULTaxiMain {
         UserService userService = new UserService(userRepository, userAssembler, messageProducerService);
         return new UserResourceImpl(userService);
     }
-
-
 }
