@@ -30,6 +30,7 @@ public class UserResourceImpl implements UserResource {
     }
 
     @Override
+    @Secured( {Role.Client})
     public Response mySecuredRoute() {
         return Response.status(200).build();
     }

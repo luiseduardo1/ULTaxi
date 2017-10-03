@@ -51,10 +51,10 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         List<Role> classRoles = extractRoles(resourceClass);
 
         Method resourceMethod = resourceInfo.getResourceMethod();
-        List<Role>methodRoles = extractRoles(resourceMethod);
+        List<Role> methodRoles = extractRoles(resourceMethod);
 
         try {
-            if(methodRoles.isEmpty()) {
+            if (methodRoles.isEmpty()) {
                 checkPermissions(classRoles, token);
             } else {
                 checkPermissions(methodRoles, token);
@@ -62,16 +62,16 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         } catch (InvalidUserNameException e) {
             requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
         }
-        
+
     }
 
     private List<Role> extractRoles(AnnotatedElement annotatedElement) {
         if (annotatedElement == null) {
-            return new ArrayList<Role>();
+            return new ArrayList<>();
         } else {
             Secured secured = annotatedElement.getAnnotation(Secured.class);
-            if(secured == null) {
-                return new ArrayList<Role>();
+            if (secured == null) {
+                return new ArrayList<>();
             } else {
                 Role[] allowedRoles = secured.value();
                 return Arrays.asList(allowedRoles);
@@ -84,7 +84,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         String username = tokenManager.getUsername(token);
         Role userRole = userRepository.findByName(username).getRole();
 
-        if(!allowedRoles.contains(userRole)) {
+        if (!allowedRoles.contains(userRole)) {
             throw new UnvalidUserRoleException("Not valid Permission");
         }
     }

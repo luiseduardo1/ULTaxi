@@ -25,7 +25,6 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Context;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,10 +56,10 @@ public class ULTaxiMain {
         });
 
         ContainerRequestFilter authenticationFilter = new AuthenticationFilter(tokenManager);
-        ContainerRequestFilter authaurizationFilter = new AuthorizationFilter(userRepository, tokenManager);
+        ContainerRequestFilter authorizationFilter = new AuthorizationFilter(userRepository, tokenManager);
         resourceConfig.register(CORSResponseFilter.class);
         resourceConfig.register(authenticationFilter);
-        resourceConfig.register(authaurizationFilter);
+        resourceConfig.register(authorizationFilter);
 
 
         ServletContainer servletContainer = new ServletContainer(resourceConfig);

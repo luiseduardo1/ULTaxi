@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
@@ -31,7 +32,7 @@ public class JWTTokenManager implements TokenManager {
         JwtBuilder jwtBuilder = Jwts.builder().setId(uuid).setIssuedAt(now).setSubject(subject)
             .signWith(signatureAlgorithm, signingKey);
 
-        if(ttlInMillis > 0) {
+        if (ttlInMillis > 0) {
             long expMillis = nowMillis + ttlInMillis;
             Date exp = new Date(expMillis);
             jwtBuilder.setExpiration(exp);
@@ -56,7 +57,7 @@ public class JWTTokenManager implements TokenManager {
 
         Date tokenExpiration = parseToken(token).getExpiration();
 
-        if(tokenExpiration.before(now)) {
+        if (tokenExpiration.before(now)) {
             throw new InvalidTokenException("Token is expired");
         }
 

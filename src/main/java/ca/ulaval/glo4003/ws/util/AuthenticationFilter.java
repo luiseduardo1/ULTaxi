@@ -31,7 +31,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         String authorisationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-        if(!isTokenBasedAuthentication(authorisationHeader)) {
+        if (!isTokenBasedAuthentication(authorisationHeader)) {
             abortUnauthorized(requestContext);
             return;
         }

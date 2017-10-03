@@ -36,7 +36,7 @@ public class JWTTokenManagerTest {
     }
 
     @Test
-    public void givenNoExpiration_whenCreatingAToken_ThenATokenIsCreatedWithoutExpiration(){
+    public void givenNoExpiration_whenCreatingAToken_ThenATokenIsCreatedWithoutExpiration() {
         long NULL_TTL = 0;
         String token = jwtTokenManager.createToken(A_VALID_SUBJECT, NULL_TTL);
         Assert.assertNull(jwtTokenManager.parseToken(token).getExpiration());

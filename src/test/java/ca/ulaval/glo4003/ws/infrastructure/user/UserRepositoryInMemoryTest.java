@@ -67,7 +67,7 @@ public class UserRepositoryInMemoryTest {
     }
 
     @Test(expected = InvalidCredentialsException.class)
-    public  void givenAnUserToAuthenticateWithBadCredentials_whenAuthenticatingUser_thenThrowsException() {
+    public void givenAnUserToAuthenticateWithBadCredentials_whenAuthenticatingUser_thenThrowsException() {
 
         User userToAuthenticate = new User();
         userToAuthenticate.setName(A_NAME);
