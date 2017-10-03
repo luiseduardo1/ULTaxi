@@ -82,7 +82,7 @@ public class UserResourceIT {
 
     private String givenUser() {
         UserDto userDto = new UserDto();
-        userDto.setName(A_VALID_NAME);
+        userDto.setUserName(A_VALID_NAME);
         userDto.setPassword(A_VALID_PASSWORD);
         Gson gson = new Gson();
         return gson.toJson(userDto);
@@ -90,7 +90,7 @@ public class UserResourceIT {
 
     private String givenUserWithInvalidName() {
         UserDto userDto = new UserDto();
-        userDto.setName(AN_INVALID_NAME);
+        userDto.setUserName(AN_INVALID_NAME);
         userDto.setPassword(A_VALID_PASSWORD);
         Gson gson = new Gson();
         return gson.toJson(userDto);
