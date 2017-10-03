@@ -1,8 +1,9 @@
 package ca.ulaval.glo4003.ws.api.user;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
-import ca.ulaval.glo4003.ws.domain.user.InvalidCredentialsException;
+import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
+import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,11 +24,18 @@ public class UserAuthenticationResourceImplTest {
     @Mock
     private UserDto userDto;
 
+    @Mock
+    private TokenRepository tokenRepositoryDto;
+
+    @Mock
+    private TokenManager tokenManagerDto;
+
     private UserAuthenticationResource userAuthenticationResource;
 
     @Before
     public void setUp() throws Exception {
-        userAuthenticationResource = new UserAuthenticationResourceImpl(userService);
+        userAuthenticationResource = new UserAuthenticationResourceImpl(userService,
+            tokenRepositoryDto, tokenManagerDto);
     }
 
     @Test

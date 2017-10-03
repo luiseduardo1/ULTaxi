@@ -27,5 +27,4 @@ public class UserService {
         User user = userAssembler.create(userDto);
         return userRepository.authenticate(user);
     }
-
 }

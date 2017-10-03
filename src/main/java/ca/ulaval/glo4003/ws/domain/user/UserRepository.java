@@ -7,4 +7,6 @@ public interface UserRepository {
     void save(User user);
 
     boolean authenticate(User user);
+
+    Role getUserRole(String userName);
 }
