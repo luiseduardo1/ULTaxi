@@ -16,6 +16,7 @@ public class RequestRepositoryInMemoryTest {
 
     @Mock
     private Request request;
+
     private RequestRepository requestRepository;
 
     @Before
