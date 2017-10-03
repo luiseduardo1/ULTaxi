@@ -8,13 +8,21 @@ public class DriverDto {
     private String phoneNumber;
     private String nas;
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getLastName() { return lastName; }
+    public String getLastName() {
+        return lastName;
+    }
 
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public String getUserName() {
         return userName;
@@ -32,12 +40,20 @@ public class DriverDto {
         this.password = password;
     }
 
-    public String getPhoneNumber() { return phoneNumber; }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-    public String getNas() { return nas; }
+    public String getNas() {
+        return nas;
+    }
 
-    public void setNas(String nas) { this.nas = nas; }
+    public void setNas(String nas) {
+        this.nas = nas;
+    }
 
 }
