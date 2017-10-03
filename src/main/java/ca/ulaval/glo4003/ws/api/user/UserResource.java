@@ -18,6 +18,6 @@ public interface UserResource {
     Response createUser(UserDto userDto);
 
     @GET
-    @Secured( {Role.Client})
+    @Secured({Role.Client})
     Response mySecuredRoute();
 }
