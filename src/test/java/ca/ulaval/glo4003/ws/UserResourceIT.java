@@ -28,7 +28,7 @@ public class UserResourceIT {
     public void setUp() throws Exception {
         Thread t = new Thread(() -> {
             try {
-                ULTaxiMain.main(new String[] {});
+                ULTaxiMain.main(new String[]{});
             } catch (Exception e) {
                 e.printStackTrace();
             }

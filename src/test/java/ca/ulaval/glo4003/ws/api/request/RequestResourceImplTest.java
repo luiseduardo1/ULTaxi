@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ws.api.request;
 
 import ca.ulaval.glo4003.ws.api.request.dto.RequestDto;
 import ca.ulaval.glo4003.ws.domain.request.RequestService;
-import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 import org.junit.Before;
 import org.junit.Test;

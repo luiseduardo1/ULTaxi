@@ -1,15 +1,23 @@
 package ca.ulaval.glo4003.ws.domain.request;
 
+import ca.ulaval.glo4003.ws.domain.request.geolocation.Geolocation;
 import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 
 public class Request {
 
     private static final String VEHICLE_TYPES = "car|van|limousine";
-
-    private String id ;
-    private String location;
+    private Geolocation geolocation;
+    private String id;
     private String note;
     private String vehicleType;
+
+    public Geolocation getGeolocation() {
+        return geolocation;
+    }
+
+    public void setGeolocation(Geolocation geolocation) {
+        this.geolocation = geolocation;
+    }
 
     public String getId() {
         return id;
@@ -17,14 +25,6 @@ public class Request {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getVehiculeType() {

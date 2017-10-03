@@ -29,7 +29,7 @@ public class RequestRepositoryInMemoryTest {
     public void givenRequest_whenSave_ThenReturnRequestInMemory() {
         requestRepository.save(request);
 
-        Request foundRequest  = requestRepository.findById(request.getId());
+        Request foundRequest = requestRepository.findById(request.getId());
 
         assertEquals(request, foundRequest);
     }
