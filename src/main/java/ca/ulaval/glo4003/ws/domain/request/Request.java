@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.ws.domain.command;
+package ca.ulaval.glo4003.ws.domain.request;
 
-public class Command {
+public class Request {
     String id ;
     String location;
     String note;
