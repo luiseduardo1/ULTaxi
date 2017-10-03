@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ws.api.user.driver;
 
 import ca.ulaval.glo4003.ws.api.user.dto.DriverDto;
 import ca.ulaval.glo4003.ws.domain.user.driver.DriverService;
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidNasException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.exception.UserAlreadyExistsException;
@@ -21,7 +22,7 @@ public class DriverResourceImpl implements DriverResource {
         try {
             driverService.addDriver(driverDto);
             return Response.ok().build();
-        } catch (UserAlreadyExistsException | InvalidUserNameException | InvalidPhoneNumberException exception) {
+        } catch (UserAlreadyExistsException | InvalidUserNameException | InvalidPhoneNumberException | InvalidNasException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }

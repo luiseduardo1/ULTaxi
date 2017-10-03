@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ws.api.user.driver;
 
 import ca.ulaval.glo4003.ws.api.user.dto.DriverDto;
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidNasException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.exception.UserAlreadyExistsException;
@@ -70,4 +71,15 @@ public class DriverResourceImplTest {
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
+    @Test
+    public void givenInvalidNas_whenCreateDriver_thenReturnsBadRequest(){
+        willThrow(new InvalidNasException("User has an invalid nas."))
+                .given(driverService)
+                .addDriver(driverDto);
+
+        Response response = driverResource.createDriver(driverDto);
+
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
 }
