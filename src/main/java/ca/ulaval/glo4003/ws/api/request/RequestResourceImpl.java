@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.ws.api.request;
 
 import ca.ulaval.glo4003.ws.api.request.dto.RequestDto;
-import ca.ulaval.glo4003.ws.domain.request.InvalidRequestException;
 import ca.ulaval.glo4003.ws.domain.request.RequestService;
 
 import javax.ws.rs.core.Response;
