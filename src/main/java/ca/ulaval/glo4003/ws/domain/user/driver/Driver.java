@@ -3,8 +3,8 @@ package ca.ulaval.glo4003.ws.domain.user.driver;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidSinException;
-import ca.ulaval.glo4003.ws.domain.user.utils.LuhnAlgorithm;
-import ca.ulaval.glo4003.ws.domain.user.utils.StringUtil;
+import ca.ulaval.glo4003.ws.utils.LuhnAlgorithm;
+import ca.ulaval.glo4003.ws.utils.StringUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

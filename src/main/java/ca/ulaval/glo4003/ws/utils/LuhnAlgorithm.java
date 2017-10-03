@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws.domain.user.utils;
+package ca.ulaval.glo4003.ws.utils;
 
 public final class LuhnAlgorithm {
 
