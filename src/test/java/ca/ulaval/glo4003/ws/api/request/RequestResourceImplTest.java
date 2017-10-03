@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willThrow;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RequestResourceImplTest {
+public class RsequestResourceImplTest {
 
     @Mock
     private RequestService requestService;

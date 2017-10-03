@@ -14,14 +14,14 @@ public class RequestAssembler {
         request.setGeolocation(geolocation);
         request.setId(requestDto.getId());
         request.setNote(requestDto.getNote());
-        request.setVehiculeType(requestDto.getVehiculeType());
+        request.setVehicleType(requestDto.getVehicleType());
         return request;
     }
 
     public RequestDto create(Request request) {
         RequestDto requestDto = new RequestDto();
         requestDto.setId(request.getId());
-        requestDto.setVehiculeType(request.getVehiculeType());
+        requestDto.setVehicleType(request.getVehicleType());
         requestDto.setNote(request.getNote());
         requestDto.setLatitude(request.getGeolocation().getLatitude());
         requestDto.setLongitude(request.getGeolocation().getLongitude());

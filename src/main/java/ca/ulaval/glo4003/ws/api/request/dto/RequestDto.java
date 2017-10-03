@@ -3,10 +3,10 @@ package ca.ulaval.glo4003.ws.api.request.dto;
 public class RequestDto {
 
     private String id;
-    private String vehiculeType;
+    private String vehicleType;
     private String note;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
 
     public String getId() {
         return id;
@@ -24,27 +24,27 @@ public class RequestDto {
         this.note = note;
     }
 
-    public String getVehiculeType() {
-        return this.vehiculeType;
+    public String getVehicleType() {
+        return this.vehicleType;
     }
 
-    public void setVehiculeType(String vehiculeType) {
-        this.vehiculeType = vehiculeType;
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }

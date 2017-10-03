@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 public class Request {
 
     private static final String VEHICLE_TYPES = "car|van|limousine";
+
     private Geolocation geolocation;
     private String id;
     private String note;
@@ -27,11 +28,11 @@ public class Request {
         this.id = id;
     }
 
-    public String getVehiculeType() {
+    public String getVehicleType() {
         return vehicleType;
     }
 
-    public void setVehiculeType(String vehicleType) {
+    public void setVehicleType(String vehicleType) {
         if (isInvalidVehicleType(vehicleType)) {
             throw new InvalidVehicleTypeException(
                 String.format("%s is not a valid vehicle type.", vehicleType));
