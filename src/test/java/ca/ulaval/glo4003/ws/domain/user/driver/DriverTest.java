@@ -76,4 +76,26 @@ public class DriverTest {
 
         driver.setPhoneNumber(phoneNum);
     }
+
+    @Test (expected = InvalidPhoneNumberException.class)
+    public void givenPhoneNumWithAlphaNumericalCharacters_whenSetPhoneNum_thenThrowException() {
+        String phoneNum = "1b3 2z4 56a8";
+
+        driver.setPhoneNumber(phoneNum);
+    }
+
+    @Test (expected = InvalidPhoneNumberException.class)
+    public void givenPhoneNumWithSpecialCharacters_whenSetPhoneNum_thenThrowException() {
+        String phoneNum = "1!3 2?4 56!8";
+
+        driver.setPhoneNumber(phoneNum);
+    }
+
+    @Test (expected = InvalidPhoneNumberException.class)
+    public void givenPhoneNumTooLong_whenSetPhoneNum_thenThrowException() {
+        String phoneNum = "234 235 56784";
+
+        driver.setPhoneNumber(phoneNum);
+    }
+
 }
