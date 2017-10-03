@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.ws.domain.user.driver;
 
 import ca.ulaval.glo4003.ws.domain.user.User;
-import ca.ulaval.glo4003.ws.domain.user.exception.InvalidNasException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidPhoneNumberException;
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidSinException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 public class Driver extends User {
 
     private static final String PHONE_REGEX = "^\\(?([2-9][0-9]{2})\\)?[-. ]?([2-9](?!11)[0-9]{2})[-. ]?([0-9]{4})$";
-    private static final String NAS_REGEX = "^(\\d{3}-\\d{3}-\\d{3})|(\\d{9})$";
+    private static final String SIN_REGEX = "^(\\d{3}-\\d{3}-\\d{3})|(\\d{9})$";
 
     private String name;
     private String lastName;
     private String phoneNumber;
-    private String nas;
+    private String sin;
 
     public String getName() {
         return name;
@@ -38,26 +38,23 @@ public class Driver extends User {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if(!isPhoneNumberValid(phoneNumber)) {
+        if (!isPhoneNumberValid(phoneNumber)) {
             throw new InvalidPhoneNumberException("User has an invalid phone number.");
         }
 
         this.phoneNumber = phoneNumber;
     }
 
-    public String getNas() {
-        return nas;
+    public String getSin() {
+        return sin;
     }
 
-    public void setNas(String nas) {
-        if(!isNasValidFormat(nas)) {
-            throw new InvalidNasException("User has an invalid nas format.");
-        }
-        if(!(isValidNasWithLuhnAlgorithm(StringToIntArr(ReplaceNonDigitWithEmptySpace(nas))))){
-            throw new InvalidNasException("User has an invalid nas.");
+    public void setSin(String sin) {
+        if (!isSinValid(sin)) {
+            throw new InvalidSinException("User has an invalid sin format.");
         }
 
-        this.nas = nas;
+        this.sin = sin;
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {
@@ -66,15 +63,18 @@ public class Driver extends User {
         return matcher.matches();
     }
 
-    private boolean isNasValidFormat(String nas) {
-        Pattern pattern = Pattern.compile(NAS_REGEX);
-        Matcher matcher = pattern.matcher(nas);
-        return matcher.matches();
+    private boolean isSinValid(String sin) {
+        Pattern pattern = Pattern.compile(SIN_REGEX);
+        Matcher matcher = pattern.matcher(sin);
+
+        if (matcher.matches())
+            return isValidSinWithLuhnAlgorithm(sin);
+        return false;
     }
 
 
-    private static int[] StringToIntArr(String nas) {
-        String[] s = nas.split("");
+    private static int[] StringToIntArr(String sin) {
+        String[] s = sin.split("");
         int[] result = new int[s.length];
         for (int i = 0; i < s.length; i++) {
             result[i] = Integer.parseInt(s[i]);
@@ -82,11 +82,17 @@ public class Driver extends User {
         return result;
     }
 
-    private static String ReplaceNonDigitWithEmptySpace(String nonDigitNumber){
+    private static String ReplaceNonDigitWithEmptySpace(String nonDigitNumber) {
         return nonDigitNumber.replaceAll("\\D", "");
     }
 
-    private static boolean isValidNasWithLuhnAlgorithm(int[] digits) {
+    //Luhn algorithm code come from Wikipedia , url : https://fr.wikipedia.org/wiki/Formule_de_Luhn
+    private static boolean isValidSinWithLuhnAlgorithm(String sin) {
+
+        String sinWithNonDigit = ReplaceNonDigitWithEmptySpace(sin);
+
+        int[] digits = StringToIntArr(sinWithNonDigit);
+
         int sum = 0;
         int length = digits.length;
         for (int i = 0; i < length; i++) {

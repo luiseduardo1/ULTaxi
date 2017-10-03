@@ -6,7 +6,7 @@ public class DriverDto {
     private String userName;
     private String password;
     private String phoneNumber;
-    private String nas;
+    private String sin;
 
     public String getName() {
         return name;
@@ -48,12 +48,12 @@ public class DriverDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getNas() {
-        return nas;
+    public String getSin() {
+        return sin;
     }
 
-    public void setNas(String nas) {
-        this.nas = nas;
+    public void setSin(String sin) {
+        this.sin = sin;
     }
 
 }
