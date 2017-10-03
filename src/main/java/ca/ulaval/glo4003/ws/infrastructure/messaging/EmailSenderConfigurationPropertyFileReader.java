@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class EmailSenderConfigurationPropertyFileReader implements EmailSenderConfigurationReader {
+
     private String filename;
 
     public EmailSenderConfigurationPropertyFileReader(String filename) {

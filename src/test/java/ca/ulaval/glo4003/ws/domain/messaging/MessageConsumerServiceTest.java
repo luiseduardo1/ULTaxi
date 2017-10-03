@@ -32,7 +32,8 @@ public class MessageConsumerServiceTest {
     }
 
     @Test
-    public void givenARegistrationMessageToBeSent_whenSendMessage_thenEmailSenderIsCalled() throws InterruptedException {
+    public void givenARegistrationMessageToBeSent_whenSendMessage_thenEmailSenderIsCalled()
+        throws InterruptedException {
         willReturn(false).given(messageQueue).isEmpty();
         willReturn(message).given(messageQueue).peek();
         doNothing().when(messageQueue).dequeue(message);

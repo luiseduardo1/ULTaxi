@@ -7,7 +7,8 @@ import java.util.logging.Logger;
 public class MessageConsumerService {
 
     private static final String EMAIL_REGISTRATION_SUBJECT = "Hi! Welcome to ULTaxi!";
-    private static final String EMAIL_REGISTRATION_CONTENT = "Thank you for your request to subscribe to ULTaxi. \nHope you enjoy it! \n \n \n";
+    private static final String EMAIL_REGISTRATION_CONTENT = "Thank you for your request to " +
+        "subscribe to ULTaxi. \nHope you enjoy it! \n \n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Beaubrun from ULTaxi";
 
     private MessageQueue messageQueue;
@@ -22,7 +23,9 @@ public class MessageConsumerService {
     private Email createEmailFromMessage(Message message) {
         Email email = null;
         if (message.getReason().equals("Registration")) {
-            email = new Email(message.getSentTo(), EMAIL_REGISTRATION_SUBJECT, EMAIL_REGISTRATION_CONTENT, EMAIL_SIGNATURE);
+            email = new Email(message.getSentTo(), EMAIL_REGISTRATION_SUBJECT,
+                EMAIL_REGISTRATION_CONTENT,
+                EMAIL_SIGNATURE);
             return email;
         }
         return email;

@@ -21,8 +21,10 @@ public class MessageQueueInMemoryTest {
     }
 
     @Test
-    public void givenAMessage_whenMessageIsEnqueued_thenMessageHasSameParameters() throws InterruptedException {
-        Message messageToBeEnqueued = given(aMessage().withSendTo(A_RECIPIENT_ADDRESS).withReason(A_REASON));
+    public void givenAMessage_whenMessageIsEnqueued_thenMessageHasSameParameters()
+        throws InterruptedException {
+        Message messageToBeEnqueued = given(
+            aMessage().withSendTo(A_RECIPIENT_ADDRESS).withReason(A_REASON));
 
         messageQueue.enqueue(messageToBeEnqueued);
 

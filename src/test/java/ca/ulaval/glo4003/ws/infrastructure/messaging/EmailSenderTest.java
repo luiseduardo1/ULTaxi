@@ -50,7 +50,8 @@ public class EmailSenderTest {
     }
 
     @Test
-    public void givenAnEmail_whenIsSend_thenReceivedEmailShouldBeTheSame() throws MessagingException {
+    public void givenAnEmail_whenIsSend_thenReceivedEmailShouldBeTheSame() throws
+        MessagingException {
         Email email = new Email(TO_ADDRESS, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
 
         emailSender.sendEmail(email);
