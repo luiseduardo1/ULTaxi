@@ -11,12 +11,14 @@ import static java.lang.Thread.sleep;
 @RunWith(Suite.class)
 @Suite.SuiteClasses( {UserAuthenticationResourceIT.class, UserResourceIT.class})
 public class BaseIntegrationTest {
-    private static int SLEEP_TIME = 500;
+    private static final int SLEEP_TIME = 500;
+    private static final int SERVER_PORT = 8080;
+    private static final String SERVER_BASE_URI = "http://localhost";
 
     @BeforeClass
     public static void setUpBaseServer() throws Exception {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = 8080;
+        RestAssured.baseURI = SERVER_BASE_URI;
+        RestAssured.port = SERVER_PORT;
 
         Thread thread = new Thread(() -> {
             try {
