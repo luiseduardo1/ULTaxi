@@ -86,7 +86,7 @@ public class UserAuthenticationResourceIT {
         givenBaseUserServer()
             .header(
                 "Authorization",
-                String.format("Bearer %s", response.getBody().asString())
+                response.getBody().asString()
             )
             .when()
             .post(SIGNOUT_ROUTE)

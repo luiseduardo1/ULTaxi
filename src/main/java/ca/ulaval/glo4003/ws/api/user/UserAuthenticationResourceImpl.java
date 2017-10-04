@@ -41,7 +41,7 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     }
 
     @Override
-    public Response signOut(@HeaderParam("Authorization") String token) {
+    public Response signOut(String token) {
         tokenRepository.delete(tokenManager.getTokenId(token));
         return Response.status(Response.Status.RESET_CONTENT).build();
     }
