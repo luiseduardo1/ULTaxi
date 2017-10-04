@@ -82,7 +82,6 @@ public class UserAuthenticationResourceIT {
             .post(SIGNIN_ROUTE)
             .andReturn();
 
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         givenBaseUserServer()
             .header(
                 "Authorization",
