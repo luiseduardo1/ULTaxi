@@ -16,7 +16,7 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
 
     private TokenRepository tokenRepository;
 
-    private static long HOUR_IN_MILLIS = 3600000;
+    private static long HOUR_IN_MILLISECONDS = 3600000;
 
     public UserAuthenticationResourceImpl(UserService userService, TokenRepository tokenRepository,
                                           TokenManager tokenManager) {
@@ -29,7 +29,7 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     public Response authenticateUser(UserDto userDto) {
         try {
             if (userService.authenticate(userDto)) {
-                String token = tokenManager.createToken(userDto.getName(), HOUR_IN_MILLIS);
+                String token = tokenManager.createToken(userDto.getName(), HOUR_IN_MILLISECONDS);
                 tokenRepository.save(tokenManager.getTokenId(token), token);
                 return Response.ok().entity(token).build();
             }
