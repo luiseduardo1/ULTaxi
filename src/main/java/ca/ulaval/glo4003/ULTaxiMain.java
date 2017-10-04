@@ -2,8 +2,8 @@ package ca.ulaval.glo4003;
 
 import ca.ulaval.glo4003.ws.api.user.UserResource;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
-import ca.ulaval.glo4003.ws.domain.messaging.MessageProducerService;
 import ca.ulaval.glo4003.ws.domain.messaging.MessageQueue;
+import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueProducer;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
@@ -95,11 +95,11 @@ public class ULTaxiMain {
         }
 
         UserAssembler userAssembler = new UserAssembler();
-        MessageProducerService messageProducerService = new MessageProducerService(
+        MessageQueueProducer messageQueueProducer = new MessageQueueProducer(
             messageQueueInMemory);
 
         UserService userService = new UserService(userRepository, userAssembler,
-                                                  messageProducerService);
+                                                  messageQueueProducer);
         return new UserResourceImpl(userService);
     }
 }

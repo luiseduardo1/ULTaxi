@@ -9,24 +9,24 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MessageProducerServiceTest {
+public class MessageQueueProducerTest {
 
     @Mock
     private MessageQueue messageQueue;
     @Mock
     private Message message;
 
-    private MessageProducerService messageProducerService;
+    private MessageQueueProducer messageQueueProducer;
 
     @Before
     public void setUp() throws Exception {
-        messageProducerService = new MessageProducerService(messageQueue);
+        messageQueueProducer = new MessageQueueProducer(messageQueue);
     }
 
     @Test
     public void givenANewMessageToSend_whenEnqueueMessage_thenMessageIsPersisted()
         throws InterruptedException {
-        messageProducerService.enqueueMessage(message);
+        messageQueueProducer.send(message);
 
         verify(messageQueue).enqueue(message);
     }

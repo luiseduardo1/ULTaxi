@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws.domain.messaging;
+package ca.ulaval.glo4003.ws.domain.messaging.email;
 
 public class Email {
 

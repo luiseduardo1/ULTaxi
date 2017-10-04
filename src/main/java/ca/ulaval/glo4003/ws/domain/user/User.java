@@ -4,7 +4,7 @@ public class User {
 
     private String name;
     private String password;
-    private String email;
+    private String emailAddress;
 
     public String getPassword() {
         return password;
@@ -22,11 +22,11 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

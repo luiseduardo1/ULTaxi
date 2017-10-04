@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.ws.domain.user;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import ca.ulaval.glo4003.ws.domain.messaging.Message;
-import ca.ulaval.glo4003.ws.domain.messaging.MessageProducerService;
+import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueProducer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class UserServiceTest {
     @Mock
     private UserAssembler userAssembler;
     @Mock
-    private MessageProducerService messageProducerService;
+    private MessageQueueProducer messageQueueProducer;
     @Mock
     private Message message;
 
@@ -34,7 +34,7 @@ public class UserServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        userService = new UserService(userRepository, userAssembler, messageProducerService);
+        userService = new UserService(userRepository, userAssembler, messageQueueProducer);
     }
 
     @Test
@@ -52,6 +52,6 @@ public class UserServiceTest {
 
         userService.addUser(userDto);
 
-        verify(messageProducerService).enqueueMessage(any(Message.class));
+        verify(messageQueueProducer).send(any(Message.class));
     }
 }
