@@ -28,14 +28,12 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     @Override
     public Response authenticateUser(UserDto userDto) {
         try {
-            if (userService.authenticate(userDto)) {
+                userService.authenticate(userDto);
                 String token = tokenManager.createToken(userDto.getName(), hourInMillis);
                 tokenRepository.save(tokenManager.getTokenId(token), token);
                 return Response.ok().entity(token).build();
-            }
         } catch (InvalidCredentialsException exception) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }

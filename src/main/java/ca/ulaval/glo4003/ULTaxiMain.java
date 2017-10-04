@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
+import ca.ulaval.glo4003.ws.domain.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.http.CORSResponseFilter;
@@ -92,7 +93,12 @@ public class ULTaxiMain {
         }
 
         UserAssembler userAssembler = new UserAssembler();
-        UserService userService = new UserService(userRepository, userAssembler);
+
+        UserAuthenticationService userAuthenticationService =
+            new UserAuthenticationService(userRepository);
+
+        UserService userService = new UserService(userRepository, userAssembler,
+            userAuthenticationService);
 
         resources.add(new UserResourceImpl(userService));
         resources.add(new UserAuthenticationResourceImpl(userService, tokenRepository, tokenManager));

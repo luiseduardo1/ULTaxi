@@ -33,7 +33,7 @@ public class UserRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenInexistingUser_whenFindByName_thenReturnsNull() {
+    public void givenNonExistingUser_whenFindByName_thenReturnsNull() {
         willReturn(A_NAME).given(user).getName();
 
         assertNull(userRepository.findByName(user.getName()));
@@ -62,29 +62,5 @@ public class UserRepositoryInMemoryTest {
         willReturn(AN_INVALID_NAME).given(user).getName();
 
         userRepository.save(user);
-    }
-
-    @Test
-    public void givenAnUserToAuthenticate_whenAuthenticatingUser_thenUserIsAuthenticated() {
-        User user = new User();
-        user.setName(A_NAME);
-        user.setPassword(A_PASSWORD);
-        userRepository.save(user);
-
-        Assert.assertTrue(userRepository.authenticate(user));
-    }
-
-    @Test(expected = InvalidCredentialsException.class)
-    public void givenAnUserToAuthenticateWithBadCredentials_whenAuthenticatingUser_thenThrowsException() {
-
-        User userToAuthenticate = new User();
-        userToAuthenticate.setName(A_NAME);
-        userToAuthenticate.setPassword(A_PASSWORD);
-        User userBadPassword = new User();
-        userBadPassword.setName(A_NAME);
-        userBadPassword.setPassword(AN_INVALID_PASSWORD);
-
-        userRepository.save(userToAuthenticate);
-        userRepository.authenticate(userBadPassword);
     }
 }

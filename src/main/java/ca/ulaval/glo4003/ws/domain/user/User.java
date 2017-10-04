@@ -29,4 +29,9 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public boolean isTheSameAs(User user) {
+        return user.getName().equals(this.name) &&
+            user.getPassword().equals(this.password);
+    }
 }

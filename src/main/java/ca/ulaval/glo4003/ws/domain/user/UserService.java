@@ -10,10 +10,13 @@ public class UserService {
 
     private UserRepository userRepository;
     private UserAssembler userAssembler;
+    private UserAuthenticationService userAuthenticationService;
 
-    public UserService(UserRepository userRepository, UserAssembler userAssembler) {
+    public UserService(UserRepository userRepository, UserAssembler userAssembler,
+                       UserAuthenticationService userAuthenticationService) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
+        this.userAuthenticationService = userAuthenticationService;
     }
 
     public void addUser(UserDto userDto) {
@@ -22,9 +25,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public boolean authenticate(UserDto userDto) {
+    public void authenticate(UserDto userDto) {
         logger.info(String.format("Authicating user %s", userDto));
         User user = userAssembler.create(userDto);
-        return userRepository.authenticate(user);
+        userAuthenticationService.authenticate(user);
     }
 }

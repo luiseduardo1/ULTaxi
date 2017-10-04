@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
-import ca.ulaval.glo4003.ws.domain.user.InvalidCredentialsException;
 import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
-import ca.ulaval.glo4003.ws.domain.user.Role;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
@@ -34,26 +32,5 @@ public class UserRepositoryInMemory implements UserRepository {
             );
         }
         users.put(user.getName(), user);
-    }
-
-    //TODO : put in domain
-    @Override
-    public boolean authenticate(User user) {
-        if (isUserPresent(user)) {
-            User userToAuthenticate = findByName(user.getName());
-            String password = userToAuthenticate.getPassword();
-            if (user.getPassword().equals(password)) {
-                return true;
-            } else {
-                throw new InvalidCredentialsException(
-                    String.format("User, %s, credentials are invalid", user.getName())
-                );
-            }
-        }
-        return false;
-    }
-
-    public Role getUserRole(String userName) {
-        return findByName(userName).getRole();
     }
 }
