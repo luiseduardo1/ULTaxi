@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ws.api.request;
 
 import ca.ulaval.glo4003.ws.api.request.dto.RequestDto;
+import ca.ulaval.glo4003.ws.domain.geolocation.InvalidGeolocationException;
 import ca.ulaval.glo4003.ws.domain.request.RequestService;
 import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 
@@ -19,7 +20,7 @@ public class RequestResourceImpl implements RequestResource {
         try {
             requestService.sendTransportRequest(requestDto);
             return Response.ok().build();
-        } catch (InvalidVehicleTypeException exception) {
+        } catch (InvalidVehicleTypeException | InvalidGeolocationException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }

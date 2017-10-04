@@ -21,32 +21,24 @@ public class GeolocationTest {
     public void setUp() throws Exception {
         geolocation = new Geolocation();
     }
-    
-    @Test
+
+    @Test(expected = InvalidGeolocationException.class)
+    public void givenALatitudeWithATooLowValue_whenSetLatitude_thenThrowsException() {
+        geolocation.setLatitude(TOO_LOW_LATITUDE);
+    }
+
+    @Test(expected = InvalidGeolocationException.class)
     public void givenALatitudeWithATooLowValue_whenValidateLatitude_thenReturnsFalse() {
-        boolean result = geolocation.isLatitudeValid(TOO_LOW_LATITUDE);
-
-        assertFalse(result);
+        geolocation.setLatitude(TOO_HIGH_LATITUDE);
     }
 
-    @Test
-    public void givenALatitudeWithATooHighValue_whenValidateLatitude_thenReturnsFalse() {
-        boolean result = geolocation.isLatitudeValid(TOO_HIGH_LATITUDE);
-
-        assertFalse(result);
-    }
-    
-    @Test
+    @Test(expected = InvalidGeolocationException.class)
     public void givenALongitudeWithATooLowValue_whenValidateLongitude_thenReturnsFalse() {
-        boolean result = geolocation.isLongitudeValid(TOO_LOW_LONGITUDE);
-
-        assertFalse(result);
+        geolocation.setLatitude(TOO_LOW_LONGITUDE);
     }
 
-    @Test
+    @Test(expected = InvalidGeolocationException.class)
     public void givenALongitudeWithATooHighValue_whenValidateLongitude_thenReturnsFalse() {
-        boolean result = geolocation.isLongitudeValid(TOO_HIGH_LONGITUDE);
-
-        assertFalse(result);
+        geolocation.setLatitude(TOO_HIGH_LONGITUDE);
     }
 }

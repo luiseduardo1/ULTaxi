@@ -1,12 +1,18 @@
 package ca.ulaval.glo4003;
 
+import ca.ulaval.glo4003.ws.api.request.RequestResource;
+import ca.ulaval.glo4003.ws.api.request.RequestResourceImpl;
 import ca.ulaval.glo4003.ws.api.user.UserResource;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
+import ca.ulaval.glo4003.ws.domain.request.RequestAssembler;
+import ca.ulaval.glo4003.ws.domain.request.RequestRepository;
+import ca.ulaval.glo4003.ws.domain.request.RequestService;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.http.CORSResponseFilter;
+import ca.ulaval.glo4003.ws.infrastructure.request.RequestRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
 import org.eclipse.jetty.server.Handler;
@@ -34,6 +40,7 @@ public class ULTaxiMain {
 
         // Setup resources (API)
         UserResource userResource = createUserResource();
+        RequestResource requestResource = createRequestResource();
 
         // Setup API context (JERSEY + JETTY)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -44,6 +51,7 @@ public class ULTaxiMain {
                 HashSet<Object> resources = new HashSet<>();
                 // Add resources to context
                 resources.add(userResource);
+                resources.add(requestResource);
                 return resources;
             }
         });
@@ -82,6 +90,15 @@ public class ULTaxiMain {
         UserService userService = new UserService(userRepository, userAssembler);
 
         return new UserResourceImpl(userService);
+    }
+
+    private static RequestResource createRequestResource() {
+        // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
+        RequestRepository requestRepository = new RequestRepositoryInMemory();
+        RequestAssembler requestAssembler = new RequestAssembler();
+        RequestService requestService =  new RequestService(requestRepository, requestAssembler);
+
+        return new RequestResourceImpl(requestService);
     }
 
 }

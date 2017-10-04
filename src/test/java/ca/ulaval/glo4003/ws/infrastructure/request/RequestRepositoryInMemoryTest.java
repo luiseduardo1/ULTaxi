@@ -22,7 +22,6 @@ public class RequestRepositoryInMemoryTest {
     @Before
     public void setUp() {
         requestRepository = new RequestRepositoryInMemory();
-
     }
 
     @Test

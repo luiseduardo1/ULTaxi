@@ -5,12 +5,14 @@ import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 
 public class Request {
 
-    private static final String VEHICLE_TYPES = "car|van|limousine";
+    private enum VehicleType {
+        CAR, LIMOUSINE, VAN;
+    }
 
     private Geolocation geolocation;
     private String id;
     private String note;
-    private String vehicleType;
+    private VehicleType vehicleType;
 
     public Geolocation getGeolocation() {
         return geolocation;
@@ -29,15 +31,24 @@ public class Request {
     }
 
     public String getVehicleType() {
-        return vehicleType;
+        return vehicleType.name();
     }
 
     public void setVehicleType(String vehicleType) {
-        if (isInvalidVehicleType(vehicleType)) {
-            throw new InvalidVehicleTypeException(
+        switch (vehicleType.toLowerCase()){
+            case "car":
+                this.vehicleType = VehicleType.CAR;
+                break;
+            case "van":
+                this.vehicleType = VehicleType.VAN;
+                break;
+            case "limousine":
+                this.vehicleType = VehicleType.LIMOUSINE;
+                break;
+            default:
+                throw new InvalidVehicleTypeException(
                 String.format("%s is not a valid vehicle type.", vehicleType));
         }
-        this.vehicleType = vehicleType;
     }
 
     public String getNote() {
@@ -48,7 +59,4 @@ public class Request {
         this.note = note;
     }
 
-    public boolean isInvalidVehicleType(String vehicleType) {
-        return vehicleType.matches(VEHICLE_TYPES);
-    }
 }

@@ -16,6 +16,9 @@ public class Geolocation {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+        if(!isLatitudeValid()) {
+            throw new InvalidGeolocationException("The latitude of the geolocation is not valid");
+        }
     }
 
     public double getLongitude() {
@@ -24,13 +27,16 @@ public class Geolocation {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+        if(!isLongitudeValid()) {
+            throw new InvalidGeolocationException("The longitude of the geolocation is not valid");
+        }
     }
 
-    public boolean isLatitudeValid(double latitude) {
+    public boolean isLatitudeValid() {
         return latitude >= LATITUDE_MIN && latitude <= LATITUDE_MAX;
     }
 
-    public boolean isLongitudeValid(double longitude) {
+    public boolean isLongitudeValid() {
         return longitude >= LONGITUDE_MIN && longitude <= LONGITUDE_MAX;
     }
 }
