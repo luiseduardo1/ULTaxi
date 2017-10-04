@@ -4,6 +4,8 @@ import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -16,11 +18,18 @@ import static io.restassured.RestAssured.given;
 public class UserResourceIT {
 
     private static final int USER_TEST_SERVER_PORT = 8080;
-    private static final String A_VALID_NAME = "Ronald";
     private static final String A_VALID_PASSWORD = "Beaubrun";
     private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
     private static final String API_USERS = "/api/users";
     private static final String URL_BASE = "http://localhost";
+
+    private static String aValidName;
+
+    @Before
+    public void setUp() {
+        aValidName = RandomStringUtils.randomAlphabetic(25);
+    }
+
 
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
@@ -67,7 +76,7 @@ public class UserResourceIT {
 
     private String givenUser() {
         UserDto userDto = new UserDto();
-        userDto.setName(A_VALID_NAME);
+        userDto.setName(aValidName);
         userDto.setPassword(A_VALID_PASSWORD);
         Gson gson = new Gson();
         return gson.toJson(userDto);
