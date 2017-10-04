@@ -6,6 +6,7 @@ import org.junit.Test;
 public class UserTest {
     private static final String AN_EMAIL_ADDRESS = "ronald.beaubrun@ulaval.ca";
     private static final String A_VALID_NAME = "Ronald Beaubrun";
+    private static final String AN_INVALID_NAME = "      \t";
     private User user;
 
     @Before
@@ -20,7 +21,7 @@ public class UserTest {
 
     @Test(expected = InvalidUserNameException.class)
     public void givenUserWithEmptyName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setName("      \t");
+        user.setName(AN_INVALID_NAME);
     }
 
     @Test(expected = InvalidUserNameException.class)
