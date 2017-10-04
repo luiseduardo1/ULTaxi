@@ -17,7 +17,7 @@ import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserResourceImplTest {
+public class UserResourceTest {
 
     @Mock
     private UserService userService;
