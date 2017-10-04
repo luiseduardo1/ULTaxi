@@ -14,7 +14,7 @@ public class MessageProducerService {
     public void enqueueMessage(Message message) {
         try {
             this.messageQueue.enqueue(message);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException exception) {
             logger.info("Not able to enqueue registration message.");
         }
     }

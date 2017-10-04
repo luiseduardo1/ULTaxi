@@ -10,7 +10,7 @@ public class Email {
     private String fromAddressName;
 
     public Email(String fromAddress, String fromAddressName, String toAddress, String subject, String content,
-                    String signature) {
+        String signature) {
         this.fromAddress = fromAddress;
         this.fromAddressName = fromAddressName;
         this.toAddress = toAddress;
