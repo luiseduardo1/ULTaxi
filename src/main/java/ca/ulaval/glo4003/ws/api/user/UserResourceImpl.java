@@ -20,8 +20,8 @@ public class UserResourceImpl implements UserResource {
     @Override
     public Response createUser(UserDto userDto) {
         try {
-            //a Modifier
-            userDto.setRole("Client");
+            // TODO: Change for the good role
+            userDto.setRole("Anonymous");
             userService.addUser(userDto);
             return Response.ok().build();
         } catch (UserAlreadyExistsException | InvalidUserNameException exception) {
@@ -32,6 +32,6 @@ public class UserResourceImpl implements UserResource {
     @Override
     @Secured( {Role.Client})
     public Response mySecuredRoute() {
-        return Response.status(200).build();
+        return Response.status(Response.Status.OK).build();
     }
 }

@@ -14,10 +14,13 @@ import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationResourceImplTest {
 
+    private static final String A_TOKEN = "Ronald Beabrun";
+    private static final String AN_ID = "RONALD_BEAUBRUN";
     @Mock
     private UserService userService;
 
@@ -25,17 +28,17 @@ public class UserAuthenticationResourceImplTest {
     private UserDto userDto;
 
     @Mock
-    private TokenRepository tokenRepositoryDto;
+    private TokenRepository tokenRepository;
 
     @Mock
-    private TokenManager tokenManagerDto;
+    private TokenManager tokenManager;
 
     private UserAuthenticationResource userAuthenticationResource;
 
     @Before
     public void setUp() throws Exception {
         userAuthenticationResource = new UserAuthenticationResourceImpl(userService,
-            tokenRepositoryDto, tokenManagerDto);
+            tokenRepository, tokenManager);
     }
 
     @Test
@@ -54,5 +57,21 @@ public class UserAuthenticationResourceImplTest {
         Response response = userAuthenticationResource.authenticateUser(userDto);
 
         assertEquals(Response.Status.FORBIDDEN.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenToken_whenSignOut_thenReturnsResetContent() {
+        Response response = userAuthenticationResource.signOut(A_TOKEN);
+
+        assertEquals(Response.Status.RESET_CONTENT.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenToken_whenSignOut_thenTokenIsDeleted() {
+        willReturn(AN_ID).given(tokenManager).getTokenId(A_TOKEN);
+
+        userAuthenticationResource.signOut(A_TOKEN);
+
+        verify(tokenRepository).delete(AN_ID);
     }
 }
