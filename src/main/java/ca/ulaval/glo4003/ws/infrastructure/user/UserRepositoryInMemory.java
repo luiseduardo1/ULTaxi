@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
-import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
@@ -20,11 +19,6 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void save(User user) {
-        if (!user.isValid()) {
-            throw new InvalidUserNameException(
-                String.format("%s is not a valid name.", user.getName())
-            );
-        }
         String name = user.getName().toLowerCase().trim();
         if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(

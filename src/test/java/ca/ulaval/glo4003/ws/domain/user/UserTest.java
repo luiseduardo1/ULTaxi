@@ -3,9 +3,6 @@ package ca.ulaval.glo4003.ws.domain.user;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 public class UserTest {
     private static final String AN_EMAIL_ADDRESS = "ronald.beaubrun@ulaval.ca";
     private static final String A_VALID_NAME = "Ronald Beaubrun";
@@ -16,39 +13,23 @@ public class UserTest {
         user = new User();
     }
 
-    @Test
-    public void givenUserWithNullName_whenIsValid_thenIsFalse() {
+    @Test(expected = InvalidUserNameException.class)
+    public void givenUserWithNullName_whenAssigningName_thenThrowsInvalidUserNameException() {
         user.setName(null);
-
-        boolean isValid = user.isValid();
-
-        assertFalse(isValid);
     }
 
-    @Test
-    public void givenUserWithEmptyName_whenIsValid_thenIsFalse() {
+    @Test(expected = InvalidUserNameException.class)
+    public void givenUserWithEmptyName_whenAssigningName_thenThrowsInvalidUserNameException() {
         user.setName("      \t");
-
-        boolean isValid = user.isValid();
-
-        assertFalse(isValid);
     }
 
-    @Test
-    public void givenUserWithEmailAddressAsName_whenIsValid_thenIsFalse() {
+    @Test(expected = InvalidUserNameException.class)
+    public void givenUserWithEmailAddressAsName_whenAssigningName_thenThrowsInvalidUserNameException() {
         user.setName(AN_EMAIL_ADDRESS);
-
-        boolean isValid = user.isValid();
-
-        assertFalse(isValid);
     }
 
     @Test
-    public void givenUserWithValidName_whenIsValid_thenIsTrue() {
+    public void givenUserWithValidName_whenAssiningName_thenNameIsAssigned() {
         user.setName(A_VALID_NAME);
-
-        boolean isValid = user.isValid();
-
-        assertTrue(isValid);
     }
 }

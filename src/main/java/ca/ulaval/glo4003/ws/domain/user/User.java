@@ -19,9 +19,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+        if (!isValid()) {
+            throw new InvalidUserNameException(
+                String.format("%s is not a valid name.", name)
+            );
+        }
     }
 
-    public boolean isValid() {
+    private boolean isValid() {
         return !isBlank(name) && !name.contains("@");
     }
 
