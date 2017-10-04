@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ws;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import com.google.gson.Gson;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.RandomStringUtils;

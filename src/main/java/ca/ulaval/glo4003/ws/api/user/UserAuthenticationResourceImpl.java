@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.core.Response;
 
 public class UserAuthenticationResourceImpl implements UserAuthenticationResource {
