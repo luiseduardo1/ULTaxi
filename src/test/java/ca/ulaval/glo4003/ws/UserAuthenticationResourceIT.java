@@ -1,0 +1,123 @@
+package ca.ulaval.glo4003.ws;
+
+import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
+import com.google.gson.Gson;
+import io.restassured.http.ContentType;
+import io.restassured.http.Header;
+import io.restassured.specification.RequestSpecification;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import javax.ws.rs.core.Response;
+
+import static io.restassured.RestAssured.given;
+
+@RunWith(MockitoJUnitRunner.class)
+public class UserAuthenticationResourceIT {
+    private static final int USER_AUTHENTICATION_SERVER_PORT = 8080;
+    private static final String URL_BASE = "http://localhost";
+    private static final String API_USERS = "/api/users";
+    private static final String API_USER_AUTHENTICATION = String.format("%s/auth", API_USERS);
+    private static final String SIGNIN_ROUTE = String.format("%s/signin", API_USER_AUTHENTICATION);
+    private static final String SIGNOUT_ROUTE = String.format("%s/signout", API_USER_AUTHENTICATION);
+    private static final String A_VALID_PASSWORD = "Beaubrun";
+    private static final String A_DIFFERENT_PASSWORD = "Nadir";
+
+    private static String aValidName;
+
+    @Before
+    public void setUp() throws Exception {
+        aValidName = RandomStringUtils.randomAlphabetic(25);
+    }
+
+    @Test
+    public void givenUser_whenAuthenticate_thenUserIsAuthenticated() {
+        givenBaseUserServer()
+            .body(givenUser())
+            .when()
+            .post(API_USERS);
+
+        givenBaseUserServer()
+            .body(givenUser())
+            .when()
+            .post(SIGNIN_ROUTE)
+            .then()
+            .statusCode(Response.Status.OK.getStatusCode());
+    }
+
+    @Test
+    public void givenInexistingUser_whenAuthenticate_thenReturnsForbidden() {
+        givenBaseUserServer()
+            .body(givenUser())
+            .when()
+            .post(SIGNIN_ROUTE)
+            .then()
+            .statusCode(Response.Status.FORBIDDEN.getStatusCode());
+    }
+
+    @Test
+    public void givenInvalidCredentials_whenAuthenticate_thenReturnsForbidden() {
+        givenBaseUserServer()
+            .body(givenUser())
+            .when()
+            .post(API_USERS);
+
+        givenBaseUserServer()
+            .body(givenUserWithInvalidPassword())
+            .post(SIGNIN_ROUTE)
+            .then()
+            .statusCode(Response.Status.FORBIDDEN.getStatusCode());
+    }
+
+    @Test
+    public void givenAuthenticatedUser_whenSignOut_thenUserIsSignedOut() {
+        givenBaseUserServer()
+            .body(givenUser())
+            .when()
+            .post(API_USERS);
+        io.restassured.response.Response response = givenBaseUserServer()
+            .body(givenUser())
+            .when()
+            .post(SIGNIN_ROUTE)
+            .andReturn();
+
+        Header header = new Header(
+            "Authorization",
+            String.format("Bearer %s", response.getBody().toString())
+        );
+        givenBaseUserServer()
+            .header(header)
+            .post(SIGNOUT_ROUTE)
+            .then()
+            .statusCode(Response.Status.RESET_CONTENT.getStatusCode());
+    }
+
+    private RequestSpecification givenBaseUserServer() {
+        return given()
+            .baseUri(URL_BASE)
+            .accept(ContentType.JSON)
+            .port(USER_AUTHENTICATION_SERVER_PORT)
+            .contentType(ContentType.JSON);
+    }
+
+    private String givenUser() {
+        UserDto userDto = new UserDto();
+        userDto.setName(aValidName);
+        userDto.setPassword(A_VALID_PASSWORD);
+        userDto.setRole("Client");
+        Gson gson = new Gson();
+        return gson.toJson(userDto);
+    }
+
+    private String givenUserWithInvalidPassword() {
+        UserDto userDto = new UserDto();
+        userDto.setName(aValidName);
+        userDto.setPassword(A_DIFFERENT_PASSWORD);
+        userDto.setRole("Client");
+        Gson gson = new Gson();
+        return gson.toJson(userDto);
+    }
+}

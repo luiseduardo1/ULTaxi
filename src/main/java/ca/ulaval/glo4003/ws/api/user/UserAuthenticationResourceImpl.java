@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.core.Response;
 
 public class UserAuthenticationResourceImpl implements UserAuthenticationResource {
@@ -37,5 +38,11 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    @Override
+    public Response signOut(@HeaderParam("Authorization") String token) {
+        tokenRepository.delete(tokenManager.getTokenId(token));
+        return Response.status(Response.Status.RESET_CONTENT).build();
     }
 }

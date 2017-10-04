@@ -1,11 +1,9 @@
 package ca.ulaval.glo4003.ws;
 
-import ca.ulaval.glo4003.ULTaxiMain;
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -23,19 +21,6 @@ public class UserResourceIT {
     private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
     private static final String API_USERS = "/api/users";
     private static final String URL_BASE = "http://localhost";
-
-    @Before
-    public void setUp() throws Exception {
-        Thread t = new Thread(() -> {
-            try {
-                ULTaxiMain.main(new String[] {});
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        t.setDaemon(true);
-        t.start();
-    }
 
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
