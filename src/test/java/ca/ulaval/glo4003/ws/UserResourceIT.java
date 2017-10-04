@@ -17,11 +17,9 @@ import static io.restassured.RestAssured.given;
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceIT {
 
-    private static final int USER_TEST_SERVER_PORT = 8080;
     private static final String A_VALID_PASSWORD = "Beaubrun";
     private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
     private static final String API_USERS = "/api/users";
-    private static final String URL_BASE = "http://localhost";
 
     private static String aValidName;
 
@@ -68,9 +66,7 @@ public class UserResourceIT {
 
     private RequestSpecification givenBaseUserServer() {
         return given()
-            .baseUri(URL_BASE)
             .accept(ContentType.JSON)
-            .port(USER_TEST_SERVER_PORT)
             .contentType(ContentType.JSON);
     }
 

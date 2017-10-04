@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.ws;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import com.google.gson.Gson;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.http.Header;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -17,8 +17,6 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationResourceIT {
-    private static final int USER_AUTHENTICATION_SERVER_PORT = 8080;
-    private static final String URL_BASE = "http://localhost";
     private static final String API_USERS = "/api/users";
     private static final String API_USER_AUTHENTICATION = String.format("%s/auth", API_USERS);
     private static final String SIGNIN_ROUTE = String.format("%s/signin", API_USER_AUTHENTICATION);
@@ -84,12 +82,13 @@ public class UserAuthenticationResourceIT {
             .post(SIGNIN_ROUTE)
             .andReturn();
 
-        Header header = new Header(
-            "Authorization",
-            String.format("Bearer %s", response.getBody().toString())
-        );
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         givenBaseUserServer()
-            .header(header)
+            .header(
+                "Authorization",
+                String.format("Bearer %s", response.getBody().asString())
+            )
+            .when()
             .post(SIGNOUT_ROUTE)
             .then()
             .statusCode(Response.Status.RESET_CONTENT.getStatusCode());
@@ -97,9 +96,7 @@ public class UserAuthenticationResourceIT {
 
     private RequestSpecification givenBaseUserServer() {
         return given()
-            .baseUri(URL_BASE)
             .accept(ContentType.JSON)
-            .port(USER_AUTHENTICATION_SERVER_PORT)
             .contentType(ContentType.JSON);
     }
 

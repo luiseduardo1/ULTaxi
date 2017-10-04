@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ws;
 
 import ca.ulaval.glo4003.ULTaxiMain;
+import io.restassured.RestAssured;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -14,6 +15,9 @@ public class BaseIntegrationTest {
 
     @BeforeClass
     public static void setUpBaseServer() throws Exception {
+        RestAssured.baseURI = "http://localhost";
+        RestAssured.port = 8080;
+
         Thread thread = new Thread(() -> {
             try {
                 ULTaxiMain.main(new String[] {});
