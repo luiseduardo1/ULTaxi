@@ -20,4 +20,12 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean isValid() {
+        return !isBlank(name) && !name.contains("@");
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
 }

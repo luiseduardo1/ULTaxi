@@ -20,12 +20,12 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void save(User user) {
-        String name = user.getName().toLowerCase().trim();
-        if (name.contains("@")) {
+        if (!user.isValid()) {
             throw new InvalidUserNameException(
                 String.format("%s is not a valid name.", user.getName())
             );
         }
+        String name = user.getName().toLowerCase().trim();
         if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(
                 String.format("User with name %s already exists.", user.getName())
