@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.willReturn;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,6 +30,13 @@ public class UserRepositoryInMemoryTest {
     @Before
     public void setUp() throws Exception {
         userRepository = new UserRepositoryInMemory();
+    }
+
+    @Test
+    public void givenInexistingUser_whenFindByName_thenReturnsNull() {
+        willReturn(A_NAME).given(user).getName();
+
+        assertNull(userRepository.findByName(user.getName()));
     }
 
     @Test
