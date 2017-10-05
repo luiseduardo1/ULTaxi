@@ -20,6 +20,19 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+        if (!isValid()) {
+            throw new InvalidUserNameException(
+                String.format("%s is not a valid name.", name)
+            );
+        }
+    }
+
+    private boolean isValid() {
+        return !isBlank(name) && !name.contains("@");
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 
     public String getEmailAddress() {
