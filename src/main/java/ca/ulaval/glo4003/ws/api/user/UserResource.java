@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/users")
 public interface UserResource {
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     Response createUser(UserDto userDto);

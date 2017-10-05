@@ -9,6 +9,7 @@ public class UserAssembler {
         user.setName(userDto.getName());
         user.setPassword(userDto.getPassword());
         user.setRole(Role.valueOf(userDto.getRole()));
+        user.setEmailAddress(userDto.getEmail());
         return user;
     }
 
@@ -17,6 +18,7 @@ public class UserAssembler {
         userDto.setName(user.getName());
         userDto.setPassword(user.getPassword());
         userDto.setRole(user.getRole().name());
+        userDto.setEmail(user.getEmailAddress());
         return userDto;
     }
 }

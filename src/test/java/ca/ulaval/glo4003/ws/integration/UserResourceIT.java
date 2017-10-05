@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws;
+package ca.ulaval.glo4003.ws.integration;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import com.google.gson.Gson;

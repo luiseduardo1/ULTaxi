@@ -5,6 +5,7 @@ public class UserDto {
     private String name;
     private String password;
     private String role = "Anonymous";
+    private String email;
 
     public String getName() {
         return name;
@@ -28,5 +29,13 @@ public class UserDto {
 
     public String getRole() {
         return role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

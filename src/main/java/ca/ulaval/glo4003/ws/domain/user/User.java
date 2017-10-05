@@ -5,6 +5,7 @@ public class User {
     private String name;
     private String password;
     private Role role;
+    private String emailAddress;
 
     public String getPassword() {
         return password;
@@ -20,6 +21,27 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+        if (!isValid()) {
+            throw new InvalidUserNameException(
+                String.format("%s is not a valid name.", name)
+            );
+        }
+    }
+
+    private boolean isValid() {
+        return !isBlank(name) && !name.contains("@");
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public Role getRole() {
