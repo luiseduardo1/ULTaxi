@@ -34,7 +34,7 @@ import java.util.Set;
 @SuppressWarnings("all")
 public class ULTaxiMain {
 
-    private static final int SERVER_PORT = 8081;
+    private static final int SERVER_PORT = 8080;
     private static boolean isDev = true; // Would be a JVM argument or in a .property file
     private static MessageQueue messageQueueInMemory = new MessageQueueInMemory();
     private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
