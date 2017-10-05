@@ -31,6 +31,6 @@ public class UserRepositoryInMemory implements UserRepository {
                 String.format("User with name %s already exists.", user.getName())
             );
         }
-        users.put(user.getName(), user);
+        users.put(name, user);
     }
 }

@@ -6,4 +6,6 @@ public interface TokenRepository {
 
     void delete(String id);
 
+    String getToken(String id);
+
 }

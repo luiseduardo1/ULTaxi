@@ -31,7 +31,7 @@ public class User {
     }
 
     public boolean isTheSameAs(User user) {
-        return user.getName().equals(this.name) &&
-            user.getPassword().equals(this.password);
+        return user.getName().equals(this.name)
+            && user.getPassword().equals(this.password);
     }
 }

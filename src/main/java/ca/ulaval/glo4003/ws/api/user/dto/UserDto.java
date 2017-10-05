@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.ws.api.user.dto;
 
 public class UserDto {
+
     private String name;
     private String password;
-    private String role;
+    private String role = "Anonymous";
 
     public String getName() {
         return name;
