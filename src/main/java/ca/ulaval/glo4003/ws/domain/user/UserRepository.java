@@ -5,6 +5,4 @@ public interface UserRepository {
     User findByName(String name);
 
     void save(User user);
-
-    boolean authenticate(User user);
 }

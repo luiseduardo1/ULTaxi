@@ -2,13 +2,20 @@ package ca.ulaval.glo4003;
 
 import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResourceImpl;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
+import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
+import ca.ulaval.glo4003.ws.domain.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.http.CORSResponseFilter;
+import ca.ulaval.glo4003.ws.infrastructure.user.JWT.JWTTokenManager;
+import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
+import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
+import ca.ulaval.glo4003.ws.util.AuthenticationFilter;
+import ca.ulaval.glo4003.ws.util.AuthorizationFilter;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -17,6 +24,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +38,12 @@ public class ULTaxiMain {
 
     public static boolean isDev = true; // Would be a JVM argument or in a .property file
 
+    public static TokenManager tokenManager = new JWTTokenManager();
+
+    public static UserRepository userRepository = new UserRepositoryInMemory();
+
+    public static TokenRepository tokenRepository = new TokenRepositoryInMemory();
+
     public static void main(String[] args) throws Exception {
 
         // Setup API context (JERSEY + JETTY)
@@ -41,7 +55,13 @@ public class ULTaxiMain {
                 return createUserResource();
             }
         });
+
+        ContainerRequestFilter authenticationFilter = new AuthenticationFilter(tokenManager);
+        ContainerRequestFilter authorizationFilter = new AuthorizationFilter(userRepository, tokenManager);
         resourceConfig.register(CORSResponseFilter.class);
+        resourceConfig.register(authenticationFilter);
+        resourceConfig.register(authorizationFilter);
+
 
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
         ServletHolder servletHolder = new ServletHolder(servletContainer);
@@ -65,9 +85,6 @@ public class ULTaxiMain {
 
         Set<Object> resources = new HashSet<Object>();
 
-        // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
-        UserRepository userRepository = new UserRepositoryInMemory();
-
         // For development ease
         if (isDev) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
@@ -76,10 +93,15 @@ public class ULTaxiMain {
         }
 
         UserAssembler userAssembler = new UserAssembler();
-        UserService userService = new UserService(userRepository, userAssembler);
+
+        UserAuthenticationService userAuthenticationService =
+            new UserAuthenticationService(userRepository);
+
+        UserService userService = new UserService(userRepository, userAssembler,
+            userAuthenticationService);
 
         resources.add(new UserResourceImpl(userService));
-        resources.add(new UserAuthenticationResourceImpl(userService));
+        resources.add(new UserAuthenticationResourceImpl(userService, tokenRepository, tokenManager));
 
         return resources;
     }

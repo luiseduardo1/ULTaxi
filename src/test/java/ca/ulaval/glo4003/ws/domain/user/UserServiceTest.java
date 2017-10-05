@@ -22,12 +22,14 @@ public class UserServiceTest {
     private UserRepository userRepository;
     @Mock
     private UserAssembler userAssembler;
+    @Mock
+    private UserAuthenticationService userAuthenticationService;
 
     private UserService userService;
 
     @Before
     public void setUp() throws Exception {
-        userService = new UserService(userRepository, userAssembler);
+        userService = new UserService(userRepository, userAssembler, userAuthenticationService);
     }
 
     @Test
@@ -45,6 +47,6 @@ public class UserServiceTest {
 
         userService.authenticate(userDto);
 
-        verify(userRepository).authenticate(user);
+        verify(userAuthenticationService).authenticate(user);
     }
 }
