@@ -20,7 +20,7 @@ public class TokenRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenATokenToAdd_whenAddingAToke_ThenTokenIsAdded() {
+    public void givenATokenToAdd_whenAddingAToken_ThenTokenIsAdded() {
         Assert.assertEquals(tokenRepository.getToken(ID), TOKEN);
     }
 

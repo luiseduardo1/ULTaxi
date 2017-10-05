@@ -20,13 +20,13 @@ public class UserService {
     }
 
     public void addUser(UserDto userDto) {
-        logger.info(String.format("Add new user %s", userDto));
+        logger.info(String.format("Add new user %s.", userDto));
         User user = userAssembler.create(userDto);
         userRepository.save(user);
     }
 
     public void authenticate(UserDto userDto) {
-        logger.info(String.format("Authicating user %s", userDto));
+        logger.info(String.format("Authenticating user %s.", userDto));
         User user = userAssembler.create(userDto);
         userAuthenticationService.authenticate(user);
     }

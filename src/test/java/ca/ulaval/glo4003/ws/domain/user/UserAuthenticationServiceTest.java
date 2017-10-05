@@ -23,7 +23,6 @@ public class UserAuthenticationServiceTest {
     private User nonExistentUser;
 
     private static final String A_NAME = "Ronald";
-
     private User userToAuthenticate;
 
     @Before
@@ -37,12 +36,14 @@ public class UserAuthenticationServiceTest {
     @Test
     public void givenAUserToAuthenticate_whenAuthenticatingUser_thenUserIsAuthenticated() {
         willReturn(true).given(user).isTheSameAs(this.userToAuthenticate);
+
         userAuthenticationService.authenticate(userToAuthenticate);
     }
 
     @Test(expected = InvalidCredentialsException.class)
     public void givenAnInvalidUserToAuthenticate_whenAuthenticatingUser_thenExceptionIsThrown() {
         willReturn(false).given(user).isTheSameAs(userToAuthenticate);
+
         userAuthenticationService.authenticate(userToAuthenticate);
     }
 

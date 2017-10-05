@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.ws.util;
 import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.Role;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
-import ca.ulaval.glo4003.ws.domain.user.UnvalidUserRoleException;
+import ca.ulaval.glo4003.ws.domain.user.InvalidUserRoleException;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 
 import javax.annotation.Priority;
@@ -85,7 +85,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         Role userRole = userRepository.findByName(username).getRole();
 
         if (!allowedRoles.contains(userRole)) {
-            throw new UnvalidUserRoleException("Not valid Permission");
+            throw new InvalidUserRoleException("Not valid Permission.");
         }
     }
 }

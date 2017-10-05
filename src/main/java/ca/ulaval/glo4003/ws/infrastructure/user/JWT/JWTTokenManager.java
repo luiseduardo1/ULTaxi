@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.ws.infrastructure.user.JWT;
 
-
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -16,7 +15,6 @@ import java.util.UUID;
 public class JWTTokenManager implements TokenManager {
 
     private SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
-
     private String secretKey = "equipe5";
 
     public String createToken(String subject, long ttlInMillis) {
@@ -46,7 +44,7 @@ public class JWTTokenManager implements TokenManager {
             return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey)).
                 parseClaimsJws(token).getBody();
         } catch (Exception e) {
-            throw new InvalidTokenException("Token can't be parsed");
+            throw new InvalidTokenException("Token can't be parsed.");
         }
     }
 
@@ -58,7 +56,7 @@ public class JWTTokenManager implements TokenManager {
         Date tokenExpiration = parseToken(token).getExpiration();
 
         if (tokenExpiration.before(now)) {
-            throw new InvalidTokenException("Token is expired");
+            throw new InvalidTokenException("Token is expired.");
         }
 
     }
