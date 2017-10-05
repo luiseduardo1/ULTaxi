@@ -21,12 +21,13 @@ public class MessageQueueConsumer {
     }
 
     public Email convertToEmail(Message message) throws InvalidEmailTypeException {
-        if (message.getReason().equals("Registration")) {
-            Email email = new Email(message.getSentTo(), EMAIL_REGISTRATION_SUBJECT, EMAIL_REGISTRATION_CONTENT,
-                                    EMAIL_SIGNATURE);
-            return email;
-        } else {
-            throw new InvalidEmailTypeException("Invalid type");
+        switch (message.getReason()) {
+            case "Registration":
+                Email email = new Email(message.getSentTo(), EMAIL_REGISTRATION_SUBJECT, EMAIL_REGISTRATION_CONTENT,
+                                        EMAIL_SIGNATURE);
+                return email;
+            default:
+                throw new InvalidEmailTypeException("Invalid type");
         }
     }
 
