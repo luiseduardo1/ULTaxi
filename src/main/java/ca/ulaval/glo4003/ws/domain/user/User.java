@@ -4,6 +4,7 @@ public class User {
 
     private String name;
     private String password;
+    private String emailAddress;
 
     public String getPassword() {
         return password;
@@ -32,5 +33,13 @@ public class User {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }
