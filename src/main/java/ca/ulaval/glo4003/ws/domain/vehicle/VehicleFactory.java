@@ -12,16 +12,17 @@ public final class VehicleFactory {
             throw new InvalidVehicleTypeException("Vehicle type cannot be null.");
         }
 
-        if (type.toLowerCase().equals("car")) {
-            return new Car(color, model, registrationNumber);
-        } else if (type.toLowerCase().equals("van")) {
-            return new Van(color, model, registrationNumber);
-        } else if (type.toLowerCase().equals("limousine")) {
-            return new Limousine(color, model, registrationNumber);
+        switch (type.toLowerCase()) {
+            case "car":
+                return new Car(color, model, registrationNumber);
+            case "van":
+                return new Van(color, model, registrationNumber);
+            case "limousine":
+                return new Limousine(color, model, registrationNumber);
+            default:
+                throw new InvalidVehicleTypeException(
+                    String.format("%s is not a valid vehicle type.", type)
+                );
         }
-
-        throw new InvalidVehicleTypeException(
-            String.format("%s is not a valid vehicle type.", type)
-        );
     }
 }
