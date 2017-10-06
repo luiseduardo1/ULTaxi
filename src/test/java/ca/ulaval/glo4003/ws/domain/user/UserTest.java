@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ws.domain.user;
 
+import ca.ulaval.glo4003.ws.infrastructure.user.BcryptHashing;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,6 +13,7 @@ public class UserTest {
     private static final String A_VALID_PASSWORD = "mysupersecret";
     private static final String AN_INVALID_NAME = "      \t";
     private static final String AN_INVALID_PASSWORD = "    \t";
+    private static final HashingStrategy A_HASHING_STRATEGY = new BcryptHashing();
     private User user;
 
     @Before
@@ -54,8 +56,10 @@ public class UserTest {
         User anotherUser = new User();
         anotherUser.setName(A_VALID_NAME);
         anotherUser.setPassword(A_VALID_PASSWORD);
+        anotherUser.setHashingStrategy(A_HASHING_STRATEGY);
         user.setName(A_VALID_NAME);
         user.setPassword(A_VALID_PASSWORD);
+        user.setHashingStrategy(A_HASHING_STRATEGY);
 
         assertTrue(user.isTheSameAs(anotherUser));
     }

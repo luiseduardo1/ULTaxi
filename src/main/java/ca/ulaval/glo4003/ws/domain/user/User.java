@@ -6,9 +6,10 @@ public class User {
     private String password;
     private Role role;
     private String emailAddress;
+    private HashingStrategy hashingStrategy;
 
     public String getPassword() {
-        return password;
+        return hashingStrategy.hash(password);
     }
 
     public void setPassword(String password) {
@@ -55,9 +56,13 @@ public class User {
         this.role = role;
     }
 
+    public void setHashingStrategy(HashingStrategy hashingStrategy) {
+        this.hashingStrategy = hashingStrategy;
+    }
+
     public boolean isTheSameAs(User user) {
         return user != null
             && user.getName().equals(this.name)
-            && user.getPassword().equals(this.password);
+            && hashingStrategy.areEquals(this.password, user.getPassword());
     }
 }

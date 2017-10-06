@@ -15,6 +15,7 @@ import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.MessageQueueInMemory;
+import ca.ulaval.glo4003.ws.infrastructure.user.BcryptHashing;
 import ca.ulaval.glo4003.ws.infrastructure.user.JWT.JWTTokenManager;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepositoryInMemory;
@@ -111,7 +112,7 @@ public class ULTaxiMain {
 
         UserAuthenticationService userAuthenticationService =
             new UserAuthenticationService(userRepository);
-        UserAssembler userAssembler = new UserAssembler();
+        UserAssembler userAssembler = new UserAssembler(new BcryptHashing());
         MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueueInMemory);
         UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService, messageQueueProducer);
 
