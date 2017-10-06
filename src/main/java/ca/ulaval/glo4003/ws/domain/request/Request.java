@@ -50,6 +50,9 @@ public class Request {
     }
 
     public void setNote(String note) {
+        if (note == null) {
+            this.note = "";
+        }
         this.note = note;
     }
 

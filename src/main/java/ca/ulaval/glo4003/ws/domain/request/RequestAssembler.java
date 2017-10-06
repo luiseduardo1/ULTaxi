@@ -15,13 +15,4 @@ public class RequestAssembler {
         request.setVehicleType(requestDto.getVehicleType());
         return request;
     }
-
-    public RequestDto create(Request request) {
-        RequestDto requestDto = new RequestDto();
-        requestDto.setVehicleType(request.getVehicleType());
-        requestDto.setNote(request.getNote());
-        requestDto.setLatitude(request.getGeolocation().getLatitude());
-        requestDto.setLongitude(request.getGeolocation().getLongitude());
-        return requestDto;
-    }
 }
