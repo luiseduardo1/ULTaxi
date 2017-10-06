@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
-import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
-
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.willReturn;
@@ -19,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class UserRepositoryInMemoryTest {
 
     private static final String A_NAME = "Ronald";
-    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
+
     @Mock
     private User user;
     private UserRepository userRepository;
@@ -61,13 +59,6 @@ public class UserRepositoryInMemoryTest {
         willReturn(A_NAME).given(user).getUserName();
 
         userRepository.save(user);
-        userRepository.save(user);
-    }
-
-    @Test(expected = InvalidUserNameException.class)
-    public void givenUserWithInvalidName_whenSave_thenThrowsException() {
-        willReturn(AN_INVALID_NAME).given(user).getUserName();
-
         userRepository.save(user);
     }
 }

@@ -22,11 +22,6 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void save(User user) {
-        if (isInvalidName(user.getUserName())) {
-            throw new InvalidUserNameException(
-                String.format("%s is not a valid userName.", user.getUserName())
-            );
-        }
         String name = user.getUserName().toLowerCase().trim();
         if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(
@@ -34,21 +29,5 @@ public class UserRepositoryInMemory implements UserRepository {
             );
         }
         users.put(name, user);
-    }
-
-    private boolean isInvalidName(String name) {
-        return INVALID_NAME_PATTERN
-            .matcher(name)
-            .find();
-    }
-
-    private boolean isUserPresent(User user) {
-        String name = user.getUserName().toLowerCase().trim();
-        return users
-            .values()
-            .stream()
-            .anyMatch(
-                x -> name.equals(x.getUserName().toLowerCase().trim())
-            );
     }
 }
