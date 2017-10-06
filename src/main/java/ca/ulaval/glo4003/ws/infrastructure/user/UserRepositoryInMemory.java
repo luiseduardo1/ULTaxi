@@ -13,13 +13,12 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public User findByName(String name) {
-        String formattedName = name.toLowerCase().trim();
-        return users.get(formattedName);
+        return users.get(name);
     }
 
     @Override
     public void save(User user) {
-        String name = user.getName().toLowerCase().trim();
+        String name = user.getName();
         if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(
                 String.format("User with name %s already exists.", user.getName())

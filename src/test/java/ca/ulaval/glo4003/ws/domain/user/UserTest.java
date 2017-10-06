@@ -3,9 +3,13 @@ package ca.ulaval.glo4003.ws.domain.user;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class UserTest {
     private static final String AN_EMAIL_ADDRESS = "ronald.beaubrun@ulaval.ca";
     private static final String A_VALID_NAME = "Ronald Beaubrun";
+    private static final String A_VALID_PASSWORD = "mysupersecret";
     private static final String AN_INVALID_NAME = "      \t";
     private static final String AN_INVALID_PASSWORD = "    \t";
     private User user;
@@ -43,5 +47,21 @@ public class UserTest {
     @Test
     public void givenUserWithValidName_whenAssigningName_thenNameIsAssigned() {
         user.setName(A_VALID_NAME);
+    }
+
+    @Test
+    public void givenTwoUsersWithSameNameAndPasswords_whenCheckingIfTheyAreTheSame_thenReturnsTrue() {
+        User anotherUser = new User();
+        anotherUser.setName(A_VALID_NAME);
+        anotherUser.setPassword(A_VALID_PASSWORD);
+        user.setName(A_VALID_NAME);
+        user.setPassword(A_VALID_PASSWORD);
+
+        assertTrue(user.isTheSameAs(anotherUser));
+    }
+
+    @Test
+    public void givenAUserAndAnotherNullUser_whenCheckingIfTheyAreTheSame_thenReturnsFalse() {
+        assertFalse(user.isTheSameAs(null));
     }
 }

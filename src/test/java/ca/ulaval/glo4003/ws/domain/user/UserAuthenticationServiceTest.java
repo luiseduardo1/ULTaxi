@@ -22,7 +22,7 @@ public class UserAuthenticationServiceTest {
     @Mock
     private User nonExistentUser;
 
-    private static final String A_NAME = "Ronald";
+    private static final String A_NAME = "ronald";
     private User userToAuthenticate;
 
     @Before

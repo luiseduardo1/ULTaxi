@@ -12,10 +12,10 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
-        if (!isPasswordValid()) {
+        if (isBlank(password)) {
             throw new InvalidPasswordException("This password is not valid.");
         }
+        this.password = password;
     }
 
     public String getName() {
@@ -23,20 +23,16 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name;
-        if (!isNameValid()) {
+        if (!isNameValid(name)) {
             throw new InvalidUserNameException(
                 String.format("%s is not a valid name.", name)
             );
         }
+        this.name = name.toLowerCase().trim();
     }
 
-    private boolean isNameValid() {
+    private boolean isNameValid(String name) {
         return !isBlank(name) && !name.contains("@");
-    }
-
-    private boolean isPasswordValid() {
-        return !isBlank(password);
     }
 
     private boolean isBlank(String value) {
@@ -60,7 +56,8 @@ public class User {
     }
 
     public boolean isTheSameAs(User user) {
-        return user.getName().equals(this.name)
+        return user != null
+            && user.getName().equals(this.name)
             && user.getPassword().equals(this.password);
     }
 }
