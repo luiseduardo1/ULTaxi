@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/transportRequest")
-@RolesAllowed( {"CLIENT"})
+@RolesAllowed({"CLIENT"})
 public interface TransportRequestResource {
 
     @POST

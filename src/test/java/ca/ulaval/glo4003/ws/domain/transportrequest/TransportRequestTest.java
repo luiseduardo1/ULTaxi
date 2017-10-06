@@ -1,6 +1,5 @@
-package ca.ulaval.glo4003.ws.domain.request;
+package ca.ulaval.glo4003.ws.domain.transportrequest;
 
-import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 import org.junit.Before;
 import org.junit.Test;

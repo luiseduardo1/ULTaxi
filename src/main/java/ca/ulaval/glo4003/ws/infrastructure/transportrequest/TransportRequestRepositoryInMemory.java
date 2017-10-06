@@ -8,15 +8,15 @@ import java.util.Map;
 
 public class TransportRequestRepositoryInMemory implements TransportRequestRepository {
 
-    private Map<String, TransportRequest> requests = new HashMap<>();
+    private Map<String, TransportRequest> transportRequests = new HashMap<>();
 
     @Override
     public TransportRequest findById(String id) {
-        return requests.get(id);
+        return transportRequests.get(id);
     }
 
     @Override
     public void save(TransportRequest transportRequest) {
-        requests.put(transportRequest.getId(), transportRequest);
+        transportRequests.put(transportRequest.getId(), transportRequest);
     }
 }

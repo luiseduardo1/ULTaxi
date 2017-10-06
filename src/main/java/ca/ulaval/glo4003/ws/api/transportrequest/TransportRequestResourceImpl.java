@@ -18,8 +18,8 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Override
     public Response sendTransportRequest(TransportRequestDto transportRequestDto) {
         try {
-            transportRequestService.sendRequest(transportRequestDto);
-            return Response.ok().build();
+            String transportRequestId = transportRequestService.sendRequest(transportRequestDto);
+            return Response.status(Response.Status.CREATED).entity(transportRequestId).build();
         } catch (InvalidVehicleTypeException | InvalidGeolocationException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willThrow;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TransportRequestResourceTest {
+public class TransportRequestResourceImplTest {
 
     @Mock
     private TransportRequestService transportRequestService;
@@ -30,10 +30,10 @@ public class TransportRequestResourceTest {
     }
 
     @Test
-    public void givenAValidTransportRequest_whenSendRequest_thenReturnsOk() {
+    public void givenAValidTransportRequest_whenSendRequest_thenReturnsCreated() {
         Response response = transportRequestResource.sendTransportRequest(transportRequestDto);
 
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
 
     @Test

@@ -1,10 +1,6 @@
-package ca.ulaval.glo4003.ws.domain.request;
+package ca.ulaval.glo4003.ws.domain.transportrequest;
 
 import ca.ulaval.glo4003.ws.api.transportrequest.dto.TransportRequestDto;
-import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequest;
-import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequestAssembler;
-import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequestRepository;
-import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequestService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
