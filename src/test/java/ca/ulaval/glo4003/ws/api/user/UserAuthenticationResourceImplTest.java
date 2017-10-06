@@ -1,5 +1,10 @@
 package ca.ulaval.glo4003.ws.api.user;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import ca.ulaval.glo4003.ws.domain.user.InvalidCredentialsException;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
@@ -12,11 +17,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationResourceImplTest {
@@ -40,7 +40,7 @@ public class UserAuthenticationResourceImplTest {
     @Before
     public void setUp() throws Exception {
         userAuthenticationResource = new UserAuthenticationResourceImpl(userService,
-            tokenRepository, tokenManager);
+                                                                        tokenRepository, tokenManager);
     }
 
     @Test

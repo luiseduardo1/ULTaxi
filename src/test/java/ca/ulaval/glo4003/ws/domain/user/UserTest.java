@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class UserTest {
+
     private static final String AN_EMAIL_ADDRESS = "ronald.beaubrun@ulaval.ca";
     private static final String A_VALID_NAME = "Ronald Beaubrun";
     private static final String AN_INVALID_NAME = "      \t";

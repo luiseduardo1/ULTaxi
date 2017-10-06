@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ws.util;
 
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
-import ca.ulaval.glo4003.ws.infrastructure.user.JWT.InvalidTokenException;
+import ca.ulaval.glo4003.ws.infrastructure.user.jwt.InvalidTokenException;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
@@ -53,7 +53,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     private void abortUnauthorized(ContainerRequestContext requestContext) {
         requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-            .header(HttpHeaders.WWW_AUTHENTICATE, AUTHENTICATION_SCHEME).build());
+                                     .header(HttpHeaders.WWW_AUTHENTICATE, AUTHENTICATION_SCHEME).build());
     }
 
 }

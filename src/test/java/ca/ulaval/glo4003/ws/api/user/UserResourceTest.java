@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.ws.api.user;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
+
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
@@ -11,10 +15,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceTest {

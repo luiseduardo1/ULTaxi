@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.ws.infrastructure.messaging;
 
+import static org.junit.Assert.assertEquals;
+
 import ca.ulaval.glo4003.ws.builder.MessageBuilder;
 import ca.ulaval.glo4003.ws.domain.messaging.Message;
 import ca.ulaval.glo4003.ws.domain.messaging.MessageQueue;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class MessageQueueInMemoryTest {
 

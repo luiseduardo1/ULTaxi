@@ -13,7 +13,12 @@ import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueProducer;
 import ca.ulaval.glo4003.ws.domain.request.RequestAssembler;
 import ca.ulaval.glo4003.ws.domain.request.RequestRepository;
 import ca.ulaval.glo4003.ws.domain.request.RequestService;
-import ca.ulaval.glo4003.ws.domain.user.*;
+import ca.ulaval.glo4003.ws.domain.user.TokenManager;
+import ca.ulaval.glo4003.ws.domain.user.User;
+import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
+import ca.ulaval.glo4003.ws.domain.user.UserAuthenticationService;
+import ca.ulaval.glo4003.ws.domain.user.UserRepository;
+import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ws.domain.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ws.domain.vehicle.VehicleRepository;
@@ -24,11 +29,11 @@ import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationPro
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.MessageQueueInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.request.RequestRepositoryInMemory;
-import ca.ulaval.glo4003.ws.infrastructure.user.JWT.JWTTokenManager;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
+import ca.ulaval.glo4003.ws.infrastructure.user.jwt.JWTTokenManager;
 import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleRepositoryInMemory;
 import ca.ulaval.glo4003.ws.util.AuthenticationFilter;
@@ -89,15 +94,15 @@ public final class ULTaxiMain {
         context.addServlet(servletHolder, "/*");
 
         // Setup messaging thread
-        EmailSenderConfigurationReader emailSenderConfigurationReader = new
-            EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
+        EmailSenderConfigurationReader emailSenderConfigurationReader =
+            new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
         EmailSender emailSender = new EmailSender(emailSenderConfigurationReader);
         Thread messagingThread = new Thread(new MessagingThread(messageQueue, emailSender));
         messagingThread.start();
 
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {context});
+        contexts.setHandlers(new Handler[]{context});
         Server server = new Server(SERVER_PORT);
         server.setHandler(contexts);
 
@@ -133,7 +138,7 @@ public final class ULTaxiMain {
         UserAssembler userAssembler = new UserAssembler();
         MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueue);
         UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService,
-            messageQueueProducer);
+                                                  messageQueueProducer);
         return userService;
     }
 
@@ -148,7 +153,7 @@ public final class ULTaxiMain {
         if (isDev) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
             List<User> users = userDevDataFactory.createMockData();
-//            users.stream().forEach(userRepository::save);
+            //users.stream().forEach(userRepository::save);
         }
 
         return new UserResourceImpl(userService);
@@ -158,7 +163,7 @@ public final class ULTaxiMain {
         if (isDev) {
             VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
             List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
-//            vehicles.stream().forEach(vehicleRepository::save);
+            //vehicles.stream().forEach(vehicleRepository::save);
         }
 
         return new VehicleResourceImpl(vehicleService);

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws.infrastructure.user.JWT;
+package ca.ulaval.glo4003.ws.infrastructure.user.jwt;
 
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import io.jsonwebtoken.Claims;
@@ -41,8 +41,8 @@ public class JWTTokenManager implements TokenManager {
 
     public Claims parseToken(String token) {
         try {
-            return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey)).
-                parseClaimsJws(token).getBody();
+            return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
+                .parseClaimsJws(token).getBody();
         } catch (Exception e) {
             throw new InvalidTokenException("Token can't be parsed.");
         }

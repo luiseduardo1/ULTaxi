@@ -7,7 +7,8 @@ public class MessageQueueConsumer {
 
     private static final String EMAIL_REGISTRATION_SUBJECT = "Hi! Welcome to ULTaxi!";
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you for your request to " +
-        "subscribe to ULTaxi. \nHope you will enjoy it! \n \n \n";
+        "subscribe to ULTaxi. \nHope you will enjoy it! \n " +
+        "\n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Beaubrun from ULTaxi";
 
     private MessageQueue messageQueue;
@@ -24,7 +25,7 @@ public class MessageQueueConsumer {
         switch (message.getReason()) {
             case "Registration":
                 Email email = new Email(message.getSentTo(), EMAIL_REGISTRATION_SUBJECT, EMAIL_REGISTRATION_CONTENT,
-                    EMAIL_SIGNATURE);
+                                        EMAIL_SIGNATURE);
                 return email;
             default:
                 throw new InvalidEmailTypeException("Invalid type");
