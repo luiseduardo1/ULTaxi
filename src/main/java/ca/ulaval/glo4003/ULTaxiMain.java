@@ -6,10 +6,10 @@ import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResource;
 import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResourceImpl;
 import ca.ulaval.glo4003.ws.api.user.UserResource;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
-import ca.ulaval.glo4003.ws.domain.messaging.MessageQueue;
-import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueProducer;
 import ca.ulaval.glo4003.ws.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ws.api.vehicle.VehicleResourceImpl;
+import ca.ulaval.glo4003.ws.domain.messaging.MessageQueue;
+import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueProducer;
 import ca.ulaval.glo4003.ws.domain.request.RequestAssembler;
 import ca.ulaval.glo4003.ws.domain.request.RequestRepository;
 import ca.ulaval.glo4003.ws.domain.request.RequestService;
@@ -34,9 +34,9 @@ import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
+import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleDevDataFactory;
 import ca.ulaval.glo4003.ws.util.AuthenticationFilter;
 import ca.ulaval.glo4003.ws.util.AuthorizationFilter;
-import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleRepositoryInMemory;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -60,9 +60,11 @@ public final class ULTaxiMain {
 
     private static final int SERVER_PORT = 8080;
     private static boolean isDev = true; // Would be a JVM argument or in a .property file
+    private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
+
+    private static MessageQueue messageQueue = new MessageQueueInMemory();
 
     public static TokenManager tokenManager = new JWTTokenManager();
-
     public static TokenRepository tokenRepository = new TokenRepositoryInMemory();
     public static UserRepository userRepository = new UserRepositoryInMemory();
     public static VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
@@ -97,7 +99,7 @@ public final class ULTaxiMain {
         EmailSenderConfigurationReader emailSenderConfigurationReader = new
             EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
         EmailSender emailSender = new EmailSender(emailSenderConfigurationReader);
-        Thread messagingThread = new Thread(new MessagingThread(messageQueueInMemory, emailSender));
+        Thread messagingThread = new Thread(new MessagingThread(messageQueue, emailSender));
         messagingThread.start();
 
         // Setup http server
@@ -116,12 +118,17 @@ public final class ULTaxiMain {
 
     private static HashSet<Object> getContextResources() {
         HashSet<Object> resources = new HashSet<>();
+
         UserService userService = createUserService();
+        VehicleService vehicleService = createVehicleService();
+
         UserResource userResource = createUserResource(userService);
+        VehicleResource vehicleResource = createVehicleResource(vehicleService);
         UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(userService);
         RequestResource requestResource = createRequestResource();
 
         resources.add(userResource);
+        resources.add(vehicleResource);
         resources.add(userAuthenticationResource);
         resources.add(requestResource);
 
@@ -131,14 +138,20 @@ public final class ULTaxiMain {
     private static UserService createUserService() {
         UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository);
         UserAssembler userAssembler = new UserAssembler();
-        MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueueInMemory);
+        MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueue);
         UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService,
                                                   messageQueueProducer);
         return userService;
     }
 
+    private static VehicleService createVehicleService() {
+        VehicleAssembler vehicleAssembler = new VehicleAssembler();
+        VehicleService vehicleService = new VehicleService(vehicleRepository, vehicleAssembler);
+
+        return vehicleService;
+    }
+
     private static UserResource createUserResource(UserService userService) {
-        // For development ease
         if (isDev) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
             List<User> users = userDevDataFactory.createMockData();
@@ -146,6 +159,16 @@ public final class ULTaxiMain {
         }
 
         return new UserResourceImpl(userService);
+    }
+
+    private static VehicleResource createVehicleResource(VehicleService vehicleService) {
+        if (isDev) {
+            VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
+            List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
+//            vehicles.stream().forEach(vehicleRepository::save);
+        }
+
+        return new VehicleResourceImpl(vehicleService);
     }
 
     private static UserAuthenticationResource createUseAuthenticationResource(UserService userService) {
