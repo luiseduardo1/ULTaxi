@@ -8,6 +8,8 @@ public class UserAssembler {
         User user = new User();
         user.setName(userDto.getName());
         user.setPassword(userDto.getPassword());
+        user.setRole(Role.valueOf(userDto.getRole()));
+        user.setEmailAddress(userDto.getEmail());
         return user;
     }
 
@@ -15,6 +17,8 @@ public class UserAssembler {
         UserDto userDto = new UserDto();
         userDto.setName(user.getName());
         userDto.setPassword(user.getPassword());
+        userDto.setRole(user.getRole().name());
+        userDto.setEmail(user.getEmailAddress());
         return userDto;
     }
 }

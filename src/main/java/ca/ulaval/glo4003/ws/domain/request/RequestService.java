@@ -18,7 +18,6 @@ public class RequestService {
     public void sendTransportRequest(RequestDto requestDto) {
         logger.info(String.format("Add a new transport request with id %s", requestDto));
         Request request = requestAssembler.create(requestDto);
-        logger.info(String.format("worked"));
         requestRepository.save(request);
     }
 

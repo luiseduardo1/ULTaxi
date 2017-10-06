@@ -2,13 +2,12 @@ package ca.ulaval.glo4003.ws.domain.geolocation;
 
 public class Geolocation {
 
-    private double latitude;
-    private double longitude;
-
     private static final double LATITUDE_MIN = -90.0;
     private static final double LATITUDE_MAX = 90.0;
     private static final double LONGITUDE_MIN = -180.0;
     private static final double LONGITUDE_MAX = 180.0;
+    private double latitude;
+    private double longitude;
 
     public double getLatitude() {
         return latitude;
@@ -16,7 +15,7 @@ public class Geolocation {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
-        if(!isLatitudeValid()) {
+        if (!isLatitudeValid()) {
             throw new InvalidGeolocationException("The latitude of the geolocation is not valid");
         }
     }
@@ -27,7 +26,7 @@ public class Geolocation {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
-        if(!isLongitudeValid()) {
+        if (!isLongitudeValid()) {
             throw new InvalidGeolocationException("The longitude of the geolocation is not valid");
         }
     }

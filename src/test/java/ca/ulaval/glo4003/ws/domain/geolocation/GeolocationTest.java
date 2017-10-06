@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertFalse;
-
 @RunWith(MockitoJUnitRunner.class)
 public class GeolocationTest {
 
@@ -14,7 +12,7 @@ public class GeolocationTest {
     private static final Double TOO_HIGH_LATITUDE = 92.12332;
     private static final Double TOO_LOW_LONGITUDE = -189.35465;
     private static final Double TOO_HIGH_LONGITUDE = 189.35465;
-            
+
     private Geolocation geolocation;
 
     @Before

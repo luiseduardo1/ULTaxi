@@ -11,12 +11,12 @@ public class RequestRepositoryInMemory implements RequestRepository {
     private Map<String, Request> requests = new HashMap<>();
 
     @Override
-    public Request findById(String id) {
-        return requests.get(id);
+    public Request findById(String requestId) {
+        return requests.get(requestId);
     }
 
     @Override
-    public void save(Request command) {
-        requests.put(command.getId(), command);
+    public void save(Request request) {
+        requests.put(request.getRequestId(), request);
     }
 }

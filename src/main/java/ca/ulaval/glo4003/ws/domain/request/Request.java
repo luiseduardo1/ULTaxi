@@ -2,15 +2,14 @@ package ca.ulaval.glo4003.ws.domain.request;
 
 import ca.ulaval.glo4003.ws.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import java.util.UUID;
 
 public class Request {
 
-    private enum VehicleType {
-        CAR, LIMOUSINE, VAN;
-    }
-
     private Geolocation geolocation;
-    private String id;
+    private String requestId = UUID.randomUUID().toString();
     private String note;
     private VehicleType vehicleType;
 
@@ -22,12 +21,8 @@ public class Request {
         this.geolocation = geolocation;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public String getRequestId() {
+        return requestId;
     }
 
     public String getVehicleType() {
@@ -35,7 +30,7 @@ public class Request {
     }
 
     public void setVehicleType(String vehicleType) {
-        switch (vehicleType.toLowerCase()){
+        switch (vehicleType.toLowerCase()) {
             case "car":
                 this.vehicleType = VehicleType.CAR;
                 break;
@@ -47,7 +42,7 @@ public class Request {
                 break;
             default:
                 throw new InvalidVehicleTypeException(
-                String.format("%s is not a valid vehicle type.", vehicleType));
+                    String.format("%s is not a valid vehicle type.", vehicleType));
         }
     }
 
@@ -57,6 +52,10 @@ public class Request {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    private enum VehicleType {
+        CAR, LIMOUSINE, VAN;
     }
 
 }
