@@ -1,8 +1,11 @@
 package ca.ulaval.glo4003.ws.api.transportrequest;
 
-import ca.ulaval.glo4003.ws.api.transportrequest.dto.TransportRequestDto;
-import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequestService;
-import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willThrow;
+
+import ca.ulaval.glo4003.ws.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ws.service.transportrequest.TransportRequestService;
+import ca.ulaval.glo4003.ws.transfer.transportrequest.TransportRequestDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +13,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestResourceImplTest {

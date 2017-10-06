@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ws.api.transportrequest;
 
-import ca.ulaval.glo4003.ws.api.transportrequest.dto.TransportRequestDto;
+import ca.ulaval.glo4003.ws.transfer.transportrequest.TransportRequestDto;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;

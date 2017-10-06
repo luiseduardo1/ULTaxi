@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ws.api.user;
 
-import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
+import ca.ulaval.glo4003.ws.transfer.user.UserDto;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

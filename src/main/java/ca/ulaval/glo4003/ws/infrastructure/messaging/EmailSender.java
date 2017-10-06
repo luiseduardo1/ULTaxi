@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ws.infrastructure.messaging;
 
 import ca.ulaval.glo4003.ws.domain.messaging.email.Email;
-import ca.ulaval.glo4003.ws.domain.messaging.email.EmailSendingFailureException;
+import ca.ulaval.glo4003.ws.domain.messaging.email.exception.EmailSendingFailureException;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

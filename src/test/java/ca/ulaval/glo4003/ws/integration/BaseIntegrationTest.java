@@ -3,6 +3,10 @@ package ca.ulaval.glo4003.ws.integration;
 import static java.lang.Thread.sleep;
 
 import ca.ulaval.glo4003.ULTaxiMain;
+import ca.ulaval.glo4003.ws.integration.transportrequest.TransportRequestResourceIT;
+import ca.ulaval.glo4003.ws.integration.user.UserAuthenticationResourceIT;
+import ca.ulaval.glo4003.ws.integration.user.UserResourceIT;
+import ca.ulaval.glo4003.ws.integration.vehicle.VehicleResourceIT;
 import io.restassured.RestAssured;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;

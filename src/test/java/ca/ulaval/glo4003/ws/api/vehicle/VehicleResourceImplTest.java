@@ -3,10 +3,10 @@ package ca.ulaval.glo4003.ws.api.vehicle;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willThrow;
 
-import ca.ulaval.glo4003.ws.api.vehicle.dto.VehicleDto;
-import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
-import ca.ulaval.glo4003.ws.domain.vehicle.VehicleAlreadyExistsException;
-import ca.ulaval.glo4003.ws.domain.vehicle.VehicleService;
+import ca.ulaval.glo4003.ws.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ws.domain.vehicle.exception.VehicleAlreadyExistsException;
+import ca.ulaval.glo4003.ws.service.vehicle.VehicleService;
+import ca.ulaval.glo4003.ws.transfer.vehicle.VehicleDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

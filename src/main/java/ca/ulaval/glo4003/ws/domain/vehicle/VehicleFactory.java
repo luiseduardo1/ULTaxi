@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ws.domain.vehicle;
 
+import ca.ulaval.glo4003.ws.domain.vehicle.exception.InvalidVehicleTypeException;
+
 public final class VehicleFactory {
 
     private VehicleFactory() {

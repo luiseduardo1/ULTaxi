@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ws.infrastructure.user.jwt;
 
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
+import ca.ulaval.glo4003.ws.infrastructure.user.jwt.exception.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;

@@ -1,11 +1,14 @@
 package ca.ulaval.glo4003.ws.api.user.driver;
 
-import ca.ulaval.glo4003.ws.api.user.driver.dto.DriverDto;
-import ca.ulaval.glo4003.ws.domain.user.driver.DriverService;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willThrow;
+
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidSinException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.ws.service.user.driver.DriverService;
+import ca.ulaval.glo4003.ws.transfer.user.driver.DriverDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +16,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverResourceImplTest {
@@ -42,8 +42,8 @@ public class DriverResourceImplTest {
     @Test
     public void givenAlreadyExistingDriver_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new UserAlreadyExistsException("User already exists."))
-                .given(driverService)
-                .addDriver(driverDto);
+            .given(driverService)
+            .addDriver(driverDto);
 
         Response response = driverResource.createDriver(driverDto);
 
@@ -53,8 +53,8 @@ public class DriverResourceImplTest {
     @Test
     public void givenDriverWithInvalidName_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new InvalidUserNameException("User has an invalid userName."))
-                .given(driverService)
-                .addDriver(driverDto);
+            .given(driverService)
+            .addDriver(driverDto);
 
         Response response = driverResource.createDriver(driverDto);
 
@@ -64,8 +64,8 @@ public class DriverResourceImplTest {
     @Test
     public void givenDriverWithInvalidPhoneNumber_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new InvalidPhoneNumberException("User has an invalid phone number."))
-                .given(driverService)
-                .addDriver(driverDto);
+            .given(driverService)
+            .addDriver(driverDto);
 
         Response response = driverResource.createDriver(driverDto);
 
@@ -75,8 +75,8 @@ public class DriverResourceImplTest {
     @Test
     public void givenDriverWithInvalidSin_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new InvalidSinException("User has an invalid sin."))
-                .given(driverService)
-                .addDriver(driverDto);
+            .given(driverService)
+            .addDriver(driverDto);
 
         Response response = driverResource.createDriver(driverDto);
 

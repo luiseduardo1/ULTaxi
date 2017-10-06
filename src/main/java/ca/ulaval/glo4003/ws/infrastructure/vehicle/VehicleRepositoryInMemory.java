@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.ws.infrastructure.vehicle;
 
 import ca.ulaval.glo4003.ws.domain.vehicle.Vehicle;
-import ca.ulaval.glo4003.ws.domain.vehicle.VehicleAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.vehicle.VehicleRepository;
+import ca.ulaval.glo4003.ws.domain.vehicle.exception.VehicleAlreadyExistsException;
 
 import java.util.HashMap;
 import java.util.Map;

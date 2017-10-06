@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.ws.api.transportrequest;
 
-import ca.ulaval.glo4003.ws.api.transportrequest.dto.TransportRequestDto;
-import ca.ulaval.glo4003.ws.domain.geolocation.InvalidGeolocationException;
-import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequestService;
-import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ws.domain.geolocation.exception.InvalidGeolocationException;
+import ca.ulaval.glo4003.ws.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ws.service.transportrequest.TransportRequestService;
+import ca.ulaval.glo4003.ws.transfer.transportrequest.TransportRequestDto;
 
 import javax.ws.rs.core.Response;
 

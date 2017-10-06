@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
-import ca.ulaval.glo4003.ws.infrastructure.user.jwt.InvalidTokenException;
 import ca.ulaval.glo4003.ws.infrastructure.user.jwt.JWTTokenManager;
+import ca.ulaval.glo4003.ws.infrastructure.user.jwt.exception.InvalidTokenException;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.junit.Assert;
 import org.junit.Before;

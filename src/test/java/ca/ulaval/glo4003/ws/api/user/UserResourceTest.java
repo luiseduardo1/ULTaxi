@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 
-import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.exception.UserAlreadyExistsException;
-import ca.ulaval.glo4003.ws.domain.user.UserService;
+import ca.ulaval.glo4003.ws.service.user.UserService;
+import ca.ulaval.glo4003.ws.transfer.user.UserDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

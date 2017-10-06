@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ws.domain.geolocation;
 
+import ca.ulaval.glo4003.ws.domain.geolocation.exception.InvalidGeolocationException;
+
 public class Geolocation {
 
     private static final double LATITUDE_MIN = -90.0;

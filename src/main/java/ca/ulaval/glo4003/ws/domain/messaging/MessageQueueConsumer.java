@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ws.domain.messaging;
 
 import ca.ulaval.glo4003.ws.domain.messaging.email.Email;
-import ca.ulaval.glo4003.ws.domain.messaging.email.InvalidEmailTypeException;
+import ca.ulaval.glo4003.ws.domain.messaging.email.exception.InvalidEmailTypeException;
 
 public class MessageQueueConsumer {
 

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ws.api.vehicle;
 
-import ca.ulaval.glo4003.ws.api.vehicle.dto.VehicleDto;
+import ca.ulaval.glo4003.ws.transfer.vehicle.VehicleDto;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

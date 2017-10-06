@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ws.domain.transportrequest;
 
 import ca.ulaval.glo4003.ws.domain.geolocation.Geolocation;
-import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ws.domain.vehicle.exception.InvalidVehicleTypeException;
 
 import java.util.UUID;
 

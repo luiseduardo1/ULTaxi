@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.ws.api.user;
 
-import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
-import ca.ulaval.glo4003.ws.domain.user.exception.InvalidCredentialsException;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
-import ca.ulaval.glo4003.ws.domain.user.UserService;
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidCredentialsException;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
+import ca.ulaval.glo4003.ws.service.user.UserService;
+import ca.ulaval.glo4003.ws.transfer.user.UserDto;
 
 import javax.ws.rs.core.Response;
 
