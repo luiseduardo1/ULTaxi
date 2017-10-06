@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ws.api.user;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
-import ca.ulaval.glo4003.ws.domain.user.InvalidCredentialsException;
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidCredentialsException;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
@@ -26,7 +26,7 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     public Response authenticateUser(UserDto userDto) {
         try {
             userService.authenticate(userDto);
-            String token = tokenManager.createToken(userDto.getName(), HOUR_IN_MILLISECONDS);
+            String token = tokenManager.createToken(userDto.getUserName(), HOUR_IN_MILLISECONDS);
             tokenRepository.save(tokenManager.getTokenId(token), token);
             return Response.ok().entity(token).build();
         } catch (InvalidCredentialsException exception) {

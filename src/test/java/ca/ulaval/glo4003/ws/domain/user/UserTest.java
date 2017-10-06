@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ws.domain.user;
 
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,21 +18,21 @@ public class UserTest {
 
     @Test(expected = InvalidUserNameException.class)
     public void givenUserWithNullName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setName(null);
+        user.setUserName(null);
     }
 
     @Test(expected = InvalidUserNameException.class)
     public void givenUserWithEmptyName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setName(AN_INVALID_NAME);
+        user.setUserName(AN_INVALID_NAME);
     }
 
     @Test(expected = InvalidUserNameException.class)
     public void givenUserWithEmailAddressAsName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setName(AN_EMAIL_ADDRESS);
+        user.setUserName(AN_EMAIL_ADDRESS);
     }
 
     @Test
     public void givenUserWithValidName_whenAssiningName_thenNameIsAssigned() {
-        user.setName(A_VALID_NAME);
+        user.setUserName(A_VALID_NAME);
     }
 }

@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ws.domain.user;
 
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidCredentialsException;
+
 public class UserAuthenticationService {
 
     private UserRepository userRepository;
@@ -9,7 +11,7 @@ public class UserAuthenticationService {
     }
 
     public void authenticate(User userToAuthenticate) {
-        User validUser = userRepository.findByName(userToAuthenticate.getName());
+        User validUser = userRepository.findByName(userToAuthenticate.getUserName());
         if (validUser == null || !validUser.isTheSameAs(userToAuthenticate)) {
             throw new InvalidCredentialsException("Credentials are invalid.");
         }

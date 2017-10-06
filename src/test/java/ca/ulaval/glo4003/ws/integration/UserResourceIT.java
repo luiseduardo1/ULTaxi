@@ -78,11 +78,10 @@ public class UserResourceIT {
         return createUserJSON(AN_INVALID_NAME, A_VALID_PASSWORD);
     }
 
-    private String createUserJSON(String name, String password) {
+    private String createUserJSON(String userName, String password) {
         UserDto userDto = new UserDto();
-        userDto.setName(name);
+        userDto.setUserName(userName);
         userDto.setPassword(password);
-
         Gson gson = new Gson();
         return gson.toJson(userDto);
     }

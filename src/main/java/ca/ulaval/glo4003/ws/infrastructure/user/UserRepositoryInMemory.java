@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
 import ca.ulaval.glo4003.ws.domain.user.User;
-import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
+import ca.ulaval.glo4003.ws.domain.user.exception.UserAlreadyExistsException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,10 +19,10 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void save(User user) {
-        String name = user.getName().toLowerCase().trim();
+        String name = user.getUserName().toLowerCase().trim();
         if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(
-                String.format("User with name %s already exists.", user.getName())
+                    String.format("User with userName %s already exists.", user.getUserName())
             );
         }
         users.put(name, user);

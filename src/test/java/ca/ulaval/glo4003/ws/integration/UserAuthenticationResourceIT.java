@@ -103,7 +103,7 @@ public class UserAuthenticationResourceIT {
 
     private String givenUser() {
         UserDto userDto = new UserDto();
-        userDto.setName(aValidName);
+        userDto.setUserName(aValidName);
         userDto.setPassword(A_VALID_PASSWORD);
         userDto.setEmail(A_VALID_EMAIL);
         userDto.setRole("Client");
@@ -113,7 +113,7 @@ public class UserAuthenticationResourceIT {
 
     private String givenUserWithInvalidPassword() {
         UserDto userDto = new UserDto();
-        userDto.setName(aValidName);
+        userDto.setUserName(aValidName);
         userDto.setPassword(A_DIFFERENT_PASSWORD);
         userDto.setEmail(A_VALID_EMAIL);
         userDto.setRole(A_ROLE);

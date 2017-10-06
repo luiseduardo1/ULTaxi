@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.willReturn;
 
 import ca.ulaval.glo4003.ws.domain.user.User;
-import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
+import ca.ulaval.glo4003.ws.domain.user.exception.UserAlreadyExistsException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class UserRepositoryInMemoryTest {
 
     private static final String A_NAME = "Ronald";
-    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
+
     @Mock
     private User user;
     private UserRepository userRepository;
@@ -26,22 +26,22 @@ public class UserRepositoryInMemoryTest {
     public void setUp() {
         userRepository = new UserRepositoryInMemory();
 
-        willReturn(A_NAME).given(user).getName();
+        willReturn(A_NAME).given(user).getUserName();
+    }
+
+    @Test
+    public void givenUser_whenSave_thenUserHasSameParameters() {
+        userRepository.save(user);
+        User savedUser = userRepository.findByName(user.getUserName());
+
+        assertEquals(user, savedUser);
     }
 
     @Test
     public void givenNonExistingUser_whenFindByName_thenReturnsNull() {
-        User returnedUser = userRepository.findByName(user.getName());
+        User returnedUser = userRepository.findByName(user.getUserName());
 
         assertNull(returnedUser);
-    }
-
-    @Test
-    public void givenUser_whenSave_thenSavesUser() {
-        userRepository.save(user);
-        User savedUser = userRepository.findByName(user.getName());
-
-        assertEquals(user, savedUser);
     }
 
     @Test(expected = UserAlreadyExistsException.class)

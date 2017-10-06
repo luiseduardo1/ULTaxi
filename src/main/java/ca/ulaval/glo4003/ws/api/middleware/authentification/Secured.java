@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws.util;
+package ca.ulaval.glo4003.ws.api.middleware.authentification;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
