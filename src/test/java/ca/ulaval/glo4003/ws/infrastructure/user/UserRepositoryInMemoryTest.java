@@ -51,11 +51,4 @@ public class UserRepositoryInMemoryTest {
         userRepository.save(user);
         userRepository.save(user);
     }
-
-    @Test(expected = InvalidUserNameException.class)
-    public void givenUserWithInvalidName_whenSave_thenThrowsException() {
-        willReturn(AN_INVALID_NAME).given(user).getName();
-
-        userRepository.save(user);
-    }
 }

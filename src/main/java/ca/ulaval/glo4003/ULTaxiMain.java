@@ -57,9 +57,9 @@ public final class ULTaxiMain {
 
     public static TokenManager tokenManager = new JWTTokenManager();
 
-    public static UserRepository userRepository = new UserRepositoryInMemory();
-
     public static TokenRepository tokenRepository = new TokenRepositoryInMemory();
+    public static UserRepository userRepository = new UserRepositoryInMemory();
+    public static VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
 
     private ULTaxiMain() {
         throw new AssertionError("Instantiating main class...");
@@ -73,7 +73,7 @@ public final class ULTaxiMain {
         ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
             @Override
             public Set<Object> getSingletons() {
-                return createUserResource();
+                return createResources();
             }
         });
 
@@ -108,43 +108,35 @@ public final class ULTaxiMain {
         }
     }
 
-    private static Set<Object> createUserResource() {
+    private static Set<Object> createResources() {
 
         Set<Object> resources = new HashSet<Object>();
 
         // For development ease
         if (isDev) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
-            List<User> users = userDevDataFactory.createMockData();
-            //users.stream().forEach(userRepository::save);
+            VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
+
+//            List<User> users = userDevDataFactory.createMockData();
+//            List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
+
+//            users.stream().forEach(userRepository::save);
+//            vehicles.stream().forEach(vehicleRepository::save);
         }
 
-        UserAuthenticationService userAuthenticationService =
-            new UserAuthenticationService(userRepository);
-        UserAssembler userAssembler = new UserAssembler();
         MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueueInMemory);
+
+        UserAssembler userAssembler = new UserAssembler();
+        VehicleAssembler vehicleAssembler = new VehicleAssembler();
+
+        UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository);
         UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService, messageQueueProducer);
+        VehicleService vehicleService = new VehicleService(vehicleRepository, vehicleAssembler);;
 
         resources.add(new UserResourceImpl(userService));
         resources.add(new UserAuthenticationResourceImpl(userService, tokenRepository, tokenManager));
+        resources.add(new VehicleResourceImpl(vehicleService));
 
         return resources;
-    }
-    
-    private static VehicleResource createVehicleResource() {
-        // Setup resources' dependencies (DOMAIN + INFRASTRUCTURE)
-        VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
-
-        // For development ease
-        if (isDev) {
-            VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
-            List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
-            //vehicles.stream().forEach(vehicleRepository::save);
-        }
-
-        VehicleAssembler vehicleAssembler = new VehicleAssembler();
-        VehicleService vehicleService = new VehicleService(vehicleRepository, vehicleAssembler);
-
-        return new VehicleResourceImpl(vehicleService);
     }
 }
