@@ -1,6 +1,11 @@
 package ca.ulaval.glo4003.ws.util;
 
-import ca.ulaval.glo4003.ws.domain.user.*;
+import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
+import ca.ulaval.glo4003.ws.domain.user.InvalidUserRoleException;
+import ca.ulaval.glo4003.ws.domain.user.Role;
+import ca.ulaval.glo4003.ws.domain.user.TokenManager;
+import ca.ulaval.glo4003.ws.domain.user.User;
+import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;

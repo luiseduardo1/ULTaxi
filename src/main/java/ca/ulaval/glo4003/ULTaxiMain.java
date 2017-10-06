@@ -13,7 +13,12 @@ import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueProducer;
 import ca.ulaval.glo4003.ws.domain.request.RequestAssembler;
 import ca.ulaval.glo4003.ws.domain.request.RequestRepository;
 import ca.ulaval.glo4003.ws.domain.request.RequestService;
-import ca.ulaval.glo4003.ws.domain.user.*;
+import ca.ulaval.glo4003.ws.domain.user.TokenManager;
+import ca.ulaval.glo4003.ws.domain.user.User;
+import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
+import ca.ulaval.glo4003.ws.domain.user.UserAuthenticationService;
+import ca.ulaval.glo4003.ws.domain.user.UserRepository;
+import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ws.domain.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ws.domain.vehicle.VehicleRepository;
@@ -97,7 +102,7 @@ public final class ULTaxiMain {
 
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {context});
+        contexts.setHandlers(new Handler[]{context});
         Server server = new Server(SERVER_PORT);
         server.setHandler(contexts);
 
@@ -133,7 +138,7 @@ public final class ULTaxiMain {
         UserAssembler userAssembler = new UserAssembler();
         MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueue);
         UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService,
-            messageQueueProducer);
+                                                  messageQueueProducer);
         return userService;
     }
 

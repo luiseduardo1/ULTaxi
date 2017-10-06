@@ -40,7 +40,7 @@ public class UserAuthenticationResourceImplTest {
     @Before
     public void setUp() throws Exception {
         userAuthenticationResource = new UserAuthenticationResourceImpl(userService,
-            tokenRepository, tokenManager);
+                                                                        tokenRepository, tokenManager);
     }
 
     @Test

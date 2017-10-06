@@ -37,9 +37,9 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         userService = new UserService(userRepository,
-            userAssembler,
-            userAuthenticationService,
-            messageQueueProducer);
+                                      userAssembler,
+                                      userAuthenticationService,
+                                      messageQueueProducer);
     }
 
     @Test
