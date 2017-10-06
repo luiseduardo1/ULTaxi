@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.ws.api.user;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
+
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.exception.UserAlreadyExistsException;
@@ -12,12 +16,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willThrow;
-
-
 @RunWith(MockitoJUnitRunner.class)
-public class UserResourceImplTest {
+public class UserResourceTest {
 
     @Mock
     private UserService userService;
@@ -27,7 +27,7 @@ public class UserResourceImplTest {
     private UserResource userResource;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         userResource = new UserResourceImpl(userService);
     }
 
@@ -36,6 +36,12 @@ public class UserResourceImplTest {
         Response response = userResource.createUser(userDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenANewCreatedUser_whenRegistering_thenDelegateToUserService() {
+        userResource.createUser(userDto);
+        verify(userService).addUser(userDto);
     }
 
     @Test

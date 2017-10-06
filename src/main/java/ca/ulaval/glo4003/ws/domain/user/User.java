@@ -1,9 +1,13 @@
 package ca.ulaval.glo4003.ws.domain.user;
 
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserNameException;
+
 public class User {
 
-    protected String userName;
-    protected String password;
+    private String userName;
+    private String password;
+    private Role role;
+    private String emailAddress;
 
     public String getPassword() {
         return password;
@@ -19,5 +23,39 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+        if (!isValid()) {
+            throw new InvalidUserNameException(
+                String.format("%s is not a valid name.", userName)
+            );
+        }
+    }
+
+    private boolean isValid() {
+        return !isBlank(userName) && !userName.contains("@");
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isTheSameAs(User user) {
+        return user.getUserName().equals(this.userName)
+            && user.getPassword().equals(this.password);
     }
 }

@@ -11,12 +11,13 @@ import java.util.regex.Pattern;
 
 public class UserRepositoryInMemory implements UserRepository {
 
-    private Map<String, User> users = new HashMap<>();
     private static final Pattern INVALID_NAME_PATTERN = Pattern.compile(".*@.*", Pattern.CASE_INSENSITIVE);
+    private Map<String, User> users = new HashMap<>();
 
     @Override
-    public User findByName(String id) {
-        return users.get(id);
+    public User findByName(String name) {
+        String formattedName = name.toLowerCase().trim();
+        return users.get(formattedName);
     }
 
     @Override
@@ -26,12 +27,13 @@ public class UserRepositoryInMemory implements UserRepository {
                 String.format("%s is not a valid userName.", user.getUserName())
             );
         }
-        if (isUserPresent(user)) {
+        String name = user.getUserName().toLowerCase().trim();
+        if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(
-                String.format("User with userName %s already exists.", user.getUserName())
+                    String.format("User with userName %s already exists.", user.getUserName())
             );
         }
-        users.put(user.getUserName(), user);
+        users.put(name, user);
     }
 
     private boolean isInvalidName(String name) {
