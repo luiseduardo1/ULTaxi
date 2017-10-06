@@ -26,6 +26,8 @@ public class UserServiceTest {
     @Mock
     private UserAssembler userAssembler;
     @Mock
+    private UserAuthenticationService userAuthenticationService;
+    @Mock
     private MessageQueueProducer messageQueueProducer;
     @Mock
     private Message message;
@@ -34,7 +36,10 @@ public class UserServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        userService = new UserService(userRepository, userAssembler, messageQueueProducer);
+        userService = new UserService(userRepository,
+                                      userAssembler,
+                                      userAuthenticationService,
+                                      messageQueueProducer);
     }
 
     @Test
@@ -47,6 +52,14 @@ public class UserServiceTest {
     }
 
     @Test
+    public void givenUserWithValidCredentials_whenAuthenticating_thenUserIsAuthenticated() {
+        willReturn(user).given(userAssembler).create(userDto);
+
+        userService.authenticate(userDto);
+
+        verify(userAuthenticationService).authenticate(user);
+    }
+
     public void givenANewAddedUser_whenAddUser_thenMessagingServiceIsCalled() {
         willReturn(user).given(userAssembler).create(userDto);
 

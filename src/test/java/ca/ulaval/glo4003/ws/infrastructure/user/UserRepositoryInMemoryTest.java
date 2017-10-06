@@ -28,7 +28,7 @@ public class UserRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenInexistingUser_whenFindByName_thenReturnsNull() {
+    public void givenNonExistingUser_whenFindByName_thenReturnsNull() {
         user.setName(A_NAME);
 
         assertNull(userRepository.findByName(user.getName()));

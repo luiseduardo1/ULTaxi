@@ -12,21 +12,31 @@ public class UserService {
 
     private UserRepository userRepository;
     private UserAssembler userAssembler;
+    private UserAuthenticationService userAuthenticationService;
     private MessageQueueProducer messageQueueProducer;
 
-    public UserService(UserRepository userRepository, UserAssembler userAssembler,
-        MessageQueueProducer messageQueueProducer) {
+    public UserService(UserRepository userRepository,
+                       UserAssembler userAssembler,
+                       UserAuthenticationService userAuthenticationService,
+                       MessageQueueProducer messageQueueProducer) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
+        this.userAuthenticationService = userAuthenticationService;
         this.messageQueueProducer = messageQueueProducer;
     }
 
     public void addUser(UserDto userDto) {
-        logger.info(String.format("Add new user %s", userDto));
+        logger.info(String.format("Add new user %s.", userDto));
         User user = userAssembler.create(userDto);
         userRepository.save(user);
 
         Message registrationMessage = new Message(user.getEmailAddress(), "Registration");
         messageQueueProducer.send(registrationMessage);
+    }
+
+    public void authenticate(UserDto userDto) {
+        logger.info(String.format("Authenticating user %s.", userDto));
+        User user = userAssembler.create(userDto);
+        userAuthenticationService.authenticate(user);
     }
 }

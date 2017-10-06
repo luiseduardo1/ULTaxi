@@ -4,6 +4,7 @@ public class UserDto {
 
     private String name;
     private String password;
+    private String role = "Anonymous";
     private String email;
 
     public String getName() {
@@ -20,6 +21,14 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public String getEmail() {

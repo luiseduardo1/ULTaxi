@@ -4,6 +4,7 @@ public class User {
 
     private String name;
     private String password;
+    private Role role;
     private String emailAddress;
 
     public String getPassword() {
@@ -41,5 +42,18 @@ public class User {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isTheSameAs(User user) {
+        return user.getName().equals(this.name)
+            && user.getPassword().equals(this.password);
     }
 }
