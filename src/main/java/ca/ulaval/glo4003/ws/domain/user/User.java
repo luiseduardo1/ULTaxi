@@ -13,6 +13,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+        if (!isPasswordValid()) {
+            throw new InvalidPasswordException("This password is not valid.");
+        }
     }
 
     public String getName() {
@@ -21,15 +24,19 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-        if (!isValid()) {
+        if (!isNameValid()) {
             throw new InvalidUserNameException(
                 String.format("%s is not a valid name.", name)
             );
         }
     }
 
-    private boolean isValid() {
+    private boolean isNameValid() {
         return !isBlank(name) && !name.contains("@");
+    }
+
+    private boolean isPasswordValid() {
+        return !isBlank(password);
     }
 
     private boolean isBlank(String value) {

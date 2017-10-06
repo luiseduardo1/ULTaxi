@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ws.api.user;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
+import ca.ulaval.glo4003.ws.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
 import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
@@ -20,7 +21,7 @@ public class UserResourceImpl implements UserResource {
         try {
             userService.addUser(userDto);
             return Response.ok().build();
-        } catch (UserAlreadyExistsException | InvalidUserNameException exception) {
+        } catch (UserAlreadyExistsException | InvalidUserNameException | InvalidPasswordException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }

@@ -7,6 +7,7 @@ public class UserTest {
     private static final String AN_EMAIL_ADDRESS = "ronald.beaubrun@ulaval.ca";
     private static final String A_VALID_NAME = "Ronald Beaubrun";
     private static final String AN_INVALID_NAME = "      \t";
+    private static final String AN_INVALID_PASSWORD = "    \t";
     private User user;
 
     @Before
@@ -29,8 +30,18 @@ public class UserTest {
         user.setName(AN_EMAIL_ADDRESS);
     }
 
+    @Test(expected = InvalidPasswordException.class)
+    public void givenUserWithEmptyPassword_whenAssigningPassword_thenThrowsInvalidPasswordException() {
+        user.setPassword(AN_INVALID_PASSWORD);
+    }
+
+    @Test(expected = InvalidPasswordException.class)
+    public void givenUserWithNullPassword_whenAssigningPassword_thenThrowsInvalidPasswordException() {
+        user.setPassword(null);
+    }
+
     @Test
-    public void givenUserWithValidName_whenAssiningName_thenNameIsAssigned() {
+    public void givenUserWithValidName_whenAssigningName_thenNameIsAssigned() {
         user.setName(A_VALID_NAME);
     }
 }
