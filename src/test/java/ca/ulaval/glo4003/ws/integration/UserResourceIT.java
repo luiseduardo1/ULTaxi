@@ -17,9 +17,10 @@ import static io.restassured.RestAssured.given;
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceIT {
 
+    private static final String USERS_API = "/api/users";
+
     private static final String A_VALID_PASSWORD = "Beaubrun";
     private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
-    private static final String USERS_API = "/api/users";
 
     private static String aValidName;
 
@@ -70,7 +71,7 @@ public class UserResourceIT {
     }
 
     private String givenAValidUser() {
-        return createUserJSON(A_VALID_NAME, A_VALID_PASSWORD);
+        return createUserJSON(aValidName, A_VALID_PASSWORD);
     }
 
     private String givenAUserWithInvalidName() {

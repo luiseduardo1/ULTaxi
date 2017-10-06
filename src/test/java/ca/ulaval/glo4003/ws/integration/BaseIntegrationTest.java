@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
 import static java.lang.Thread.sleep;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({UserAuthenticationResourceIT.class, UserResourceIT.class})
+@Suite.SuiteClasses({UserAuthenticationResourceIT.class, UserResourceIT.class, VehicleResourceIT.class})
 public class BaseIntegrationTest {
     private static final int SLEEP_TIME = 500;
     private static final int SERVER_PORT = 8080;

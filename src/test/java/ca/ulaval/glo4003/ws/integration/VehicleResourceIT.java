@@ -1,11 +1,9 @@
-package ca.ulaval.glo4003.ws;
+package ca.ulaval.glo4003.ws.integration;
 
-import ca.ulaval.glo4003.ULTaxiMain;
 import ca.ulaval.glo4003.ws.api.vehicle.dto.VehicleDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -17,9 +15,7 @@ import static io.restassured.RestAssured.given;
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleResourceIT {
 
-    private static final int TEST_SERVER_PORT = 8080;
     private static final String VEHICLES_API = "/api/vehicles";
-    private static final String URL_BASE = "http://localhost";
 
     private static final String A_VALID_TYPE = "Car";
     private static final String AN_INVALID_TYPE = "Dumpster Truck";
@@ -27,20 +23,6 @@ public class VehicleResourceIT {
     private static final String A_VALID_MODEL = "Nissan Sentra";
     private static final String A_VALID_REGISTRATION_NUMBER = "T68688";
     private static final String ANOTHER_VALID_REGISTRATION_NUMBER = "T99999";
-
-
-    @Before
-    public void setUp() {
-        Thread thread = new Thread(() -> {
-            try {
-                ULTaxiMain.main(new String[] {});
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
-    }
 
     @Test
     public void givenVehicleWithValidType_whenCreateVehicle_thenVehicleIsCreated() {
@@ -79,9 +61,7 @@ public class VehicleResourceIT {
 
     private RequestSpecification givenBaseServer() {
         return given()
-            .baseUri(URL_BASE)
             .accept(ContentType.JSON)
-            .port(TEST_SERVER_PORT)
             .contentType(ContentType.JSON);
     }
 
