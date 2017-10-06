@@ -12,6 +12,7 @@ import ca.ulaval.glo4003.ws.domain.request.RequestAssembler;
 import ca.ulaval.glo4003.ws.domain.request.RequestRepository;
 import ca.ulaval.glo4003.ws.domain.request.RequestService;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
+import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
 import ca.ulaval.glo4003.ws.domain.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
@@ -25,6 +26,7 @@ import ca.ulaval.glo4003.ws.infrastructure.request.RequestRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.JWT.JWTTokenManager;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepositoryInMemory;
+import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
 import ca.ulaval.glo4003.ws.util.AuthenticationFilter;
 import ca.ulaval.glo4003.ws.util.AuthorizationFilter;
@@ -39,8 +41,8 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
 
 /**
  * RESTApi setup without using DI or spring
@@ -49,10 +51,11 @@ import java.util.Set;
 public class ULTaxiMain {
 
     private static final int SERVER_PORT = 8080;
+    private static boolean isDev = true; // Would be a JVM argument or in a .property file
+
     public static TokenManager tokenManager = new JWTTokenManager();
     public static UserRepository userRepository = new UserRepositoryInMemory();
     public static TokenRepository tokenRepository = new TokenRepositoryInMemory();
-    private static boolean isDev = true; // Would be a JVM argument or in a .property file
     private static MessageQueue messageQueueInMemory = new MessageQueueInMemory();
     private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
 
@@ -123,6 +126,13 @@ public class ULTaxiMain {
     }
 
     private static UserResource createUserResource(UserService userService) {
+        // For development ease
+        if (isDev) {
+            UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
+            List<User> users = userDevDataFactory.createMockData();
+//            users.stream().forEach(userRepository::save);
+        }
+
         return new UserResourceImpl(userService);
     }
 
