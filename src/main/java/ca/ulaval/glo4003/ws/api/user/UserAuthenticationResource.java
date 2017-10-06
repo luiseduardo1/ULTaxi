@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/users/auth")
 public interface UserAuthenticationResource {
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

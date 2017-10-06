@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ws.integration;
 
+import static io.restassured.RestAssured.given;
+
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
@@ -12,14 +14,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 
-import static io.restassured.RestAssured.given;
-
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceIT {
 
+    private static final String USERS_API = "/api/users";
+
     private static final String A_VALID_PASSWORD = "Beaubrun";
     private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
-    private static final String API_USERS = "/api/users";
 
     private static String aValidName;
 
@@ -28,13 +29,12 @@ public class UserResourceIT {
         aValidName = RandomStringUtils.randomAlphabetic(25);
     }
 
-
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
         givenBaseUserServer()
-            .body(givenUser())
+            .body(givenAValidUser())
             .when()
-            .post(API_USERS)
+            .post(USERS_API)
             .then()
             .statusCode(Response.Status.OK.getStatusCode());
     }
@@ -42,14 +42,14 @@ public class UserResourceIT {
     @Test
     public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
         givenBaseUserServer()
-            .body(givenUser())
+            .body(givenAValidUser())
             .when()
-            .post(API_USERS);
+            .post(USERS_API);
 
         givenBaseUserServer()
-            .body(givenUser())
+            .body(givenAValidUser())
             .when()
-            .post(API_USERS)
+            .post(USERS_API)
             .then()
             .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
@@ -57,9 +57,9 @@ public class UserResourceIT {
     @Test
     public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
         givenBaseUserServer()
-            .body(givenUserWithInvalidName())
+            .body(givenAUserWithInvalidName())
             .when()
-            .post(API_USERS)
+            .post(USERS_API)
             .then()
             .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
@@ -70,18 +70,19 @@ public class UserResourceIT {
             .contentType(ContentType.JSON);
     }
 
-    private String givenUser() {
-        UserDto userDto = new UserDto();
-        userDto.setName(aValidName);
-        userDto.setPassword(A_VALID_PASSWORD);
-        Gson gson = new Gson();
-        return gson.toJson(userDto);
+    private String givenAValidUser() {
+        return createUserJSON(aValidName, A_VALID_PASSWORD);
     }
 
-    private String givenUserWithInvalidName() {
+    private String givenAUserWithInvalidName() {
+        return createUserJSON(AN_INVALID_NAME, A_VALID_PASSWORD);
+    }
+
+    private String createUserJSON(String name, String password) {
         UserDto userDto = new UserDto();
-        userDto.setName(AN_INVALID_NAME);
-        userDto.setPassword(A_VALID_PASSWORD);
+        userDto.setName(name);
+        userDto.setPassword(password);
+
         Gson gson = new Gson();
         return gson.toJson(userDto);
     }

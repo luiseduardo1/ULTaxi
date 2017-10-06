@@ -1,35 +1,31 @@
 package ca.ulaval.glo4003.ws.domain.user;
 
+import static org.mockito.BDDMockito.willReturn;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.BDDMockito.willReturn;
-
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationServiceTest {
 
+    private static final String A_NAME = "Ronald";
     private UserAuthenticationService userAuthenticationService;
-
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private User user;
-
     @Mock
     private User nonExistentUser;
-
-    private static final String A_NAME = "ronald";
     private User userToAuthenticate;
 
     @Before
     public void setUp() throws Exception {
         this.userToAuthenticate = new User();
         userToAuthenticate.setName(A_NAME);
-        willReturn(user).given(userRepository).findByName(A_NAME);
+        willReturn(user).given(userRepository).findByName(userToAuthenticate.getName());
         userAuthenticationService = new UserAuthenticationService(userRepository);
     }
 

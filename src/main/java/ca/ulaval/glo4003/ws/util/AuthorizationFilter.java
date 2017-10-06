@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.ws.util;
 
-import ca.ulaval.glo4003.ws.domain.user.InvalidCredentialsException;
 import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
+import ca.ulaval.glo4003.ws.domain.user.InvalidUserRoleException;
 import ca.ulaval.glo4003.ws.domain.user.Role;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
-import ca.ulaval.glo4003.ws.domain.user.InvalidUserRoleException;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 
@@ -29,14 +28,11 @@ import java.util.List;
 @Priority(Priorities.AUTHENTICATION)
 public class AuthorizationFilter implements ContainerRequestFilter {
 
+    private static final String AUTHENTICATION_SCHEME = "Bearer";
     @Context
     private ResourceInfo resourceInfo;
-
     private UserRepository userRepository;
-
     private TokenManager tokenManager;
-
-    private static final String AUTHENTICATION_SCHEME = "Bearer";
 
     public AuthorizationFilter(UserRepository userRepository, TokenManager tokenManager) {
         this.userRepository = userRepository;
@@ -78,7 +74,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
                 Role[] allowedRoles = secured.value();
                 return Arrays.asList(allowedRoles);
             }
-
         }
     }
 
@@ -91,7 +86,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
         Role userRole = user.getRole();
         if (!allowedRoles.contains(userRole)) {
-            throw new InvalidUserRoleException("Not valid Permission.");
+            throw new InvalidUserRoleException("Not a valid Permission.");
         }
     }
 }

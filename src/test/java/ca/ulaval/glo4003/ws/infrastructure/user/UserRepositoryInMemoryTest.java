@@ -1,61 +1,52 @@
 package ca.ulaval.glo4003.ws.infrastructure.user;
 
-import ca.ulaval.glo4003.ws.domain.user.InvalidUserNameException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.BDDMockito.willReturn;
+
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserRepositoryInMemoryTest {
 
     private static final String A_NAME = "Ronald";
     private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
-
+    @Mock
     private User user;
     private UserRepository userRepository;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         userRepository = new UserRepositoryInMemory();
-        user = new User();
+
+        willReturn(A_NAME).given(user).getName();
     }
 
     @Test
     public void givenNonExistingUser_whenFindByName_thenReturnsNull() {
-        user.setName(A_NAME);
+        User returnedUser = userRepository.findByName(user.getName());
 
-        assertNull(userRepository.findByName(user.getName()));
+        assertNull(returnedUser);
     }
 
     @Test
-    public void givenUser_whenSave_thenUserHasSameParameters() {
-        user.setName(A_NAME);
-
+    public void givenUser_whenSave_thenSavesUser() {
         userRepository.save(user);
-        User anotherUser = userRepository.findByName(user.getName());
+        User savedUser = userRepository.findByName(user.getName());
 
-        assertEquals(user, anotherUser);
+        assertEquals(user, savedUser);
     }
 
     @Test(expected = UserAlreadyExistsException.class)
     public void givenExistingUser_whenSave_thenThrowsException() {
-        user.setName(A_NAME);
-
         userRepository.save(user);
-        userRepository.save(user);
-    }
-
-    @Test(expected = InvalidUserNameException.class)
-    public void givenUserWithInvalidName_whenSave_thenThrowsException() {
-        user.setName(AN_INVALID_NAME);
-
         userRepository.save(user);
     }
 }
