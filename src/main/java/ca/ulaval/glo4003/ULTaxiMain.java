@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.ws.api.request.RequestResource;
-import ca.ulaval.glo4003.ws.api.request.RequestResourceImpl;
+import ca.ulaval.glo4003.ws.api.transportrequest.TransportRequestResource;
+import ca.ulaval.glo4003.ws.api.transportrequest.TransportRequestResourceImpl;
 import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResource;
 import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResourceImpl;
 import ca.ulaval.glo4003.ws.api.user.UserResource;
@@ -10,9 +10,9 @@ import ca.ulaval.glo4003.ws.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ws.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ws.domain.messaging.MessageQueue;
 import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueProducer;
-import ca.ulaval.glo4003.ws.domain.request.RequestAssembler;
-import ca.ulaval.glo4003.ws.domain.request.RequestRepository;
-import ca.ulaval.glo4003.ws.domain.request.RequestService;
+import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequestAssembler;
+import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequestRepository;
+import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ws.domain.user.*;
 import ca.ulaval.glo4003.ws.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ws.domain.vehicle.VehicleAssembler;
@@ -23,7 +23,7 @@ import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.MessageQueueInMemory;
-import ca.ulaval.glo4003.ws.infrastructure.request.RequestRepositoryInMemory;
+import ca.ulaval.glo4003.ws.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.JWT.JWTTokenManager;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepositoryInMemory;
@@ -118,12 +118,12 @@ public final class ULTaxiMain {
         UserResource userResource = createUserResource(userService);
         VehicleResource vehicleResource = createVehicleResource(vehicleService);
         UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(userService);
-        RequestResource requestResource = createRequestResource();
+        TransportRequestResource transportRequestResource = createTransportRequestResource();
 
         resources.add(userResource);
         resources.add(vehicleResource);
         resources.add(userAuthenticationResource);
-        resources.add(requestResource);
+        resources.add(transportRequestResource);
 
         return resources;
     }
@@ -168,12 +168,12 @@ public final class ULTaxiMain {
         return new UserAuthenticationResourceImpl(userService, tokenRepository, tokenManager);
     }
 
-    private static RequestResource createRequestResource() {
-        RequestRepository requestRepository = new RequestRepositoryInMemory();
-        RequestAssembler requestAssembler = new RequestAssembler();
-        RequestService requestService = new RequestService(requestRepository, requestAssembler);
+    private static TransportRequestResource createTransportRequestResource() {
+        TransportRequestRepository transportRequestRepository = new TransportRequestRepositoryInMemory();
+        TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
+        TransportRequestService transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler);
 
-        return new RequestResourceImpl(requestService);
+        return new TransportRequestResourceImpl(transportRequestService);
     }
 
 }

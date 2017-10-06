@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ws.integration;
 
-import ca.ulaval.glo4003.ws.api.request.dto.RequestDto;
+import ca.ulaval.glo4003.ws.api.transportrequest.dto.TransportRequestDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -13,10 +13,10 @@ import javax.ws.rs.core.Response;
 import static io.restassured.RestAssured.given;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RequestResourceIT {
+public class TransportRequestResourceIT {
 
     private static final int TEST_SERVER_PORT = 8080;
-    private static final String REQUEST_API = "/api/request";
+    private static final String REQUEST_API = "/api/transportRequest";
     private static final String URL_BASE = "http://localhost";
     private static final String A_VALID_NOTE = "Note";
     private static final String A_VALID_VEHICLE_TYPE = "Car";
@@ -27,9 +27,9 @@ public class RequestResourceIT {
     private static final double AN_INVALID_LONGITUDE = 235.34344;
 
     @Test
-    public void givenARequest_whenSendTransportRequest_thenRequestIsCreated() {
+    public void givenATransportRequest_whenSendRequest_thenRequestIsCreated() {
         givenBaseServer()
-            .body(givenAValidRequest())
+            .body(givenAValidTransportRequest())
             .when()
             .post(REQUEST_API)
             .then()
@@ -37,9 +37,9 @@ public class RequestResourceIT {
     }
 
     @Test
-    public void givenRequestWithInvalidLatitude_whenSendTransportRequest_thenReturnsBadRequest() {
+    public void givenATransportRequestWithInvalidLatitude_whenSendRequest_thenReturnsBadRequest() {
         givenBaseServer()
-            .body(givenARequestWithInvalidLatitude())
+            .body(givenATransportRequestWithInvalidLatitude())
             .when()
             .post(REQUEST_API)
             .then()
@@ -47,9 +47,9 @@ public class RequestResourceIT {
     }
 
     @Test
-    public void givenRequestWithInvalidLongitude_whenSendTransportRequest_thenReturnsBadRequest() {
+    public void givenATransportRequestWithInvalidLongitude_whenSendRequest_thenReturnsBadRequest() {
         givenBaseServer()
-            .body(givenARequestWithInvalidLongitude())
+            .body(givenATransportRequestWithInvalidLongitude())
             .when()
             .post(REQUEST_API)
             .then()
@@ -57,9 +57,9 @@ public class RequestResourceIT {
     }
 
     @Test
-    public void givenRequestWithInvalidVehicleType_whenSendTransportRequest_thenReturnsBadRequest() {
+    public void givenATransportRequestWithInvalidVehicleType_whenSendRequest_thenReturnsBadRequest() {
         givenBaseServer()
-            .body(givenARequestWithInvalidVehicleType())
+            .body(givenATransportRequestWithInvalidVehicleType())
             .when()
             .post(REQUEST_API)
             .then()
@@ -74,32 +74,32 @@ public class RequestResourceIT {
             .contentType(ContentType.JSON);
     }
 
-    private String givenAValidRequest() {
-        return createRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE, A_VALID_LONGITUDE);
+    private String givenAValidTransportRequest() {
+        return createTransportRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE, A_VALID_LONGITUDE);
     }
 
-    private String givenARequestWithInvalidLatitude() {
-        return createRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, AN_INVALID_LATITUDE,
+    private String givenATransportRequestWithInvalidLatitude() {
+        return createTransportRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, AN_INVALID_LATITUDE,
             A_VALID_LONGITUDE);
     }
 
-    private String givenARequestWithInvalidLongitude() {
-        return createRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
+    private String givenATransportRequestWithInvalidLongitude() {
+        return createTransportRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
             AN_INVALID_LONGITUDE);
     }
 
-    private String givenARequestWithInvalidVehicleType() {
-        return createRequestJSON(AN_INVALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
+    private String givenATransportRequestWithInvalidVehicleType() {
+        return createTransportRequestJSON(AN_INVALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
             AN_INVALID_LONGITUDE);
     }
 
-    private String createRequestJSON(String vehicleType, String note, double latitude, double longitude) {
-        RequestDto requestDto = new RequestDto();
-        requestDto.setVehicleType(vehicleType);
-        requestDto.setNote(note);
-        requestDto.setLatitude(latitude);
-        requestDto.setLongitude(longitude);
+    private String createTransportRequestJSON(String vehicleType, String note, double latitude, double longitude) {
+        TransportRequestDto transportRequestDto = new TransportRequestDto();
+        transportRequestDto.setVehicleType(vehicleType);
+        transportRequestDto.setNote(note);
+        transportRequestDto.setLatitude(latitude);
+        transportRequestDto.setLongitude(longitude);
         Gson gson = new Gson();
-        return gson.toJson(requestDto);
+        return gson.toJson(transportRequestDto);
     }
 }

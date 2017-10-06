@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.ws.api.request.dto;
+package ca.ulaval.glo4003.ws.api.transportrequest.dto;
 
-public class RequestDto {
+public class TransportRequestDto {
 
     private String vehicleType;
     private String note;

@@ -1,14 +1,14 @@
-package ca.ulaval.glo4003.ws.domain.request;
+package ca.ulaval.glo4003.ws.domain.transportrequest;
 
 import ca.ulaval.glo4003.ws.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 
 import java.util.UUID;
 
-public class Request {
+public class TransportRequest {
 
+    private String id = UUID.randomUUID().toString();
     private Geolocation geolocation;
-    private String requestId = UUID.randomUUID().toString();
     private String note;
     private VehicleType vehicleType;
 
@@ -20,8 +20,8 @@ public class Request {
         this.geolocation = geolocation;
     }
 
-    public String getRequestId() {
-        return requestId;
+    public String getId() {
+        return id;
     }
 
     public String getVehicleType() {

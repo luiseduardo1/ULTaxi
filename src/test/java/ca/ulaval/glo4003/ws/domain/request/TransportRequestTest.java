@@ -1,22 +1,23 @@
 package ca.ulaval.glo4003.ws.domain.request;
 
+import ca.ulaval.glo4003.ws.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ws.domain.vehicle.InvalidVehicleTypeException;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RequestTest {
+public class TransportRequestTest {
 
     private static final String AN_INVALID_VEHICLE_TYPE = "Invalid";
 
-    private Request request;
+    private TransportRequest transportRequest;
 
     @Before
     public void setUp() throws Exception {
-        request = new Request();
+        transportRequest = new TransportRequest();
     }
 
     @Test(expected = InvalidVehicleTypeException.class)
-    public void givenAnInvalideVehicleType_whenSetVehicleType_thenThrowsException() {
-        request.setVehicleType(AN_INVALID_VEHICLE_TYPE);
+    public void givenAnInvalidVehicleType_whenSetVehicleType_thenThrowsException() {
+        transportRequest.setVehicleType(AN_INVALID_VEHICLE_TYPE);
     }
 }

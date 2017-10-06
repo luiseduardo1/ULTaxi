@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.ws.api.request;
+package ca.ulaval.glo4003.ws.api.transportrequest;
 
-import ca.ulaval.glo4003.ws.api.request.dto.RequestDto;
+import ca.ulaval.glo4003.ws.api.transportrequest.dto.TransportRequestDto;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
@@ -9,11 +9,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/request")
+@Path("/transportRequest")
 @RolesAllowed( {"CLIENT"})
-public interface RequestResource {
+public interface TransportRequestResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    Response sendTransportRequest(RequestDto requestDto);
+    Response sendTransportRequest(TransportRequestDto transportRequestDto);
 }

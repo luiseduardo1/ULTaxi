@@ -12,7 +12,7 @@ import static java.lang.Thread.sleep;
 @Suite.SuiteClasses( {
     UserAuthenticationResourceIT.class,
     UserResourceIT.class,
-    RequestResourceIT.class,
+    TransportRequestResourceIT.class,
     VehicleResourceIT.class
 })
 public class BaseIntegrationTest {
