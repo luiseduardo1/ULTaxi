@@ -80,17 +80,17 @@ public class RequestResourceIT {
 
     private String givenARequestWithInvalidLatitude() {
         return createRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, AN_INVALID_LATITUDE,
-                                 A_VALID_LONGITUDE);
+            A_VALID_LONGITUDE);
     }
 
     private String givenARequestWithInvalidLongitude() {
         return createRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
-                                 AN_INVALID_LONGITUDE);
+            AN_INVALID_LONGITUDE);
     }
 
     private String givenARequestWithInvalidVehicleType() {
         return createRequestJSON(AN_INVALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
-                                 AN_INVALID_LONGITUDE);
+            AN_INVALID_LONGITUDE);
     }
 
     private String createRequestJSON(String vehicleType, String note, double latitude, double longitude) {

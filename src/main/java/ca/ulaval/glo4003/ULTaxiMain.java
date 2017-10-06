@@ -13,12 +13,7 @@ import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueProducer;
 import ca.ulaval.glo4003.ws.domain.request.RequestAssembler;
 import ca.ulaval.glo4003.ws.domain.request.RequestRepository;
 import ca.ulaval.glo4003.ws.domain.request.RequestService;
-import ca.ulaval.glo4003.ws.domain.user.TokenManager;
-import ca.ulaval.glo4003.ws.domain.user.User;
-import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
-import ca.ulaval.glo4003.ws.domain.user.UserAuthenticationService;
-import ca.ulaval.glo4003.ws.domain.user.UserRepository;
-import ca.ulaval.glo4003.ws.domain.user.UserService;
+import ca.ulaval.glo4003.ws.domain.user.*;
 import ca.ulaval.glo4003.ws.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ws.domain.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ws.domain.vehicle.VehicleRepository;
@@ -35,9 +30,9 @@ import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleDevDataFactory;
+import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleRepositoryInMemory;
 import ca.ulaval.glo4003.ws.util.AuthenticationFilter;
 import ca.ulaval.glo4003.ws.util.AuthorizationFilter;
-import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleRepositoryInMemory;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -59,21 +54,19 @@ import java.util.Set;
 public final class ULTaxiMain {
 
     private static final int SERVER_PORT = 8080;
-    private static boolean isDev = true; // Would be a JVM argument or in a .property file
-    private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
-
-    private static MessageQueue messageQueue = new MessageQueueInMemory();
-
     public static TokenManager tokenManager = new JWTTokenManager();
     public static TokenRepository tokenRepository = new TokenRepositoryInMemory();
     public static UserRepository userRepository = new UserRepositoryInMemory();
     public static VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
+    private static boolean isDev = true; // Would be a JVM argument or in a .property file
+    private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
+    private static MessageQueue messageQueue = new MessageQueueInMemory();
 
     private ULTaxiMain() {
         throw new AssertionError("Instantiating main class...");
     }
 
-        public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         // Setup API context (JERSEY + JETTY)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -104,7 +97,7 @@ public final class ULTaxiMain {
 
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[]{context});
+        contexts.setHandlers(new Handler[] {context});
         Server server = new Server(SERVER_PORT);
         server.setHandler(contexts);
 
@@ -140,7 +133,7 @@ public final class ULTaxiMain {
         UserAssembler userAssembler = new UserAssembler();
         MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueue);
         UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService,
-                                                  messageQueueProducer);
+            messageQueueProducer);
         return userService;
     }
 

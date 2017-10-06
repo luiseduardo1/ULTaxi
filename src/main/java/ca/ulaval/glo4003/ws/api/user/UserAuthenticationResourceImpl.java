@@ -16,7 +16,7 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     private TokenRepository tokenRepository;
 
     public UserAuthenticationResourceImpl(UserService userService, TokenRepository tokenRepository,
-        TokenManager tokenManager) {
+                                          TokenManager tokenManager) {
         this.userService = userService;
         this.tokenManager = tokenManager;
         this.tokenRepository = tokenRepository;
