@@ -72,9 +72,9 @@ public class Driver extends User {
         Pattern pattern = Pattern.compile(SIN_REGEX);
         Matcher matcher = pattern.matcher(sin);
 
-        if (matcher.matches()){
-            String sinWithNonDigit = stringUtil.ReplaceNonDigitWithEmptySpace(sin);
-            int[] digits = stringUtil.StringToIntArr(sinWithNonDigit);
+        if (matcher.matches()) {
+            String sinWithNonDigit = stringUtil.replaceNonDigitWithEmptySpace(sin);
+            int[] digits = stringUtil.stringToIntArr(sinWithNonDigit);
             return luhnAlgorithm.checkLuhnAlgorithm(digits);
         }
         return false;

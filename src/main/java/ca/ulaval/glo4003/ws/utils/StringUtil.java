@@ -4,7 +4,7 @@ public final class StringUtil {
 
     private static final String NON_DIGITS_REGEX = "\\D";
 
-    public static int[] StringToIntArr(String stringElement) {
+    public static int[] stringToIntArr(String stringElement) {
         String[] s = stringElement.split("");
         int[] result = new int[s.length];
         for (int i = 0; i < s.length; i++) {
@@ -13,7 +13,7 @@ public final class StringUtil {
         return result;
     }
 
-    public static String ReplaceNonDigitWithEmptySpace(String nonDigitNumber) {
+    public static String replaceNonDigitWithEmptySpace(String nonDigitNumber) {
         return nonDigitNumber.replaceAll(NON_DIGITS_REGEX, "");
     }
 }
