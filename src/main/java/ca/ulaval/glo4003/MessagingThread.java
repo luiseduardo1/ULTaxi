@@ -5,8 +5,6 @@ import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueConsumer;
 import ca.ulaval.glo4003.ws.domain.messaging.MessagingService;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSender;
 
-import static java.lang.Thread.sleep;
-
 public class MessagingThread implements Runnable {
 
     private MessagingService messagingService;

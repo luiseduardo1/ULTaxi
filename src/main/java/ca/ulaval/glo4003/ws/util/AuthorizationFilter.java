@@ -74,7 +74,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
                 Role[] allowedRoles = secured.value();
                 return Arrays.asList(allowedRoles);
             }
-
         }
     }
 
