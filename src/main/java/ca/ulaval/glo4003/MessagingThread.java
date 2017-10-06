@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.ws.domain.messaging.MessageQueue;
-import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueConsumer;
-import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSender;
-import ca.ulaval.glo4003.ws.service.messaging.MessagingService;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueueConsumer;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
+import ca.ulaval.glo4003.ultaxi.service.messaging.MessagingService;
 
 public class MessagingThread implements Runnable {
 
