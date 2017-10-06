@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.ws.util;
+package ca.ulaval.glo4003.ws.api.middleware.authentification;
 
-import ca.ulaval.glo4003.ws.domain.user.InvalidUserRoleException;
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidUserRoleException;
 import ca.ulaval.glo4003.ws.domain.user.Role;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import ca.ulaval.glo4003.ws.domain.user.User;

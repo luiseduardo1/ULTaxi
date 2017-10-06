@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ws.api.user.driver;
 
-import ca.ulaval.glo4003.ws.api.user.dto.DriverDto;
+import ca.ulaval.glo4003.ws.api.user.driver.dto.DriverDto;
 import ca.ulaval.glo4003.ws.domain.user.driver.DriverService;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidSinException;

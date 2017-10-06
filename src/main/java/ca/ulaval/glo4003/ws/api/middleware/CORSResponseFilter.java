@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws.http;
+package ca.ulaval.glo4003.ws.api.middleware;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;

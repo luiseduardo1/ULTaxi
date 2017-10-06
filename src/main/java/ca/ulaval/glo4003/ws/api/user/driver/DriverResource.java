@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ws.api.user.driver;
 
-import ca.ulaval.glo4003.ws.api.user.dto.DriverDto;
+import ca.ulaval.glo4003.ws.api.user.driver.dto.DriverDto;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

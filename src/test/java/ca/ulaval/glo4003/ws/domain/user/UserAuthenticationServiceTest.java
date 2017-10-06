@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ws.domain.user;
 
 import static org.mockito.BDDMockito.willReturn;
 
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidCredentialsException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

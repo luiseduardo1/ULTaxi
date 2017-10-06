@@ -6,7 +6,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
-import ca.ulaval.glo4003.ws.domain.user.InvalidCredentialsException;
+import ca.ulaval.glo4003.ws.domain.user.exception.InvalidCredentialsException;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import ca.ulaval.glo4003.ws.domain.user.UserService;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;

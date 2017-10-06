@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ws.api.user.dto;
+package ca.ulaval.glo4003.ws.api.user.driver.dto;
 
 public class DriverDto {
     private String name;

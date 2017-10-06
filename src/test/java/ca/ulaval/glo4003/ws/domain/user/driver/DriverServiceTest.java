@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ws.domain.user.driver;
 
-import ca.ulaval.glo4003.ws.api.user.dto.DriverDto;
+import ca.ulaval.glo4003.ws.api.user.driver.dto.DriverDto;
 import ca.ulaval.glo4003.ws.domain.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
