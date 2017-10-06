@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ws.integration;
 
+import static io.restassured.RestAssured.given;
+
 import ca.ulaval.glo4003.ws.api.transportrequest.dto.TransportRequestDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
@@ -9,8 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
-
-import static io.restassured.RestAssured.given;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestResourceIT {

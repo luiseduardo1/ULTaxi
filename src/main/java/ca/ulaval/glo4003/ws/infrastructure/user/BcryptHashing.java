@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.ws.domain.user.HashingStrategy;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class BcryptHashing implements HashingStrategy {
+
     @Override
     public String hash(String password) {
         String hashedPassword = null;
