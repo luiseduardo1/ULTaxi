@@ -45,7 +45,7 @@ public class JWTTokenManagerTest {
     @Test
     public void givenAParsableToken_whenParsingAToken_thenTokenIsParsed() {
         Assert.assertEquals(jwtTokenManager.parseToken(this.A_VALID_TOKEN).getClass(),
-            DefaultClaims.class);
+                            DefaultClaims.class);
     }
 
     @Test(expected = InvalidTokenException.class)

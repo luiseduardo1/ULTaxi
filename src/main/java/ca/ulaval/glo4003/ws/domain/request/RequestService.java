@@ -15,10 +15,11 @@ public class RequestService {
         this.requestAssembler = requestAssembler;
     }
 
-    public void sendTransportRequest(RequestDto requestDto) {
+    public String sendTransportRequest(RequestDto requestDto) {
         logger.info(String.format("Add a new transport request with id %s", requestDto));
         Request request = requestAssembler.create(requestDto);
         requestRepository.save(request);
+        return request.getRequestId();
     }
 
 }

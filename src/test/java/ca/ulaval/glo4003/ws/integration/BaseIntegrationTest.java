@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
 import static java.lang.Thread.sleep;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses( {
+@Suite.SuiteClasses({
     UserAuthenticationResourceIT.class,
     UserResourceIT.class,
     RequestResourceIT.class,
@@ -27,7 +27,7 @@ public class BaseIntegrationTest {
 
         Thread thread = new Thread(() -> {
             try {
-                ULTaxiMain.main(new String[] {});
+                ULTaxiMain.main(new String[]{});
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
