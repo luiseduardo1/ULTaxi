@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -41,7 +40,7 @@ public class UserAuthenticationResourceImplTest {
     @Before
     public void setUp() throws Exception {
         userAuthenticationResource = new UserAuthenticationResourceImpl(userService,
-            tokenRepository, tokenManager);
+                                                                        tokenRepository, tokenManager);
     }
 
     @Test
