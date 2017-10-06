@@ -1,0 +1,28 @@
+stages:
+    - verify
+    - build
+    - test
+
+maven-verify:
+    image: maven:3-jdk-8
+    stage: verify
+    script: "mvn verify -B"
+    only:
+        - tags
+        - web
+
+maven-build:
+    image: maven:3-jdk-8
+    stage: build
+    script: "mvn compile -B"
+    only:
+        - tags
+        - web
+
+maven-test:
+    image: maven:3-jdk-8
+    stage: test
+    script: "mvn test -B"
+    only:
+        - tags
+        - web
