@@ -10,16 +10,13 @@ import javax.ws.rs.core.Response;
 
 public class UserAuthenticationResourceImpl implements UserAuthenticationResource {
 
+    private static long HOUR_IN_MILLISECONDS = 3600000;
     private UserService userService;
-
     private TokenManager tokenManager;
-
     private TokenRepository tokenRepository;
 
-    private static long HOUR_IN_MILLISECONDS = 3600000;
-
     public UserAuthenticationResourceImpl(UserService userService, TokenRepository tokenRepository,
-                                          TokenManager tokenManager) {
+        TokenManager tokenManager) {
         this.userService = userService;
         this.tokenManager = tokenManager;
         this.tokenRepository = tokenRepository;

@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
 import static java.lang.Thread.sleep;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({UserAuthenticationResourceIT.class, UserResourceIT.class})
+@Suite.SuiteClasses({UserAuthenticationResourceIT.class, UserResourceIT.class, RequestResourceIT.class})
 public class BaseIntegrationTest {
     private static final int SLEEP_TIME = 500;
     private static final int SERVER_PORT = 8080;
@@ -22,7 +22,7 @@ public class BaseIntegrationTest {
 
         Thread thread = new Thread(() -> {
             try {
-                ULTaxiMain.main(new String[] {});
+                ULTaxiMain.main(new String[]{});
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

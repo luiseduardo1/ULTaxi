@@ -1,9 +1,16 @@
 package ca.ulaval.glo4003;
 
+import ca.ulaval.glo4003.ws.api.request.RequestResource;
+import ca.ulaval.glo4003.ws.api.request.RequestResourceImpl;
+import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResource;
 import ca.ulaval.glo4003.ws.api.user.UserAuthenticationResourceImpl;
+import ca.ulaval.glo4003.ws.api.user.UserResource;
 import ca.ulaval.glo4003.ws.api.user.UserResourceImpl;
 import ca.ulaval.glo4003.ws.domain.messaging.MessageQueue;
 import ca.ulaval.glo4003.ws.domain.messaging.MessageQueueProducer;
+import ca.ulaval.glo4003.ws.domain.request.RequestAssembler;
+import ca.ulaval.glo4003.ws.domain.request.RequestRepository;
+import ca.ulaval.glo4003.ws.domain.request.RequestService;
 import ca.ulaval.glo4003.ws.domain.user.TokenManager;
 import ca.ulaval.glo4003.ws.domain.user.User;
 import ca.ulaval.glo4003.ws.domain.user.UserAssembler;
@@ -15,6 +22,7 @@ import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.MessageQueueInMemory;
+import ca.ulaval.glo4003.ws.infrastructure.request.RequestRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.JWT.JWTTokenManager;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepositoryInMemory;
@@ -36,7 +44,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 /**
  * RESTApi setup without using DI or spring
  */
@@ -45,14 +52,12 @@ public class ULTaxiMain {
 
     private static final int SERVER_PORT = 8080;
     private static boolean isDev = true; // Would be a JVM argument or in a .property file
-    private static MessageQueue messageQueueInMemory = new MessageQueueInMemory();
-    private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
 
     public static TokenManager tokenManager = new JWTTokenManager();
-
     public static UserRepository userRepository = new UserRepositoryInMemory();
-
     public static TokenRepository tokenRepository = new TokenRepositoryInMemory();
+    private static MessageQueue messageQueueInMemory = new MessageQueueInMemory();
+    private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
 
     public static void main(String[] args) throws Exception {
 
@@ -62,7 +67,7 @@ public class ULTaxiMain {
         ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
             @Override
             public Set<Object> getSingletons() {
-                return createUserResource();
+                return getContextResources();
             }
         });
 
@@ -71,7 +76,6 @@ public class ULTaxiMain {
         resourceConfig.register(CORSResponseFilter.class);
         resourceConfig.register(authenticationFilter);
         resourceConfig.register(authorizationFilter);
-
 
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
         ServletHolder servletHolder = new ServletHolder(servletContainer);
@@ -86,7 +90,7 @@ public class ULTaxiMain {
 
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {context});
+        contexts.setHandlers(new Handler[]{context});
         Server server = new Server(SERVER_PORT);
         server.setHandler(contexts);
 
@@ -98,26 +102,50 @@ public class ULTaxiMain {
         }
     }
 
-    private static Set<Object> createUserResource() {
+    private static HashSet<Object> getContextResources() {
+        HashSet<Object> resources = new HashSet<>();
+        UserService userService = createUserService();
+        UserResource userResource = createUserResource(userService);
+        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(userService);
+        RequestResource requestResource = createRequestResource();
 
-        Set<Object> resources = new HashSet<Object>();
+        resources.add(userResource);
+        resources.add(userAuthenticationResource);
+        resources.add(requestResource);
 
+        return resources;
+    }
+
+    private static UserService createUserService() {
+        UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository);
+        UserAssembler userAssembler = new UserAssembler();
+        MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueueInMemory);
+        UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService,
+                                                  messageQueueProducer);
+        return userService;
+    }
+
+    private static UserResource createUserResource(UserService userService) {
         // For development ease
         if (isDev) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
             List<User> users = userDevDataFactory.createMockData();
-            //users.stream().forEach(userRepository::save);
+//            users.stream().forEach(userRepository::save);
         }
 
-        UserAuthenticationService userAuthenticationService =
-            new UserAuthenticationService(userRepository);
-        UserAssembler userAssembler = new UserAssembler();
-        MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueueInMemory);
-        UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService, messageQueueProducer);
-
-        resources.add(new UserResourceImpl(userService));
-        resources.add(new UserAuthenticationResourceImpl(userService, tokenRepository, tokenManager));
-
-        return resources;
+        return new UserResourceImpl(userService);
     }
+
+    private static UserAuthenticationResource createUseAuthenticationResource(UserService userService) {
+        return new UserAuthenticationResourceImpl(userService, tokenRepository, tokenManager);
+    }
+
+    private static RequestResource createRequestResource() {
+        RequestRepository requestRepository = new RequestRepositoryInMemory();
+        RequestAssembler requestAssembler = new RequestAssembler();
+        RequestService requestService = new RequestService(requestRepository, requestAssembler);
+
+        return new RequestResourceImpl(requestService);
+    }
+
 }

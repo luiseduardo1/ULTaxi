@@ -11,18 +11,14 @@ import static org.mockito.BDDMockito.willReturn;
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationServiceTest {
 
+    private static final String A_NAME = "Ronald";
     private UserAuthenticationService userAuthenticationService;
-
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private User user;
-
     @Mock
     private User nonExistentUser;
-
-    private static final String A_NAME = "Ronald";
     private User userToAuthenticate;
 
     @Before

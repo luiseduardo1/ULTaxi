@@ -9,9 +9,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class TokenRepositoryInMemoryTest {
 
-    private TokenRepository tokenRepository;
     private static final String TOKEN = "token";
     private static final String ID = "id";
+    private TokenRepository tokenRepository;
 
     @Before
     public void setUp() {

@@ -28,7 +28,6 @@ public class UserResourceIT {
         aValidName = RandomStringUtils.randomAlphabetic(25);
     }
 
-
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
         givenBaseUserServer()
