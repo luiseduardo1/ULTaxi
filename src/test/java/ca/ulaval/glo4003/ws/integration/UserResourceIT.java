@@ -1,10 +1,10 @@
-package ca.ulaval.glo4003.ws;
+package ca.ulaval.glo4003.ws.integration;
 
-import ca.ulaval.glo4003.ULTaxiMain;
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,24 +17,15 @@ import static io.restassured.RestAssured.given;
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceIT {
 
-    private static final int USER_TEST_SERVER_PORT = 8080;
-    private static final String A_VALID_NAME = "Ronald";
-    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
     private static final String A_VALID_PASSWORD = "Beaubrun";
+    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
     private static final String USERS_API = "/api/users";
-    private static final String URL_BASE = "http://localhost";
+
+    private static String aValidName;
 
     @Before
     public void setUp() {
-        Thread thread = new Thread(() -> {
-            try {
-                ULTaxiMain.main(new String[] {});
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
+        aValidName = RandomStringUtils.randomAlphabetic(25);
     }
 
     @Test
@@ -74,9 +65,7 @@ public class UserResourceIT {
 
     private RequestSpecification givenBaseUserServer() {
         return given()
-            .baseUri(URL_BASE)
             .accept(ContentType.JSON)
-            .port(USER_TEST_SERVER_PORT)
             .contentType(ContentType.JSON);
     }
 

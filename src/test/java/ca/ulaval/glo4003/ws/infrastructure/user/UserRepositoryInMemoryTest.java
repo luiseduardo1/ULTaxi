@@ -19,6 +19,7 @@ public class UserRepositoryInMemoryTest {
 
     private static final String A_NAME = "Ronald";
     private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
+
     @Mock
     private User user;
     private UserRepository userRepository;
