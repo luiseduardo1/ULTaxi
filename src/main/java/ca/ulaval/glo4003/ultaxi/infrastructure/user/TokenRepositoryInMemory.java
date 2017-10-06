@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
+
 import java.util.HashMap;
 import java.util.Map;
 

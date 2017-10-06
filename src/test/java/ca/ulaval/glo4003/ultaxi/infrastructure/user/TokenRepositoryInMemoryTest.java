@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

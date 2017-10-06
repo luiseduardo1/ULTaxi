@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.infrastructure.user;
+package ca.ulaval.glo4003.ultaxi.domain.user;
 
 public interface TokenRepository {
 

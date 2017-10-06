@@ -24,7 +24,7 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfiguratio
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessageQueueInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
-import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserRepositoryInMemory;
