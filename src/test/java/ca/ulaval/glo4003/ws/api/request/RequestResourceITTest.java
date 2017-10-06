@@ -30,10 +30,10 @@ public class RequestResourceITTest {
     }
 
     @Test
-    public void givenAValidRequest_whenSendTransportRequest_thenReturnsOk() {
+    public void givenAValidRequest_whenSendTransportRequest_thenReturnsCreated() {
         Response response = requestResource.sendTransportRequest(requestDto);
 
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
 
     @Test
