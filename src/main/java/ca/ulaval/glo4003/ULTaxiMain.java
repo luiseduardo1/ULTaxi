@@ -29,11 +29,11 @@ import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationPro
 import ca.ulaval.glo4003.ws.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ws.infrastructure.messaging.MessageQueueInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.request.RequestRepositoryInMemory;
-import ca.ulaval.glo4003.ws.infrastructure.user.JWT.JWTTokenManager;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepository;
 import ca.ulaval.glo4003.ws.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.user.UserRepositoryInMemory;
+import ca.ulaval.glo4003.ws.infrastructure.user.jwt.JWTTokenManager;
 import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleDevDataFactory;
 import ca.ulaval.glo4003.ws.infrastructure.vehicle.VehicleRepositoryInMemory;
 import ca.ulaval.glo4003.ws.util.AuthenticationFilter;
@@ -94,8 +94,8 @@ public final class ULTaxiMain {
         context.addServlet(servletHolder, "/*");
 
         // Setup messaging thread
-        EmailSenderConfigurationReader emailSenderConfigurationReader = new
-            EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
+        EmailSenderConfigurationReader emailSenderConfigurationReader =
+            new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
         EmailSender emailSender = new EmailSender(emailSenderConfigurationReader);
         Thread messagingThread = new Thread(new MessagingThread(messageQueue, emailSender));
         messagingThread.start();
@@ -153,7 +153,7 @@ public final class ULTaxiMain {
         if (isDev) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
             List<User> users = userDevDataFactory.createMockData();
-//            users.stream().forEach(userRepository::save);
+            //users.stream().forEach(userRepository::save);
         }
 
         return new UserResourceImpl(userService);
@@ -163,7 +163,7 @@ public final class ULTaxiMain {
         if (isDev) {
             VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
             List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
-//            vehicles.stream().forEach(vehicleRepository::save);
+            //vehicles.stream().forEach(vehicleRepository::save);
         }
 
         return new VehicleResourceImpl(vehicleService);

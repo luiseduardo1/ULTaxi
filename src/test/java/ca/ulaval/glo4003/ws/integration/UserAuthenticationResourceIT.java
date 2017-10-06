@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ws.integration;
 
+import static io.restassured.RestAssured.given;
+
 import ca.ulaval.glo4003.ws.api.user.dto.UserDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
@@ -12,10 +14,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 
-import static io.restassured.RestAssured.given;
-
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationResourceIT {
+
     private static final String API_USERS = "/api/users";
     private static final String API_USER_AUTHENTICATION = String.format("%s/auth", API_USERS);
     private static final String SIGNIN_ROUTE = String.format("%s/signin", API_USER_AUTHENTICATION);
