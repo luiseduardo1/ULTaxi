@@ -33,7 +33,7 @@ public class RequestResourceIT {
             .when()
             .post(REQUEST_API)
             .then()
-            .statusCode(Response.Status.OK.getStatusCode());
+            .statusCode(Response.Status.CREATED.getStatusCode());
     }
 
     @Test
