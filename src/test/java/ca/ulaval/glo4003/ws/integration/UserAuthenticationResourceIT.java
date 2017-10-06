@@ -21,6 +21,7 @@ public class UserAuthenticationResourceIT {
     private static final String SIGNIN_ROUTE = String.format("%s/signin", API_USER_AUTHENTICATION);
     private static final String SIGNOUT_ROUTE = String.format("%s/signout", API_USER_AUTHENTICATION);
     private static final String A_VALID_PASSWORD = "Beaubrun";
+    private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
     private static final String A_DIFFERENT_PASSWORD = "Nadir";
     private static final String A_ROLE = "Client";
 
@@ -103,6 +104,7 @@ public class UserAuthenticationResourceIT {
         UserDto userDto = new UserDto();
         userDto.setName(aValidName);
         userDto.setPassword(A_VALID_PASSWORD);
+        userDto.setEmail(A_VALID_EMAIL);
         userDto.setRole("Client");
         Gson gson = new Gson();
         return gson.toJson(userDto);
@@ -112,6 +114,7 @@ public class UserAuthenticationResourceIT {
         UserDto userDto = new UserDto();
         userDto.setName(aValidName);
         userDto.setPassword(A_DIFFERENT_PASSWORD);
+        userDto.setEmail(A_VALID_EMAIL);
         userDto.setRole(A_ROLE);
         Gson gson = new Gson();
         return gson.toJson(userDto);
