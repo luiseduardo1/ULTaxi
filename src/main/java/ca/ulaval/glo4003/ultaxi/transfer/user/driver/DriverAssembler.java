@@ -6,7 +6,7 @@ public class DriverAssembler {
 
     public Driver create(DriverDto driverDto) {
         Driver driver = new Driver();
-        driver.setUserName(driverDto.getUserName());
+        driver.setUsername(driverDto.getUserName());
         driver.setPassword(driverDto.getPassword());
         driver.setName(driverDto.getName());
         driver.setLastName(driverDto.getLastName());
@@ -17,7 +17,7 @@ public class DriverAssembler {
 
     public DriverDto create(Driver driver) {
         DriverDto driverDto = new DriverDto();
-        driverDto.setUserName(driver.getUserName());
+        driverDto.setUserName(driver.getUsername());
         driverDto.setPassword(driver.getPassword());
         driverDto.setName(driver.getName());
         driverDto.setLastName(driver.getLastName());

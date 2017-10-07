@@ -14,7 +14,7 @@ public class UserAssembler {
 
     public User create(UserDto userDto) {
         User user = new User();
-        user.setUserName(userDto.getUserName());
+        user.setUsername(userDto.getUserName());
         user.setPassword(userDto.getPassword());
         user.setRole(Role.valueOf(userDto.getRole()));
         user.setEmailAddress(userDto.getEmail());
@@ -24,7 +24,7 @@ public class UserAssembler {
 
     public UserDto create(User user) {
         UserDto userDto = new UserDto();
-        userDto.setUserName(user.getUserName());
+        userDto.setUserName(user.getUsername());
         userDto.setPassword(user.getPassword());
         userDto.setRole(user.getRole().name());
         userDto.setEmail(user.getEmailAddress());

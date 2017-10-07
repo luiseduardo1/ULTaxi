@@ -18,10 +18,10 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void save(User user) {
-        String name = user.getUserName();
+        String name = user.getUsername();
         if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(
-                String.format("User with userName %s already exists.", user.getUserName())
+                String.format("User with userName %s already exists.", user.getUsername())
             );
         }
         users.put(name, user);

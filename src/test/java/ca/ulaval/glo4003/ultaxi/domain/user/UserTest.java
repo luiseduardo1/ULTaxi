@@ -27,17 +27,17 @@ public class UserTest {
 
     @Test(expected = InvalidUserNameException.class)
     public void givenUserWithNullName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setUserName(null);
+        user.setUsername(null);
     }
 
     @Test(expected = InvalidUserNameException.class)
     public void givenUserWithEmptyName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setUserName(AN_INVALID_NAME);
+        user.setUsername(AN_INVALID_NAME);
     }
 
     @Test(expected = InvalidUserNameException.class)
     public void givenUserWithEmailAddressAsName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setUserName(AN_EMAIL_ADDRESS);
+        user.setUsername(AN_EMAIL_ADDRESS);
     }
 
     @Test(expected = InvalidPasswordException.class)
@@ -52,16 +52,16 @@ public class UserTest {
 
     @Test
     public void givenUserWithValidName_whenAssigningName_thenNameIsAssigned() {
-        user.setUserName(A_VALID_USERNAME);
+        user.setUsername(A_VALID_USERNAME);
     }
 
     @Test
     public void givenTwoUsersWithSameNameAndPasswords_whenCheckingIfTheyAreTheSame_thenReturnsTrue() {
         User anotherUser = new User();
-        anotherUser.setUserName(A_VALID_USERNAME);
+        anotherUser.setUsername(A_VALID_USERNAME);
         anotherUser.setPassword(A_VALID_PASSWORD);
         anotherUser.setHashingStrategy(A_HASHING_STRATEGY);
-        user.setUserName(A_VALID_USERNAME);
+        user.setUsername(A_VALID_USERNAME);
         user.setPassword(A_VALID_PASSWORD);
         user.setHashingStrategy(A_HASHING_STRATEGY);
 

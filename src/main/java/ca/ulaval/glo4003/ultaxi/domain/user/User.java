@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
 public class User {
 
-    private String userName;
+    private String username;
     private String password;
     private Role role;
     private String emailAddress;
@@ -23,17 +23,17 @@ public class User {
         this.password = password;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        if (!isUserNameValid(userName)) {
+    public void setUsername(String username) {
+        if (!isUserNameValid(username)) {
             throw new InvalidUserNameException(
-                String.format("%s is not a valid name.", userName)
+                String.format("%s is not a valid name.", username)
             );
         }
-        this.userName = userName.toLowerCase().trim();
+        this.username = username.toLowerCase().trim();
     }
 
     private boolean isUserNameValid(String name) {
@@ -66,7 +66,7 @@ public class User {
 
     public boolean isTheSameAs(User user) {
         return user != null
-            && user.getUserName().equals(this.userName)
+            && user.getUsername().equals(this.username)
             && hashingStrategy.areEquals(this.password, user.getPassword());
     }
 }

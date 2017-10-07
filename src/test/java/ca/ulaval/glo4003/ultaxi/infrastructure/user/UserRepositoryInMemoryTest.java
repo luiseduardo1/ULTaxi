@@ -26,20 +26,20 @@ public class UserRepositoryInMemoryTest {
     public void setUp() {
         userRepository = new UserRepositoryInMemory();
 
-        willReturn(A_NAME).given(user).getUserName();
+        willReturn(A_NAME).given(user).getUsername();
     }
 
     @Test
     public void givenUser_whenSave_thenUserHasSameParameters() {
         userRepository.save(user);
-        User savedUser = userRepository.findByUserName(user.getUserName());
+        User savedUser = userRepository.findByUserName(user.getUsername());
 
         assertEquals(user, savedUser);
     }
 
     @Test
     public void givenNonExistingUser_whenFindByName_thenReturnsNull() {
-        User returnedUser = userRepository.findByUserName(user.getUserName());
+        User returnedUser = userRepository.findByUserName(user.getUsername());
 
         assertNull(returnedUser);
     }
