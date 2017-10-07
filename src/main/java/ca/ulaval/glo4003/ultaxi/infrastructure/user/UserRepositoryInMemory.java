@@ -12,7 +12,7 @@ public class UserRepositoryInMemory implements UserRepository {
     private Map<String, User> users = new HashMap<>();
 
     @Override
-    public User findByName(String name) {
+    public User findByUserName(String name) {
         return users.get(name);
     }
 

@@ -28,7 +28,7 @@ public class UserAuthenticationServiceTest {
     public void setUp() throws Exception {
         this.userToAuthenticate = new User();
         userToAuthenticate.setUserName(A_NAME);
-        willReturn(user).given(userRepository).findByName(userToAuthenticate.getUserName());
+        willReturn(user).given(userRepository).findByUserName(userToAuthenticate.getUserName());
         userAuthenticationService = new UserAuthenticationService(userRepository);
     }
 

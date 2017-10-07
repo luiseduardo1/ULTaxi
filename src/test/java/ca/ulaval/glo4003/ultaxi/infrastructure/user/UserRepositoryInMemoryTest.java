@@ -32,14 +32,14 @@ public class UserRepositoryInMemoryTest {
     @Test
     public void givenUser_whenSave_thenUserHasSameParameters() {
         userRepository.save(user);
-        User savedUser = userRepository.findByName(user.getUserName());
+        User savedUser = userRepository.findByUserName(user.getUserName());
 
         assertEquals(user, savedUser);
     }
 
     @Test
     public void givenNonExistingUser_whenFindByName_thenReturnsNull() {
-        User returnedUser = userRepository.findByName(user.getUserName());
+        User returnedUser = userRepository.findByUserName(user.getUserName());
 
         assertNull(returnedUser);
     }

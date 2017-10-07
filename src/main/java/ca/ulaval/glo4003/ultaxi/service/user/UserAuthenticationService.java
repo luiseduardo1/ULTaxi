@@ -13,7 +13,7 @@ public class UserAuthenticationService {
     }
 
     public void authenticate(User userToAuthenticate) {
-        User validUser = userRepository.findByName(userToAuthenticate.getUserName());
+        User validUser = userRepository.findByUserName(userToAuthenticate.getUserName());
         if (validUser == null || !validUser.isTheSameAs(userToAuthenticate)) {
             throw new InvalidCredentialsException("Credentials are invalid.");
         }
