@@ -12,7 +12,7 @@ import org.junit.Test;
 public class UserTest {
 
     private static final String AN_EMAIL_ADDRESS = "ronald.beaubrun@ulaval.ca";
-    private static final String A_VALID_NAME = "Ronald Beaubrun";
+    private static final String A_VALID_USERNAME = "Ronald Beaubrun";
     private static final String A_VALID_PASSWORD = "mysupersecret";
     private static final String AN_INVALID_NAME = "      \t";
     private static final String AN_INVALID_PASSWORD = "    \t";
@@ -51,16 +51,16 @@ public class UserTest {
 
     @Test
     public void givenUserWithValidName_whenAssigningName_thenNameIsAssigned() {
-        user.setUserName(A_VALID_NAME);
+        user.setUserName(A_VALID_USERNAME);
     }
 
     @Test
     public void givenTwoUsersWithSameNameAndPasswords_whenCheckingIfTheyAreTheSame_thenReturnsTrue() {
         User anotherUser = new User();
-        anotherUser.setUserName(A_VALID_NAME);
+        anotherUser.setUserName(A_VALID_USERNAME);
         anotherUser.setPassword(A_VALID_PASSWORD);
         anotherUser.setHashingStrategy(A_HASHING_STRATEGY);
-        user.setUserName(A_VALID_NAME);
+        user.setUserName(A_VALID_USERNAME);
         user.setPassword(A_VALID_PASSWORD);
         user.setHashingStrategy(A_HASHING_STRATEGY);
 
