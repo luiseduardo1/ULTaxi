@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.transfer.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.HashingStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 

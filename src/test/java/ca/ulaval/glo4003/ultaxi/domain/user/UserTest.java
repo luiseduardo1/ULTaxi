@@ -5,7 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
-import ca.ulaval.glo4003.ultaxi.infrastructure.user.BcryptHashing;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import org.junit.Before;
 import org.junit.Test;
 

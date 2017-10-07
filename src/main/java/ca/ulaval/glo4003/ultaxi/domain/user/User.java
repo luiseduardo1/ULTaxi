@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
 public class User {
 

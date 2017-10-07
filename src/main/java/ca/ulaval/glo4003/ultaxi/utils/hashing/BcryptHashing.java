@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.ultaxi.infrastructure.user;
+package ca.ulaval.glo4003.ultaxi.utils.hashing;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.HashingStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class BcryptHashing implements HashingStrategy {

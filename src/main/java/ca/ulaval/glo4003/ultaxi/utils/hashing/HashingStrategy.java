@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.domain.user;
+package ca.ulaval.glo4003.ultaxi.utils.hashing;
 
 public interface HashingStrategy {
 
