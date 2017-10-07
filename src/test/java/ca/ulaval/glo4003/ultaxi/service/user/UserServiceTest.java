@@ -63,6 +63,7 @@ public class UserServiceTest {
         verify(userAuthenticationService).authenticate(user);
     }
 
+    @Test
     public void givenANewAddedUser_whenAddUser_thenMessagingServiceIsCalled() {
         willReturn(user).given(userAssembler).create(userDto);
 
