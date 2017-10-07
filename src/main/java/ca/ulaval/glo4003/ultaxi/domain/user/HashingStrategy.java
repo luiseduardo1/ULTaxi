@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.user;
 
 public interface HashingStrategy {
 
-    String hash(String password);
+    String hash(String value);
 
-    boolean areEquals(String plainPassword, String hashedPassword);
+    boolean areEquals(String plainValue, String hashedValue);
 }

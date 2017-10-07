@@ -6,20 +6,20 @@ import org.mindrot.jbcrypt.BCrypt;
 public class BcryptHashing implements HashingStrategy {
 
     @Override
-    public String hash(String password) {
-        String hashedPassword = null;
-        if (password != null) {
+    public String hash(String value) {
+        String hashedValue = null;
+        if (value != null) {
             String salt = BCrypt.gensalt();
-            hashedPassword = BCrypt.hashpw(password, salt);
+            hashedValue = BCrypt.hashpw(value, salt);
         }
 
-        return hashedPassword;
+        return hashedValue;
     }
 
     @Override
-    public boolean areEquals(String plainPassword, String hashedPassword) {
-        return plainPassword != null
-            && hashedPassword != null
-            && BCrypt.checkpw(plainPassword, hashedPassword);
+    public boolean areEquals(String plainValue, String hashedValue) {
+        return plainValue != null
+            && hashedValue != null
+            && BCrypt.checkpw(plainValue, hashedValue);
     }
 }
