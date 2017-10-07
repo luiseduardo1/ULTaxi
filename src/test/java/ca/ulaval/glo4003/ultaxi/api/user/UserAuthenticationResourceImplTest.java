@@ -6,8 +6,8 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import org.junit.Before;

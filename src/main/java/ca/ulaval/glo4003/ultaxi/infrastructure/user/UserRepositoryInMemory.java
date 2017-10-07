@@ -12,17 +12,16 @@ public class UserRepositoryInMemory implements UserRepository {
     private Map<String, User> users = new HashMap<>();
 
     @Override
-    public User findByName(String name) {
-        String formattedName = name.toLowerCase().trim();
-        return users.get(formattedName);
+    public User findByUserName(String name) {
+        return users.get(name);
     }
 
     @Override
     public void save(User user) {
-        String name = user.getUserName().toLowerCase().trim();
+        String name = user.getUsername();
         if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(
-                String.format("User with userName %s already exists.", user.getUserName())
+                String.format("User with userName %s already exists.", user.getUsername())
             );
         }
         users.put(name, user);

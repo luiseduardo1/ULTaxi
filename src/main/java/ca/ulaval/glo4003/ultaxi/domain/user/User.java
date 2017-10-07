@@ -1,37 +1,43 @@
 package ca.ulaval.glo4003.ultaxi.domain.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
 public class User {
 
-    private String userName;
+    private String username;
     private String password;
     private Role role;
     private String emailAddress;
+    private HashingStrategy hashingStrategy;
 
     public String getPassword() {
-        return password;
+        return hashingStrategy.hash(password);
     }
 
     public void setPassword(String password) {
+        if (isBlank(password)) {
+            throw new InvalidPasswordException("This password is not valid.");
+        }
         this.password = password;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-        if (!isValid()) {
+    public void setUsername(String username) {
+        if (!isUserNameValid(username)) {
             throw new InvalidUserNameException(
-                String.format("%s is not a valid name.", userName)
+                String.format("%s is not a valid name.", username)
             );
         }
+        this.username = username.toLowerCase().trim();
     }
 
-    private boolean isValid() {
-        return !isBlank(userName) && !userName.contains("@");
+    private boolean isUserNameValid(String name) {
+        return !isBlank(name) && !name.contains("@");
     }
 
     private boolean isBlank(String value) {
@@ -54,8 +60,13 @@ public class User {
         this.role = role;
     }
 
+    public void setHashingStrategy(HashingStrategy hashingStrategy) {
+        this.hashingStrategy = hashingStrategy;
+    }
+
     public boolean isTheSameAs(User user) {
-        return user.getUserName().equals(this.userName)
-            && user.getPassword().equals(this.password);
+        return user != null
+            && user.getUsername().equals(this.username)
+            && hashingStrategy.areEquals(this.password, user.getPassword());
     }
 }
