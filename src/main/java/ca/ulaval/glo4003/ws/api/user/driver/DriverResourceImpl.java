@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.ws.api.user.driver;
 
+import ca.ulaval.glo4003.ws.api.middleware.authentification.Secured;
 import ca.ulaval.glo4003.ws.api.user.driver.dto.DriverDto;
+import ca.ulaval.glo4003.ws.domain.user.Role;
 import ca.ulaval.glo4003.ws.domain.user.driver.DriverService;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ws.domain.user.exception.InvalidSinException;
@@ -18,6 +20,7 @@ public class DriverResourceImpl implements DriverResource {
     }
 
     @Override
+    @Secured(Role.Administrator)
     public Response createDriver(DriverDto driverDto) {
         try {
             driverService.addDriver(driverDto);
