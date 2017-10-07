@@ -15,6 +15,7 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueueProducer;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
+import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
@@ -24,7 +25,7 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfiguratio
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessageQueueInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
-import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserRepositoryInMemory;
@@ -135,7 +136,7 @@ public final class ULTaxiMain {
 
     private static UserService createUserService() {
         UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository);
-        UserAssembler userAssembler = new UserAssembler();
+        UserAssembler userAssembler = new UserAssembler(new BcryptHashing());
         MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueue);
         UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService,
                                                   messageQueueProducer);

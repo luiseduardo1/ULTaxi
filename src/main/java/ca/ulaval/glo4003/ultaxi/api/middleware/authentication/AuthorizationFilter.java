@@ -79,7 +79,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
     private void checkPermissions(List<Role> allowedRoles, String token) {
         String username = tokenManager.getUsername(token);
-        User user = userRepository.findByName(username);
+        User user = userRepository.findByUserName(username);
         if (user == null) {
             throw new InvalidUserNameException("Username is invalid.");
         }
