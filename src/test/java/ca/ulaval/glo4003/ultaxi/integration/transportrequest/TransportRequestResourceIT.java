@@ -17,12 +17,10 @@ import javax.ws.rs.core.Response;
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestResourceIT {
 
-    private static final int TEST_SERVER_PORT = 8080;
     private static final String API_USERS = "/api/users";
     private static final String API_USER_AUTHENTICATION = String.format("%s/auth", API_USERS);
     private static final String SIGNIN_ROUTE = String.format("%s/signin", API_USER_AUTHENTICATION);
     private static final String REQUEST_API = "/api/transportRequest";
-    private static final String URL_BASE = "http://localhost";
     private static final String A_VALID_NOTE = "Note";
     private static final String A_VALID_VEHICLE_TYPE = "Car";
     private static final String AN_INVALID_VEHICLE_TYPE = "Invalid";
@@ -82,11 +80,19 @@ public class TransportRequestResourceIT {
             .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
+    @Test
+    public void givenAnUnauthenticatedRequest_whenSendRequest_thenReturnsUnauthorized() {
+        givenBaseServer()
+            .body(givenATransportRequestWithInvalidVehicleType())
+            .when()
+            .post(REQUEST_API)
+            .then()
+            .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
     private RequestSpecification givenBaseServer() {
         return given()
-            .baseUri(URL_BASE)
             .accept(ContentType.JSON)
-            .port(TEST_SERVER_PORT)
             .contentType(ContentType.JSON);
     }
 
@@ -139,6 +145,6 @@ public class TransportRequestResourceIT {
             .when()
             .post(SIGNIN_ROUTE)
             .andReturn();
-        this.token = "Bearer " + response.getBody().asString();
+        this.token = String.format("Bearer %s", response.getBody().asString());
     }
 }

@@ -26,7 +26,11 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     public Response authenticateUser(UserDto userDto) {
         try {
             userService.authenticate(userDto);
-            String token = tokenManager.createToken(userDto.getUserName(), HOUR_IN_MILLISECONDS);
+            String username = userDto
+                .getUserName()
+                .toLowerCase()
+                .trim();
+            String token = tokenManager.createToken(username, HOUR_IN_MILLISECONDS);
             tokenRepository.save(tokenManager.getTokenId(token), token);
             return Response.ok().entity(token).build();
         } catch (InvalidCredentialsException exception) {
