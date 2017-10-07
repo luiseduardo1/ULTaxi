@@ -27,7 +27,7 @@ public class User {
     }
 
     public void setUserName(String userName) {
-        if (!isNameValid(userName)) {
+        if (!isUserNameValid(userName)) {
             throw new InvalidUserNameException(
                 String.format("%s is not a valid name.", userName)
             );
@@ -35,7 +35,7 @@ public class User {
         this.userName = userName.toLowerCase().trim();
     }
 
-    private boolean isNameValid(String name) {
+    private boolean isUserNameValid(String name) {
         return !isBlank(name) && !name.contains("@");
     }
 
