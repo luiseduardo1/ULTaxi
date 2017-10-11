@@ -4,6 +4,8 @@ import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
+import javax.validation.constraints.NotNull;
+
 public class User {
 
     private String username;
@@ -16,7 +18,7 @@ public class User {
         return hashingStrategy.hash(password);
     }
 
-    public void setPassword(String password) {
+    public void setPassword(@NotNull String password) {
         if (isBlank(password)) {
             throw new InvalidPasswordException("This password is not valid.");
         }
