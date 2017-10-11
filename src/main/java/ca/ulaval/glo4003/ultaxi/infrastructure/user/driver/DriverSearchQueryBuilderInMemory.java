@@ -17,11 +17,10 @@ import java.util.stream.Stream;
 public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilder {
 
     private final Map<String, User> users;
-    private final Set<Predicate<Driver>> predicates;
+    private final Set<Predicate<Driver>> predicates = new HashSet<>();
 
     public DriverSearchQueryBuilderInMemory(Map<String, User> users) {
         this.users = users;
-        this.predicates = new HashSet<>();
     }
 
     @Override
