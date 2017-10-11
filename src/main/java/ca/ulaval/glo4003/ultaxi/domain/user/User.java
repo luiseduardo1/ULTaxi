@@ -18,7 +18,7 @@ public class User {
         return hashingStrategy.hash(password);
     }
 
-    public void setPassword(@NotNull String password) {
+    public void setPassword(String password) {
         if (isBlank(password)) {
             throw new InvalidPasswordException("This password is not valid.");
         }
