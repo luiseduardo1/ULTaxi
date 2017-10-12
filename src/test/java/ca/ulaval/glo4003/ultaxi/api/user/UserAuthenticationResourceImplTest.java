@@ -8,7 +8,7 @@ import static org.mockito.Mockito.verify;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
-import ca.ulaval.glo4003.ultaxi.service.user.UserService;
+import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class UserAuthenticationResourceImplTest {
     private static final String A_TOKEN = "Ronald Beabrun";
     private static final String AN_ID = "RONALD_BEAUBRUN";
     @Mock
-    private UserService userService;
+    private UserAuthenticationService userAuthenticationService;
 
     @Mock
     private UserDto userDto;
@@ -39,7 +39,7 @@ public class UserAuthenticationResourceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        userAuthenticationResource = new UserAuthenticationResourceImpl(userService,
+        userAuthenticationResource = new UserAuthenticationResourceImpl(userAuthenticationService,
                                                                         tokenRepository, tokenManager);
     }
 
@@ -54,7 +54,7 @@ public class UserAuthenticationResourceImplTest {
     @Test
     public void givenAnUserToAuthenticateWithBadCredentials_whenAuthenticating_thenResponseIsForbidden() {
 
-        doThrow(new InvalidCredentialsException("")).when(userService).authenticate(userDto);
+        doThrow(new InvalidCredentialsException("")).when(userAuthenticationService).authenticate(userDto);
         Response response = userAuthenticationResource.authenticateUser(userDto);
 
         assertEquals(Response.Status.FORBIDDEN.getStatusCode(), response.getStatus());
