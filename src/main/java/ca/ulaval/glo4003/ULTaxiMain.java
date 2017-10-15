@@ -143,7 +143,6 @@ public final class ULTaxiMain {
     }
 
     private static UserAuthenticationService createUserAuthenticationService() {
-        // We don't want concurrency issue so we create a new user assembler instead of reusing an existing one
         UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
                                                                                             createUserAssembler());
 
@@ -151,7 +150,6 @@ public final class ULTaxiMain {
     }
 
     private static UserAssembler createUserAssembler() {
-        // We create a new hashing strategy to avoid potential concurrency issues
         return new UserAssembler(createHashingStrategy());
     }
 
