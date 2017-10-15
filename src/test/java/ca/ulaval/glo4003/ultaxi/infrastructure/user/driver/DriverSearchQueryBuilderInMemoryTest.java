@@ -18,6 +18,8 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
     private DriverSearchQueryBuilder driverSearchQueryBuilder;
 
+    private static final int UNFILTERED_NUMBER_OF_DRIVERS = 3;
+
     @Before
     public void setUp() {
         driverSearchQueryBuilder = new DriverSearchQueryBuilderInMemory(givenDrivers());
@@ -27,7 +29,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenSomeDriversNoFilter_whenFindingAll_thenReturnsAllTheDrivers() {
         List<Driver> foundDrivers = driverSearchQueryBuilder.findAll();
 
-        assertEquals(3, foundDrivers.size());
+        assertEquals(UNFILTERED_NUMBER_OF_DRIVERS, foundDrivers.size());
     }
 
     @Test(expected = EmptySearchResultsException.class)
