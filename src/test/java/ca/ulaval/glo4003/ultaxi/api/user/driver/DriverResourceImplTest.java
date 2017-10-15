@@ -36,7 +36,7 @@ public class DriverResourceImplTest {
 
     private static final String A_SIN = "972487086";
     private static final String A_FIRST_NAME = "Ronald";
-    private static final String A_LAST_NAME = "Beaubrun";
+    private static final String A_LAST_NAME = "Macdonald";
 
     @Before
     public void setUp() {
