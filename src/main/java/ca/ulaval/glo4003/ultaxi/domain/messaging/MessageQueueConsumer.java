@@ -10,7 +10,7 @@ public class MessageQueueConsumer {
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you for your request to " +
         "subscribe to ULTaxi. \nHope you will enjoy it! \n " +
         "\n \n";
-    private static final String EMAIL_SIGNATURE = "Ronald Beaubrun from ULTaxi";
+    private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
 
     private MessageQueue messageQueue;
 

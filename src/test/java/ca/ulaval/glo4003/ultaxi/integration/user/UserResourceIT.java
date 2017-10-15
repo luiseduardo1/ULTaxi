@@ -19,8 +19,8 @@ public class UserResourceIT {
 
     private static final String USERS_API = "/api/users";
 
-    private static final String A_VALID_PASSWORD = "Beaubrun";
-    private static final String AN_INVALID_NAME = "ronald.beaubrun@ulaval.ca";
+    private static final String A_VALID_PASSWORD = "Macdonald";
+    private static final String AN_INVALID_NAME = "ronald.macdonald@ulaval.ca";
 
     private static String aValidName;
 

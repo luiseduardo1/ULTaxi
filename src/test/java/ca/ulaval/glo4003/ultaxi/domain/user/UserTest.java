@@ -19,8 +19,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class UserTest {
 
-    private static final String AN_EMAIL_ADDRESS = "ronald.beaubrun@ulaval.ca";
-    private static final String A_VALID_USERNAME = "Ronald Beaubrun";
+    private static final String AN_EMAIL_ADDRESS = "ronald.macdonald@ulaval.ca";
+    private static final String A_VALID_USERNAME = "Ronald Macdonald";
     private static final String A_VALID_PASSWORD = "mysupersecret";
     private static final String AN_INVALID_NAME = "      \t";
     private static final String AN_INVALID_PASSWORD = "    \t";

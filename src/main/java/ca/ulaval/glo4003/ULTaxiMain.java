@@ -125,7 +125,8 @@ public final class ULTaxiMain {
 
         UserResource userResource = createUserResource(userService);
         VehicleResource vehicleResource = createVehicleResource(vehicleService);
-        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(userAuthenticationService);
+        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource
+            (userAuthenticationService);
         TransportRequestResource transportRequestResource = createTransportRequestResource();
 
         resources.add(userResource);
