@@ -25,7 +25,6 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfiguratio
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessageQueueInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
-import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserRepositoryInMemory;
@@ -39,6 +38,7 @@ import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;

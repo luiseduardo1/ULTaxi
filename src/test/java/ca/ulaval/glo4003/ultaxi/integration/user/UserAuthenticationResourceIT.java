@@ -21,7 +21,7 @@ public class UserAuthenticationResourceIT {
     private static final String API_USER_AUTHENTICATION = String.format("%s/auth", API_USERS);
     private static final String SIGNIN_ROUTE = String.format("%s/signin", API_USER_AUTHENTICATION);
     private static final String SIGNOUT_ROUTE = String.format("%s/signout", API_USER_AUTHENTICATION);
-    private static final String A_VALID_PASSWORD = "Beaubrun";
+    private static final String A_VALID_PASSWORD = "Macdonald";
     private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
     private static final String A_DIFFERENT_PASSWORD = "Nadir";
     private static final String A_ROLE = "Client";
