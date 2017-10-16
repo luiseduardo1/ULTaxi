@@ -15,16 +15,13 @@ public class UserService {
 
     private UserRepository userRepository;
     private UserAssembler userAssembler;
-    private UserAuthenticationService userAuthenticationService;
     private MessageQueueProducer messageQueueProducer;
 
     public UserService(UserRepository userRepository,
         UserAssembler userAssembler,
-        UserAuthenticationService userAuthenticationService,
         MessageQueueProducer messageQueueProducer) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
-        this.userAuthenticationService = userAuthenticationService;
         this.messageQueueProducer = messageQueueProducer;
     }
 
@@ -35,11 +32,5 @@ public class UserService {
 
         Message registrationMessage = new Message(user.getEmailAddress(), "Registration");
         messageQueueProducer.send(registrationMessage);
-    }
-
-    public void authenticate(UserDto userDto) {
-        logger.info(String.format("Authenticating user %s.", userDto));
-        User user = userAssembler.create(userDto);
-        userAuthenticationService.authenticate(user);
     }
 }

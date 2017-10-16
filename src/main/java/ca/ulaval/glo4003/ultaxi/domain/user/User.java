@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.domain.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
@@ -13,14 +14,19 @@ public class User {
     private HashingStrategy hashingStrategy;
 
     public String getPassword() {
-        return hashingStrategy.hash(password);
+        return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password, HashingStrategy hashingStrategy) {
         if (isBlank(password)) {
             throw new InvalidPasswordException("This password is not valid.");
         }
-        this.password = password;
+
+        if (hashingStrategy == null) {
+            throw new InvalidHashingStrategyException("The hashing strategy is not valid.");
+        }
+        this.hashingStrategy = hashingStrategy;
+        this.password = hashingStrategy.hash(password);
     }
 
     public String getUsername() {
@@ -60,13 +66,10 @@ public class User {
         this.role = role;
     }
 
-    public void setHashingStrategy(HashingStrategy hashingStrategy) {
-        this.hashingStrategy = hashingStrategy;
-    }
-
-    public boolean isTheSameAs(User user) {
-        return user != null
-            && user.getUsername().equals(this.username)
-            && hashingStrategy.areEquals(this.password, user.getPassword());
+    public boolean areCredentialsValid(String username, String plainTextPassword) {
+        return username != null
+            && plainTextPassword != null
+            && username.equals(this.username)
+            && hashingStrategy.areEquals(plainTextPassword, password);
     }
 }

@@ -2,14 +2,21 @@ package ca.ulaval.glo4003.ultaxi.domain.user;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyString;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
-import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UserTest {
 
     private static final String AN_EMAIL_ADDRESS = "ronald.macdonald@ulaval.ca";
@@ -17,7 +24,9 @@ public class UserTest {
     private static final String A_VALID_PASSWORD = "mysupersecret";
     private static final String AN_INVALID_NAME = "      \t";
     private static final String AN_INVALID_PASSWORD = "    \t";
-    private static final HashingStrategy A_HASHING_STRATEGY = new BcryptHashing();
+    private static final String A_HASH = RandomStringUtils.randomAlphabetic(10);
+    @Mock
+    private HashingStrategy hashingStrategy;
     private User user;
 
     @Before
@@ -42,12 +51,17 @@ public class UserTest {
 
     @Test(expected = InvalidPasswordException.class)
     public void givenUserWithEmptyPassword_whenAssigningPassword_thenThrowsInvalidPasswordException() {
-        user.setPassword(AN_INVALID_PASSWORD);
+        user.setPassword(AN_INVALID_PASSWORD, hashingStrategy);
     }
 
     @Test(expected = InvalidPasswordException.class)
     public void givenUserWithNullPassword_whenAssigningPassword_thenThrowsInvalidPasswordException() {
-        user.setPassword(null);
+        user.setPassword(null, hashingStrategy);
+    }
+
+    @Test(expected = InvalidHashingStrategyException.class)
+    public void givenUserWithNullHashingStrategy_whenAssigningPassword_thenThrowsInvalidHashingStrategyException() {
+        user.setPassword(A_VALID_PASSWORD, null);
     }
 
     @Test
@@ -57,19 +71,19 @@ public class UserTest {
 
     @Test
     public void givenTwoUsersWithSameNameAndPasswords_whenCheckingIfTheyAreTheSame_thenReturnsTrue() {
+        willReturn(A_HASH).given(hashingStrategy).hash(anyString());
+        willReturn(true).given(hashingStrategy).areEquals(anyString(), anyString());
         User anotherUser = new User();
         anotherUser.setUsername(A_VALID_USERNAME);
-        anotherUser.setPassword(A_VALID_PASSWORD);
-        anotherUser.setHashingStrategy(A_HASHING_STRATEGY);
+        anotherUser.setPassword(A_VALID_PASSWORD, hashingStrategy);
         user.setUsername(A_VALID_USERNAME);
-        user.setPassword(A_VALID_PASSWORD);
-        user.setHashingStrategy(A_HASHING_STRATEGY);
+        user.setPassword(A_VALID_PASSWORD, hashingStrategy);
 
-        assertTrue(user.isTheSameAs(anotherUser));
+        assertTrue(user.areCredentialsValid(anotherUser.getUsername(), A_VALID_PASSWORD));
     }
 
     @Test
-    public void givenAUserAndAnotherNullUser_whenCheckingIfTheyAreTheSame_thenReturnsFalse() {
-        assertFalse(user.isTheSameAs(null));
+    public void givenAUserAndNullCredentials_whenCheckingIfTheCredentialsAreValid_thenReturnsFalse() {
+        assertFalse(user.areCredentialsValid(null, null));
     }
 }
