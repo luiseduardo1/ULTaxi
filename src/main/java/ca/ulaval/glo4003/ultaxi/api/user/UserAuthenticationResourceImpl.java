@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.ultaxi.api.user;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
-import ca.ulaval.glo4003.ultaxi.service.user.UserService;
+import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 
 import javax.ws.rs.core.Response;
@@ -11,13 +11,14 @@ import javax.ws.rs.core.Response;
 public class UserAuthenticationResourceImpl implements UserAuthenticationResource {
 
     private static long HOUR_IN_MILLISECONDS = 3600000;
-    private UserService userService;
+    private UserAuthenticationService userAuthenticationService;
     private TokenManager tokenManager;
     private TokenRepository tokenRepository;
 
-    public UserAuthenticationResourceImpl(UserService userService, TokenRepository tokenRepository,
+    public UserAuthenticationResourceImpl(UserAuthenticationService userAuthenticationService, TokenRepository
+        tokenRepository,
         TokenManager tokenManager) {
-        this.userService = userService;
+        this.userAuthenticationService = userAuthenticationService;
         this.tokenManager = tokenManager;
         this.tokenRepository = tokenRepository;
     }
@@ -25,12 +26,8 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     @Override
     public Response authenticateUser(UserDto userDto) {
         try {
-            userService.authenticate(userDto);
-            String username = userDto
-                .getUserName()
-                .toLowerCase()
-                .trim();
-            String token = tokenManager.createToken(username, HOUR_IN_MILLISECONDS);
+            userAuthenticationService.authenticate(userDto);
+            String token = tokenManager.createToken(userDto.getUserName(), HOUR_IN_MILLISECONDS);
             tokenRepository.save(tokenManager.getTokenId(token), token);
             return Response.ok().entity(token).build();
         } catch (InvalidCredentialsException exception) {

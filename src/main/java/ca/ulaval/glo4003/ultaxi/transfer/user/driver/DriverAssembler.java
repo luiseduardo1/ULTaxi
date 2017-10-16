@@ -1,13 +1,20 @@
 package ca.ulaval.glo4003.ultaxi.transfer.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
 public class DriverAssembler {
+
+    private final HashingStrategy hashingStrategy;
+
+    public DriverAssembler(HashingStrategy hashingStrategy) {
+        this.hashingStrategy = hashingStrategy;
+    }
 
     public Driver create(DriverDto driverDto) {
         Driver driver = new Driver();
         driver.setUsername(driverDto.getUserName());
-        driver.setPassword(driverDto.getPassword());
+        driver.setPassword(driverDto.getPassword(), hashingStrategy);
         driver.setName(driverDto.getName());
         driver.setLastName(driverDto.getLastName());
         driver.setPhoneNumber(driverDto.getPhoneNumber());

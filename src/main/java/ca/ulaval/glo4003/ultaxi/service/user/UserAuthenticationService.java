@@ -3,18 +3,23 @@ package ca.ulaval.glo4003.ultaxi.service.user;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 
 public class UserAuthenticationService {
 
     private UserRepository userRepository;
+    private UserAssembler userAssembler;
 
-    public UserAuthenticationService(UserRepository userRepository) {
+    public UserAuthenticationService(UserRepository userRepository, UserAssembler userAssembler) {
         this.userRepository = userRepository;
+        this.userAssembler = userAssembler;
     }
 
-    public void authenticate(User userToAuthenticate) {
-        User validUser = userRepository.findByUserName(userToAuthenticate.getUsername());
-        if (validUser == null || !validUser.isTheSameAs(userToAuthenticate)) {
+    public void authenticate(UserDto userDto) {
+        User user = userAssembler.create(userDto);
+        User validUser = userRepository.findByUserName(user.getUsername());
+        if (validUser == null || !validUser.areCredentialsValid(user.getUsername(), userDto.getPassword())) {
             throw new InvalidCredentialsException("Credentials are invalid.");
         }
     }
