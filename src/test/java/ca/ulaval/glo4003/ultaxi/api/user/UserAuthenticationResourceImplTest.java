@@ -21,8 +21,8 @@ import javax.ws.rs.core.Response;
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationResourceImplTest {
 
-    private static final String A_TOKEN = "Ronald Beabrun";
-    private static final String AN_ID = "RONALD_BEAUBRUN";
+    private static final String A_TOKEN = "Ronald Mcdonald";
+    private static final String AN_ID = "RONALD_MACDONALD";
     @Mock
     private UserAuthenticationService userAuthenticationService;
 
