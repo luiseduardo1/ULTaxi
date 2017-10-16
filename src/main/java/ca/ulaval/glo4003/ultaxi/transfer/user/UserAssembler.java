@@ -16,7 +16,6 @@ public class UserAssembler {
         User user = new User();
         user.setUsername(userDto.getUserName());
         user.setPassword(userDto.getPassword(), hashingStrategy);
-        user.setRole(Role.valueOf(userDto.getRole()));
         user.setEmailAddress(userDto.getEmail());
         return user;
     }
@@ -25,7 +24,6 @@ public class UserAssembler {
         UserDto userDto = new UserDto();
         userDto.setUserName(user.getUsername());
         userDto.setPassword(user.getPassword());
-        userDto.setRole(user.getRole().name());
         userDto.setEmail(user.getEmailAddress());
         return userDto;
     }

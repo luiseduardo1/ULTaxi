@@ -106,7 +106,6 @@ public class UserAuthenticationResourceIT {
         userDto.setUserName(aValidName);
         userDto.setPassword(A_VALID_PASSWORD);
         userDto.setEmail(A_VALID_EMAIL);
-        userDto.setRole("Client");
         Gson gson = new Gson();
         return gson.toJson(userDto);
     }
@@ -116,7 +115,6 @@ public class UserAuthenticationResourceIT {
         userDto.setUserName(aValidName);
         userDto.setPassword(A_DIFFERENT_PASSWORD);
         userDto.setEmail(A_VALID_EMAIL);
-        userDto.setRole(A_ROLE);
         Gson gson = new Gson();
         return gson.toJson(userDto);
     }

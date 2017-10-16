@@ -130,7 +130,6 @@ public class TransportRequestResourceIT {
         userDto.setUserName("Bob");
         userDto.setPassword("Bob123");
         userDto.setEmail("bob@ulaval.ca");
-        userDto.setRole("Client");
         Gson gson = new Gson();
         return gson.toJson(userDto);
     }
