@@ -38,7 +38,7 @@ public class UserAuthenticationServiceTest {
         this.userToAuthenticate = new UserDto();
         userToAuthenticate.setUserName(A_NAME);
         userToAuthenticate.setPassword(A_PASSWORD);
-        willReturn(user).given(userRepository).findByUserName(A_NAME.trim().toLowerCase());
+        willReturn(user).given(userRepository).findByUsername(A_NAME.trim().toLowerCase());
         willReturn(anotherUser).given(userAssembler).create(any(UserDto.class));
         userAuthenticationService = new UserAuthenticationService(userRepository, userAssembler);
     }

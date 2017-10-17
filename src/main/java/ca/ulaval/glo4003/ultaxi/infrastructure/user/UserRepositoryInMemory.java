@@ -14,12 +14,12 @@ public class UserRepositoryInMemory implements UserRepository {
     private Map<String, User> users = new HashMap<>();
 
     @Override
-    public User findByUserName(String username) {
-        String name = "";
+    public User findByUsername(String username) {
+        String searchedUsername = "";
         if (username != null) {
-            name = username;
+            searchedUsername = username;
         }
-        return users.get(name.trim().toLowerCase());
+        return users.get(searchedUsername.trim().toLowerCase());
     }
 
     @Override
