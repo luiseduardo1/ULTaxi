@@ -4,11 +4,9 @@ import static io.restassured.RestAssured.given;
 
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
-import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
