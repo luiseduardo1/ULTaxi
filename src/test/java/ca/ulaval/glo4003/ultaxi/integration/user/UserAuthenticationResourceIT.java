@@ -26,7 +26,7 @@ public class UserAuthenticationResourceIT {
     private static final String A_DIFFERENT_PASSWORD = "Nadir";
     private static final String A_ROLE = "Client";
 
-    private static String aValidName;
+    private String aValidName;
 
     @Before
     public void setUp() throws Exception {
