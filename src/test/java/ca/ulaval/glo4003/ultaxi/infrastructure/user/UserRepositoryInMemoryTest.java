@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.willReturn;
 
@@ -16,7 +17,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class UserRepositoryInMemoryTest {
 
-    private static final String A_NAME = "Ronald";
+    private static final String A_NAME = "ronald";
+    private static final String A_DIFFERENT_CASED_NAME = "rOnAld";
 
     @Mock
     private User user;
@@ -42,6 +44,15 @@ public class UserRepositoryInMemoryTest {
         User returnedUser = userRepository.findByUserName(user.getUsername());
 
         assertNull(returnedUser);
+    }
+
+    @Test
+    public void givenUserWithDifferentNameCasing_whenFindByName_thenReturnsTheUser() {
+        userRepository.save(user);
+
+        User savedUser = userRepository.findByUserName(A_DIFFERENT_CASED_NAME);
+
+        assertNotNull(savedUser);
     }
 
     @Test(expected = UserAlreadyExistsException.class)
