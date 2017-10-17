@@ -17,7 +17,6 @@ public class UserAssembler {
         user.setUsername(userDto.getUserName());
         user.setPassword(userDto.getPassword(), hashingStrategy);
         user.setEmailAddress(userDto.getEmail());
-        user.setRole(Role.Client);
         return user;
     }
 
