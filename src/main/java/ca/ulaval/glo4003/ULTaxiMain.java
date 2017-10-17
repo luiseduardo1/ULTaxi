@@ -61,10 +61,10 @@ import java.util.Set;
 public final class ULTaxiMain {
 
     private static final int SERVER_PORT = 8080;
-    public static TokenManager tokenManager = new JWTTokenManager();
-    public static TokenRepository tokenRepository = new TokenRepositoryInMemory();
-    public static UserRepository userRepository = new UserRepositoryInMemory();
-    public static VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
+    public static final TokenManager tokenManager = new JWTTokenManager();
+    public static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
+    public static final UserRepository userRepository = new UserRepositoryInMemory();
+    public static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
     private static boolean isDev = true; // Would be a JVM argument or in a .property file
     private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
     private static MessageQueue messageQueue = new MessageQueueInMemory();
