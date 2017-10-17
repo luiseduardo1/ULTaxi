@@ -24,7 +24,6 @@ public class UserAuthenticationResourceIT {
     private static final String A_VALID_PASSWORD = "Macdonald";
     private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
     private static final String A_DIFFERENT_PASSWORD = "Nadir";
-    private static final String A_ROLE = "Client";
 
     private String aValidName;
 
@@ -87,7 +86,7 @@ public class UserAuthenticationResourceIT {
         givenBaseUserServer()
             .header(
                 "Authorization",
-                response.getBody().asString()
+                String.format("Bearer %s", response.getBody().asString())
             )
             .when()
             .post(SIGNOUT_ROUTE)
