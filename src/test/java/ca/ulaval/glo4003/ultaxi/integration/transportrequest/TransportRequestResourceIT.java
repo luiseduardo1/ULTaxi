@@ -4,9 +4,11 @@ import static io.restassured.RestAssured.given;
 
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +35,7 @@ public class TransportRequestResourceIT {
 
     @Before
     public void setUp() {
-        getToken();
+        this.token = getToken();
     }
 
     @Test
@@ -83,7 +85,7 @@ public class TransportRequestResourceIT {
     @Test
     public void givenAnUnauthenticatedRequest_whenSendRequest_thenReturnsUnauthorized() {
         givenBaseServer()
-            .body(givenATransportRequestWithInvalidVehicleType())
+            .body(givenAValidTransportRequest())
             .when()
             .post(REQUEST_API)
             .then()
@@ -134,16 +136,17 @@ public class TransportRequestResourceIT {
         return gson.toJson(userDto);
     }
 
-    private void getToken() {
+    private String getToken() {
+        String user = givenUser();
         givenBaseServer()
-            .body(givenUser())
+            .body(user)
             .when()
             .post(API_USERS);
         io.restassured.response.Response response = givenBaseServer()
-            .body(givenUser())
+            .body(user)
             .when()
             .post(SIGNIN_ROUTE)
             .andReturn();
-        this.token = String.format("Bearer %s", response.getBody().asString());
+        return String.format("Bearer %s", response.getBody().asString());
     }
 }
