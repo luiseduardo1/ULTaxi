@@ -18,7 +18,7 @@ public class UserAuthenticationService {
 
     public void authenticate(UserDto userDto) {
         User user = userAssembler.create(userDto);
-        User validUser = userRepository.findByUserName(user.getUsername());
+        User validUser = userRepository.findByUsername(user.getUsername());
         if (validUser == null || !validUser.areCredentialsValid(user.getUsername(), userDto.getPassword())) {
             throw new InvalidCredentialsException("Credentials are invalid.");
         }

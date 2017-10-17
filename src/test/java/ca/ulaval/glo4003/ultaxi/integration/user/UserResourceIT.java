@@ -22,7 +22,7 @@ public class UserResourceIT {
     private static final String A_VALID_PASSWORD = "Macdonald";
     private static final String AN_INVALID_NAME = "ronald.macdonald@ulaval.ca";
 
-    private static String aValidName;
+    private String aValidName;
 
     @Before
     public void setUp() {

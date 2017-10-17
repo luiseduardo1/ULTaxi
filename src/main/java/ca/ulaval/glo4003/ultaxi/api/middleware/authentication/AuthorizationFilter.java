@@ -43,6 +43,10 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
         String authorisationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+        if (authorisationHeader == null) {
+            // Necessary to short circuit the method if the authorization header was not given
+            return;
+        }
         String token = authorisationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
 
         Class<?> resourceClass = resourceInfo.getResourceClass();
@@ -79,7 +83,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
     private void checkPermissions(List<Role> allowedRoles, String token) {
         String username = tokenManager.getUsername(token);
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new InvalidUserNameException("Username is invalid.");
         }

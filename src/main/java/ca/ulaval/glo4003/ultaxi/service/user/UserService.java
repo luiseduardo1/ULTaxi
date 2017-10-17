@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.service.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.Message;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueueProducer;
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
@@ -28,8 +29,8 @@ public class UserService {
     public void addUser(UserDto userDto) {
         logger.info(String.format("Add new user %s.", userDto));
         User user = userAssembler.create(userDto);
+        user.setRole(Role.Client);
         userRepository.save(user);
-
         Message registrationMessage = new Message(user.getEmailAddress(), "Registration");
         messageQueueProducer.send(registrationMessage);
     }

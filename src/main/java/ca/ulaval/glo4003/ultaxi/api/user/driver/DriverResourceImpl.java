@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.user.driver;
 
+import ca.ulaval.glo4003.ultaxi.api.middleware.authentication.Secured;
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSinException;
@@ -21,6 +23,7 @@ public class DriverResourceImpl implements DriverResource {
     }
 
     @Override
+    @Secured(Role.Administrator)
     public Response createDriver(DriverDto driverDto) {
         try {
             driverService.addDriver(driverDto);
