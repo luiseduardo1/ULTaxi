@@ -32,7 +32,7 @@ public class DriverResourceIT {
     }
 
     @Test
-    public void givenUnauthenticatedUser_whenCreateADriver_thenReturnsUnauthorized() {
+    public void givenUnauthenticatedAdministrator_whenCreateADriver_thenReturnsUnauthorized() {
         givenBaseServer()
             .body(givenDriver())
             .when()
@@ -42,7 +42,7 @@ public class DriverResourceIT {
     }
 
     @Test
-    public void givenUnauthenticatedUser_whenSearchingForDrivers_thenReturnsUnauthorized() {
+    public void givenUnauthenticatedAdministrator_whenSearchingForDrivers_thenReturnsUnauthorized() {
         givenBaseServer()
             .queryParam("first-name", A_VALID_NAME)
             .when()
