@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.ULTaxiMain;
 import ca.ulaval.glo4003.ultaxi.integration.transportrequest.TransportRequestResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.user.UserAuthenticationResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.user.UserResourceIT;
+import ca.ulaval.glo4003.ultaxi.integration.user.driver.DriverResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.vehicle.VehicleResourceIT;
 import io.restassured.RestAssured;
 import org.junit.BeforeClass;
@@ -17,7 +18,8 @@ import org.junit.runners.Suite;
     UserAuthenticationResourceIT.class,
     UserResourceIT.class,
     TransportRequestResourceIT.class,
-    VehicleResourceIT.class
+    VehicleResourceIT.class,
+    DriverResourceIT.class
 })
 public class BaseIntegrationTest {
 
