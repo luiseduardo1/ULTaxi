@@ -20,7 +20,8 @@ public class TransportRequestResourceIT {
     private static final String API_USERS = "/api/users";
     private static final String API_USER_AUTHENTICATION = String.format("%s/auth", API_USERS);
     private static final String SIGNIN_ROUTE = String.format("%s/signin", API_USER_AUTHENTICATION);
-    private static final String REQUEST_API = "/api/transportRequest";
+    private static final String API_REQUEST = "/api/transportRequest";
+    private static final String API_SEARCH_REQUESTS = String.format("%s/search", API_REQUEST);
     private static final String A_VALID_NOTE = "Note";
     private static final String A_VALID_VEHICLE_TYPE = "Car";
     private static final String AN_INVALID_VEHICLE_TYPE = "Invalid";
@@ -28,6 +29,7 @@ public class TransportRequestResourceIT {
     private static final double A_VALID_LONGITUDE = 15.34344;
     private static final double AN_INVALID_LATITUDE = -145.12321;
     private static final double AN_INVALID_LONGITUDE = 235.34344;
+    private static final String AN_INVALID_TOKEN = "Invalid token";
 
     private String token;
 
@@ -37,12 +39,12 @@ public class TransportRequestResourceIT {
     }
 
     @Test
-    public void givenATransportRequest_whenSendRequest_thenRequestIsCreated() {
+    public void givenAnAuthorizedUser_whenSendTransportRequest_thenRequestIsCreated() {
         givenBaseServer()
                 .header("Authorization", token)
                 .body(givenAValidTransportRequest())
                 .when()
-                .post(REQUEST_API)
+                .post(API_REQUEST)
                 .then()
                 .statusCode(Response.Status.CREATED.getStatusCode());
     }
@@ -53,7 +55,7 @@ public class TransportRequestResourceIT {
                 .header("Authorization", token)
                 .body(givenATransportRequestWithInvalidLatitude())
                 .when()
-                .post(REQUEST_API)
+                .post(API_REQUEST)
                 .then()
                 .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
@@ -64,7 +66,7 @@ public class TransportRequestResourceIT {
                 .header("Authorization", token)
                 .body(givenATransportRequestWithInvalidLongitude())
                 .when()
-                .post(REQUEST_API)
+                .post(API_REQUEST)
                 .then()
                 .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
@@ -75,17 +77,27 @@ public class TransportRequestResourceIT {
                 .header("Authorization", token)
                 .body(givenATransportRequestWithInvalidVehicleType())
                 .when()
-                .post(REQUEST_API)
+                .post(API_REQUEST)
                 .then()
                 .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
-    public void givenAnUnauthenticatedRequest_whenSendRequest_thenReturnsUnauthorized() {
+    public void givenAnUnauthenticatedClient_whenSendTransportRequest_thenReturnsUnauthorized() {
         givenBaseServer()
                 .body(givenAValidTransportRequest())
                 .when()
-                .post(REQUEST_API)
+                .post(API_REQUEST)
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    public void givenAUnauthenticatedDriver_whenSearchAvailableTransportRequest_thenReturnsUnauthorized() {
+        givenBaseServer()
+                .body(AN_INVALID_TOKEN)
+                .when()
+                .get(API_SEARCH_REQUESTS)
                 .then()
                 .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
     }

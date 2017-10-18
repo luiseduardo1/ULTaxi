@@ -23,7 +23,9 @@ public class TransportRequestSearchQueryBuilderInMemory implements TransportRequ
 
     @Override
     public List<TransportRequest> findAll() {
-        Stream<TransportRequest> transportRequests = this.transportRequests.values().stream();
+        Stream<TransportRequest> transportRequests = this.transportRequests
+                .values()
+                .stream();
 
         return throwIfEmptySearchResults(
                 predicates
@@ -43,8 +45,19 @@ public class TransportRequestSearchQueryBuilderInMemory implements TransportRequ
 
     @Override
     public TransportRequestSearchQueryBuilder withVehicleType(String vehicleType) {
-        predicates.add(transportRequest -> transportRequest.getVehicleType().equals(vehicleType.trim()));
+        return withNonNull(transportRequest -> isSubsetOf(transportRequest.getVehicleType(), vehicleType), vehicleType);
+    }
+
+    private TransportRequestSearchQueryBuilder withNonNull(Predicate<TransportRequest> predicate, String value) {
+        if (value != null) {
+            predicates.add(predicate);
+        }
+
         return this;
+    }
+
+    private boolean isSubsetOf(String value, String subset) {
+        return value.toLowerCase().contains(subset.toLowerCase().trim());
     }
 
 }
