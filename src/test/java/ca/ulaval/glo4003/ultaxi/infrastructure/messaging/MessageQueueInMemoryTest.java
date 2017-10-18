@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 
-import static org.junit.Assert.assertEquals;
-
 import ca.ulaval.glo4003.ultaxi.builder.MessageBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.Message;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class MessageQueueInMemoryTest {
 
@@ -22,9 +22,9 @@ public class MessageQueueInMemoryTest {
 
     @Test
     public void givenAMessage_whenMessageIsEnqueued_thenMessageHasSameParameters()
-        throws InterruptedException {
+            throws InterruptedException {
         Message messageToBeEnqueued = given(
-            aMessage().withSendTo(A_RECIPIENT_ADDRESS).withReason(A_REASON));
+                aMessage().withSendTo(A_RECIPIENT_ADDRESS).withReason(A_REASON));
 
         messageQueue.enqueue(messageToBeEnqueued);
 

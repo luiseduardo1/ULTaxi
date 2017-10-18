@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.integration.user;
 
-import static io.restassured.RestAssured.given;
-
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
@@ -13,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
+
+import static io.restassured.RestAssured.given;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationResourceIT {
@@ -35,69 +35,69 @@ public class UserAuthenticationResourceIT {
     @Test
     public void givenUser_whenAuthenticate_thenUserIsAuthenticated() {
         givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(API_USERS);
+                .body(givenUser())
+                .when()
+                .post(API_USERS);
 
         givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(SIGNIN_ROUTE)
-            .then()
-            .statusCode(Response.Status.OK.getStatusCode());
+                .body(givenUser())
+                .when()
+                .post(SIGNIN_ROUTE)
+                .then()
+                .statusCode(Response.Status.OK.getStatusCode());
     }
 
     @Test
     public void givenInexistingUser_whenAuthenticate_thenReturnsForbidden() {
         givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(SIGNIN_ROUTE)
-            .then()
-            .statusCode(Response.Status.FORBIDDEN.getStatusCode());
+                .body(givenUser())
+                .when()
+                .post(SIGNIN_ROUTE)
+                .then()
+                .statusCode(Response.Status.FORBIDDEN.getStatusCode());
     }
 
     @Test
     public void givenInvalidCredentials_whenAuthenticate_thenReturnsForbidden() {
         givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(API_USERS);
+                .body(givenUser())
+                .when()
+                .post(API_USERS);
 
         givenBaseUserServer()
-            .body(givenUserWithInvalidPassword())
-            .post(SIGNIN_ROUTE)
-            .then()
-            .statusCode(Response.Status.FORBIDDEN.getStatusCode());
+                .body(givenUserWithInvalidPassword())
+                .post(SIGNIN_ROUTE)
+                .then()
+                .statusCode(Response.Status.FORBIDDEN.getStatusCode());
     }
 
     @Test
     public void givenAuthenticatedUser_whenSignOut_thenUserIsSignedOut() {
         givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(API_USERS);
+                .body(givenUser())
+                .when()
+                .post(API_USERS);
         io.restassured.response.Response response = givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(SIGNIN_ROUTE)
-            .andReturn();
+                .body(givenUser())
+                .when()
+                .post(SIGNIN_ROUTE)
+                .andReturn();
 
         givenBaseUserServer()
-            .header(
-                "Authorization",
-                String.format("Bearer %s", response.getBody().asString())
-            )
-            .when()
-            .post(SIGNOUT_ROUTE)
-            .then()
-            .statusCode(Response.Status.RESET_CONTENT.getStatusCode());
+                .header(
+                        "Authorization",
+                        String.format("Bearer %s", response.getBody().asString())
+                )
+                .when()
+                .post(SIGNOUT_ROUTE)
+                .then()
+                .statusCode(Response.Status.RESET_CONTENT.getStatusCode());
     }
 
     private RequestSpecification givenBaseUserServer() {
         return given()
-            .accept(ContentType.JSON)
-            .contentType(ContentType.JSON);
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON);
     }
 
     private String givenUser() {

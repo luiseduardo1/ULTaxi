@@ -1,9 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.service.user;
 
-import static org.mockito.BDDMockito.verify;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
-
 import ca.ulaval.glo4003.ultaxi.domain.messaging.Message;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueueProducer;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
@@ -15,6 +11,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.mockito.BDDMockito.verify;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -36,8 +36,8 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         userService = new UserService(userRepository,
-                                      userAssembler,
-                                      messageQueueProducer);
+                userAssembler,
+                messageQueueProducer);
     }
 
     @Test

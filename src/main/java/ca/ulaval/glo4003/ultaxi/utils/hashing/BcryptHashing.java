@@ -18,7 +18,7 @@ public class BcryptHashing implements HashingStrategy {
     @Override
     public boolean areEquals(String plainValue, String hashedValue) {
         return plainValue != null
-            && hashedValue != null
-            && BCrypt.checkpw(plainValue, hashedValue);
+                && hashedValue != null
+                && BCrypt.checkpw(plainValue, hashedValue);
     }
 }

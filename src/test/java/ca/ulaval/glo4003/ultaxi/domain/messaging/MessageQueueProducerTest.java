@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.ultaxi.domain.messaging;
 
-import static org.mockito.Mockito.verify;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MessageQueueProducerTest {
@@ -25,7 +25,7 @@ public class MessageQueueProducerTest {
 
     @Test
     public void givenANewMessageToSend_whenEnqueueMessage_thenMessageIsPersisted()
-        throws InterruptedException {
+            throws InterruptedException {
         messageQueueProducer.send(message);
 
         verify(messageQueue).enqueue(message);

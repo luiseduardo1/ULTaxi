@@ -19,8 +19,8 @@ public class UserService {
     private MessageQueueProducer messageQueueProducer;
 
     public UserService(UserRepository userRepository,
-        UserAssembler userAssembler,
-        MessageQueueProducer messageQueueProducer) {
+                       UserAssembler userAssembler,
+                       MessageQueueProducer messageQueueProducer) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
         this.messageQueueProducer = messageQueueProducer;

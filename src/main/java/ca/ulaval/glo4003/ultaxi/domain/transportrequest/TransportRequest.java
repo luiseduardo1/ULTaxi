@@ -41,7 +41,7 @@ public class TransportRequest {
                 break;
             default:
                 throw new InvalidVehicleTypeException(
-                    String.format("%s is not a valid vehicle type.", vehicleType));
+                        String.format("%s is not a valid vehicle type.", vehicleType));
         }
     }
 

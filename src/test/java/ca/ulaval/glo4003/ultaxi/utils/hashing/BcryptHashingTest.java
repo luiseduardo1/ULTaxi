@@ -1,11 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.utils.hashing;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class BcryptHashingTest {
 

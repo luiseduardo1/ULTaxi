@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.integration;
 
-import static java.lang.Thread.sleep;
-
 import ca.ulaval.glo4003.ULTaxiMain;
 import ca.ulaval.glo4003.ultaxi.integration.transportrequest.TransportRequestResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.user.UserAuthenticationResourceIT;
@@ -12,12 +10,14 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import static java.lang.Thread.sleep;
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    UserAuthenticationResourceIT.class,
-    UserResourceIT.class,
-    TransportRequestResourceIT.class,
-    VehicleResourceIT.class
+        UserAuthenticationResourceIT.class,
+        UserResourceIT.class,
+        TransportRequestResourceIT.class,
+        VehicleResourceIT.class
 })
 public class BaseIntegrationTest {
 

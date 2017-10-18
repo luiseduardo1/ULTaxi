@@ -26,15 +26,15 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
     @Override
     public List<Driver> findAll() {
         Stream<Driver> drivers = users
-            .values()
-            .stream()
-            .filter(user -> user.getRole() == Role.Driver)
-            .map(user -> (Driver) user);
-        return throwIfEmptySearchResults(
-            predicates
+                .values()
                 .stream()
-                .reduce(drivers, Stream::filter, (x, y) -> y)
-                .collect(Collectors.toList())
+                .filter(user -> user.getRole() == Role.Driver)
+                .map(user -> (Driver) user);
+        return throwIfEmptySearchResults(
+                predicates
+                        .stream()
+                        .reduce(drivers, Stream::filter, (x, y) -> y)
+                        .collect(Collectors.toList())
         );
     }
 

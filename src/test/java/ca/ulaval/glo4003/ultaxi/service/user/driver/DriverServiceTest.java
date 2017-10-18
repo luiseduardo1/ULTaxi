@@ -1,11 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
@@ -26,15 +20,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+
 @RunWith(MockitoJUnitRunner.class)
 public class DriverServiceTest {
 
     @Mock
+    DriverAssembler driverAssembler;
+    @Mock
     private Driver driver;
     @Mock
     private DriverDto driverDto;
-    @Mock
-    DriverAssembler driverAssembler;
     @Mock
     private UserRepository userRepository;
     @Mock

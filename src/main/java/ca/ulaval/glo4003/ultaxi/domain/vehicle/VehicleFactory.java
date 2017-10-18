@@ -23,7 +23,7 @@ public final class VehicleFactory {
                 return new Limousine(color, model, registrationNumber);
             default:
                 throw new InvalidVehicleTypeException(
-                    String.format("%s is not a valid vehicle type.", type)
+                        String.format("%s is not a valid vehicle type.", type)
                 );
         }
     }

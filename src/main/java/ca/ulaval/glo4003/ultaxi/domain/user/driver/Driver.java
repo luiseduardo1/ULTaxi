@@ -18,6 +18,7 @@ public class Driver extends User {
     private String lastName;
     private String phoneNumber;
     private String sin;
+    private String vehicleType;
 
     public String getName() {
         return name;
@@ -57,6 +58,14 @@ public class Driver extends User {
         }
 
         this.sin = sin;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {

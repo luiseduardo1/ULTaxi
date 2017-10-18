@@ -15,4 +15,13 @@ public class TransportRequestAssembler {
         transportRequest.setVehicleType(transportRequestDto.getVehicleType());
         return transportRequest;
     }
+
+    public TransportRequestDto create(TransportRequest transportRequest) {
+        TransportRequestDto transportRequestDto = new TransportRequestDto();
+        transportRequestDto.setLatitude(transportRequest.getGeolocation().getLatitude());
+        transportRequestDto.setLongitude(transportRequest.getGeolocation().getLongitude());
+        transportRequestDto.setNote(transportRequestDto.getNote());
+        transportRequestDto.setVehicleType(transportRequestDto.getVehicleType());
+        return transportRequestDto;
+    }
 }

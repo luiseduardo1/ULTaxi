@@ -45,7 +45,7 @@ public class JWTTokenManagerTest {
     @Test
     public void givenAParsableToken_whenParsingAToken_thenTokenIsParsed() {
         Assert.assertEquals(jwtTokenManager.parseToken(this.A_VALID_TOKEN).getClass(),
-                            DefaultClaims.class);
+                DefaultClaims.class);
     }
 
     @Test(expected = InvalidTokenException.class)
@@ -60,7 +60,7 @@ public class JWTTokenManagerTest {
 
     @Test(expected = InvalidTokenException.class)
     public void givenAnExpiredToken_whenValidatingAToken_thenInvalidTokenExceptionIsThrown()
-        throws InterruptedException {
+            throws InterruptedException {
         long shortTTL = 1;
         String expiredToken = jwtTokenManager.createToken(A_VALID_SUBJECT, shortTTL);
         TimeUnit.MILLISECONDS.sleep(2);
