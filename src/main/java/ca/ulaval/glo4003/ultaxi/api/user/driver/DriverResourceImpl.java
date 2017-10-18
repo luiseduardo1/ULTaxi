@@ -2,7 +2,11 @@ package ca.ulaval.glo4003.ultaxi.api.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.api.middleware.authentication.Secured;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.*;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSinException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
