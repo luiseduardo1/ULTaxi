@@ -44,7 +44,7 @@ public class DriverResourceIT {
     @Test
     public void givenUnauthenticatedUser_whenSearchingForDrivers_thenReturnsUnauthorized() {
         givenBaseServer()
-            .queryParam("first-name", "Freddy")
+            .queryParam("first-name", A_VALID_NAME)
             .when()
             .get(API_DRIVERS)
             .then()
