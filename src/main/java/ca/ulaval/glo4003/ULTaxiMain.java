@@ -9,6 +9,8 @@ import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResource;
 import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.UserResource;
 import ca.ulaval.glo4003.ultaxi.api.user.UserResourceImpl;
+import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResource;
+import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
@@ -34,9 +36,12 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.vehicle.VehicleRepositoryInMemory
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
+import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
+import ca.ulaval.glo4003.ultaxi.service.user.driver.ValidateDriver;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import org.eclipse.jetty.server.Handler;
@@ -120,14 +125,17 @@ public final class ULTaxiMain {
 
         UserService userService = createUserService();
         VehicleService vehicleService = createVehicleService();
+        DriverService driverService = createDriverService();
 
         UserResource userResource = createUserResource(userService);
         VehicleResource vehicleResource = createVehicleResource(vehicleService);
+        DriverResource driverResource = createDriverResource(driverService);
         UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(userService);
         TransportRequestResource transportRequestResource = createTransportRequestResource();
 
         resources.add(userResource);
         resources.add(vehicleResource);
+        resources.add(driverResource);
         resources.add(userAuthenticationResource);
         resources.add(transportRequestResource);
 
@@ -150,6 +158,14 @@ public final class ULTaxiMain {
         return vehicleService;
     }
 
+    private static DriverService createDriverService() {
+        DriverAssembler driverAssembler = new DriverAssembler();
+        ValidateDriver validateDriver = new ValidateDriver(userRepository);
+        DriverService driverService = new DriverService(userRepository, driverAssembler,validateDriver);
+
+        return driverService;
+    }
+
     private static UserResource createUserResource(UserService userService) {
         if (isDev) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
@@ -168,6 +184,10 @@ public final class ULTaxiMain {
         }
 
         return new VehicleResourceImpl(vehicleService);
+    }
+
+    private static DriverResource createDriverResource(DriverService driverService) {
+        return new DriverResourceImpl(driverService);
     }
 
     private static UserAuthenticationResource createUseAuthenticationResource(UserService userService) {
