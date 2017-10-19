@@ -36,6 +36,8 @@ public class DriverServiceTest {
     @Mock
     DriverAssembler driverAssembler;
     @Mock
+    ValidateDriver validateDriver;
+    @Mock
     private UserRepository userRepository;
     @Mock
     private DriverSearchQueryBuilder driverSearchQueryBuilder;
@@ -46,7 +48,7 @@ public class DriverServiceTest {
 
     @Before
     public void setUp() {
-        driverService = new DriverService(userRepository, driverAssembler);
+        driverService = new DriverService(userRepository, driverAssembler, validateDriver);
     }
 
     @Test
@@ -56,6 +58,13 @@ public class DriverServiceTest {
         driverService.addDriver(driverDto);
 
         verify(userRepository).save(driver);
+    }
+
+    @Test
+    public void givenADriver_whenAddDriver__thenValidateDriverIsCalled(){
+        driverService.addDriver(driverDto);
+
+        verify(validateDriver).VerifySin(driverDto);
     }
 
     @Test(expected = EmptySearchResultsException.class)

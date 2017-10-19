@@ -15,27 +15,30 @@ public class DriverService {
     private Logger logger = Logger.getLogger(DriverService.class.getName());
     private UserRepository userRepository;
     private DriverAssembler driverAssembler;
+    private ValidateDriver validateDriver;
 
-    public DriverService(UserRepository userRepository, DriverAssembler driverAssembler) {
+    public DriverService(UserRepository userRepository, DriverAssembler driverAssembler, ValidateDriver validateDriver) {
         this.userRepository = userRepository;
         this.driverAssembler = driverAssembler;
+        this.validateDriver = validateDriver;
     }
 
     public void addDriver(DriverDto driverDto) {
         logger.info(String.format("Add new driver %s", driverDto));
+        validateDriver.VerifySin(driverDto);
         User user = driverAssembler.create(driverDto);
         userRepository.save(user);
     }
 
     public List<DriverDto> searchBy(DriverSearchParameters driverSearchParameters) {
         return userRepository
-            .searchDrivers()
-            .withFirstName(driverSearchParameters.getFirstName())
-            .withLastName(driverSearchParameters.getLastName())
-            .withSin(driverSearchParameters.getSin())
-            .findAll()
-            .stream()
-            .map(driverAssembler::create)
-            .collect(Collectors.toList());
+                .searchDrivers()
+                .withFirstName(driverSearchParameters.getFirstName())
+                .withLastName(driverSearchParameters.getLastName())
+                .withSin(driverSearchParameters.getSin())
+                .findAll()
+                .stream()
+                .map(driverAssembler::create)
+                .collect(Collectors.toList());
     }
 }
