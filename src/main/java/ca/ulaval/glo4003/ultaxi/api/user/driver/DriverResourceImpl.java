@@ -11,6 +11,7 @@ import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class DriverResourceImpl implements DriverResource {
     public Response searchBy(String sin, String firstName, String lastName) {
         DriverSearchParameters searchParameters = new DriverSearchParameters(sin, firstName, lastName);
         try {
-            List<DriverDto> drivers = driverService.searchBy(searchParameters);
+            GenericEntity<List<DriverDto>> drivers = new GenericEntity<List<DriverDto>>(driverService.searchBy(searchParameters)) {};
             return Response.ok(drivers).build();
         } catch (EmptySearchResultsException exception) {
             return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();

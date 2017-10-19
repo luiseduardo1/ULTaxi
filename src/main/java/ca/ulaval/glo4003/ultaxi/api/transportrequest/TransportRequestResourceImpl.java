@@ -12,6 +12,7 @@ import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -42,7 +43,8 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
         try {
             Driver driver = (Driver) userAuthenticationService.authenticateFromToken(token);
             TransportRequestSearchParameters searchParameters = new TransportRequestSearchParameters(driver.getVehicleType());
-            List<TransportRequestDto> availableTransportRequests = transportRequestService.searchBy(searchParameters);
+            GenericEntity<List<TransportRequestDto>> availableTransportRequests =
+                    new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {};
             return Response.ok(availableTransportRequests).build();
         } catch (EmptySearchResultsException exception) {
             return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();
