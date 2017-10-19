@@ -27,42 +27,42 @@ public class VehicleResourceIT {
     @Test
     public void givenVehicleWithValidType_whenCreateVehicle_thenVehicleIsCreated() {
         givenBaseServer()
-            .body(givenAValidVehicle(A_VALID_REGISTRATION_NUMBER))
-            .when()
-            .post(VEHICLES_API)
-            .then()
-            .statusCode(Response.Status.OK.getStatusCode());
+                .body(givenAValidVehicle(A_VALID_REGISTRATION_NUMBER))
+                .when()
+                .post(VEHICLES_API)
+                .then()
+                .statusCode(Response.Status.OK.getStatusCode());
     }
 
     @Test
     public void givenAlreadyExistingVehicle_whenCreateVehicle_thenReturnsBadRequest() {
         givenBaseServer()
-            .body(givenAValidVehicle(ANOTHER_VALID_REGISTRATION_NUMBER))
-            .when()
-            .post(VEHICLES_API);
+                .body(givenAValidVehicle(ANOTHER_VALID_REGISTRATION_NUMBER))
+                .when()
+                .post(VEHICLES_API);
 
         givenBaseServer()
-            .body(givenAValidVehicle(ANOTHER_VALID_REGISTRATION_NUMBER))
-            .when()
-            .post(VEHICLES_API)
-            .then()
-            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+                .body(givenAValidVehicle(ANOTHER_VALID_REGISTRATION_NUMBER))
+                .when()
+                .post(VEHICLES_API)
+                .then()
+                .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
     public void givenVehicleWithInvalidType_whenCreateVehicle_thenReturnsBadRequest() {
         givenBaseServer()
-            .body(givenAVehicleWithInvalidType(A_VALID_REGISTRATION_NUMBER))
-            .when()
-            .post(VEHICLES_API)
-            .then()
-            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+                .body(givenAVehicleWithInvalidType(A_VALID_REGISTRATION_NUMBER))
+                .when()
+                .post(VEHICLES_API)
+                .then()
+                .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     private RequestSpecification givenBaseServer() {
         return given()
-            .accept(ContentType.JSON)
-            .contentType(ContentType.JSON);
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON);
     }
 
     private String givenAValidVehicle(String registrationNumber) {

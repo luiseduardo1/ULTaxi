@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging.tasks;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 
 public class SendRegistrationEmailTask implements Task {
@@ -12,6 +11,7 @@ public class SendRegistrationEmailTask implements Task {
             "subscribe to ULTaxi. \nHope you will enjoy it! \n " +
             "\n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
+
     private String sendTo;
     private EmailSender emailSender;
 

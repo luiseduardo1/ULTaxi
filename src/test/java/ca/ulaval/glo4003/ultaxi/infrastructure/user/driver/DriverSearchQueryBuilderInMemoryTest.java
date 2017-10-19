@@ -16,9 +16,8 @@ import java.util.Map;
 
 public class DriverSearchQueryBuilderInMemoryTest {
 
-    private DriverSearchQueryBuilder driverSearchQueryBuilder;
-
     private static final int UNFILTERED_NUMBER_OF_DRIVERS = 3;
+    private DriverSearchQueryBuilder driverSearchQueryBuilder;
 
     @Before
     public void setUp() {

@@ -40,8 +40,8 @@ public class VehicleResourceImplTest {
     @Test
     public void givenAlreadyExistingVehicle_whenCreateVehicle_thenReturnsBadRequest() {
         willThrow(new VehicleAlreadyExistsException("Vehicle already exists."))
-            .given(vehicleService)
-            .addVehicle(vehicleDto);
+                .given(vehicleService)
+                .addVehicle(vehicleDto);
         Response response = vehicleResource.createVehicle(vehicleDto);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
@@ -50,8 +50,8 @@ public class VehicleResourceImplTest {
     @Test
     public void givenVehicleWithInvalidType_whenCreateVehicle_thenReturnsBadRequest() {
         willThrow(new InvalidVehicleTypeException("Vehicle has an invalid type."))
-            .given(vehicleService)
-            .addVehicle(vehicleDto);
+                .given(vehicleService)
+                .addVehicle(vehicleDto);
 
         Response response = vehicleResource.createVehicle(vehicleDto);
 

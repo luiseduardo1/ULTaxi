@@ -29,7 +29,7 @@ public class DriverResourceImpl implements DriverResource {
             driverService.addDriver(driverDto);
             return Response.ok().build();
         } catch (UserAlreadyExistsException | InvalidUserNameException |
-            InvalidPhoneNumberException | InvalidSinException exception) {
+                InvalidPhoneNumberException | InvalidSinException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }

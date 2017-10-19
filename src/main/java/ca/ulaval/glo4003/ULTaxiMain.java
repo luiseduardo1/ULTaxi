@@ -60,11 +60,11 @@ import java.util.Set;
 @SuppressWarnings("all")
 public final class ULTaxiMain {
 
-    private static final int SERVER_PORT = 8080;
     public static final TokenManager tokenManager = new JWTTokenManager();
     public static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     public static final UserRepository userRepository = new UserRepositoryInMemory();
     public static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
+    private static final int SERVER_PORT = 8080;
     private static boolean isDev = true; // Would be a JVM argument or in a .property file
     private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
     private static TaskQueue taskQueue = new TaskQueueInMemory();
@@ -124,7 +124,7 @@ public final class ULTaxiMain {
         UserResource userResource = createUserResource(userService);
         VehicleResource vehicleResource = createVehicleResource(vehicleService);
         UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource
-            (userAuthenticationService);
+                (userAuthenticationService);
         TransportRequestResource transportRequestResource = createTransportRequestResource();
 
         resources.add(userResource);
@@ -151,7 +151,7 @@ public final class ULTaxiMain {
 
     private static UserAuthenticationService createUserAuthenticationService() {
         UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-                                                                                            createUserAssembler());
+                createUserAssembler());
 
         return userAuthenticationService;
     }
@@ -192,7 +192,7 @@ public final class ULTaxiMain {
     }
 
     private static UserAuthenticationResource createUseAuthenticationResource(UserAuthenticationService
-        userAuthenticationService) {
+                                                                                      userAuthenticationService) {
         return new UserAuthenticationResourceImpl(userAuthenticationService, tokenRepository, tokenManager);
     }
 
@@ -200,7 +200,7 @@ public final class ULTaxiMain {
         TransportRequestRepository transportRequestRepository = new TransportRequestRepositoryInMemory();
         TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
         TransportRequestService transportRequestService = new TransportRequestService(transportRequestRepository,
-                                                                                      transportRequestAssembler);
+                transportRequestAssembler);
 
         return new TransportRequestResourceImpl(transportRequestService);
     }

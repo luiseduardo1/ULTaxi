@@ -48,8 +48,8 @@ public class UserResourceTest {
     @Test
     public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
         willThrow(new UserAlreadyExistsException("User already exists."))
-            .given(userService)
-            .addUser(userDto);
+                .given(userService)
+                .addUser(userDto);
 
         Response response = userResource.createUser(userDto);
 
@@ -59,8 +59,8 @@ public class UserResourceTest {
     @Test
     public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
         willThrow(new InvalidUserNameException("User has an invalid userName."))
-            .given(userService)
-            .addUser(userDto);
+                .given(userService)
+                .addUser(userDto);
 
         Response response = userResource.createUser(userDto);
 
@@ -70,8 +70,8 @@ public class UserResourceTest {
     @Test
     public void givenUserWithEmptyPassword_whenCreateUser_thenReturnsBadRequest() {
         willThrow(new InvalidPasswordException("User has an invalid password."))
-            .given(userService)
-            .addUser(userDto);
+                .given(userService)
+                .addUser(userDto);
 
         Response response = userResource.createUser(userDto);
 

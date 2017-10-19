@@ -30,11 +30,11 @@ import java.util.Map;
 public class DriverServiceTest {
 
     @Mock
+    DriverAssembler driverAssembler;
+    @Mock
     private Driver driver;
     @Mock
     private DriverDto driverDto;
-    @Mock
-    DriverAssembler driverAssembler;
     @Mock
     private UserRepository userRepository;
     @Mock

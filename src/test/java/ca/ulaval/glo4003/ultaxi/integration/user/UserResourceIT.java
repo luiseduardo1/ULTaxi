@@ -32,42 +32,42 @@ public class UserResourceIT {
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
         givenBaseUserServer()
-            .body(givenAValidUser())
-            .when()
-            .post(USERS_API)
-            .then()
-            .statusCode(Response.Status.OK.getStatusCode());
+                .body(givenAValidUser())
+                .when()
+                .post(USERS_API)
+                .then()
+                .statusCode(Response.Status.OK.getStatusCode());
     }
 
     @Test
     public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
         givenBaseUserServer()
-            .body(givenAValidUser())
-            .when()
-            .post(USERS_API);
+                .body(givenAValidUser())
+                .when()
+                .post(USERS_API);
 
         givenBaseUserServer()
-            .body(givenAValidUser())
-            .when()
-            .post(USERS_API)
-            .then()
-            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+                .body(givenAValidUser())
+                .when()
+                .post(USERS_API)
+                .then()
+                .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
     public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
         givenBaseUserServer()
-            .body(givenAUserWithInvalidName())
-            .when()
-            .post(USERS_API)
-            .then()
-            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+                .body(givenAUserWithInvalidName())
+                .when()
+                .post(USERS_API)
+                .then()
+                .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     private RequestSpecification givenBaseUserServer() {
         return given()
-            .accept(ContentType.JSON)
-            .contentType(ContentType.JSON);
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON);
     }
 
     private String givenAValidUser() {

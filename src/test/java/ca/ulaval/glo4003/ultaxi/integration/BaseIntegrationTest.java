@@ -14,10 +14,10 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    UserAuthenticationResourceIT.class,
-    UserResourceIT.class,
-    TransportRequestResourceIT.class,
-    VehicleResourceIT.class
+        UserAuthenticationResourceIT.class,
+        UserResourceIT.class,
+        TransportRequestResourceIT.class,
+        VehicleResourceIT.class
 })
 public class BaseIntegrationTest {
 

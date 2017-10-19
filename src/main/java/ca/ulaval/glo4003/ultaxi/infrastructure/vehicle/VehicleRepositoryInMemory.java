@@ -22,8 +22,8 @@ public class VehicleRepositoryInMemory implements VehicleRepository {
         String registrationNumber = vehicle.getRegistrationNumber().toUpperCase().trim();
         if (vehicles.containsKey(registrationNumber)) {
             throw new VehicleAlreadyExistsException(
-                String.format("Vehicle with the registration number %s already" +
-                                  " exists.", registrationNumber)
+                    String.format("Vehicle with the registration number %s already" +
+                            " exists.", registrationNumber)
             );
         }
         vehicles.put(registrationNumber, vehicle);

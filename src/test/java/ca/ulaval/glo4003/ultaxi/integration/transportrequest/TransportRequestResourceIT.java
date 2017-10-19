@@ -39,61 +39,61 @@ public class TransportRequestResourceIT {
     @Test
     public void givenATransportRequest_whenSendRequest_thenRequestIsCreated() {
         givenBaseServer()
-            .header("Authorization", token)
-            .body(givenAValidTransportRequest())
-            .when()
-            .post(REQUEST_API)
-            .then()
-            .statusCode(Response.Status.CREATED.getStatusCode());
+                .header("Authorization", token)
+                .body(givenAValidTransportRequest())
+                .when()
+                .post(REQUEST_API)
+                .then()
+                .statusCode(Response.Status.CREATED.getStatusCode());
     }
 
     @Test
     public void givenATransportRequestWithInvalidLatitude_whenSendRequest_thenReturnsBadRequest() {
         givenBaseServer()
-            .header("Authorization", token)
-            .body(givenATransportRequestWithInvalidLatitude())
-            .when()
-            .post(REQUEST_API)
-            .then()
-            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+                .header("Authorization", token)
+                .body(givenATransportRequestWithInvalidLatitude())
+                .when()
+                .post(REQUEST_API)
+                .then()
+                .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
     public void givenATransportRequestWithInvalidLongitude_whenSendRequest_thenReturnsBadRequest() {
         givenBaseServer()
-            .header("Authorization", token)
-            .body(givenATransportRequestWithInvalidLongitude())
-            .when()
-            .post(REQUEST_API)
-            .then()
-            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+                .header("Authorization", token)
+                .body(givenATransportRequestWithInvalidLongitude())
+                .when()
+                .post(REQUEST_API)
+                .then()
+                .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
     public void givenATransportRequestWithInvalidVehicleType_whenSendRequest_thenReturnsBadRequest() {
         givenBaseServer()
-            .header("Authorization", token)
-            .body(givenATransportRequestWithInvalidVehicleType())
-            .when()
-            .post(REQUEST_API)
-            .then()
-            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+                .header("Authorization", token)
+                .body(givenATransportRequestWithInvalidVehicleType())
+                .when()
+                .post(REQUEST_API)
+                .then()
+                .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
     public void givenAnUnauthenticatedRequest_whenSendRequest_thenReturnsUnauthorized() {
         givenBaseServer()
-            .body(givenAValidTransportRequest())
-            .when()
-            .post(REQUEST_API)
-            .then()
-            .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+                .body(givenAValidTransportRequest())
+                .when()
+                .post(REQUEST_API)
+                .then()
+                .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
     }
 
     private RequestSpecification givenBaseServer() {
         return given()
-            .accept(ContentType.JSON)
-            .contentType(ContentType.JSON);
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON);
     }
 
     private String givenAValidTransportRequest() {
@@ -102,17 +102,17 @@ public class TransportRequestResourceIT {
 
     private String givenATransportRequestWithInvalidLatitude() {
         return createTransportRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, AN_INVALID_LATITUDE,
-                                          A_VALID_LONGITUDE);
+                A_VALID_LONGITUDE);
     }
 
     private String givenATransportRequestWithInvalidLongitude() {
         return createTransportRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
-                                          AN_INVALID_LONGITUDE);
+                AN_INVALID_LONGITUDE);
     }
 
     private String givenATransportRequestWithInvalidVehicleType() {
         return createTransportRequestJSON(AN_INVALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
-                                          AN_INVALID_LONGITUDE);
+                AN_INVALID_LONGITUDE);
     }
 
     private String createTransportRequestJSON(String vehicleType, String note, double latitude, double longitude) {
@@ -137,14 +137,14 @@ public class TransportRequestResourceIT {
     private String getToken() {
         String user = givenUser();
         givenBaseServer()
-            .body(user)
-            .when()
-            .post(API_USERS);
+                .body(user)
+                .when()
+                .post(API_USERS);
         io.restassured.response.Response response = givenBaseServer()
-            .body(user)
-            .when()
-            .post(SIGNIN_ROUTE)
-            .andReturn();
+                .body(user)
+                .when()
+                .post(SIGNIN_ROUTE)
+                .andReturn();
         return String.format("Bearer %s", response.getBody().asString());
     }
 }

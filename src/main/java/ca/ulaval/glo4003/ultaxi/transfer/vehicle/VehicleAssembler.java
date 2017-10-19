@@ -7,10 +7,10 @@ public class VehicleAssembler {
 
     public Vehicle create(VehicleDto vehicleDto) {
         Vehicle vehicle = VehicleFactory.getVehicle(
-            vehicleDto.getType(),
-            vehicleDto.getColor(),
-            vehicleDto.getModel(),
-            vehicleDto.getRegistrationNumber()
+                vehicleDto.getType(),
+                vehicleDto.getColor(),
+                vehicleDto.getModel(),
+                vehicleDto.getRegistrationNumber()
         );
         return vehicle;
     }

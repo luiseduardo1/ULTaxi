@@ -15,16 +15,15 @@ import java.util.List;
 public class UserAuthenticationResourceImpl implements UserAuthenticationResource {
 
     private static final List<String> AUTHENTICATION_SCHEMES = Collections.unmodifiableList(Arrays.asList("Bearer",
-                                                                                                          "Basic",
-                                                                                                          "Digest"));
+            "Basic",
+            "Digest"));
     private static long HOUR_IN_MILLISECONDS = 3600000;
     private UserAuthenticationService userAuthenticationService;
     private TokenManager tokenManager;
     private TokenRepository tokenRepository;
 
     public UserAuthenticationResourceImpl(UserAuthenticationService userAuthenticationService, TokenRepository
-        tokenRepository,
-        TokenManager tokenManager) {
+            tokenRepository, TokenManager tokenManager) {
         this.userAuthenticationService = userAuthenticationService;
         this.tokenManager = tokenManager;
         this.tokenRepository = tokenRepository;

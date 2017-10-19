@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003;
 
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueConsumer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
 
 import java.util.logging.Logger;
 

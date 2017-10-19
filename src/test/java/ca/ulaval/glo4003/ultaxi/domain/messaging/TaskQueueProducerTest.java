@@ -26,7 +26,7 @@ public class TaskQueueProducerTest {
 
     @Test
     public void givenANewMessageToSend_whenEnqueueMessage_thenMessageIsPersisted()
-        throws InterruptedException {
+            throws InterruptedException {
         taskQueueProducer.send(task);
 
         verify(taskQueue).enqueue(task);

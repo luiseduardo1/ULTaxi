@@ -29,13 +29,13 @@ public class DriverService {
 
     public List<DriverDto> searchBy(DriverSearchParameters driverSearchParameters) {
         return userRepository
-            .searchDrivers()
-            .withFirstName(driverSearchParameters.getFirstName())
-            .withLastName(driverSearchParameters.getLastName())
-            .withSin(driverSearchParameters.getSin())
-            .findAll()
-            .stream()
-            .map(driverAssembler::create)
-            .collect(Collectors.toList());
+                .searchDrivers()
+                .withFirstName(driverSearchParameters.getFirstName())
+                .withLastName(driverSearchParameters.getLastName())
+                .withSin(driverSearchParameters.getSin())
+                .findAll()
+                .stream()
+                .map(driverAssembler::create)
+                .collect(Collectors.toList());
     }
 }

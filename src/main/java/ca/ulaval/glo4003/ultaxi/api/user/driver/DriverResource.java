@@ -24,6 +24,6 @@ public interface DriverResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     Response searchBy(@QueryParam("sin") String sin,
-        @QueryParam("first-name") String firstName,
-        @QueryParam("last-name") String lastName);
+                      @QueryParam("first-name") String firstName,
+                      @QueryParam("last-name") String lastName);
 }

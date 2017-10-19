@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.service.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.SendRegistrationEmailTask;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueProducer;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;

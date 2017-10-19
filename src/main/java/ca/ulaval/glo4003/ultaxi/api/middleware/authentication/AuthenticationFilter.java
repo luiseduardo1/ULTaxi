@@ -48,12 +48,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     private boolean isTokenBasedAuthentication(String authorizationHeader) {
         return authorizationHeader != null && authorizationHeader.toLowerCase()
-            .startsWith(AUTHENTICATION_SCHEME.toLowerCase() + " ");
+                .startsWith(AUTHENTICATION_SCHEME.toLowerCase() + " ");
     }
 
     private void abortUnauthorized(ContainerRequestContext requestContext) {
         requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                                     .header(HttpHeaders.WWW_AUTHENTICATE, AUTHENTICATION_SCHEME).build());
+                .header(HttpHeaders.WWW_AUTHENTICATE, AUTHENTICATION_SCHEME).build());
     }
 
 }
