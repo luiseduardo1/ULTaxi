@@ -1,9 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.builder.DriverBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.SinAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
@@ -26,19 +25,21 @@ public class ValidateDriverTest {
 
     private ValidateDriver validateDriver;
 
-    private String A_VALID_SIN = "972487086";
-    private String A_USERNAME = "test1234";
-    private String A_PASSWORD = "testPassword";
+    private DriverBuilder driverData;
 
     @Before
     public void setUp() {
         validateDriver = new ValidateDriver(userRepository);
+        driverData = new DriverBuilder();
     }
 
     @Test(expected = SinAlreadyExistException.class)
     public void givenADriverWithExistingSin_whenVerifySin_thenTrowSinAlreadyExistException() {
         DriverDto driverDto = new DriverDto();
-        driverDto.setSin(A_VALID_SIN);
+        String a_VALID_SIN = "972487086";
+        String A_USERNAME = "user1234";
+        String A_PASSWORD = "password1234";
+        driverDto.setSin(a_VALID_SIN);
         driverDto.setUsername(A_USERNAME);
         driverDto.setPassword(A_PASSWORD);
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
@@ -48,17 +49,8 @@ public class ValidateDriverTest {
 
     private Map<String, User> givenDrivers() {
         Map<String, User> drivers = new HashMap<>();
-        drivers.put("1", createDriver("Ronald", "Macdonald", "972487086"));
+        drivers.put("1", driverData.createDriver("Ronald", "Macdonald", "972487086"));
         return drivers;
     }
 
-    private User createDriver(String firstName, String lastName, String sin) {
-        Driver driver = new Driver();
-        driver.setName(firstName);
-        driver.setLastName(lastName);
-        driver.setSin(sin);
-        driver.setRole(Role.Driver);
-
-        return driver;
-    }
 }
