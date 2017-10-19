@@ -15,17 +15,17 @@ public class DriverService {
     private Logger logger = Logger.getLogger(DriverService.class.getName());
     private UserRepository userRepository;
     private DriverAssembler driverAssembler;
-    private ValidateDriver validateDriver;
+    private DriverValidator driverValidator;
 
-    public DriverService(UserRepository userRepository, DriverAssembler driverAssembler, ValidateDriver validateDriver) {
+    public DriverService(UserRepository userRepository, DriverAssembler driverAssembler, DriverValidator driverValidator) {
         this.userRepository = userRepository;
         this.driverAssembler = driverAssembler;
-        this.validateDriver = validateDriver;
+        this.driverValidator = driverValidator;
     }
 
     public void addDriver(DriverDto driverDto) {
         logger.info(String.format("Add new driver %s", driverDto));
-        validateDriver.verifySin(driverDto);
+        driverValidator.checkExistingSin(driverDto);
         User user = driverAssembler.create(driverDto);
         userRepository.save(user);
     }

@@ -7,15 +7,15 @@ import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 
 
 
-public class ValidateDriver {
+public class DriverValidator {
 
     private UserRepository userRepository;
 
-    public ValidateDriver(UserRepository userRepository){
+    public DriverValidator(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
-    public void verifySin(DriverDto driverDto){
+    public void checkExistingSin(DriverDto driverDto){
         DriverSearchQueryBuilder driverSearchQueryBuilder = userRepository.searchDrivers().withSin(driverDto.getSin());
         driverSearchQueryBuilder.findAll();
         throw new SinAlreadyExistException("Sin already exist.");

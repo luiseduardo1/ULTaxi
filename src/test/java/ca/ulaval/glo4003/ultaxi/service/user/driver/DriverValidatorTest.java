@@ -18,18 +18,18 @@ import java.util.Map;
 import static org.mockito.BDDMockito.willReturn;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ValidateDriverTest {
+public class DriverValidatorTest {
 
     @Mock
     private UserRepository userRepository;
 
-    private ValidateDriver validateDriver;
+    private DriverValidator driverValidator;
 
     private DriverBuilder driverData;
 
     @Before
     public void setUp() {
-        validateDriver = new ValidateDriver(userRepository);
+        driverValidator = new DriverValidator(userRepository);
         driverData = new DriverBuilder();
     }
 
@@ -44,7 +44,7 @@ public class ValidateDriverTest {
         driverDto.setPassword(A_PASSWORD);
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
 
-        validateDriver.verifySin(driverDto);
+        driverValidator.checkExistingSin(driverDto);
     }
 
     private Map<String, User> givenDrivers() {

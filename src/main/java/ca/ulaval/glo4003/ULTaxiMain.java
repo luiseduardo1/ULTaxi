@@ -37,7 +37,7 @@ import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
-import ca.ulaval.glo4003.ultaxi.service.user.driver.ValidateDriver;
+import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverValidator;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
@@ -57,7 +57,6 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Application;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -215,7 +214,7 @@ public final class ULTaxiMain {
 
     private static DriverService createDriverService() {
         DriverAssembler driverAssembler = createDriverAssembler();
-        ValidateDriver validateDriver = new ValidateDriver(userRepository);
-        return new DriverService(userRepository, driverAssembler,validateDriver);
+        DriverValidator driverValidator = new DriverValidator(userRepository);
+        return new DriverService(userRepository, driverAssembler, driverValidator);
     }
 }
