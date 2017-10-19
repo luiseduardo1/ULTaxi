@@ -10,11 +10,11 @@ public class TaskQueueConsumer {
         this.taskQueue = taskQueue;
     }
 
-    public Task checkForTask() {
+    public Runnable checkForTask() {
         return this.taskQueue.peek();
     }
 
-    public void removeTask(Task task) {
+    public void removeTask(Runnable task) {
         this.taskQueue.dequeue(task);
     }
 

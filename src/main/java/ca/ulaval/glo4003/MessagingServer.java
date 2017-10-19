@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003;
 
+import static java.lang.Thread.sleep;
+
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueConsumer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
@@ -21,15 +23,16 @@ public class MessagingServer implements Runnable {
 
     @Override
     public void run() {
+        try {
+            sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         while (true) {
             if (!taskQueue.isEmpty()) {
-                try {
-                    Task task = taskQueueConsumer.checkForTask();
-                    task.execute();
-                    taskQueueConsumer.removeTask(task);
-                } catch (EmailSendingFailureException exception) {
-                    logger.info("Messaging service not able to send message.");
-                }
+                Runnable task = taskQueueConsumer.checkForTask();
+                task.run();
+                taskQueueConsumer.removeTask(task);
             }
         }
     }

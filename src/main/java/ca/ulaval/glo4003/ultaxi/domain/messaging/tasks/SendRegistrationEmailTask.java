@@ -1,30 +1,33 @@
 package ca.ulaval.glo4003.ultaxi.domain.messaging.tasks;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 
-public class SendRegistrationEmailTask implements Task {
+public class SendRegistrationEmailTask implements Runnable{
 
-    private static final String EMAIL_REGISTRATION_SUBJECT = "Hi! Welcome to ULTaxi!";
-    private static final String EMAIL_REGISTRATION_CONTENT = "Thank you for your request to " +
-            "subscribe to ULTaxi. \nHope you will enjoy it! \n " +
-            "\n \n";
+    private static final String EMAIL_REGISTRATION_SUBJECT = "Welcome %s!!";
+    private static final String EMAIL_REGISTRATION_CONTENT = "Thank you %s for your request to " +
+            "subscribe to ULTaxi. \nHope you will enjoy it! \n \n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
 
-    private String sendTo;
     private EmailSender emailSender;
+    private String sendTo;
+    private String recipientUsername;
 
-    public SendRegistrationEmailTask(String sendTo, EmailSender emailSender) {
-        this.sendTo = sendTo;
+    public SendRegistrationEmailTask(String sendTo, String recipientUsername, EmailSender emailSender) {
         this.emailSender = emailSender;
+        this.sendTo = sendTo;
+        this.recipientUsername = recipientUsername;
     }
 
+    public Email createCustomEmail(String sendTo, String recipientUsername) {
+        String customSubject = String.format(EMAIL_REGISTRATION_SUBJECT, recipientUsername);
+        String customContent = String.format(EMAIL_REGISTRATION_CONTENT, recipientUsername);
+        return new Email(sendTo, customSubject, customContent, EMAIL_SIGNATURE);
+    }
     @Override
-    public void execute() throws EmailSendingFailureException {
-        Email email = new Email(sendTo, EMAIL_REGISTRATION_SUBJECT, EMAIL_REGISTRATION_CONTENT,
-                EMAIL_SIGNATURE);
+    public void run() {
+        Email email = createCustomEmail(sendTo, recipientUsername);
         this.emailSender.sendEmail(email);
     }
-
 }

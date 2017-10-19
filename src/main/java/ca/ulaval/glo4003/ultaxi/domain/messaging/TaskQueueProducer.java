@@ -13,7 +13,7 @@ public class TaskQueueProducer {
         this.taskQueue = taskQueue;
     }
 
-    public void send(Task task) {
+    public void send(Runnable task) {
         try {
             this.taskQueue.enqueue(task);
         } catch (InterruptedException exception) {

@@ -15,7 +15,7 @@ public class TaskQueueProducerTest {
     @Mock
     private TaskQueue taskQueue;
     @Mock
-    private Task task;
+    private Runnable task;
 
     private TaskQueueProducer taskQueueProducer;
 

@@ -59,6 +59,6 @@ public class UserServiceTest {
 
         userService.addUser(userDto);
 
-        verify(taskQueueProducer).send(any(Task.class));
+        verify(taskQueueProducer).send(any(Runnable.class));
     }
 }

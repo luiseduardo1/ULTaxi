@@ -14,7 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class TaskQueueInMemoryTest {
 
     @Mock
-    private Task task;
+    private Runnable task;
 
     private TaskQueue taskQueue;
 
@@ -29,7 +29,7 @@ public class TaskQueueInMemoryTest {
             throws InterruptedException {
         taskQueue.enqueue(task);
 
-        Task taskDequeued = taskQueue.peek();
+        Runnable taskDequeued = taskQueue.peek();
 
         assertEquals(task, taskDequeued);
     }

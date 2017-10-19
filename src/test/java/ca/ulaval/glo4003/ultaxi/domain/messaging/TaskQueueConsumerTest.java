@@ -21,7 +21,7 @@ public class TaskQueueConsumerTest {
     @Mock
     TaskQueue taskQueue;
 
-    private Task task;
+    private Runnable task;
 
 
     @Before

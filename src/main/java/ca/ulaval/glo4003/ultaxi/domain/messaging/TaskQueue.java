@@ -4,11 +4,11 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 
 public interface TaskQueue {
 
-    void enqueue(Task task) throws InterruptedException;
+    void enqueue(Runnable task) throws InterruptedException;
 
-    void dequeue(Task task);
+    void dequeue(Runnable task);
 
-    Task peek();
+    Runnable peek();
 
     boolean isEmpty();
 }

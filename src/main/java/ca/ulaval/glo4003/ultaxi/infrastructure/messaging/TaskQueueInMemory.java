@@ -8,20 +8,20 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class TaskQueueInMemory implements TaskQueue {
 
-    private BlockingQueue<Task> taskQueue = new LinkedBlockingDeque<Task>();
+    private BlockingQueue<Runnable> taskQueue = new LinkedBlockingDeque<Runnable>();
 
     @Override
-    public void enqueue(Task task) throws InterruptedException {
+    public void enqueue(Runnable task) throws InterruptedException {
         this.taskQueue.put(task);
     }
 
     @Override
-    public void dequeue(Task task) {
+    public void dequeue(Runnable task) {
         this.taskQueue.remove(task);
     }
 
     @Override
-    public Task peek() {
+    public Runnable peek() {
         return this.taskQueue.peek();
     }
 

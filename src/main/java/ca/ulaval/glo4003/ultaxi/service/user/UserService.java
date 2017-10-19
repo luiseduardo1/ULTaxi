@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ultaxi.service.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.SendRegistrationEmailTask;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
@@ -37,7 +36,7 @@ public class UserService {
         user.setRole(Role.Client);
         userRepository.save(user);
 
-        Task task = new SendRegistrationEmailTask(user.getEmailAddress(), emailSender);
+        Runnable task = new SendRegistrationEmailTask(user.getEmailAddress(), user.getUsername(), emailSender);
         taskQueueProducer.send(task);
     }
 }
