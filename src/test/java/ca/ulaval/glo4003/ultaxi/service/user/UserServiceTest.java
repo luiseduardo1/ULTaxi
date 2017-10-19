@@ -6,8 +6,10 @@ import static org.mockito.Matchers.any;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.Message;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueueProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueProducer;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import org.junit.Before;
@@ -30,6 +32,10 @@ public class UserServiceTest {
     private UserAssembler userAssembler;
     @Mock
     private MessageQueueProducer messageQueueProducer;
+    @Mock
+    private TaskQueueProducer taskQueueProducer;
+    @Mock
+    private EmailSender emailSender;
 
     private UserService userService;
 
@@ -37,7 +43,9 @@ public class UserServiceTest {
     public void setUp() throws Exception {
         userService = new UserService(userRepository,
                                       userAssembler,
-                                      messageQueueProducer);
+                                      messageQueueProducer,
+                                      taskQueueProducer,
+                                      emailSender);
     }
 
     @Test
