@@ -174,7 +174,7 @@ public final class ULTaxiMain {
     }
 
     private static DriverService createDriverService() {
-        DriverAssembler driverAssembler = new DriverAssembler();
+        DriverAssembler driverAssembler = new DriverAssembler(createHashingStrategy());
         ValidateDriver validateDriver = new ValidateDriver(userRepository);
         DriverService driverService = new DriverService(userRepository, driverAssembler,validateDriver);
 
@@ -209,10 +209,6 @@ public final class ULTaxiMain {
 
     private static DriverResource createDriverResource(DriverService driverService) {
         return new DriverResourceImpl(driverService);
-    }
-
-    private static UserAuthenticationResource createUseAuthenticationResource(UserService userService) {
-        return new UserAuthenticationResourceImpl(userService, tokenRepository, tokenManager);
     }
 
     private static TransportRequestResource createTransportRequestResource() {
