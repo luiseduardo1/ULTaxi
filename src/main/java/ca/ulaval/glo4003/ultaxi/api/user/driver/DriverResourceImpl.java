@@ -35,6 +35,7 @@ public class DriverResourceImpl implements DriverResource {
     }
 
     @Override
+    @Secured({Role.Administrator})
     public Response searchBy(String sin, String firstName, String lastName) {
         DriverSearchParameters searchParameters = new DriverSearchParameters(sin, firstName, lastName);
         try {
