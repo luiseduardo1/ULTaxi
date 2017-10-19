@@ -4,8 +4,6 @@ import static java.lang.Thread.sleep;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueConsumer;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 
 import java.util.logging.Logger;
 

@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 import static org.junit.Assert.assertEquals;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

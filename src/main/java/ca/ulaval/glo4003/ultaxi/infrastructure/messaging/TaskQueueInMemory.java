@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
