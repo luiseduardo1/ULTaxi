@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging;
 
 import static org.mockito.Mockito.verify;
 
+import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,25 +10,25 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MessageQueueProducerTest {
+public class TaskQueueProducerTest {
 
     @Mock
-    private MessageQueue messageQueue;
+    private TaskQueue taskQueue;
     @Mock
-    private Message message;
+    private Task task;
 
-    private MessageQueueProducer messageQueueProducer;
+    private TaskQueueProducer taskQueueProducer;
 
     @Before
     public void setUp() throws Exception {
-        messageQueueProducer = new MessageQueueProducer(messageQueue);
+        taskQueueProducer = new TaskQueueProducer(taskQueue);
     }
 
     @Test
     public void givenANewMessageToSend_whenEnqueueMessage_thenMessageIsPersisted()
         throws InterruptedException {
-        messageQueueProducer.send(message);
+        taskQueueProducer.send(task);
 
-        verify(messageQueue).enqueue(message);
+        verify(taskQueue).enqueue(task);
     }
 }

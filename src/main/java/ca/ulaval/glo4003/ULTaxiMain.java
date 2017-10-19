@@ -11,8 +11,6 @@ import ca.ulaval.glo4003.ultaxi.api.user.UserResource;
 import ca.ulaval.glo4003.ultaxi.api.user.UserResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueueProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueProducer;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
@@ -25,7 +23,6 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessageQueueInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.TaskQueueInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
@@ -70,7 +67,6 @@ public final class ULTaxiMain {
     public static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
     private static boolean isDev = true; // Would be a JVM argument or in a .property file
     private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
-    private static MessageQueue messageQueue = new MessageQueueInMemory();
     private static TaskQueue taskQueue = new TaskQueueInMemory();
 
     private ULTaxiMain() {
@@ -102,11 +98,6 @@ public final class ULTaxiMain {
         // Setup messaging server
         Thread messagingServer = new Thread(new MessagingServer(taskQueue));
         messagingServer.start();
-        //EmailSenderConfigurationReader emailSenderConfigurationReader =
-        //    new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
-        //EmailSender emailSender = new EmailSender(emailSenderConfigurationReader);
-        //Thread messagingThread = new Thread(new MessagingThread(messageQueue, emailSender));
-        //messagingThread.start();
 
         // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -152,10 +143,9 @@ public final class ULTaxiMain {
     }
 
     private static UserService createUserService(EmailSender emailSender) {
-        MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueue);
         TaskQueueProducer taskQueueProducer = new TaskQueueProducer(taskQueue);
         UserService userService = new UserService(userRepository, createUserAssembler(),
-                messageQueueProducer, taskQueueProducer, emailSender);
+                taskQueueProducer, emailSender);
         return userService;
     }
 
