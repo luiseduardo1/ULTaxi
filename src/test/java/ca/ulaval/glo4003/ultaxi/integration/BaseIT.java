@@ -21,7 +21,7 @@ import org.junit.runners.Suite;
     VehicleResourceIT.class,
     DriverResourceIT.class
 })
-public class BaseIntegrationIT {
+public class BaseIT {
 
     private static final int SLEEP_TIME = 500;
     private static final int SERVER_PORT = 8080;
