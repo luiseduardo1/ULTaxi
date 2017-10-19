@@ -39,11 +39,11 @@ public class ValidateDriverTest {
     public void givenADriverWithExistingSin_whenVerifySin_thenTrowSinAlreadyExistException() {
         DriverDto driverDto = new DriverDto();
         driverDto.setSin(A_VALID_SIN);
-        driverDto.setUserName(A_USERNAME);
+        driverDto.setUsername(A_USERNAME);
         driverDto.setPassword(A_PASSWORD);
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
 
-        validateDriver.VerifySin(driverDto);
+        validateDriver.verifySin(driverDto);
     }
 
     private Map<String, User> givenDrivers() {

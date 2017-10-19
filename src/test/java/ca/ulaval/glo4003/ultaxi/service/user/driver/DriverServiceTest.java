@@ -34,9 +34,9 @@ public class DriverServiceTest {
     @Mock
     private DriverDto driverDto;
     @Mock
-    DriverAssembler driverAssembler;
+    private DriverAssembler driverAssembler;
     @Mock
-    ValidateDriver validateDriver;
+    private ValidateDriver validateDriver;
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -64,7 +64,7 @@ public class DriverServiceTest {
     public void givenADriver_whenAddDriver__thenValidateDriverIsCalled(){
         driverService.addDriver(driverDto);
 
-        verify(validateDriver).VerifySin(driverDto);
+        verify(validateDriver).verifySin(driverDto);
     }
 
     @Test(expected = EmptySearchResultsException.class)

@@ -15,7 +15,7 @@ public class ValidateDriver {
         this.userRepository = userRepository;
     }
 
-    public void VerifySin(DriverDto driverDto){
+    public void verifySin(DriverDto driverDto){
         DriverSearchQueryBuilder driverSearchQueryBuilder = userRepository.searchDrivers().withSin(driverDto.getSin());
         driverSearchQueryBuilder.findAll();
         throw new SinAlreadyExistException("Sin already exist.");
