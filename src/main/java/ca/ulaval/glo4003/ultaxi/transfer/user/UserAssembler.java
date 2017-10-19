@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.transfer.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
@@ -15,10 +14,8 @@ public class UserAssembler {
     public User create(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUserName());
-        user.setPassword(userDto.getPassword());
-        user.setRole(Role.valueOf(userDto.getRole()));
+        user.setPassword(userDto.getPassword(), hashingStrategy);
         user.setEmailAddress(userDto.getEmail());
-        user.setHashingStrategy(hashingStrategy);
         return user;
     }
 
@@ -26,7 +23,6 @@ public class UserAssembler {
         UserDto userDto = new UserDto();
         userDto.setUserName(user.getUsername());
         userDto.setPassword(user.getPassword());
-        userDto.setRole(user.getRole().name());
         userDto.setEmail(user.getEmailAddress());
         return userDto;
     }

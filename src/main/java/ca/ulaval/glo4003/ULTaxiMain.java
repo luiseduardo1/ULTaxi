@@ -44,6 +44,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -65,10 +66,10 @@ import java.util.Set;
 public final class ULTaxiMain {
 
     private static final int SERVER_PORT = 8080;
-    public static TokenManager tokenManager = new JWTTokenManager();
-    public static TokenRepository tokenRepository = new TokenRepositoryInMemory();
-    public static UserRepository userRepository = new UserRepositoryInMemory();
-    public static VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
+    public static final TokenManager tokenManager = new JWTTokenManager();
+    public static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
+    public static final UserRepository userRepository = new UserRepositoryInMemory();
+    public static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
     private static boolean isDev = true; // Would be a JVM argument or in a .property file
     private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
     private static MessageQueue messageQueue = new MessageQueueInMemory();
@@ -124,13 +125,15 @@ public final class ULTaxiMain {
         HashSet<Object> resources = new HashSet<>();
 
         UserService userService = createUserService();
+        UserAuthenticationService userAuthenticationService = createUserAuthenticationService();
         VehicleService vehicleService = createVehicleService();
         DriverService driverService = createDriverService();
 
         UserResource userResource = createUserResource(userService);
         VehicleResource vehicleResource = createVehicleResource(vehicleService);
+        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource
+            (userAuthenticationService);
         DriverResource driverResource = createDriverResource(driverService);
-        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(userService);
         TransportRequestResource transportRequestResource = createTransportRequestResource();
 
         resources.add(userResource);
@@ -143,12 +146,24 @@ public final class ULTaxiMain {
     }
 
     private static UserService createUserService() {
-        UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository);
-        UserAssembler userAssembler = new UserAssembler(new BcryptHashing());
         MessageQueueProducer messageQueueProducer = new MessageQueueProducer(messageQueue);
-        UserService userService = new UserService(userRepository, userAssembler, userAuthenticationService,
-                                                  messageQueueProducer);
+        UserService userService = new UserService(userRepository, createUserAssembler(), messageQueueProducer);
         return userService;
+    }
+
+    private static UserAuthenticationService createUserAuthenticationService() {
+        UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
+                                                                                            createUserAssembler());
+
+        return userAuthenticationService;
+    }
+
+    private static UserAssembler createUserAssembler() {
+        return new UserAssembler(createHashingStrategy());
+    }
+
+    private static HashingStrategy createHashingStrategy() {
+        return new BcryptHashing();
     }
 
     private static VehicleService createVehicleService() {
@@ -186,6 +201,12 @@ public final class ULTaxiMain {
         return new VehicleResourceImpl(vehicleService);
     }
 
+    private static UserAuthenticationResource createUseAuthenticationResource(UserAuthenticationService
+        userAuthenticationService) {
+        return new UserAuthenticationResourceImpl(userAuthenticationService, tokenRepository, tokenManager);
+
+    }
+
     private static DriverResource createDriverResource(DriverService driverService) {
         return new DriverResourceImpl(driverService);
     }
@@ -202,5 +223,4 @@ public final class ULTaxiMain {
 
         return new TransportRequestResourceImpl(transportRequestService);
     }
-
 }

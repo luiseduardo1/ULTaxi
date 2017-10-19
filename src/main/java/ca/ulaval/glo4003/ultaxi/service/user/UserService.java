@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.service.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.Message;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueueProducer;
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
@@ -15,31 +16,22 @@ public class UserService {
 
     private UserRepository userRepository;
     private UserAssembler userAssembler;
-    private UserAuthenticationService userAuthenticationService;
     private MessageQueueProducer messageQueueProducer;
 
     public UserService(UserRepository userRepository,
         UserAssembler userAssembler,
-        UserAuthenticationService userAuthenticationService,
         MessageQueueProducer messageQueueProducer) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
-        this.userAuthenticationService = userAuthenticationService;
         this.messageQueueProducer = messageQueueProducer;
     }
 
     public void addUser(UserDto userDto) {
         logger.info(String.format("Add new user %s.", userDto));
         User user = userAssembler.create(userDto);
+        user.setRole(Role.Client);
         userRepository.save(user);
-
         Message registrationMessage = new Message(user.getEmailAddress(), "Registration");
         messageQueueProducer.send(registrationMessage);
-    }
-
-    public void authenticate(UserDto userDto) {
-        logger.info(String.format("Authenticating user %s.", userDto));
-        User user = userAssembler.create(userDto);
-        userAuthenticationService.authenticate(user);
     }
 }

@@ -19,9 +19,6 @@ public class Driver extends User {
     private String phoneNumber;
     private String sin;
 
-    private LuhnAlgorithm luhnAlgorithm;
-    private StringUtil stringUtil;
-
     public String getName() {
         return name;
     }
@@ -73,9 +70,9 @@ public class Driver extends User {
         Matcher matcher = pattern.matcher(sin);
 
         if (matcher.matches()) {
-            String sinWithNonDigit = stringUtil.replaceNonDigitWithEmptySpace(sin);
-            int[] digits = stringUtil.stringToIntArr(sinWithNonDigit);
-            return luhnAlgorithm.checkLuhnAlgorithm(digits);
+            String sinWithNonDigit = StringUtil.replaceNonDigitWithEmptySpace(sin);
+            int[] digits = StringUtil.stringToIntArr(sinWithNonDigit);
+            return LuhnAlgorithm.checkLuhnAlgorithm(digits);
         }
         return false;
     }

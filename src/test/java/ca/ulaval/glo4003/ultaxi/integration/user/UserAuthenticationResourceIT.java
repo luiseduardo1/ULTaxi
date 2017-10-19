@@ -24,9 +24,8 @@ public class UserAuthenticationResourceIT {
     private static final String A_VALID_PASSWORD = "Macdonald";
     private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
     private static final String A_DIFFERENT_PASSWORD = "Nadir";
-    private static final String A_ROLE = "Client";
 
-    private static String aValidName;
+    private String aValidName;
 
     @Before
     public void setUp() throws Exception {
@@ -87,7 +86,7 @@ public class UserAuthenticationResourceIT {
         givenBaseUserServer()
             .header(
                 "Authorization",
-                response.getBody().asString()
+                String.format("Bearer %s", response.getBody().asString())
             )
             .when()
             .post(SIGNOUT_ROUTE)
@@ -106,7 +105,6 @@ public class UserAuthenticationResourceIT {
         userDto.setUserName(aValidName);
         userDto.setPassword(A_VALID_PASSWORD);
         userDto.setEmail(A_VALID_EMAIL);
-        userDto.setRole("Client");
         Gson gson = new Gson();
         return gson.toJson(userDto);
     }
@@ -116,7 +114,6 @@ public class UserAuthenticationResourceIT {
         userDto.setUserName(aValidName);
         userDto.setPassword(A_DIFFERENT_PASSWORD);
         userDto.setEmail(A_VALID_EMAIL);
-        userDto.setRole(A_ROLE);
         Gson gson = new Gson();
         return gson.toJson(userDto);
     }
