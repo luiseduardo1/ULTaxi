@@ -9,6 +9,8 @@ import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResource;
 import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.UserResource;
 import ca.ulaval.glo4003.ultaxi.api.user.UserResourceImpl;
+import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResource;
+import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
@@ -34,12 +36,15 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.vehicle.VehicleRepositoryInMemory
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
+import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
+import jersey.repackaged.com.google.common.collect.Sets;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -50,6 +55,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Application;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -116,25 +122,24 @@ public final class ULTaxiMain {
         }
     }
 
-    private static HashSet<Object> getContextResources() {
-        HashSet<Object> resources = new HashSet<>();
-
+    private static Set<Object> getContextResources() {
         UserService userService = createUserService();
         UserAuthenticationService userAuthenticationService = createUserAuthenticationService();
         VehicleService vehicleService = createVehicleService();
+        DriverService driverService = createDriverService();
 
         UserResource userResource = createUserResource(userService);
+        DriverResource driverResource = createDriverResource(driverService);
         VehicleResource vehicleResource = createVehicleResource(vehicleService);
         UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource
             (userAuthenticationService);
         TransportRequestResource transportRequestResource = createTransportRequestResource();
 
-        resources.add(userResource);
-        resources.add(vehicleResource);
-        resources.add(userAuthenticationResource);
-        resources.add(transportRequestResource);
-
-        return resources;
+        return Collections.unmodifiableSet(Sets.newHashSet(driverResource,
+                                                           userResource,
+                                                           vehicleResource,
+                                                           userAuthenticationResource,
+                                                           transportRequestResource));
     }
 
     private static UserService createUserService() {
@@ -152,6 +157,14 @@ public final class ULTaxiMain {
 
     private static UserAssembler createUserAssembler() {
         return new UserAssembler(createHashingStrategy());
+    }
+
+    private static DriverAssembler createDriverAssembler() {
+        return new DriverAssembler(createHashingStrategy());
+    }
+
+    private static DriverResource createDriverResource(DriverService driverService) {
+        return new DriverResourceImpl(driverService);
     }
 
     private static HashingStrategy createHashingStrategy() {
@@ -197,5 +210,10 @@ public final class ULTaxiMain {
                                                                                       transportRequestAssembler);
 
         return new TransportRequestResourceImpl(transportRequestService);
+    }
+
+    private static DriverService createDriverService() {
+        DriverAssembler driverAssembler = createDriverAssembler();
+        return new DriverService(userRepository, driverAssembler);
     }
 }
