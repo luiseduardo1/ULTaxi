@@ -23,7 +23,7 @@ import org.junit.runners.Suite;
 })
 public class BaseIntegrationIT {
 
-    private static final int SLEEP_TIME = 00;
+    private static final int SLEEP_TIME = 500;
     private static final int SERVER_PORT = 8080;
     private static final String SERVER_BASE_URI = "http://localhost";
 
