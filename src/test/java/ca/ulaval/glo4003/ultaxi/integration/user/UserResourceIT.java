@@ -21,6 +21,7 @@ public class UserResourceIT {
 
     private static final String A_VALID_PASSWORD = "Macdonald";
     private static final String AN_INVALID_NAME = "ronald.macdonald@ulaval.ca";
+    private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
 
     private String aValidName;
 
@@ -71,17 +72,18 @@ public class UserResourceIT {
     }
 
     private String givenAValidUser() {
-        return createUserJSON(aValidName, A_VALID_PASSWORD);
+        return createUserJSON(aValidName, A_VALID_PASSWORD, A_VALID_EMAIL);
     }
 
     private String givenAUserWithInvalidName() {
-        return createUserJSON(AN_INVALID_NAME, A_VALID_PASSWORD);
+        return createUserJSON(AN_INVALID_NAME, A_VALID_PASSWORD, A_VALID_EMAIL);
     }
 
-    private String createUserJSON(String userName, String password) {
+    private String createUserJSON(String userName, String password, String email) {
         UserDto userDto = new UserDto();
         userDto.setUserName(userName);
         userDto.setPassword(password);
+        userDto.setEmail(email);
         Gson gson = new Gson();
         return gson.toJson(userDto);
     }
