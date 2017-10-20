@@ -42,7 +42,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     public Response searchAvailableTransportRequest(String token) {
         try {
             Driver driver = (Driver) userAuthenticationService.authenticateFromToken(token);
-            TransportRequestSearchParameters searchParameters = new TransportRequestSearchParameters(driver.getVehicleType());
+            TransportRequestSearchParameters searchParameters = new TransportRequestSearchParameters("Car");
             GenericEntity<List<TransportRequestDto>> availableTransportRequests =
                     new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {};
             return Response.ok(availableTransportRequests).build();

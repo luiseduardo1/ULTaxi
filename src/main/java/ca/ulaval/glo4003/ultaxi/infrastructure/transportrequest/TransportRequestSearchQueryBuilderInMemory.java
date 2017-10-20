@@ -39,7 +39,6 @@ public class TransportRequestSearchQueryBuilderInMemory implements TransportRequ
         if (searchResults == null || searchResults.isEmpty()) {
             throw new EmptySearchResultsException("No search results.");
         }
-
         return searchResults;
     }
 
@@ -52,7 +51,6 @@ public class TransportRequestSearchQueryBuilderInMemory implements TransportRequ
         if (value != null) {
             predicates.add(predicate);
         }
-
         return this;
     }
 
