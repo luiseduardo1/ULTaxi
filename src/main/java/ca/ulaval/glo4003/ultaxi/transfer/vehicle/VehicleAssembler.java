@@ -6,13 +6,12 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleFactory;
 public class VehicleAssembler {
 
     public Vehicle create(VehicleDto vehicleDto) {
-        Vehicle vehicle = VehicleFactory.getVehicle(
+        return VehicleFactory.getVehicle(
             vehicleDto.getType(),
             vehicleDto.getColor(),
             vehicleDto.getModel(),
             vehicleDto.getRegistrationNumber()
         );
-        return vehicle;
     }
 
     public VehicleDto create(Vehicle vehicle) {
