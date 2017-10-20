@@ -3,12 +3,13 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging.tasks;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
-import net.jodah.failsafe.function.CheckedRunnable;
+import net.jodah.failsafe.Failsafe;
+import net.jodah.failsafe.RetryPolicy;
+import java.util.concurrent.TimeUnit;
 
+public class SendRegistrationEmailTask implements Runnable {
 
-public class SendRegistrationEmailTask implements CheckedRunnable {
-
-    private static final String EMAIL_REGISTRATION_SUBJECT = "Welcome %s!!";
+    private static final String EMAIL_REGISTRATION_SUBJECT = "Welcome %s!";
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you %s for your request to " +
             "subscribe to ULTaxi. \nHope you will enjoy it! \n \n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
@@ -16,21 +17,26 @@ public class SendRegistrationEmailTask implements CheckedRunnable {
     private EmailSender emailSender;
     private String sendTo;
     private String recipientUsername;
+    private RetryPolicy retryPolicy;
 
     public SendRegistrationEmailTask(String sendTo, String recipientUsername, EmailSender emailSender) {
         this.emailSender = emailSender;
         this.sendTo = sendTo;
         this.recipientUsername = recipientUsername;
+        this.retryPolicy = new RetryPolicy().retryOn(EmailSendingFailureException.class)
+                .withDelay(10, TimeUnit.SECONDS);
     }
 
-    public Email createCustomEmail(String sendTo, String recipientUsername) {
+    @Override
+    public void run() {
+        Failsafe.with(retryPolicy).run(() -> sendRegistrationEmail());
+    }
+
+    public void sendRegistrationEmail() {
         String customSubject = String.format(EMAIL_REGISTRATION_SUBJECT, recipientUsername);
         String customContent = String.format(EMAIL_REGISTRATION_CONTENT, recipientUsername);
-        return new Email(sendTo, customSubject, customContent, EMAIL_SIGNATURE);
+        Email registrationEmail = new Email(sendTo, customSubject, customContent, EMAIL_SIGNATURE);
+        emailSender.sendEmail(registrationEmail);
     }
-    @Override
-    public void run() throws EmailSendingFailureException{
-        Email email = createCustomEmail(sendTo, recipientUsername);
-        this.emailSender.sendEmail(email);
-    }
+
 }

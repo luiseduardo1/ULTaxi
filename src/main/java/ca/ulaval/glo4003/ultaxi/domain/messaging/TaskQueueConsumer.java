@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.domain.messaging;
 
-import net.jodah.failsafe.function.CheckedRunnable;
-
 public class TaskQueueConsumer {
 
     private TaskQueue taskQueue;
@@ -10,11 +8,11 @@ public class TaskQueueConsumer {
         this.taskQueue = taskQueue;
     }
 
-    public CheckedRunnable checkForTask() {
+    public Runnable checkForTask() {
         return this.taskQueue.peek();
     }
 
-    public void removeTask(CheckedRunnable task) {
+    public void removeTask(Runnable task) {
         this.taskQueue.dequeue(task);
     }
 

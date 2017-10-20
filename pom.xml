@@ -190,7 +190,7 @@
                 <version>2.18</version>
                 <configuration>
                     <includes>
-                        <include>**/*IT.java</include>
+                        <include>**/BaseIT.java</include>
                     </includes>
                 </configuration>
                 <executions>
