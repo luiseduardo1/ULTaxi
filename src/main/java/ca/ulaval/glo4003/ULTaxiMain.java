@@ -131,8 +131,8 @@ public final class ULTaxiMain {
         UserResource userResource = createUserResource(userService);
         DriverResource driverResource = createDriverResource(driverService);
         VehicleResource vehicleResource = createVehicleResource(vehicleService);
-        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource
-            (userAuthenticationService);
+        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
+            userAuthenticationService);
         TransportRequestResource transportRequestResource = createTransportRequestResource();
 
         return Collections.unmodifiableSet(Sets.newHashSet(driverResource,

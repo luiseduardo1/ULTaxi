@@ -184,8 +184,9 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.18</version>
                 <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <includes>
-                        <include>**/*IT.java</include>
+                        <include>**/BaseIT.java</include>
                     </includes>
                 </configuration>
                 <executions>
