@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class UserRepositoryInMemory implements UserRepository {
 
-    private Map<String, User> users = new HashMap<>();
+    private final Map<String, User> users = new HashMap<>();
 
     @Override
     public User findByUsername(String username) {

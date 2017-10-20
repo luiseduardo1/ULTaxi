@@ -31,8 +31,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     private static final String AUTHENTICATION_SCHEME = "Bearer";
     @Context
     private ResourceInfo resourceInfo;
-    private UserRepository userRepository;
-    private TokenManager tokenManager;
+    private final UserRepository userRepository;
+    private final TokenManager tokenManager;
 
     public AuthorizationFilter(UserRepository userRepository, TokenManager tokenManager) {
         this.userRepository = userRepository;

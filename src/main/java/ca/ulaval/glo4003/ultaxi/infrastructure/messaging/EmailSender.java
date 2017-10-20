@@ -15,7 +15,7 @@ import java.util.Properties;
 public class EmailSender {
 
     private static final String PROTOCOL = "smtp";
-    private Properties emailSenderProperties;
+    private final Properties emailSenderProperties;
     private Session mailSession;
 
     public EmailSender(EmailSenderConfigurationReader configurationReader) {

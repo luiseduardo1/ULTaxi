@@ -19,7 +19,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     private static final String AUTHENTICATION_SCHEME = "Bearer";
 
-    private TokenManager tokenManager;
+    private final TokenManager tokenManager;
 
     public AuthenticationFilter(TokenManager tokenManager) {
         this.tokenManager = tokenManager;

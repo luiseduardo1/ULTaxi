@@ -12,11 +12,11 @@ import java.util.logging.Logger;
 
 public class UserService {
 
-    private Logger logger = Logger.getLogger(UserService.class.getName());
+    private final Logger logger = Logger.getLogger(UserService.class.getName());
 
-    private UserRepository userRepository;
-    private UserAssembler userAssembler;
-    private MessageQueueProducer messageQueueProducer;
+    private final UserRepository userRepository;
+    private final UserAssembler userAssembler;
+    private final MessageQueueProducer messageQueueProducer;
 
     public UserService(UserRepository userRepository,
         UserAssembler userAssembler,

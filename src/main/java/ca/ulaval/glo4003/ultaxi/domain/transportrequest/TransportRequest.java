@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class TransportRequest {
 
-    private String id = UUID.randomUUID().toString();
+    private final String id = UUID.randomUUID().toString();
     private Geolocation geolocation;
     private String note;
     private VehicleType vehicleType;
@@ -57,7 +57,7 @@ public class TransportRequest {
     }
 
     private enum VehicleType {
-        CAR, LIMOUSINE, VAN;
+        CAR, LIMOUSINE, VAN
     }
 
 }

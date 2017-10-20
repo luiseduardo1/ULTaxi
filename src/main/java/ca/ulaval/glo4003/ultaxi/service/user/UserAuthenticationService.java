@@ -8,8 +8,8 @@ import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 
 public class UserAuthenticationService {
 
-    private UserRepository userRepository;
-    private UserAssembler userAssembler;
+    private final UserRepository userRepository;
+    private final UserAssembler userAssembler;
 
     public UserAuthenticationService(UserRepository userRepository, UserAssembler userAssembler) {
         this.userRepository = userRepository;

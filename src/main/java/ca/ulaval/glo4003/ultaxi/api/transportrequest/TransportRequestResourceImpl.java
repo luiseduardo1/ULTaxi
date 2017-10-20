@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 @Secured({Role.Client})
 public class TransportRequestResourceImpl implements TransportRequestResource {
 
-    private TransportRequestService transportRequestService;
+    private final TransportRequestService transportRequestService;
 
     public TransportRequestResourceImpl(TransportRequestService transportRequestService) {
         this.transportRequestService = transportRequestService;

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DriverResourceImpl implements DriverResource {
 
-    private DriverService driverService;
+    private final DriverService driverService;
 
     public DriverResourceImpl(DriverService driverService) {
         this.driverService = driverService;

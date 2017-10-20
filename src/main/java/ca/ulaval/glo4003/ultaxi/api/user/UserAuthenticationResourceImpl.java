@@ -17,10 +17,10 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     private static final List<String> AUTHENTICATION_SCHEMES = Collections.unmodifiableList(Arrays.asList("Bearer",
                                                                                                           "Basic",
                                                                                                           "Digest"));
-    private static long HOUR_IN_MILLISECONDS = 3600000;
-    private UserAuthenticationService userAuthenticationService;
-    private TokenManager tokenManager;
-    private TokenRepository tokenRepository;
+    private static final long HOUR_IN_MILLISECONDS = 3600000;
+    private final UserAuthenticationService userAuthenticationService;
+    private final TokenManager tokenManager;
+    private final TokenRepository tokenRepository;
 
     public UserAuthenticationResourceImpl(UserAuthenticationService userAuthenticationService, TokenRepository
         tokenRepository,
