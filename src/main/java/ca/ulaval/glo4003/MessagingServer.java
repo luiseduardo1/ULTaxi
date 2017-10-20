@@ -4,7 +4,12 @@ import static java.lang.Thread.sleep;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueConsumer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
+import net.jodah.failsafe.Failsafe;
+import net.jodah.failsafe.RetryPolicy;
+import net.jodah.failsafe.function.CheckedRunnable;
 
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class MessagingServer implements Runnable {
@@ -19,6 +24,11 @@ public class MessagingServer implements Runnable {
         this.taskQueueConsumer = new TaskQueueConsumer(taskQueue);
     }
 
+    RetryPolicy retryPolicy = new RetryPolicy()
+            .retryOn(EmailSendingFailureException.class)
+            .withDelay(1, TimeUnit.SECONDS)
+            .withMaxRetries(3);
+
     @Override
     public void run() {
         try {
@@ -28,8 +38,8 @@ public class MessagingServer implements Runnable {
         }
         while (true) {
             if (!taskQueue.isEmpty()) {
-                Runnable task = taskQueueConsumer.checkForTask();
-                task.run();
+                CheckedRunnable task = taskQueueConsumer.checkForTask();
+                Failsafe.with(retryPolicy).run(task);
                 taskQueueConsumer.removeTask(task);
             }
         }

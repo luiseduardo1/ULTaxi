@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 import static org.junit.Assert.assertEquals;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
+import net.jodah.failsafe.function.CheckedRunnable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class TaskQueueInMemoryTest {
 
     @Mock
-    private Runnable task;
+    private CheckedRunnable task;
 
     private TaskQueue taskQueue;
 
@@ -28,7 +29,7 @@ public class TaskQueueInMemoryTest {
             throws InterruptedException {
         taskQueue.enqueue(task);
 
-        Runnable taskDequeued = taskQueue.peek();
+        CheckedRunnable taskDequeued = taskQueue.peek();
 
         assertEquals(task, taskDequeued);
     }

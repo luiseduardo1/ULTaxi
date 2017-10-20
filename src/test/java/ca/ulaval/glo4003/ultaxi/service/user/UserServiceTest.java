@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import net.jodah.failsafe.function.CheckedRunnable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,6 +59,6 @@ public class UserServiceTest {
 
         userService.addUser(userDto);
 
-        verify(taskQueueProducer).send(any(Runnable.class));
+        verify(taskQueueProducer).send(any(CheckedRunnable.class));
     }
 }

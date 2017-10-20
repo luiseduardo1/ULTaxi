@@ -1,12 +1,14 @@
 package ca.ulaval.glo4003.ultaxi.domain.messaging;
 
+import net.jodah.failsafe.function.CheckedRunnable;
+
 public interface TaskQueue {
 
-    void enqueue(Runnable task) throws InterruptedException;
+    void enqueue(CheckedRunnable task) throws InterruptedException;
 
-    void dequeue(Runnable task);
+    void dequeue(CheckedRunnable task);
 
-    Runnable peek();
+    CheckedRunnable peek();
 
     boolean isEmpty();
 }

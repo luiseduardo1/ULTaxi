@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging;
 
 import static org.mockito.Mockito.verify;
 
+import net.jodah.failsafe.function.CheckedRunnable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ public class TaskQueueConsumerTest {
     @Mock
     TaskQueue taskQueue;
 
-    private Runnable task;
+    private CheckedRunnable task;
 
 
     @Before

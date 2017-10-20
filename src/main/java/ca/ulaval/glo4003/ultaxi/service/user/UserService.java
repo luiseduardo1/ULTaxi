@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import net.jodah.failsafe.function.CheckedRunnable;
 
 import java.util.logging.Logger;
 
@@ -36,7 +37,7 @@ public class UserService {
         user.setRole(Role.Client);
         userRepository.save(user);
 
-        Runnable task = new SendRegistrationEmailTask(user.getEmailAddress(), user.getUsername(), emailSender);
+        CheckedRunnable task = new SendRegistrationEmailTask(user.getEmailAddress(), user.getUsername(), emailSender);
         taskQueueProducer.send(task);
     }
 }

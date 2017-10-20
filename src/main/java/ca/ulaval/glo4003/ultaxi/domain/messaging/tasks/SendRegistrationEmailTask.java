@@ -1,9 +1,12 @@
 package ca.ulaval.glo4003.ultaxi.domain.messaging.tasks;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
+import net.jodah.failsafe.function.CheckedRunnable;
 
-public class SendRegistrationEmailTask implements Runnable{
+
+public class SendRegistrationEmailTask implements CheckedRunnable {
 
     private static final String EMAIL_REGISTRATION_SUBJECT = "Welcome %s!!";
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you %s for your request to " +
@@ -26,7 +29,7 @@ public class SendRegistrationEmailTask implements Runnable{
         return new Email(sendTo, customSubject, customContent, EMAIL_SIGNATURE);
     }
     @Override
-    public void run() {
+    public void run() throws EmailSendingFailureException{
         Email email = createCustomEmail(sendTo, recipientUsername);
         this.emailSender.sendEmail(email);
     }

@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.messaging;
 
+import net.jodah.failsafe.function.CheckedRunnable;
+
 import java.util.logging.Logger;
 
 public class TaskQueueProducer {
@@ -11,7 +13,7 @@ public class TaskQueueProducer {
         this.taskQueue = taskQueue;
     }
 
-    public void send(Runnable task) {
+    public void send(CheckedRunnable task) {
         try {
             this.taskQueue.enqueue(task);
         } catch (InterruptedException exception) {
