@@ -30,7 +30,7 @@ public class SendRegistrationEmailTask implements Runnable {
 
     @Override
     public void run() {
-        Failsafe.with(retryPolicy).run(() -> sendRegistrationEmail());
+        Failsafe.with(retryPolicy).run(this::sendRegistrationEmail);
     }
 
     public void sendRegistrationEmail() {
