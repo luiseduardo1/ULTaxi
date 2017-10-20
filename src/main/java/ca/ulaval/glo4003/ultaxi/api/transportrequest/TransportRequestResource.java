@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
-import ca.ulaval.glo4003.ultaxi.api.middleware.authentication.Secured;
+import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 

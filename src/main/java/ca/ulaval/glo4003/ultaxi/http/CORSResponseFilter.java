@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.api.middleware;
+package ca.ulaval.glo4003.ultaxi.http;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
