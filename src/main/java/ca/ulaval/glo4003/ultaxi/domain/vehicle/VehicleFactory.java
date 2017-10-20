@@ -8,18 +8,18 @@ public final class VehicleFactory {
         throw new AssertionError("Instantiating utility class...");
     }
 
-    public static Vehicle getVehicle(String type, String color, String model, String registrationNumber) {
+    public static Vehicle getVehicle(VehicleType type, String color, String model, String registrationNumber) {
 
         if (type == null) {
             throw new InvalidVehicleTypeException("Vehicle type cannot be null.");
         }
 
-        switch (type.toLowerCase()) {
-            case "car":
+        switch (type) {
+            case Car:
                 return new Car(color, model, registrationNumber);
-            case "van":
+            case Van:
                 return new Van(color, model, registrationNumber);
-            case "limousine":
+            case Limousine:
                 return new Limousine(color, model, registrationNumber);
             default:
                 throw new InvalidVehicleTypeException(
