@@ -56,7 +56,6 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Application;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -67,10 +66,10 @@ import java.util.Set;
 public final class ULTaxiMain {
 
     private static final int SERVER_PORT = 8080;
-    public static final TokenManager tokenManager = new JWTTokenManager();
-    public static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
-    public static final UserRepository userRepository = new UserRepositoryInMemory();
-    public static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
+    private static final TokenManager tokenManager = new JWTTokenManager();
+    private static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
+    private static final UserRepository userRepository = new UserRepositoryInMemory();
+    private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
     private static boolean isDev = true; // Would be a JVM argument or in a .property file
     private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
     private static MessageQueue messageQueue = new MessageQueueInMemory();
