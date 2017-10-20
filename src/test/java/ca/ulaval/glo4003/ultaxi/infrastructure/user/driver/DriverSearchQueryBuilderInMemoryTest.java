@@ -48,7 +48,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = (Driver) createDriver("Ronald", "Macdonald", "972487086");
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSin(), foundDriver.getSin());
+        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
@@ -62,21 +62,21 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = (Driver) createDriver("Lord", "Gargamel", "215136193");
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSin(), foundDriver.getSin());
+        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
 
     @Test
     public void givenSomeDriversAndASinFilter_whenFindingAll_thenReturnsTheRightDriver() {
-        DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withSin("348624487");
+        DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withSocialInsuranceNumber("348624487");
 
         List<Driver> foundDrivers = searchDriver.findAll();
         Driver foundDriver = foundDrivers.get(0);
 
         Driver expectedDriver = (Driver) createDriver("Marcel", "Lepic", "348624487");
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSin(), foundDriver.getSin());
+        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
@@ -90,11 +90,11 @@ public class DriverSearchQueryBuilderInMemoryTest {
         return drivers;
     }
 
-    private User createDriver(String firstName, String lastName, String sin) {
+    private User createDriver(String firstName, String lastName, String socialInsuranceNumber) {
         Driver driver = new Driver();
         driver.setName(firstName);
         driver.setLastName(lastName);
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
         driver.setRole(Role.Driver);
 
         return driver;

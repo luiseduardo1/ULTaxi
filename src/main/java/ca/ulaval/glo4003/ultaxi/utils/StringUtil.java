@@ -4,11 +4,11 @@ public final class StringUtil {
 
     private static final String NON_DIGITS_REGEX = "\\D";
 
-    public static int[] stringToIntArr(String stringElement) {
-        String[] s = stringElement.split("");
-        int[] result = new int[s.length];
-        for (int i = 0; i < s.length; i++) {
-            result[i] = Integer.parseInt(s[i]);
+    public static int[] convertStringToIntegerArray(String stringElement) {
+        String[] strings = stringElement.split("");
+        int[] result = new int[strings.length];
+        for (int i = 0; i < strings.length; i++) {
+            result[i] = Integer.parseInt(strings[i]);
         }
         return result;
     }

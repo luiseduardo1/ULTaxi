@@ -32,7 +32,7 @@ public class DriverService {
             .searchDrivers()
             .withFirstName(driverSearchParameters.getFirstName())
             .withLastName(driverSearchParameters.getLastName())
-            .withSin(driverSearchParameters.getSin())
+            .withSocialInsuranceNumber(driverSearchParameters.getSocialInsuranceNumber())
             .findAll()
             .stream()
             .map(driverAssembler::create)

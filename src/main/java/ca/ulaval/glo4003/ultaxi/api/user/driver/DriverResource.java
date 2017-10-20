@@ -24,7 +24,7 @@ public interface DriverResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Secured({Role.Administrator})
-    Response searchBy(@QueryParam("sin") String sin,
+    Response searchBy(@QueryParam("social-insurance-number") String socialInsuranceNumber,
         @QueryParam("first-name") String firstName,
         @QueryParam("last-name") String lastName);
 }

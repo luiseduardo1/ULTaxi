@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.ultaxi.api.middleware.authentication.Secured;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSinException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
@@ -29,15 +29,15 @@ public class DriverResourceImpl implements DriverResource {
             driverService.addDriver(driverDto);
             return Response.ok().build();
         } catch (UserAlreadyExistsException | InvalidUserNameException |
-            InvalidPhoneNumberException | InvalidSinException exception) {
+            InvalidPhoneNumberException | InvalidSocialInsuranceNumberException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
 
     @Override
     @Secured({Role.Administrator})
-    public Response searchBy(String sin, String firstName, String lastName) {
-        DriverSearchParameters searchParameters = new DriverSearchParameters(sin, firstName, lastName);
+    public Response searchBy(String socialInsuranceNumber, String firstName, String lastName) {
+        DriverSearchParameters searchParameters = new DriverSearchParameters(socialInsuranceNumber, firstName, lastName);
         try {
             List<DriverDto> drivers = driverService.searchBy(searchParameters);
             return Response.ok(drivers).build();

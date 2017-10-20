@@ -7,7 +7,7 @@ public class DriverDto {
     private String username;
     private String password;
     private String phoneNumber;
-    private String sin;
+    private String socialInsuranceNumber;
 
     public String getName() {
         return name;
@@ -49,12 +49,12 @@ public class DriverDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getSin() {
-        return sin;
+    public String getSocialInsuranceNumber() {
+        return socialInsuranceNumber;
     }
 
-    public void setSin(String sin) {
-        this.sin = sin;
+    public void setSocialInsuranceNumber(String socialInsuranceNumber) {
+        this.socialInsuranceNumber = socialInsuranceNumber;
     }
 
 }
