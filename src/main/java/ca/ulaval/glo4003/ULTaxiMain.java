@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.ultaxi.api.middleware.CORSResponseFilter;
-import ca.ulaval.glo4003.ultaxi.api.middleware.authentication.AuthenticationFilter;
-import ca.ulaval.glo4003.ultaxi.api.middleware.authentication.AuthorizationFilter;
 import ca.ulaval.glo4003.ultaxi.api.transportrequest.TransportRequestResource;
 import ca.ulaval.glo4003.ultaxi.api.transportrequest.TransportRequestResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResource;
@@ -22,6 +19,9 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
+import ca.ulaval.glo4003.ultaxi.http.CORSResponseFilter;
+import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilter;
+import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
@@ -45,6 +45,14 @@ import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import jersey.repackaged.com.google.common.collect.Sets;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -59,17 +67,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-@SuppressWarnings("all")
 public final class ULTaxiMain {
 
-    private static final int SERVER_PORT = 8080;
+    private static boolean isDevelopmentEnvironment;
+    private static int serverPort;
     private static final TokenManager tokenManager = new JWTTokenManager();
     private static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private static final UserRepository userRepository = new UserRepositoryInMemory();
     private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
-    private static boolean isDev = true;
-    private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
-    private static MessageQueue messageQueue = new MessageQueueInMemory();
+    private static final String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
+    private static final MessageQueue messageQueue = new MessageQueueInMemory();
 
     private ULTaxiMain() {
         throw new AssertionError("Instantiating main class...");
@@ -77,6 +84,7 @@ public final class ULTaxiMain {
 
     public static void main(String[] args) throws Exception {
 
+        parseCommandLineOptions(args);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/api/");
         ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
@@ -104,7 +112,7 @@ public final class ULTaxiMain {
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[]{context});
-        Server server = new Server(SERVER_PORT);
+        Server server = new Server(serverPort);
         server.setHandler(contexts);
 
         try {
@@ -113,6 +121,72 @@ public final class ULTaxiMain {
         } finally {
             server.destroy();
         }
+    }
+
+    private static void parseCommandLineOptions(String[] arguments) {
+        CommandLineParser parser = new PosixParser();
+        Options options = createCommandLineOptions();
+        boolean displayHelp = false;
+        try {
+            CommandLine commandLine = parser.parse(options, arguments);
+            assignCommandLineOptions(commandLine);
+            displayHelp = commandLine.hasOption("help");
+        } catch (ParseException | NumberFormatException exception) {
+            displayHelp = true;
+        }
+
+        displayHelp(displayHelp, options);
+    }
+
+    private static void displayHelp(boolean displayHelp, Options options) {
+        if (displayHelp) {
+            HelpFormatter helpFormatter = new HelpFormatter();
+            helpFormatter.printHelp("ultaxi", options);
+            System.exit(1);
+        }
+    }
+
+    private static void assignCommandLineOptions(CommandLine commandLine) {
+        isDevelopmentEnvironment = commandLine.hasOption("development");
+        serverPort = Integer.parseUnsignedInt(commandLine.getOptionValue("server-port", "8080"));
+    }
+
+    private static Options createCommandLineOptions() {
+        Options options = new Options();
+        options.addOption(createIsDevelopmentEnvironmentOption());
+        options.addOption(createServerPortOption());
+        options.addOption(createHelpOption());
+
+        return options;
+    }
+
+    private static Option createIsDevelopmentEnvironmentOption() {
+        return OptionBuilder
+            .withLongOpt("development")
+            .hasArg(false)
+            .withDescription("run the server in development mode")
+            .isRequired(false)
+            .create("d");
+    }
+
+    private static Option createServerPortOption() {
+        return OptionBuilder
+            .withLongOpt("server-port")
+            .withDescription("run the server on the specified port")
+            .withArgName("PORT_NUMBER")
+            .isRequired(false)
+            .withType(Integer.class)
+            .hasArgs(1)
+            .create("p");
+    }
+
+    private static Option createHelpOption() {
+        return OptionBuilder
+            .withLongOpt("help")
+            .withDescription("display this help text and exit")
+            .isRequired(false)
+            .hasArg(false)
+            .create("h");
     }
 
     private static Set<Object> getContextResources() {
@@ -166,26 +240,25 @@ public final class ULTaxiMain {
 
     private static VehicleService createVehicleService() {
         VehicleAssembler vehicleAssembler = new VehicleAssembler();
-        VehicleService vehicleService = new VehicleService(vehicleRepository, vehicleAssembler);
 
-        return vehicleService;
+        return new VehicleService(vehicleRepository, vehicleAssembler);
     }
 
     private static UserResource createUserResource(UserService userService) {
-        if (isDev) {
+        if (isDevelopmentEnvironment) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
             List<User> users = userDevDataFactory.createMockData();
-            users.stream().forEach(userRepository::save);
+            users.forEach(userRepository::save);
         }
 
         return new UserResourceImpl(userService);
     }
 
     private static VehicleResource createVehicleResource(VehicleService vehicleService) {
-        if (isDev) {
+        if (isDevelopmentEnvironment) {
             VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
             List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
-            vehicles.stream().forEach(vehicleRepository::save);
+            vehicles.forEach(vehicleRepository::save);
         }
 
         return new VehicleResourceImpl(vehicleService);
