@@ -44,7 +44,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
         String authorisationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authorisationHeader == null) {
-            // Necessary to short circuit the method if the authorization header was not given
+            // Short circuit the method if the authorization header was not given
             return;
         }
         String token = authorisationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();

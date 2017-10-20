@@ -59,9 +59,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-/**
- * RESTApi setup without using DI or spring
- */
 @SuppressWarnings("all")
 public final class ULTaxiMain {
 
@@ -70,7 +67,7 @@ public final class ULTaxiMain {
     private static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private static final UserRepository userRepository = new UserRepositoryInMemory();
     private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
-    private static boolean isDev = true; // Would be a JVM argument or in a .property file
+    private static boolean isDev = true;
     private static String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
     private static MessageQueue messageQueue = new MessageQueueInMemory();
 
@@ -80,7 +77,6 @@ public final class ULTaxiMain {
 
     public static void main(String[] args) throws Exception {
 
-        // Setup API context (JERSEY + JETTY)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/api/");
         ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
@@ -100,14 +96,12 @@ public final class ULTaxiMain {
         ServletHolder servletHolder = new ServletHolder(servletContainer);
         context.addServlet(servletHolder, "/*");
 
-        // Setup messaging thread
         EmailSenderConfigurationReader emailSenderConfigurationReader =
             new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
         EmailSender emailSender = new EmailSender(emailSenderConfigurationReader);
         Thread messagingThread = new Thread(new MessagingThread(messageQueue, emailSender));
         messagingThread.start();
 
-        // Setup http server
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[]{context});
         Server server = new Server(SERVER_PORT);
@@ -181,7 +175,7 @@ public final class ULTaxiMain {
         if (isDev) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
             List<User> users = userDevDataFactory.createMockData();
-            //users.stream().forEach(userRepository::save);
+            users.stream().forEach(userRepository::save);
         }
 
         return new UserResourceImpl(userService);
@@ -191,7 +185,7 @@ public final class ULTaxiMain {
         if (isDev) {
             VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
             List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
-            //vehicles.stream().forEach(vehicleRepository::save);
+            vehicles.stream().forEach(vehicleRepository::save);
         }
 
         return new VehicleResourceImpl(vehicleService);
