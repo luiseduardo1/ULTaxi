@@ -24,7 +24,7 @@ public class MessageQueueConsumer {
 
     public Email convertToEmail(Message message) throws InvalidEmailTypeException {
         switch (message.getReason()) {
-            case "Registration":
+            case Registration:
                 return new Email(message.getSentTo(), EMAIL_REGISTRATION_SUBJECT, EMAIL_REGISTRATION_CONTENT,
                                  EMAIL_SIGNATURE);
             default:

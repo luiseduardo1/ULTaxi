@@ -3,12 +3,12 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging;
 public class Message {
 
     private String sentTo;
-    private String reason;
+    private Reason reason;
 
     public Message() {
     }
 
-    public Message(String sendTo, String reason) {
+    public Message(String sendTo, Reason reason) {
         this.sentTo = sendTo;
         this.reason = reason;
     }
@@ -21,11 +21,11 @@ public class Message {
         this.sentTo = sentTo;
     }
 
-    public String getReason() {
+    public Reason getReason() {
         return this.reason;
     }
 
-    public void setReason(String reason) {
+    public void setReason(Reason reason) {
         this.reason = reason;
     }
 }
