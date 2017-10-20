@@ -13,6 +13,7 @@ public class SendRegistrationEmailTask implements Runnable {
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you %s for your request to " +
             "subscribe to ULTaxi. \nHope you will enjoy it! \n \n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
+    private int DELAY_SECONDS_BETWEEN_RETRY_ATTEMPT = 10;
 
     private EmailSender emailSender;
     private String sendTo;
@@ -24,7 +25,7 @@ public class SendRegistrationEmailTask implements Runnable {
         this.sendTo = sendTo;
         this.recipientUsername = recipientUsername;
         this.retryPolicy = new RetryPolicy().retryOn(EmailSendingFailureException.class)
-                .withDelay(10, TimeUnit.SECONDS);
+                .withDelay(DELAY_SECONDS_BETWEEN_RETRY_ATTEMPT, TimeUnit.SECONDS);
     }
 
     @Override
