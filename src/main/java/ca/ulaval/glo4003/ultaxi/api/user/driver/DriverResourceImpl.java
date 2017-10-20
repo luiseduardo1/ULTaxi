@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.ultaxi.api.user.driver;
 
-import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
@@ -37,7 +37,8 @@ public class DriverResourceImpl implements DriverResource {
     @Override
     @Secured({Role.Administrator})
     public Response searchBy(String socialInsuranceNumber, String firstName, String lastName) {
-        DriverSearchParameters searchParameters = new DriverSearchParameters(socialInsuranceNumber, firstName, lastName);
+        DriverSearchParameters searchParameters = new DriverSearchParameters(socialInsuranceNumber, firstName,
+                                                                             lastName);
         try {
             List<DriverDto> drivers = driverService.searchBy(searchParameters);
             return Response.ok(drivers).build();

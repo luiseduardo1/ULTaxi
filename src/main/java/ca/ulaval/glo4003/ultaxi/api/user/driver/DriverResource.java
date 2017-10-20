@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.user.driver;
 
-import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 
 import javax.ws.rs.Consumes;
