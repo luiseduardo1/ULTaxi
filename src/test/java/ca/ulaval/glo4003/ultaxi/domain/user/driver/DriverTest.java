@@ -71,7 +71,7 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithInvalidNPA_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
+    public void givenPhoneNumberWithInvalidNumberingPlanArea_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
         String phoneNumber = "123 234 5678";
 
         driver.setPhoneNumber(phoneNumber);
