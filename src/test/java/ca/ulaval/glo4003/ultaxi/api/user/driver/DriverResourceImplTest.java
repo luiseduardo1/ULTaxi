@@ -84,7 +84,7 @@ public class DriverResourceImplTest {
     }
 
     @Test
-    public void givenDriverWithInvalidSin_whenCreateDriver_thenReturnsBadRequest() {
+    public void givenDriverWithInvalidSocialInsuranceNumber_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new InvalidSocialInsuranceNumberException("User has an invalid social insurance number."))
             .given(driverService)
             .addDriver(driverDto);

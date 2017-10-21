@@ -68,7 +68,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
     }
 
     @Test
-    public void givenSomeDriversAndASinFilter_whenFindingAll_thenReturnsTheRightDriver() {
+    public void givenSomeDriversAndASocialInsuranceNumberFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withSocialInsuranceNumber("348624487");
 
         List<Driver> foundDrivers = searchDriver.findAll();
