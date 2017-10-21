@@ -13,21 +13,21 @@ public class VehicleDevDataFactory {
         List<Vehicle> vehicles = Lists.newArrayList();
 
         Vehicle vehicle1 = VehicleFactory.getVehicle(
-            VehicleType.Car,
+            "Car",
             "Metallic Blue",
             "Honda Civic Si",
             "T98765");
         vehicles.add(vehicle1);
 
         Vehicle vehicle2 = VehicleFactory.getVehicle(
-            VehicleType.Van,
+            "Van",
             "Dark Grey",
             "Toyota Sienna XLE",
             "T31337");
         vehicles.add(vehicle2);
 
         Vehicle vehicle3 = VehicleFactory.getVehicle(
-            VehicleType.Limousine,
+            "Limousine",
             "Gloss Black",
             "Chrysler 300 New York Edition",
             "TS00700");

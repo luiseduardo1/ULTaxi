@@ -1,19 +1,17 @@
 package ca.ulaval.glo4003.ultaxi.transfer.vehicle;
 
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
-
 public class VehicleDto {
 
-    private VehicleType type;
+    private String type;
     private String color;
     private String model;
     private String registrationNumber;
 
-    public VehicleType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(VehicleType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
