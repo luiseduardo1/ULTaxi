@@ -23,6 +23,68 @@ public abstract class IntegrationTest {
 
     protected String authenticationToken = getGenericRoleUserAuthenticationToken(Role.Anonymous);
 
+    private static final String getAuthenticationToken(String userData) {
+        Response response = executePostRequest(
+            createBasicRequestSpecification(SIGNIN_ROUTE), userData
+        );
+        return AUTHENTICATION_TOKEN_PREFIX + response.getBody().asString();
+    }
+
+    private static final String getGenericRoleUserAuthenticationToken(Role role) {
+        return getAuthenticationToken(
+            createGenericRoleUserData(role)
+        );
+    }
+
+    private static final Response executePostRequest(RequestSpecification requestSpecification,
+        String body) {
+        return requestSpecification
+            .body(body)
+            .when()
+            .post();
+    }
+
+    private static final Response executeGetRequest(RequestSpecification requestSpecification,
+        Map<String, ?> queryParameters) {
+        return requestSpecification
+            .queryParams(queryParameters)
+            .when()
+            .get();
+    }
+
+    private static final RequestSpecification createAuthenticatedRequestSpecification(String path,
+        String authorizationToken) {
+        return createBasicRequestSpecification(path)
+            .header("Authorization", authorizationToken);
+    }
+
+    private static final RequestSpecification createBasicRequestSpecification(String path) {
+        return given()
+            .accept(ContentType.JSON)
+            .contentType(ContentType.JSON)
+            .header("Connection", "Close")
+            .basePath(path);
+    }
+
+    private static final String createGenericRoleUserData(Role role) {
+        String lowercaseRole = role.name().toLowerCase();
+        return createUserData(
+            lowercaseRole + "Username",
+            lowercaseRole + "Password",
+            lowercaseRole + "@ultaxi.ca"
+        );
+    }
+
+    private static final String createUserData(String username, String password, String email) {
+        UserDto userDto = new UserDto();
+        userDto.setUserName(username);
+        userDto.setPassword(password);
+        userDto.setEmail(email);
+
+        Gson gson = new Gson();
+        return gson.toJson(userDto);
+    }
+
     protected void authenticateAsUser(String username, String password, String email) {
         authenticationToken = getAuthenticationToken(
             createUserData(username, password, email)
@@ -80,67 +142,5 @@ public abstract class IntegrationTest {
             .then()
             .assertThat()
             .statusCode(status.getStatusCode());
-    }
-
-    protected String getGenericRoleUserAuthenticationToken(Role role) {
-        return getAuthenticationToken(
-            createGenericRoleUserData(role)
-        );
-    }
-
-    private static final Response executePostRequest(RequestSpecification requestSpecification,
-        String body) {
-        return requestSpecification
-            .body(body)
-            .when()
-            .post();
-    }
-
-    private static final Response executeGetRequest(RequestSpecification requestSpecification,
-        Map<String, ?> queryParameters) {
-        return requestSpecification
-            .queryParams(queryParameters)
-            .when()
-            .get();
-    }
-
-    private static final RequestSpecification createAuthenticatedRequestSpecification(String path,
-        String authorizationToken) {
-        return createBasicRequestSpecification(path)
-            .header("Authorization", authorizationToken);
-    }
-
-    private static final RequestSpecification createBasicRequestSpecification(String path) {
-        return given()
-            .accept(ContentType.JSON)
-            .contentType(ContentType.JSON)
-            .header("Connection", "Close")
-            .basePath(path);
-    }
-
-    private static String getAuthenticationToken(String userData) {
-        Response response = executePostRequest(
-            createBasicRequestSpecification(SIGNIN_ROUTE), userData
-        );
-        return AUTHENTICATION_TOKEN_PREFIX + response.getBody().asString();
-    }
-
-    private static final String createGenericRoleUserData(Role role) {
-        String lowercaseRole = role.name().toLowerCase();
-        return createUserData(
-            lowercaseRole + "Username",
-            lowercaseRole + "Password",
-            lowercaseRole + "@ultaxi.ca"
-        );
-    }
-
-    private static final String createUserData(String username, String password, String email) {
-        UserDto userDto = new UserDto();
-        userDto.setUserName(username);
-        userDto.setPassword(password);
-        userDto.setEmail(email);
-
-        Gson gson = new Gson();
-        return gson.toJson(userDto);
     }
 }
