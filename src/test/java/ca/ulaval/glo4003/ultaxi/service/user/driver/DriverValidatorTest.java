@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
+import static org.mockito.BDDMockito.willReturn;
+
 import ca.ulaval.glo4003.ultaxi.builder.DriverBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
@@ -14,8 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.mockito.BDDMockito.willReturn;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverValidatorTest {
@@ -50,7 +50,8 @@ public class DriverValidatorTest {
     }
 
     @Test(expected = SocialInsuranceNumberAlreadyExistException.class)
-    public void givenADriverWithExistingSocialInsuranceNumber_whenVerifySocialInsuranceNumber_thenTrowSocialInsuranceNumberAlreadyExistException() {
+    public void
+    givenADriverWithExistingSocialInsuranceNumber_whenVerifySocialInsuranceNumber_thenTrowSocialInsuranceNumberAlreadyExistException() {
         String A_VALID_SOCIAL_INSURANCE_NUMBER = "972487086";
         driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();

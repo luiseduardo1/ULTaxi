@@ -17,7 +17,8 @@ public class DriverValidator {
 
     public void checkExistingSocialInsuraneNumber(DriverDto driverDto) {
         try {
-            DriverSearchQueryBuilder driverSearchQueryBuilder = userRepository.searchDrivers().withSocialInsuranceNumber(driverDto.getSocialInsuranceNumber());
+            DriverSearchQueryBuilder driverSearchQueryBuilder = userRepository.searchDrivers()
+                .withSocialInsuranceNumber(driverDto.getSocialInsuranceNumber());
             driverSearchQueryBuilder.findAll();
             throw new SocialInsuranceNumberAlreadyExistException("Social insurance number already exist.");
         } catch (EmptySearchResultsException exception) {

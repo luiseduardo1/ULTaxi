@@ -5,7 +5,12 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.any;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.*;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
@@ -21,18 +26,16 @@ import java.util.List;
 @RunWith(MockitoJUnitRunner.class)
 public class DriverResourceImplTest {
 
+    private static final String A_SOCIAL_INSURANCE_NUMBER = "972487086";
+    private static final String A_FIRST_NAME = "Ronald";
+    private static final String A_LAST_NAME = "Macdonald";
     @Mock
     private DriverService driverService;
     @Mock
     private DriverDto driverDto;
     @Mock
     private List<DriverDto> driverDtos;
-
     private DriverResource driverResource;
-
-    private static final String A_SOCIAL_INSURANCE_NUMBER = "972487086";
-    private static final String A_FIRST_NAME = "Ronald";
-    private static final String A_LAST_NAME = "Macdonald";
 
     @Before
     public void setUp() {
@@ -58,10 +61,10 @@ public class DriverResourceImplTest {
     }
 
     @Test
-    public void givenAlreadyExistSocialInsuranceNumber_whenCreateDriver_thenReturnsBadRequest(){
+    public void givenAlreadyExistSocialInsuranceNumber_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new SocialInsuranceNumberAlreadyExistException("Social insurance number already exist"))
-                .given(driverService)
-                .addDriver(driverDto);
+            .given(driverService)
+            .addDriver(driverDto);
 
         Response response = driverResource.createDriver(driverDto);
 

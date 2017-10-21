@@ -17,7 +17,8 @@ public class DriverService {
     private final DriverAssembler driverAssembler;
     private final DriverValidator driverValidator;
 
-    public DriverService(UserRepository userRepository, DriverAssembler driverAssembler, DriverValidator driverValidator) {
+    public DriverService(UserRepository userRepository, DriverAssembler driverAssembler, DriverValidator
+        driverValidator) {
         this.userRepository = userRepository;
         this.driverAssembler = driverAssembler;
         this.driverValidator = driverValidator;
@@ -32,13 +33,13 @@ public class DriverService {
 
     public List<DriverDto> searchBy(DriverSearchParameters driverSearchParameters) {
         return userRepository
-                .searchDrivers()
-                .withFirstName(driverSearchParameters.getFirstName())
-                .withLastName(driverSearchParameters.getLastName())
-                .withSocialInsuranceNumber(driverSearchParameters.getSocialInsuranceNumber())
-                .findAll()
-                .stream()
-                .map(driverAssembler::create)
-                .collect(Collectors.toList());
+            .searchDrivers()
+            .withFirstName(driverSearchParameters.getFirstName())
+            .withLastName(driverSearchParameters.getLastName())
+            .withSocialInsuranceNumber(driverSearchParameters.getSocialInsuranceNumber())
+            .findAll()
+            .stream()
+            .map(driverAssembler::create)
+            .collect(Collectors.toList());
     }
 }

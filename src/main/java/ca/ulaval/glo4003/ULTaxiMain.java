@@ -70,14 +70,14 @@ import java.util.Set;
 
 public final class ULTaxiMain {
 
-    private static boolean isDevelopmentEnvironment;
-    private static int serverPort;
     private static final TokenManager tokenManager = new JWTTokenManager();
     private static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private static final UserRepository userRepository = new UserRepositoryInMemory();
     private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
     private static final String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
     private static final MessageQueue messageQueue = new MessageQueueInMemory();
+    private static boolean isDevelopmentEnvironment;
+    private static int serverPort;
 
     private ULTaxiMain() {
         throw new AssertionError("Instantiating main class...");
@@ -214,8 +214,8 @@ public final class ULTaxiMain {
         UserResource userResource = createUserResource(userService);
         DriverResource driverResource = createDriverResource(driverService);
         VehicleResource vehicleResource = createVehicleResource(vehicleService);
-        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource
-            (userAuthenticationService);
+        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
+            userAuthenticationService);
         TransportRequestResource transportRequestResource = createTransportRequestResource();
 
         return Collections.unmodifiableSet(Sets.newHashSet(driverResource,
