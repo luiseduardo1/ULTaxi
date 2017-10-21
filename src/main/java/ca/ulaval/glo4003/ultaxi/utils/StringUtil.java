@@ -16,4 +16,10 @@ public final class StringUtil {
     public static String replaceNonDigitWithEmptySpace(String nonDigitNumber) {
         return nonDigitNumber.replaceAll(NON_DIGITS_REGEX, "");
     }
+
+    public static String capitalize(String value) {
+        return String.format("%s%s",
+                             value.substring(0, 1).toUpperCase(),
+                             value.substring(1).toLowerCase());
+    }
 }

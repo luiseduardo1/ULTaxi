@@ -10,11 +10,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleFactoryTest {
 
-    private static final VehicleType NULL_VEHICLE_TYPE = null;
-    private static final VehicleType INVALID_VEHICLE_TYPE = VehicleType.Other;
-    private static final VehicleType CAR_VEHICLE_TYPE = VehicleType.Car;
-    private static final VehicleType VAN_VEHICLE_TYPE = VehicleType.Van;
-    private static final VehicleType LIMOUSINE_VEHICLE_TYPE = VehicleType.Limousine;
+    private static final String NULL_VEHICLE_TYPE = null;
+    private static final String INVALID_VEHICLE_TYPE = "other";
+    private static final String CAR_VEHICLE_TYPE = VehicleType.Car.name();
+    private static final String VAN_VEHICLE_TYPE = VehicleType.Van.name();
+    private static final String LIMOUSINE_VEHICLE_TYPE = VehicleType.Limousine.name();
 
     private static final String COLOR = "A color";
     private static final String MODEL = "A model";
@@ -51,7 +51,7 @@ public class VehicleFactoryTest {
         assertTrue(returnedVehicle instanceof Limousine);
     }
 
-    private Vehicle getVehicle(VehicleType vehicleType) {
+    private Vehicle getVehicle(String vehicleType) {
         return VehicleFactory.getVehicle(vehicleType, COLOR, MODEL, REGISTRATION_NUMBER);
     }
 }

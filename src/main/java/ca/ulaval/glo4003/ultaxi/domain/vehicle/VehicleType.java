@@ -1,5 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.domain.vehicle;
 
 public enum VehicleType {
-    Car, Limousine, Other, Van
+    Car, Limousine, Van
 }

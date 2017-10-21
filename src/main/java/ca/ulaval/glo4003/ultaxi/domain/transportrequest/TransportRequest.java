@@ -1,7 +1,9 @@
 package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
 import java.util.UUID;
 
@@ -24,24 +26,15 @@ public class TransportRequest {
         return id;
     }
 
-    public String getVehicleType() {
-        return vehicleType.name();
+    public VehicleType getVehicleType() {
+        return vehicleType;
     }
 
     public void setVehicleType(String vehicleType) {
-        switch (vehicleType.toLowerCase()) {
-            case "car":
-                this.vehicleType = VehicleType.CAR;
-                break;
-            case "van":
-                this.vehicleType = VehicleType.VAN;
-                break;
-            case "limousine":
-                this.vehicleType = VehicleType.LIMOUSINE;
-                break;
-            default:
-                throw new InvalidVehicleTypeException(
-                    String.format("%s is not a valid vehicle type.", vehicleType));
+        try {
+            this.vehicleType = VehicleType.valueOf(StringUtil.capitalize(vehicleType).trim());
+        } catch (NullPointerException | IllegalArgumentException | IndexOutOfBoundsException exception) {
+            throw new InvalidVehicleTypeException(String.format("%s is not a valid vehicle type.", vehicleType));
         }
     }
 
@@ -54,10 +47,6 @@ public class TransportRequest {
             this.note = "";
         }
         this.note = note;
-    }
-
-    private enum VehicleType {
-        CAR, LIMOUSINE, VAN
     }
 
 }
