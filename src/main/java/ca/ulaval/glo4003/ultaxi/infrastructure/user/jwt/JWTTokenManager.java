@@ -15,8 +15,8 @@ import java.util.UUID;
 
 public class JWTTokenManager implements TokenManager {
 
-    private SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
-    private String secretKey = "equipe5";
+    private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
+    private final String secretKey = "equipe5";
 
     public String createToken(String subject, long ttlInMillis) {
 

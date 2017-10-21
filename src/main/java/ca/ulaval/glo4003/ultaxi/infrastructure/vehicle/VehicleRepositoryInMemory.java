@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class VehicleRepositoryInMemory implements VehicleRepository {
 
-    private Map<String, Vehicle> vehicles = new HashMap<>();
+    private final Map<String, Vehicle> vehicles = new HashMap<>();
 
     @Override
     public Vehicle findByRegistrationNumber(String registrationNumber) {

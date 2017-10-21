@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.vehicle;
 
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleFactory;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import jersey.repackaged.com.google.common.collect.Lists;
 
 import java.util.List;

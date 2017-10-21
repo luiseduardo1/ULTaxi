@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class TransportRequestRepositoryInMemory implements TransportRequestRepository {
 
-    private Map<String, TransportRequest> transportRequests = new HashMap<>();
+    private final Map<String, TransportRequest> transportRequests = new HashMap<>();
 
     @Override
     public TransportRequest findById(String id) {

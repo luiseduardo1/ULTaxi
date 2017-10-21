@@ -72,7 +72,7 @@ public class DriverServiceTest {
         willReturn(driverSearchQueryBuilder).given(userRepository).searchDrivers();
         willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withFirstName(anyString());
         willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withLastName(anyString());
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSin(anyString());
+        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSocialInsuranceNumber(anyString());
         willThrow(new EmptySearchResultsException("No results found.")).given(driverSearchQueryBuilder).findAll();
 
         driverService.searchBy(driverSearchParameters);

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.vehicle;
 
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
 public final class VehicleFactory {
 
@@ -9,17 +10,19 @@ public final class VehicleFactory {
     }
 
     public static Vehicle getVehicle(String type, String color, String model, String registrationNumber) {
-
-        if (type == null) {
-            throw new InvalidVehicleTypeException("Vehicle type cannot be null.");
+        VehicleType formattedType;
+        try {
+            formattedType = VehicleType.valueOf(StringUtil.capitalize(type).trim());
+        } catch (NullPointerException | IndexOutOfBoundsException | IllegalArgumentException exception) {
+            throw new InvalidVehicleTypeException(String.format("%s is not a valid vehicle type.", type));
         }
 
-        switch (type.toLowerCase()) {
-            case "car":
+        switch (formattedType) {
+            case Car:
                 return new Car(color, model, registrationNumber);
-            case "van":
+            case Van:
                 return new Van(color, model, registrationNumber);
-            case "limousine":
+            case Limousine:
                 return new Limousine(color, model, registrationNumber);
             default:
                 throw new InvalidVehicleTypeException(

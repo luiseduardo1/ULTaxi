@@ -1,11 +1,12 @@
 package ca.ulaval.glo4003.ultaxi.builder;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.Message;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.Reason;
 
 public class MessageBuilder {
 
     private String sendTo;
-    private String reason;
+    private Reason reason;
 
     public MessageBuilder() {
     }
@@ -22,7 +23,7 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder withReason(String reason) {
+    public MessageBuilder withReason(Reason reason) {
         this.reason = reason;
         return this;
     }
