@@ -64,7 +64,7 @@ public class DriverServiceTest {
     public void givenADriver_whenAddDriver__thenDriverValidatorIsCalled() {
         driverService.addDriver(driverDto);
 
-        verify(driverValidator).checkExistingSin(driverDto);
+        verify(driverValidator).checkExistingSocialInsuraneNumber(driverDto);
     }
 
     @Test(expected = EmptySearchResultsException.class)

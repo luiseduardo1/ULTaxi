@@ -18,11 +18,11 @@ public class DriverBuilder {
         return drivers;
     }
 
-    public User createDriver(String firstName, String lastName, String sin) {
+    public User createDriver(String firstName, String lastName, String socialInsuranceNumber) {
         Driver driver = new Driver();
         driver.setName(firstName);
         driver.setLastName(lastName);
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
         driver.setRole(Role.Driver);
 
         return driver;

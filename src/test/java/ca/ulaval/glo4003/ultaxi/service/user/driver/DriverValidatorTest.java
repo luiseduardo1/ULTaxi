@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.ultaxi.service.user.driver;
 import ca.ulaval.glo4003.ultaxi.builder.DriverBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.SinAlreadyExistException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import org.junit.Before;
@@ -27,24 +27,35 @@ public class DriverValidatorTest {
 
     private DriverBuilder driverData;
 
+    private DriverDto driverDto;
+
     @Before
     public void setUp() {
         driverValidator = new DriverValidator(userRepository);
         driverData = new DriverBuilder();
-    }
-
-    @Test(expected = SinAlreadyExistException.class)
-    public void givenADriverWithExistingSin_whenVerifySin_thenTrowSinAlreadyExistException() {
-        DriverDto driverDto = new DriverDto();
-        String a_VALID_SIN = "972487086";
+        driverDto = new DriverDto();
         String A_USERNAME = "user1234";
         String A_PASSWORD = "password1234";
-        driverDto.setSin(a_VALID_SIN);
         driverDto.setUsername(A_USERNAME);
         driverDto.setPassword(A_PASSWORD);
+    }
+
+    @Test
+    public void givenAValidNonExistentSocialInsuranceNumber_when_whenVerifySocialInsuranceNumber_thenContinue(){
+        String A_VALID_SOCIAL_INSURANCE_NUMBER = "352342356";
+        driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
 
-        driverValidator.checkExistingSin(driverDto);
+        driverValidator.checkExistingSocialInsuraneNumber(driverDto);
+    }
+
+    @Test(expected = SocialInsuranceNumberAlreadyExistException.class)
+    public void givenADriverWithExistingSocialInsuranceNumber_whenVerifySocialInsuranceNumber_thenTrowSocialInsuranceNumberAlreadyExistException() {
+        String A_VALID_SOCIAL_INSURANCE_NUMBER = "972487086";
+        driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
+        willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
+
+        driverValidator.checkExistingSocialInsuraneNumber(driverDto);
     }
 
     private Map<String, User> givenDrivers() {
