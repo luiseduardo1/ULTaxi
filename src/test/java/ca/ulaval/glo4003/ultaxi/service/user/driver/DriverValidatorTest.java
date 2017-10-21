@@ -41,7 +41,7 @@ public class DriverValidatorTest {
     }
 
     @Test
-    public void givenAValidNonExistentSocialInsuranceNumber_when_whenVerifySocialInsuranceNumber_thenContinue(){
+    public void givenAValidNonExistentSocialInsuranceNumber_when_whenVerifySocialInsuranceNumber_thenContinue() {
         String A_VALID_SOCIAL_INSURANCE_NUMBER = "352342356";
         driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();

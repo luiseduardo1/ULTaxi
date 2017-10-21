@@ -25,7 +25,7 @@ public class DriverResourceImpl implements DriverResource {
             driverService.addDriver(driverDto);
             return Response.ok().build();
         } catch (UserAlreadyExistsException | InvalidUserNameException |
-            InvalidPhoneNumberException | InvalidSocialInsuranceNumberException | SocialInsuranceNumberAlreadyExistException exception) {
+                InvalidPhoneNumberException | InvalidSocialInsuranceNumberException | SocialInsuranceNumberAlreadyExistException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
@@ -34,7 +34,7 @@ public class DriverResourceImpl implements DriverResource {
     @Secured({Role.Administrator})
     public Response searchBy(String socialInsuranceNumber, String firstName, String lastName) {
         DriverSearchParameters searchParameters = new DriverSearchParameters(socialInsuranceNumber, firstName,
-                                                                             lastName);
+                lastName);
         try {
             List<DriverDto> drivers = driverService.searchBy(searchParameters);
             return Response.ok(drivers).build();
