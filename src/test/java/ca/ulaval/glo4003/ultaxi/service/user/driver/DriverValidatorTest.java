@@ -39,8 +39,8 @@ public class DriverValidatorTest {
 
     @Test
     public void givenADriverWithAValidNonExistentSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenContinue() {
-        String a_valid_social_insurance_number = "352342356";
-        driverDto.setSocialInsuranceNumber(a_valid_social_insurance_number);
+        String aValidSocialInsuranceNumber = "352342356";
+        driverDto.setSocialInsuranceNumber(aValidSocialInsuranceNumber);
         willReturn(driverSearchQueryBuilder).given(userRepository).searchDrivers();
         willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSocialInsuranceNumber(anyString());
         willReturn(givenDrivers()).given(driverSearchQueryBuilder).findAll();
@@ -51,8 +51,8 @@ public class DriverValidatorTest {
     @Test(expected = SocialInsuranceNumberAlreadyExistException.class)
     public void
     givenADriverWithExistingSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenTrowSocialInsuranceNumberAlreadyExistException() {
-        String a_valid_social_insurance_number = "972487086";
-        driverDto.setSocialInsuranceNumber(a_valid_social_insurance_number);
+        String aValidSocialInsuranceNumber = "972487086";
+        driverDto.setSocialInsuranceNumber(aValidSocialInsuranceNumber);
         willReturn(driverSearchQueryBuilder).given(userRepository).searchDrivers();
         willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSocialInsuranceNumber(anyString());
         willReturn(givenDrivers()).given(driverSearchQueryBuilder).findAll();
