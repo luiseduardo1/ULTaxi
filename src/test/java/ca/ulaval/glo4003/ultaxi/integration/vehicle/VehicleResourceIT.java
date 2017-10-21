@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.integration.vehicle;
 
 import static io.restassured.RestAssured.given;
 
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
@@ -17,8 +18,8 @@ public class VehicleResourceIT {
 
     private static final String VEHICLES_API = "/api/vehicles";
 
-    private static final String A_VALID_TYPE = "Car";
-    private static final String AN_INVALID_TYPE = "Dumpster Truck";
+    private static final String A_VALID_TYPE = VehicleType.Car.name();
+    private static final String AN_INVALID_TYPE = null;
     private static final String A_VALID_COLOR = "Dark Red";
     private static final String A_VALID_MODEL = "Nissan Sentra";
     private static final String A_VALID_REGISTRATION_NUMBER = "T68688";

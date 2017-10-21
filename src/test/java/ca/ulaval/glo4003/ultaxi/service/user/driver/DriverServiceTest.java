@@ -63,7 +63,7 @@ public class DriverServiceTest {
         willReturn(driverSearchQueryBuilder).given(userRepository).searchDrivers();
         willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withFirstName(anyString());
         willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withLastName(anyString());
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSin(anyString());
+        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSocialInsuranceNumber(anyString());
         willThrow(new EmptySearchResultsException("No results found.")).given(driverSearchQueryBuilder).findAll();
 
         driverService.searchBy(driverSearchParameters);
@@ -89,11 +89,11 @@ public class DriverServiceTest {
         return drivers;
     }
 
-    private User createDriver(String firstName, String lastName, String sin) {
+    private User createDriver(String firstName, String lastName, String socialInsuranceNumber) {
         Driver driver = new Driver();
         driver.setName(firstName);
         driver.setLastName(lastName);
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
         driver.setRole(Role.Driver);
 
         return driver;

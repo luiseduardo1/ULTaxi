@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TokenRepositoryInMemory implements TokenRepository {
 
-    private Map<String, String> tokens = new HashMap<>();
+    private final Map<String, String> tokens = new HashMap<>();
 
     @Override
     public void save(String id, String token) {

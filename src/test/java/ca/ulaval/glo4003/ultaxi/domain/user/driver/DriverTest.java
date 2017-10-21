@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSinException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,138 +19,138 @@ public class DriverTest {
     }
 
     @Test
-    public void givenOnlyNumbersPhoneNum_whenSetPhoneNum_thenAcceptPhoneNum() {
-        String phoneNum = "2342355678";
+    public void givenOnlyNumbersPhoneNumber_whenSetPhoneNumber_thenAcceptPhoneNumber() {
+        String phoneNumber = "2342355678";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
 
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNum);
+        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
     }
 
     @Test
-    public void givenPhoneNumWithParenthesis_whenSetPhoneNum_thenAcceptPhoneNum() {
-        String phoneNum = "(234)2355678";
+    public void givenPhoneNumberWithParenthesis_whenSetPhoneNumber_thenAcceptPhoneNumber() {
+        String phoneNumber = "(234)2355678";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
 
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNum);
+        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
     }
 
     @Test
-    public void givenPhoneNumWithDashes_whenSetPhoneNum_thenAcceptPhoneNum() {
-        String phoneNum = "234-235-5678";
+    public void givenPhoneNumberWithDashes_whenSetPhoneNumber_thenAcceptPhoneNumber() {
+        String phoneNumber = "234-235-5678";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
 
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNum);
+        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
     }
 
     @Test
-    public void givenPhoneNumWithSpaces_whenSetPhoneNum_thenAcceptPhoneNum() {
-        String phoneNum = "234 235 5678";
+    public void givenPhoneNumberWithSpaces_whenSetPhoneNumber_thenAcceptPhoneNumber() {
+        String phoneNumber = "234 235 5678";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
 
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNum);
+        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
     }
 
     @Test
-    public void givenPhoneNumWithDots_whenSetPhoneNum_thenAcceptPhoneNum() {
-        String phoneNum = "234.235.5678";
+    public void givenPhoneNumberWithDots_whenSetPhoneNumber_thenAcceptPhoneNumber() {
+        String phoneNumber = "234.235.5678";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
 
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNum);
+        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumWithInvalidCentralOffice_whenSetPhoneNum_thenThrowException() {
-        String phoneNum = "314 159 2653";
+    public void givenPhoneNumberWithInvalidCentralOffice_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
+        String phoneNumber = "314 159 2653";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumWithInvalidNPA_whenSetPhoneNum_thenThrowException() {
-        String phoneNum = "123 234 5678";
+    public void givenPhoneNumberWithInvalidNumberingPlanArea_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
+        String phoneNumber = "123 234 5678";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumWithAlphaNumericalCharacters_whenSetPhoneNum_thenThrowException() {
-        String phoneNum = "1b3 2z4 56a8";
+    public void givenPhoneNumberWithAlphaNumericalCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
+        String phoneNumber = "1b3 2z4 56a8";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumWithSpecialCharacters_whenSetPhoneNum_thenThrowException() {
-        String phoneNum = "1!3 2?4 56!8";
+    public void givenPhoneNumberWithSpecialCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
+        String phoneNumber = "1!3 2?4 56!8";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumTooLong_whenSetPhoneNum_thenThrowException() {
-        String phoneNum = "234 235 56784";
+    public void givenPhoneNumberTooLong_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
+        String phoneNumber = "234 235 56784";
 
-        driver.setPhoneNumber(phoneNum);
+        driver.setPhoneNumber(phoneNumber);
     }
 
     @Test
-    public void givenValidSin_whenSetSin_thenAcceptSinOk() {
-        String sin = "972487086";
+    public void givenValidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
+        String socialInsuranceNumber = "972487086";
 
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
 
-        Assert.assertEquals(driver.getSin(), sin);
+        Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
     }
 
     @Test
-    public void givenValidSinWithDashes_whenSetSin_thenAcceptSinOk() {
-        String sin = "972-487-086";
+    public void givenValidSocialInsuranceNumberWithDashes_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
+        String socialInsuranceNumber = "972-487-086";
 
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
 
-        Assert.assertEquals(driver.getSin(), sin);
+        Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
     }
 
-    @Test(expected = InvalidSinException.class)
-    public void givenSinWithTooManyDigits_whenSetSin_thenThrowException() {
-        String sin = "9724870865";
+    @Test(expected = InvalidSocialInsuranceNumberException.class)
+    public void givenSocialInsuranceNumberWithTooManyDigits_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
+        String socialInsuranceNumber = "9724870865";
 
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
     @Test
-    public void givenValidSinWithEmptySpace_whenSetSin_thenAcceptSinOk() {
-        String sin = "972 487 086";
+    public void givenValidSocialInsuranceNumberWithEmptySpace_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
+        String socialInsuranceNumber = "972 487 086";
 
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
 
-        Assert.assertEquals(driver.getSin(), sin);
+        Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
     }
 
-    @Test(expected = InvalidSinException.class)
-    public void givenInvalidSin_whenSetSin_thenThrowException() {
-        String sin = "234154346";
+    @Test(expected = InvalidSocialInsuranceNumberException.class)
+    public void givenInvalidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
+        String socialInsuranceNumber = "234154346";
 
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
-    @Test(expected = InvalidSinException.class)
-    public void givenSinWithSpecialCharacters_whenSetSin_thenThrowException() {
-        String sin = "1!3 2?4 56!8";
+    @Test(expected = InvalidSocialInsuranceNumberException.class)
+    public void givenSocialInsuranceNumberWithSpecialCharacters_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
+        String socialInsuranceNumber = "1!3 2?4 56!8";
 
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
-    @Test(expected = InvalidSinException.class)
-    public void givenValidSinWithDots_whenSetSin_thenThrowException() {
-        String sin = "972.487.086";
+    @Test(expected = InvalidSocialInsuranceNumberException.class)
+    public void givenValidSocialInsuranceNumberWithDots_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
+        String socialInsuranceNumber = "972.487.086";
 
-        driver.setSin(sin);
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
 }

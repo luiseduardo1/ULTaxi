@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.api.middleware.authentication;
+package ca.ulaval.glo4003.ultaxi.http.authentication.filtering;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.exception.InvalidTokenException;
@@ -19,7 +19,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     private static final String AUTHENTICATION_SCHEME = "Bearer";
 
-    private TokenManager tokenManager;
+    private final TokenManager tokenManager;
 
     public AuthenticationFilter(TokenManager tokenManager) {
         this.tokenManager = tokenManager;

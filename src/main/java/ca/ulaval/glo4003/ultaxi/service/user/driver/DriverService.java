@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class DriverService {
 
-    private Logger logger = Logger.getLogger(DriverService.class.getName());
-    private UserRepository userRepository;
-    private DriverAssembler driverAssembler;
+    private final Logger logger = Logger.getLogger(DriverService.class.getName());
+    private final UserRepository userRepository;
+    private final DriverAssembler driverAssembler;
 
     public DriverService(UserRepository userRepository, DriverAssembler driverAssembler) {
         this.userRepository = userRepository;
@@ -32,7 +32,7 @@ public class DriverService {
             .searchDrivers()
             .withFirstName(driverSearchParameters.getFirstName())
             .withLastName(driverSearchParameters.getLastName())
-            .withSin(driverSearchParameters.getSin())
+            .withSocialInsuranceNumber(driverSearchParameters.getSocialInsuranceNumber())
             .findAll()
             .stream()
             .map(driverAssembler::create)

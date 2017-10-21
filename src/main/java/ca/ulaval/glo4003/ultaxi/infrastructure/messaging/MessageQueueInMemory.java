@@ -8,7 +8,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class MessageQueueInMemory implements MessageQueue {
 
-    private BlockingQueue<Message> messageQueue = new LinkedBlockingDeque<Message>();
+    private final BlockingQueue<Message> messageQueue = new LinkedBlockingDeque<>();
 
     @Override
     public void enqueue(Message message) throws InterruptedException {
