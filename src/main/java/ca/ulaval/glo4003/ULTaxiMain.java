@@ -80,7 +80,7 @@ public final class ULTaxiMain {
     private static final int DEFAULT_PORT = 0;
     private static final String DEFAULT_URI = "http://localhost";
 
-    private static boolean isDevelopmentEnvironment = false;
+    private static boolean isDevelopmentEnvironment = true;
     private static int serverPort = 0;
     private static Server server;
     private static Set<Object> contextResources;
@@ -289,7 +289,7 @@ public final class ULTaxiMain {
     private static UserResource createUserResource(UserService userService) {
         if (isDevelopmentEnvironment) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
-            List<User> users = userDevDataFactory.createMockData();
+            List<User> users = userDevDataFactory.createMockData(new BcryptHashing());
             users.forEach(userRepository::save);
         }
 
