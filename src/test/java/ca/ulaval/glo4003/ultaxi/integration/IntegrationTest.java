@@ -18,6 +18,7 @@ public abstract class IntegrationTest {
     private static final String USERS_ROUTE = "/api/users";
     private static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
     private static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
+    private static final String SIGNOUT_ROUTE = USER_AUTHENTICATION_ROUTE + "/signout";
     private static final String AUTHENTICATION_TOKEN_PREFIX = "Bearer ";
 
     protected String authenticationToken = getGenericRoleUserAuthenticationToken(Role.Anonymous);
@@ -32,20 +33,27 @@ public abstract class IntegrationTest {
         authenticationToken = getGenericRoleUserAuthenticationToken(role);
     }
 
-    protected Response authenticatedPost(String path, String body, String authorizationToken) {
+    protected void signout() {
+        executePostRequest(
+            createBasicRequestSpecification(SIGNOUT_ROUTE), authenticationToken
+        );
+        authenticationToken = getGenericRoleUserAuthenticationToken(Role.Anonymous);
+    }
+
+    protected Response authenticatedPost(String path, String body) {
         return executePostRequest(
-            createAuthenticatedRequestSpecification(path, authorizationToken), body
+            createAuthenticatedRequestSpecification(path, authenticationToken),
+            body
         );
     }
 
-    protected Response authenticatedGet(String path, String authorizationToken) {
-        return authenticatedGet(path, authorizationToken, new HashMap<>());
+    protected Response authenticatedGet(String path) {
+        return authenticatedGet(path, new HashMap<>());
     }
 
-    protected Response authenticatedGet(String path, String authorizationToken,
-        Map<String, ?> queryParameters) {
+    protected Response authenticatedGet(String path, Map<String, ?> queryParameters) {
         return executeGetRequest(
-            createAuthenticatedRequestSpecification(path, authorizationToken),
+            createAuthenticatedRequestSpecification(path, authenticationToken),
             queryParameters
         );
     }
