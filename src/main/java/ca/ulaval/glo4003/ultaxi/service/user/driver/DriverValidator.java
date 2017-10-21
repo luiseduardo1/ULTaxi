@@ -15,7 +15,7 @@ public class DriverValidator {
         this.userRepository = userRepository;
     }
 
-    public void checkExistingSocialInsuraneNumber(DriverDto driverDto) {
+    public void checkSocialInsuranceNumberExistence(DriverDto driverDto) {
         try {
             DriverSearchQueryBuilder driverSearchQueryBuilder = userRepository.searchDrivers()
                 .withSocialInsuranceNumber(driverDto.getSocialInsuranceNumber());

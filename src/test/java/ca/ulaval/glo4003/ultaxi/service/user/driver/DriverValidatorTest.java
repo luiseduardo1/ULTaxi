@@ -41,22 +41,22 @@ public class DriverValidatorTest {
     }
 
     @Test
-    public void givenADriverWithAValidNonExistentSocialInsuranceNumber_when_whenVerifySocialInsuranceNumber_thenContinue() {
+    public void givenADriverWithAValidNonExistentSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenContinue() {
         String A_VALID_SOCIAL_INSURANCE_NUMBER = "352342356";
         driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
 
-        driverValidator.checkExistingSocialInsuraneNumber(driverDto);
+        driverValidator.checkSocialInsuranceNumberExistence(driverDto);
     }
 
     @Test(expected = SocialInsuranceNumberAlreadyExistException.class)
     public void
-    givenADriverWithExistingSocialInsuranceNumber_whenVerifySocialInsuranceNumber_thenTrowSocialInsuranceNumberAlreadyExistException() {
+    givenADriverWithExistingSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenTrowSocialInsuranceNumberAlreadyExistException() {
         String A_VALID_SOCIAL_INSURANCE_NUMBER = "972487086";
         driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
 
-        driverValidator.checkExistingSocialInsuraneNumber(driverDto);
+        driverValidator.checkSocialInsuranceNumberExistence(driverDto);
     }
 
     private Map<String, User> givenDrivers() {

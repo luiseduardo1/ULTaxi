@@ -26,7 +26,7 @@ public class DriverService {
 
     public void addDriver(DriverDto driverDto) {
         logger.info(String.format("Add new driver %s", driverDto));
-        driverValidator.checkExistingSocialInsuraneNumber(driverDto);
+        driverValidator.checkSocialInsuranceNumberExistence(driverDto);
         User user = driverAssembler.create(driverDto);
         userRepository.save(user);
     }
