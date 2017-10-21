@@ -46,7 +46,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
         List<Driver> foundDrivers = searchDriver.findAll();
         Driver foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = (Driver) createDriver("Ronald", "Macdonald", "972487086");
+        Driver expectedDriver = (Driver) aDriver();
         assertEquals(1, foundDrivers.size());
         assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
@@ -60,7 +60,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
         List<Driver> foundDrivers = searchDriver.findAll();
         Driver foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = (Driver) createDriver("Lord", "Gargamel", "215136193");
+        Driver expectedDriver = (Driver) aThirdDriver();
         assertEquals(1, foundDrivers.size());
         assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
@@ -74,7 +74,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
         List<Driver> foundDrivers = searchDriver.findAll();
         Driver foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = (Driver) createDriver("Marcel", "Lepic", "348624487");
+        Driver expectedDriver = (Driver) anotherDriver();
         assertEquals(1, foundDrivers.size());
         assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
@@ -83,11 +83,23 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
     private Map<String, User> givenDrivers() {
         Map<String, User> drivers = new HashMap<>();
-        drivers.put("1", createDriver("Ronald", "Macdonald", "972487086"));
-        drivers.put("2", createDriver("Marcel", "Lepic", "348624487"));
-        drivers.put("3", createDriver("Lord", "Gargamel", "215136193"));
+        drivers.put("1", aDriver());
+        drivers.put("2", anotherDriver());
+        drivers.put("3", aThirdDriver());
 
         return drivers;
+    }
+
+    private User aDriver() {
+        return createDriver("Ronald", "Macdonald", "972487086");
+    }
+
+    private User anotherDriver() {
+        return createDriver("Marcel", "Lepic", "348624487");
+    }
+
+    private User aThirdDriver() {
+        return createDriver("Lord", "Gargamel", "215136193");
     }
 
     private User createDriver(String firstName, String lastName, String socialInsuranceNumber) {
