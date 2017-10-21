@@ -2,9 +2,9 @@ package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
 import static org.mockito.BDDMockito.willReturn;
 
-import ca.ulaval.glo4003.ultaxi.builder.DriverBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
@@ -25,13 +25,11 @@ public class DriverValidatorTest {
     @Mock
     private UserRepository userRepository;
     private DriverValidator driverValidator;
-    private DriverBuilder driverData;
     private DriverDto driverDto;
 
     @Before
     public void setUp() {
         driverValidator = new DriverValidator(userRepository);
-        driverData = new DriverBuilder();
         driverDto = new DriverDto();
         driverDto.setUsername(A_USERNAME);
         driverDto.setPassword(A_PASSWORD);
@@ -58,7 +56,7 @@ public class DriverValidatorTest {
 
     private Map<String, User> givenDrivers() {
         Map<String, User> drivers = new HashMap<>();
-        drivers.put("1", driverData.createDriver("Ronald", "Macdonald", "972487086"));
+        drivers.put("1", new Driver("Ronald", "Macdonald", "972487086"));
         return drivers;
     }
 

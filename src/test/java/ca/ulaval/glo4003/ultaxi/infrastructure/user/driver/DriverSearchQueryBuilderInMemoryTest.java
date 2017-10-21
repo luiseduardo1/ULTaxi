@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.user.driver;
 
 import static org.junit.Assert.assertEquals;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
@@ -90,24 +89,14 @@ public class DriverSearchQueryBuilderInMemoryTest {
     }
 
     private User aDriver() {
-        return createDriver("Ronald", "Macdonald", "972487086");
+        return new Driver("Ronald", "Macdonald", "972487086");
     }
 
     private User anotherDriver() {
-        return createDriver("Marcel", "Lepic", "348624487");
+        return new Driver("Marcel", "Lepic", "348624487");
     }
 
     private User aThirdDriver() {
-        return createDriver("Lord", "Gargamel", "215136193");
-    }
-
-    private User createDriver(String firstName, String lastName, String socialInsuranceNumber) {
-        Driver driver = new Driver();
-        driver.setName(firstName);
-        driver.setLastName(lastName);
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-        driver.setRole(Role.Driver);
-
-        return driver;
+        return new Driver("Lord", "Gargamel", "215136193");
     }
 }
