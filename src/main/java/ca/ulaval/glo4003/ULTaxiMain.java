@@ -166,7 +166,7 @@ public final class ULTaxiMain {
     private static void setDevelopmentEnvironmentMockData() {
         if (isDevelopmentEnvironment) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
-            List<User> users = userDevDataFactory.createMockData();
+            List<User> users = userDevDataFactory.createMockData(new BcryptHashing());
             users.forEach(userRepository::save);
 
             VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
