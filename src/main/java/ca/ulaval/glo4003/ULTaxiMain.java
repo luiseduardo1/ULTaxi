@@ -83,6 +83,7 @@ public final class ULTaxiMain {
     private static boolean isDevelopmentEnvironment = false;
     private static int serverPort = 0;
     private static Server server;
+    private static Set<Object> contextResources;
 
     private ULTaxiMain() {
         throw new AssertionError("Instantiating main class...");
@@ -139,6 +140,7 @@ public final class ULTaxiMain {
             server.join();
             server.destroy();
             server = null;
+            contextResources = null;
         }
     }
 
@@ -227,23 +229,26 @@ public final class ULTaxiMain {
     }
 
     private static Set<Object> getContextResources() {
-        UserService userService = createUserService();
-        UserAuthenticationService userAuthenticationService = createUserAuthenticationService();
-        VehicleService vehicleService = createVehicleService();
-        DriverService driverService = createDriverService();
+        if (contextResources == null) {
+            UserService userService = createUserService();
+            UserAuthenticationService userAuthenticationService = createUserAuthenticationService();
+            VehicleService vehicleService = createVehicleService();
+            DriverService driverService = createDriverService();
 
-        UserResource userResource = createUserResource(userService);
-        DriverResource driverResource = createDriverResource(driverService);
-        VehicleResource vehicleResource = createVehicleResource(vehicleService);
-        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
-            userAuthenticationService);
-        TransportRequestResource transportRequestResource = createTransportRequestResource();
+            UserResource userResource = createUserResource(userService);
+            DriverResource driverResource = createDriverResource(driverService);
+            VehicleResource vehicleResource = createVehicleResource(vehicleService);
+            UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
+                userAuthenticationService);
+            TransportRequestResource transportRequestResource = createTransportRequestResource();
 
-        return Collections.unmodifiableSet(Sets.newHashSet(driverResource,
-                                                           userResource,
-                                                           vehicleResource,
-                                                           userAuthenticationResource,
-                                                           transportRequestResource));
+            contextResources = Collections.unmodifiableSet(Sets.newHashSet(driverResource,
+                                                               userResource,
+                                                               vehicleResource,
+                                                               userAuthenticationResource,
+                                                               transportRequestResource));
+        }
+        return contextResources;
     }
 
     private static UserService createUserService() {
@@ -285,7 +290,7 @@ public final class ULTaxiMain {
         if (isDevelopmentEnvironment) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
             List<User> users = userDevDataFactory.createMockData();
-            //users.forEach(userRepository::save);
+            users.forEach(userRepository::save);
         }
 
         return new UserResourceImpl(userService);
@@ -295,7 +300,7 @@ public final class ULTaxiMain {
         if (isDevelopmentEnvironment) {
             VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
             List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
-            //vehicles.forEach(vehicleRepository::save);
+            vehicles.forEach(vehicleRepository::save);
         }
 
         return new VehicleResourceImpl(vehicleService);
