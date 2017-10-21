@@ -18,8 +18,8 @@ public class VehicleResourceIT {
 
     private static final String VEHICLES_API = "/api/vehicles";
 
-    private static final VehicleType A_VALID_TYPE = VehicleType.Car;
-    private static final VehicleType AN_INVALID_TYPE = null;
+    private static final String A_VALID_TYPE = VehicleType.Car.name();
+    private static final String AN_INVALID_TYPE = null;
     private static final String A_VALID_COLOR = "Dark Red";
     private static final String A_VALID_MODEL = "Nissan Sentra";
     private static final String A_VALID_REGISTRATION_NUMBER = "T68688";
@@ -74,7 +74,7 @@ public class VehicleResourceIT {
         return createVehicleJSON(AN_INVALID_TYPE, A_VALID_COLOR, A_VALID_MODEL, registrationNumber);
     }
 
-    private String createVehicleJSON(VehicleType type, String color, String model, String registrationNumber) {
+    private String createVehicleJSON(String type, String color, String model, String registrationNumber) {
         VehicleDto vehicleDto = new VehicleDto();
         vehicleDto.setType(type);
         vehicleDto.setColor(color);

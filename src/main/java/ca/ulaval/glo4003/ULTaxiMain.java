@@ -130,6 +130,8 @@ public final class ULTaxiMain {
             contexts.setHandlers(new Handler[]{context});
             server = new Server(serverPort);
             server.setHandler(contexts);
+            setDevelopmentEnvironmentMockData();
+
             server.start();
         }
     }
@@ -161,10 +163,23 @@ public final class ULTaxiMain {
         }
     }
 
+    private static void setDevelopmentEnvironmentMockData() {
+        if (isDevelopmentEnvironment) {
+            UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
+            List<User> users = userDevDataFactory.createMockData();
+            users.forEach(userRepository::save);
+
+            VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
+            List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
+            vehicles.forEach(vehicleRepository::save);
+        }
+
+    }
+
     private static void parseCommandLineOptions(String[] arguments) {
         CommandLineParser parser = new PosixParser();
         Options options = createCommandLineOptions();
-        boolean displayHelp = false;
+        boolean displayHelp;
         try {
             CommandLine commandLine = parser.parse(options, arguments);
             assignCommandLineOptions(commandLine);
@@ -287,22 +302,10 @@ public final class ULTaxiMain {
     }
 
     private static UserResource createUserResource(UserService userService) {
-        if (isDevelopmentEnvironment) {
-            UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
-            List<User> users = userDevDataFactory.createMockData();
-            users.forEach(userRepository::save);
-        }
-
         return new UserResourceImpl(userService);
     }
 
     private static VehicleResource createVehicleResource(VehicleService vehicleService) {
-        if (isDevelopmentEnvironment) {
-            VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
-            List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
-            vehicles.forEach(vehicleRepository::save);
-        }
-
         return new VehicleResourceImpl(vehicleService);
     }
 

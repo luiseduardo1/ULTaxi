@@ -16,7 +16,7 @@ public class VehicleAssembler {
 
     public VehicleDto create(Vehicle vehicle) {
         VehicleDto vehicleDto = new VehicleDto();
-        vehicleDto.setType(vehicle.getType());
+        vehicleDto.setType(vehicle.getType().name());
         vehicleDto.setColor(vehicle.getColor());
         vehicleDto.setModel(vehicle.getModel());
         vehicleDto.setRegistrationNumber(vehicle.getRegistrationNumber());
