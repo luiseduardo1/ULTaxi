@@ -50,7 +50,7 @@ public class DriverResourceImplTest {
     }
 
     @Test
-    public void givenAlreadyExistDriver_whenCreateDriver_thenReturnsBadRequest() {
+    public void givenAlreadyExistingDriver_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new UserAlreadyExistsException("User already exists."))
             .given(driverService)
             .addDriver(driverDto);
@@ -61,7 +61,7 @@ public class DriverResourceImplTest {
     }
 
     @Test
-    public void givenAlreadyExistSocialInsuranceNumber_whenCreateDriver_thenReturnsBadRequest() {
+    public void givenADriverWithAlreadyExistingSocialInsuranceNumber_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new SocialInsuranceNumberAlreadyExistException("Social insurance number already exist"))
             .given(driverService)
             .addDriver(driverDto);
