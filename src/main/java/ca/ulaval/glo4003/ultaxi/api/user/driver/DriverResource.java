@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.user.driver;
 
-import ca.ulaval.glo4003.ultaxi.api.middleware.authentication.Secured;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 
 import javax.ws.rs.Consumes;
@@ -24,7 +24,7 @@ public interface DriverResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Secured({Role.Administrator})
-    Response searchBy(@QueryParam("sin") String sin,
-                      @QueryParam("first-name") String firstName,
-                      @QueryParam("last-name") String lastName);
+    Response searchBy(@QueryParam("social-insurance-number") String socialInsuranceNumber,
+        @QueryParam("first-name") String firstName,
+        @QueryParam("last-name") String lastName);
 }

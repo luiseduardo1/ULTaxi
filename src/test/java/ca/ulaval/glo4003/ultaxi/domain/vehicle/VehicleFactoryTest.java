@@ -11,10 +11,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class VehicleFactoryTest {
 
     private static final String NULL_VEHICLE_TYPE = null;
-    private static final String INVALID_VEHICLE_TYPE = "Truck";
-    private static final String CAR_VEHICLE_TYPE = "Car";
-    private static final String VAN_VEHICLE_TYPE = "Van";
-    private static final String LIMOUSINE_VEHICLE_TYPE = "Limousine";
+    private static final String INVALID_VEHICLE_TYPE = "other";
+    private static final String CAR_VEHICLE_TYPE = VehicleType.Car.name();
+    private static final String VAN_VEHICLE_TYPE = VehicleType.Van.name();
+    private static final String LIMOUSINE_VEHICLE_TYPE = VehicleType.Limousine.name();
 
     private static final String COLOR = "A color";
     private static final String MODEL = "A model";

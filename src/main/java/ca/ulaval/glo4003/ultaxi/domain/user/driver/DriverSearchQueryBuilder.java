@@ -10,5 +10,5 @@ public interface DriverSearchQueryBuilder {
 
     DriverSearchQueryBuilder withLastName(String lastName);
 
-    DriverSearchQueryBuilder withSin(String sin);
+    DriverSearchQueryBuilder withSocialInsuranceNumber(String socialInsuranceNumber);
 }

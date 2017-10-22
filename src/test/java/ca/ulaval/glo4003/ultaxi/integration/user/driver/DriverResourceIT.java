@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 public class DriverResourceIT {
 
     private static final String API_DRIVERS = "/api/drivers";
-    private static final String A_VALID_SIN = "972487086";
+    private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "972487086";
     private static final String A_VALID_PASSWORD = "hunter2";
     private static final String A_VALID_PHONE_NUMBER = "2342355678";
     private static final String A_VALID_NAME = "Freddy";
@@ -59,7 +59,7 @@ public class DriverResourceIT {
 
     private String givenDriver() {
         DriverDto driverDto = new DriverDto();
-        driverDto.setSin(A_VALID_SIN);
+        driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
         driverDto.setUsername(aValidUsername);
         driverDto.setPhoneNumber(A_VALID_PHONE_NUMBER);
         driverDto.setName(A_VALID_NAME);

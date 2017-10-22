@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public class EmailSenderConfigurationPropertyFileReader implements EmailSenderConfigurationReader {
 
-    private String filename;
+    private final String filename;
 
     public EmailSenderConfigurationPropertyFileReader(String filename) {
         this.filename = filename;

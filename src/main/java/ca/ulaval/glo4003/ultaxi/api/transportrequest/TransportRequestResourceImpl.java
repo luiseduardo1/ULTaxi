@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
-import ca.ulaval.glo4003.ultaxi.api.middleware.authentication.Secured;
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserRoleException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 
@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 @Secured({Role.Client})
 public class TransportRequestResourceImpl implements TransportRequestResource {
 
-    private TransportRequestService transportRequestService;
+    private final TransportRequestService transportRequestService;
 
     public TransportRequestResourceImpl(TransportRequestService transportRequestService) {
         this.transportRequestService = transportRequestService;

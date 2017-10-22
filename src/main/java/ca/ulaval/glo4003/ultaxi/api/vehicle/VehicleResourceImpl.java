@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 
 public class VehicleResourceImpl implements VehicleResource {
 
-    private VehicleService vehicleService;
+    private final VehicleService vehicleService;
 
     public VehicleResourceImpl(VehicleService vehicleService) {
         this.vehicleService = vehicleService;

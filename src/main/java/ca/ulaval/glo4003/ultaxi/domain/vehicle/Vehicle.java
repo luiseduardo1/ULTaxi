@@ -24,5 +24,5 @@ public abstract class Vehicle {
         return registrationNumber;
     }
 
-    public abstract String getType();
+    public abstract VehicleType getType();
 }
