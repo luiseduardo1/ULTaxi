@@ -71,14 +71,16 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithInvalidNumberingPlanArea_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
+    public void givenPhoneNumberWithInvalidNumberingPlanArea_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException
+        () {
         String phoneNumber = "123 234 5678";
 
         driver.setPhoneNumber(phoneNumber);
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithAlphaNumericalCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
+    public void givenPhoneNumberWithAlphaNumericalCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException
+        () {
         String phoneNumber = "1b3 2z4 56a8";
 
         driver.setPhoneNumber(phoneNumber);
@@ -108,7 +110,8 @@ public class DriverTest {
     }
 
     @Test
-    public void givenValidSocialInsuranceNumberWithDashes_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
+    public void
+    givenValidSocialInsuranceNumberWithDashes_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
         String socialInsuranceNumber = "972-487-086";
 
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
@@ -117,14 +120,16 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void givenSocialInsuranceNumberWithTooManyDigits_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
+    public void
+    givenSocialInsuranceNumberWithTooManyDigits_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
         String socialInsuranceNumber = "9724870865";
 
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
     @Test
-    public void givenValidSocialInsuranceNumberWithEmptySpace_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
+    public void
+    givenValidSocialInsuranceNumberWithEmptySpace_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
         String socialInsuranceNumber = "972 487 086";
 
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
@@ -133,21 +138,24 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void givenInvalidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
+    public void
+    givenInvalidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
         String socialInsuranceNumber = "234154346";
 
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
     @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void givenSocialInsuranceNumberWithSpecialCharacters_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
+    public void
+    givenSocialInsuranceNumberWithSpecialCharacters_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
         String socialInsuranceNumber = "1!3 2?4 56!8";
 
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
     @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void givenValidSocialInsuranceNumberWithDots_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
+    public void
+    givenValidSocialInsuranceNumberWithDots_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
         String socialInsuranceNumber = "972.487.086";
 
         driver.setSocialInsuranceNumber(socialInsuranceNumber);

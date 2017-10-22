@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
@@ -18,6 +19,15 @@ public class Driver extends User {
     private String lastName;
     private String phoneNumber;
     private String socialInsuranceNumber;
+
+    public Driver(){}
+
+    public Driver(String firstName, String lastName, String socialInsuranceNumber) {
+        this.setName(firstName);
+        this.setLastName(lastName);
+        this.setSocialInsuranceNumber(socialInsuranceNumber);
+        this.setRole(Role.Driver);
+    }
 
     public String getName() {
         return name;
