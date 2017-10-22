@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.ws.rs.core.Response.Status;
 import java.util.HashMap;
@@ -15,25 +16,24 @@ import java.util.Map;
 
 public abstract class IntegrationTest {
 
-    private static final String USERS_ROUTE = "/api/users";
-    private static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
-    private static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
-    private static final String SIGNOUT_ROUTE = USER_AUTHENTICATION_ROUTE + "/signout";
+    protected static final String USERS_ROUTE = "/api/users";
+    protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
+    protected static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
+    protected static final String SIGNOUT_ROUTE = USER_AUTHENTICATION_ROUTE + "/signout";
+
     private static final String AUTHENTICATION_TOKEN_PREFIX = "Bearer ";
+    private static final int RANDOM_WORD_LENGTH = 20;
 
-    protected String authenticationToken = getGenericRoleUserAuthenticationToken(Role.Anonymous);
+    protected String authenticationToken = "";
 
-    private static final String getAuthenticationToken(String userData) {
-        Response response = executePostRequest(
-            createBasicRequestSpecification(SIGNIN_ROUTE), userData
-        );
+    private static final String extractAuthenticationToken(Response response) {
         return AUTHENTICATION_TOKEN_PREFIX + response.getBody().asString();
     }
 
-    private static final String getGenericRoleUserAuthenticationToken(Role role) {
-        return getAuthenticationToken(
-            createGenericRoleUserData(role)
-        );
+    private static final Response executePostRequest(RequestSpecification requestSpecification) {
+        return requestSpecification
+            .when()
+            .post();
     }
 
     private static final Response executePostRequest(RequestSpecification requestSpecification,
@@ -75,7 +75,7 @@ public abstract class IntegrationTest {
         );
     }
 
-    private static final String createUserData(String username, String password, String email) {
+    protected static final String createUserData(String username, String password, String email) {
         UserDto userDto = new UserDto();
         userDto.setUserName(username);
         userDto.setPassword(password);
@@ -85,34 +85,24 @@ public abstract class IntegrationTest {
         return gson.toJson(userDto);
     }
 
-    private final void signout() {
-        executePostRequest(
-            createBasicRequestSpecification(SIGNOUT_ROUTE), authenticationToken
-        );
-    }
-
-    private final void changeAuthenticationToken(String newAuthenticationToken) {
+    protected Response authenticateAs(String userData) {
         signout();
-        authenticationToken = newAuthenticationToken;
+        Response response = executePostRequest(
+            createBasicRequestSpecification(SIGNIN_ROUTE), userData
+        );
+        authenticationToken = extractAuthenticationToken(response);
+        return response;
     }
 
-    protected void authenticateAs(String username, String password, String email) {
-        changeAuthenticationToken(
-            getAuthenticationToken(
-                createUserData(username, password, email)
-            )
+    protected Response authenticateAs(Role role) {
+        return authenticateAs(
+            createGenericRoleUserData(role)
         );
     }
 
-    protected void authenticateAs(Role role) {
-        changeAuthenticationToken(
-            getGenericRoleUserAuthenticationToken(role)
-        );
-    }
-
-    protected void resetAuthentication() {
-        changeAuthenticationToken(
-            getGenericRoleUserAuthenticationToken(Role.Anonymous)
+    protected Response signout() {
+        return executePostRequest(
+            createAuthenticatedRequestSpecification(SIGNOUT_ROUTE, authenticationToken)
         );
     }
 
@@ -162,5 +152,9 @@ public abstract class IntegrationTest {
         Map<String, String> queryParameters = new HashMap<>();
         queryParameters.put(parameter, value);
         return queryParameters;
+    }
+
+    protected String generateRandomWord() {
+        return RandomStringUtils.randomAlphabetic(RANDOM_WORD_LENGTH);
     }
 }

@@ -4,8 +4,6 @@ import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import com.google.gson.Gson;
 import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -22,13 +20,6 @@ public class DriverResourceIT extends IntegrationTest {
     private static final String A_VALID_NAME = "Freddy";
     private static final String A_VALID_LAST_NAME = "Mercury";
     private static final String A_SEARCH_PARAMETER = "first-name";
-
-    private String aValidUsername;
-
-    @Before
-    public void setUp() {
-        aValidUsername = RandomStringUtils.randomAlphabetic(25);
-    }
 
     @Test
     public void givenUnauthenticatedAdministrator_whenCreateADriver_thenReturnsUnauthorized() {
@@ -51,8 +42,8 @@ public class DriverResourceIT extends IntegrationTest {
 
     private String createDriverData() {
         DriverDto driverDto = new DriverDto();
+        driverDto.setUsername(generateRandomWord());
         driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
-        driverDto.setUsername(aValidUsername);
         driverDto.setPhoneNumber(A_VALID_PHONE_NUMBER);
         driverDto.setName(A_VALID_NAME);
         driverDto.setLastName(A_VALID_LAST_NAME);

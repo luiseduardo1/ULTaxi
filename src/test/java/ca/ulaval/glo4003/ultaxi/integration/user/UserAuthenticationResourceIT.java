@@ -1,120 +1,66 @@
 package ca.ulaval.glo4003.ultaxi.integration.user;
 
-import static io.restassured.RestAssured.given;
-
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
-import com.google.gson.Gson;
-import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
+import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
+import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserAuthenticationResourceIT {
+public class UserAuthenticationResourceIT extends IntegrationTest {
 
-    private static final String API_USERS = "/api/users";
-    private static final String API_USER_AUTHENTICATION = String.format("%s/auth", API_USERS);
-    private static final String SIGNIN_ROUTE = String.format("%s/signin", API_USER_AUTHENTICATION);
-    private static final String SIGNOUT_ROUTE = String.format("%s/signout", API_USER_AUTHENTICATION);
     private static final String A_VALID_PASSWORD = "Macdonald";
     private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
     private static final String A_DIFFERENT_PASSWORD = "Nadir";
 
-    private String aValidName;
-
-    @Before
-    public void setUp() throws Exception {
-        aValidName = RandomStringUtils.randomAlphabetic(25);
-    }
-
     @Test
     public void givenUser_whenAuthenticate_thenUserIsAuthenticated() {
-        givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(API_USERS);
+        String userData = givenUser();
+        unauthenticatedPost(USERS_ROUTE, userData);
 
-        givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(SIGNIN_ROUTE)
-            .then()
-            .statusCode(Response.Status.OK.getStatusCode());
+        Response response = authenticateAs(userData);
+
+        assertStatusCode(response, Status.OK);
     }
 
     @Test
     public void givenInexistingUser_whenAuthenticate_thenReturnsForbidden() {
-        givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(SIGNIN_ROUTE)
-            .then()
-            .statusCode(Response.Status.FORBIDDEN.getStatusCode());
+        String userData = givenUser();
+
+        Response response = authenticateAs(userData);
+
+        assertStatusCode(response, Status.FORBIDDEN);
     }
 
     @Test
     public void givenInvalidCredentials_whenAuthenticate_thenReturnsForbidden() {
-        givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(API_USERS);
+        String userWithInvalidPasswordData = givenUserWithInvalidPassword();
+        String userData = givenUser();
+        unauthenticatedPost(USERS_ROUTE, userData);
 
-        givenBaseUserServer()
-            .body(givenUserWithInvalidPassword())
-            .post(SIGNIN_ROUTE)
-            .then()
-            .statusCode(Response.Status.FORBIDDEN.getStatusCode());
+        Response response = authenticateAs(userWithInvalidPasswordData);
+
+        assertStatusCode(response, Status.FORBIDDEN);
     }
 
     @Test
     public void givenAuthenticatedUser_whenSignOut_thenUserIsSignedOut() {
-        givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(API_USERS);
-        io.restassured.response.Response response = givenBaseUserServer()
-            .body(givenUser())
-            .when()
-            .post(SIGNIN_ROUTE)
-            .andReturn();
+        String userData = givenUser();
+        unauthenticatedPost(USERS_ROUTE, userData);
+        authenticateAs(userData);
 
-        givenBaseUserServer()
-            .header(
-                "Authorization",
-                String.format("Bearer %s", response.getBody().asString())
-            )
-            .when()
-            .post(SIGNOUT_ROUTE)
-            .then()
-            .statusCode(Response.Status.RESET_CONTENT.getStatusCode());
-    }
+        Response response = signout();
 
-    private RequestSpecification givenBaseUserServer() {
-        return given()
-            .accept(ContentType.JSON)
-            .contentType(ContentType.JSON);
+        assertStatusCode(response, Status.RESET_CONTENT);
     }
 
     private String givenUser() {
-        UserDto userDto = new UserDto();
-        userDto.setUserName(aValidName);
-        userDto.setPassword(A_VALID_PASSWORD);
-        userDto.setEmail(A_VALID_EMAIL);
-        Gson gson = new Gson();
-        return gson.toJson(userDto);
+        return createUserData(generateRandomWord(), A_VALID_PASSWORD, A_VALID_EMAIL);
     }
 
     private String givenUserWithInvalidPassword() {
-        UserDto userDto = new UserDto();
-        userDto.setUserName(aValidName);
-        userDto.setPassword(A_DIFFERENT_PASSWORD);
-        userDto.setEmail(A_VALID_EMAIL);
-        Gson gson = new Gson();
-        return gson.toJson(userDto);
+        return createUserData(generateRandomWord(), A_DIFFERENT_PASSWORD, A_VALID_EMAIL);
     }
 }
