@@ -23,9 +23,9 @@ public class DriverResourceIT extends IntegrationTest {
 
     @Test
     public void givenUnauthenticatedAdministrator_whenCreateADriver_thenReturnsUnauthorized() {
-        String driverData = createDriverData();
+        String serializedDriver = createSerializedDriver();
 
-        Response response = unauthenticatedPost(DRIVERS_ROUTE, driverData);
+        Response response = unauthenticatedPost(DRIVERS_ROUTE, serializedDriver);
 
         assertStatusCode(response, Status.UNAUTHORIZED);
     }
@@ -40,7 +40,7 @@ public class DriverResourceIT extends IntegrationTest {
         assertStatusCode(response, Status.UNAUTHORIZED);
     }
 
-    private String createDriverData() {
+    private String createSerializedDriver() {
         DriverDto driverDto = new DriverDto();
         driverDto.setUsername(generateRandomWord());
         driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);

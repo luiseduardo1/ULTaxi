@@ -66,29 +66,33 @@ public abstract class IntegrationTest {
             .basePath(path);
     }
 
-    private static final String createGenericRoleUserData(Role role) {
+    private static final String createSerializedGenericRoleUser(Role role) {
         String lowercaseRole = role.name().toLowerCase();
-        return createUserData(
+        return createSerializedUser(
             lowercaseRole + "Username",
             lowercaseRole + "Password",
             lowercaseRole + "@ultaxi.ca"
         );
     }
 
-    protected static final String createUserData(String username, String password, String email) {
+    protected static final String createSerializedUser(String username, String password, String email) {
         UserDto userDto = new UserDto();
         userDto.setUserName(username);
         userDto.setPassword(password);
         userDto.setEmail(email);
 
-        Gson gson = new Gson();
-        return gson.toJson(userDto);
+        return serializeDto(userDto);
     }
 
-    protected Response authenticateAs(String userData) {
+    protected static final String serializeDto(Object dto) {
+        Gson gson = new Gson();
+        return gson.toJson(dto);
+    }
+
+    protected Response authenticateAs(String serializedUser) {
         signout();
         Response response = executePostRequest(
-            createBasicRequestSpecification(SIGNIN_ROUTE), userData
+            createBasicRequestSpecification(SIGNIN_ROUTE), serializedUser
         );
         authenticationToken = extractAuthenticationToken(response);
         return response;
@@ -96,7 +100,7 @@ public abstract class IntegrationTest {
 
     protected Response authenticateAs(Role role) {
         return authenticateAs(
-            createGenericRoleUserData(role)
+            createSerializedGenericRoleUser(role)
         );
     }
 

@@ -17,39 +17,39 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
 
     @Test
     public void givenUser_whenAuthenticate_thenUserIsAuthenticated() {
-        String userData = givenUser();
-        unauthenticatedPost(USERS_ROUTE, userData);
+        String serializedUser = givenUser();
+        unauthenticatedPost(USERS_ROUTE, serializedUser);
 
-        Response response = authenticateAs(userData);
+        Response response = authenticateAs(serializedUser);
 
         assertStatusCode(response, Status.OK);
     }
 
     @Test
     public void givenInexistingUser_whenAuthenticate_thenReturnsForbidden() {
-        String userData = givenUser();
+        String serializedUser = givenUser();
 
-        Response response = authenticateAs(userData);
+        Response response = authenticateAs(serializedUser);
 
         assertStatusCode(response, Status.FORBIDDEN);
     }
 
     @Test
     public void givenInvalidCredentials_whenAuthenticate_thenReturnsForbidden() {
-        String userWithInvalidPasswordData = givenUserWithInvalidPassword();
-        String userData = givenUser();
-        unauthenticatedPost(USERS_ROUTE, userData);
+        String serializedUserWithInvalidPassword = givenUserWithInvalidPassword();
+        String serializedUser = givenUser();
+        unauthenticatedPost(USERS_ROUTE, serializedUser);
 
-        Response response = authenticateAs(userWithInvalidPasswordData);
+        Response response = authenticateAs(serializedUserWithInvalidPassword);
 
         assertStatusCode(response, Status.FORBIDDEN);
     }
 
     @Test
     public void givenAuthenticatedUser_whenSignOut_thenUserIsSignedOut() {
-        String userData = givenUser();
-        unauthenticatedPost(USERS_ROUTE, userData);
-        authenticateAs(userData);
+        String serializedUser = givenUser();
+        unauthenticatedPost(USERS_ROUTE, serializedUser);
+        authenticateAs(serializedUser);
 
         Response response = signout();
 
@@ -57,10 +57,10 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
     }
 
     private String givenUser() {
-        return createUserData(generateRandomWord(), A_VALID_PASSWORD, A_VALID_EMAIL);
+        return createSerializedUser(generateRandomWord(), A_VALID_PASSWORD, A_VALID_EMAIL);
     }
 
     private String givenUserWithInvalidPassword() {
-        return createUserData(generateRandomWord(), A_DIFFERENT_PASSWORD, A_VALID_EMAIL);
+        return createSerializedUser(generateRandomWord(), A_DIFFERENT_PASSWORD, A_VALID_EMAIL);
     }
 }

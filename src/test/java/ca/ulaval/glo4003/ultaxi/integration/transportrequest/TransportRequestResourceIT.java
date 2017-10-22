@@ -32,69 +32,69 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenATransportRequest_whenSendRequest_thenRequestIsCreated() {
-        String transportRequestData = givenAValidTransportRequest();
+        String serializedTransportRequest = givenAValidTransportRequest();
 
-        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
 
         assertStatusCode(response, Status.CREATED);
     }
 
     @Test
     public void givenATransportRequestWithInvalidLatitude_whenSendRequest_thenReturnsBadRequest() {
-        String transportRequestData = givenATransportRequestWithInvalidLatitude();
+        String serializedTransportRequest = givenATransportRequestWithInvalidLatitude();
 
-        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     @Test
     public void givenATransportRequestWithInvalidLongitude_whenSendRequest_thenReturnsBadRequest() {
-        String transportRequestData = givenATransportRequestWithInvalidLongitude();
+        String serializedTransportRequest = givenATransportRequestWithInvalidLongitude();
 
-        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     @Test
     public void givenATransportRequestWithInvalidVehicleType_whenSendRequest_thenReturnsBadRequest() {
-        String transportRequestData = givenATransportRequestWithInvalidVehicleType();
+        String serializedTransportRequest = givenATransportRequestWithInvalidVehicleType();
 
-        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     @Test
     public void givenAnUnauthenticatedRequest_whenSendRequest_thenReturnsUnauthorized() {
-        String transportRequestData = givenAValidTransportRequest();
+        String serializedTransportRequest = givenAValidTransportRequest();
 
-        Response response = unauthenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
+        Response response = unauthenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
 
         assertStatusCode(response, Status.UNAUTHORIZED);
     }
 
     private String givenAValidTransportRequest() {
-        return createTransportRequestData(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE, A_VALID_LONGITUDE);
+        return createSerializedTransportRequest(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE, A_VALID_LONGITUDE);
     }
 
     private String givenATransportRequestWithInvalidLatitude() {
-        return createTransportRequestData(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, AN_INVALID_LATITUDE,
-                                          A_VALID_LONGITUDE);
+        return createSerializedTransportRequest(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, AN_INVALID_LATITUDE,
+                                                A_VALID_LONGITUDE);
     }
 
     private String givenATransportRequestWithInvalidLongitude() {
-        return createTransportRequestData(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
-                                          AN_INVALID_LONGITUDE);
+        return createSerializedTransportRequest(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
+                                                AN_INVALID_LONGITUDE);
     }
 
     private String givenATransportRequestWithInvalidVehicleType() {
-        return createTransportRequestData(AN_INVALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
-                                          AN_INVALID_LONGITUDE);
+        return createSerializedTransportRequest(AN_INVALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
+                                                AN_INVALID_LONGITUDE);
     }
 
-    private String createTransportRequestData(String vehicleType, String note, double latitude, double longitude) {
+    private String createSerializedTransportRequest(String vehicleType, String note, double latitude, double longitude) {
         TransportRequestDto transportRequestDto = new TransportRequestDto();
         transportRequestDto.setVehicleType(vehicleType);
         transportRequestDto.setNote(note);
