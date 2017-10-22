@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging;
 
 import static org.mockito.Mockito.verify;
 
+import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import net.jodah.failsafe.function.CheckedRunnable;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class TaskQueueProducerTest {
     @Mock
     private TaskQueue taskQueue;
     @Mock
-    private Runnable task;
+    private Task task;
 
     private TaskQueueProducer taskQueueProducer;
 

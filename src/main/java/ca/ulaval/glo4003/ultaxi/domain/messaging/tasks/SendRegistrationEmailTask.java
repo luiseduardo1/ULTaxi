@@ -7,7 +7,7 @@ import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 import java.util.concurrent.TimeUnit;
 
-public class SendRegistrationEmailTask implements Runnable {
+public class SendRegistrationEmailTask extends Task {
 
     private static final String EMAIL_REGISTRATION_SUBJECT = "Welcome %s!";
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you %s for your request to " +

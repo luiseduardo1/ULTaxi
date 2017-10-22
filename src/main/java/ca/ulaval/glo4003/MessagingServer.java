@@ -2,6 +2,8 @@ package ca.ulaval.glo4003;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueConsumer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,7 +24,7 @@ public class MessagingServer implements Runnable {
     public void run() {
         while (true) {
             if (!taskQueue.isEmpty()) {
-                Runnable task = taskQueueConsumer.checkForTask();
+                Task task = taskQueueConsumer.checkForTask();
                 threadPool.execute(task);
                 taskQueueConsumer.removeTask(task);
             }

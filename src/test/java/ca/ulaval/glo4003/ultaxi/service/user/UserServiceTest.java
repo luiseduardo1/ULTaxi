@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
@@ -59,6 +60,6 @@ public class UserServiceTest {
 
         userService.addUser(userDto);
 
-        verify(taskQueueProducer).send(any(Runnable.class));
+        verify(taskQueueProducer).send(any(Task.class));
     }
 }

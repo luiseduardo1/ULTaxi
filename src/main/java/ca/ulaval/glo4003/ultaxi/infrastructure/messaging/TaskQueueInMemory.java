@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import net.jodah.failsafe.function.CheckedRunnable;
 
 import java.util.concurrent.BlockingQueue;
@@ -8,20 +9,20 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class TaskQueueInMemory implements TaskQueue {
 
-    private BlockingQueue<Runnable> taskQueue = new LinkedBlockingDeque<Runnable>();
+    private BlockingQueue<Task> taskQueue = new LinkedBlockingDeque<Task>();
 
     @Override
-    public void enqueue(Runnable task) throws InterruptedException {
+    public void enqueue(Task task) throws InterruptedException {
         this.taskQueue.put(task);
     }
 
     @Override
-    public void dequeue(Runnable task) {
+    public void dequeue(Task task) {
         this.taskQueue.remove(task);
     }
 
     @Override
-    public Runnable peek() {
+    public Task peek() {
         return this.taskQueue.peek();
     }
 
