@@ -85,21 +85,35 @@ public abstract class IntegrationTest {
         return gson.toJson(userDto);
     }
 
-    protected void authenticateAsUser(String username, String password, String email) {
-        authenticationToken = getAuthenticationToken(
-            createUserData(username, password, email)
-        );
-    }
-
-    protected void authenticateAsRole(Role role) {
-        authenticationToken = getGenericRoleUserAuthenticationToken(role);
-    }
-
-    protected void signout() {
+    private final void signout() {
         executePostRequest(
             createBasicRequestSpecification(SIGNOUT_ROUTE), authenticationToken
         );
-        authenticationToken = getGenericRoleUserAuthenticationToken(Role.Anonymous);
+    }
+
+    private final void changeAuthenticationToken(String newAuthenticationToken) {
+        signout();
+        authenticationToken = newAuthenticationToken;
+    }
+
+    protected void authenticateAs(String username, String password, String email) {
+        changeAuthenticationToken(
+            getAuthenticationToken(
+                createUserData(username, password, email)
+            )
+        );
+    }
+
+    protected void authenticateAs(Role role) {
+        changeAuthenticationToken(
+            getGenericRoleUserAuthenticationToken(role)
+        );
+    }
+
+    protected void resetAuthentication() {
+        changeAuthenticationToken(
+            getGenericRoleUserAuthenticationToken(Role.Anonymous)
+        );
     }
 
     protected Response authenticatedPost(String path, String body) {
