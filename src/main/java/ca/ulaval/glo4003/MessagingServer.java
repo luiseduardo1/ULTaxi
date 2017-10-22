@@ -10,9 +10,9 @@ import java.util.concurrent.Executors;
 public class MessagingServer implements Runnable {
 
     private static int threadsNumber = 10;
-    private TaskQueueConsumer taskQueueConsumer;
-    private TaskQueue taskQueue;
-    private ExecutorService threadPool;
+    private final TaskQueueConsumer taskQueueConsumer;
+    private final TaskQueue taskQueue;
+    private final ExecutorService threadPool;
 
     public MessagingServer(TaskQueue taskQueue) {
         this.taskQueue = taskQueue;
