@@ -32,69 +32,69 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenATransportRequest_whenSendRequest_thenRequestIsCreated() {
-        String transportRequest = givenAValidTransportRequest();
+        String transportRequestData = givenAValidTransportRequest();
 
-        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequest);
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
 
         assertStatusCode(response, Status.CREATED);
     }
 
     @Test
     public void givenATransportRequestWithInvalidLatitude_whenSendRequest_thenReturnsBadRequest() {
-        String transportRequest = givenATransportRequestWithInvalidLatitude();
+        String transportRequestData = givenATransportRequestWithInvalidLatitude();
 
-        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequest);
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     @Test
     public void givenATransportRequestWithInvalidLongitude_whenSendRequest_thenReturnsBadRequest() {
-        String transportRequest = givenATransportRequestWithInvalidLongitude();
+        String transportRequestData = givenATransportRequestWithInvalidLongitude();
 
-        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequest);
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     @Test
     public void givenATransportRequestWithInvalidVehicleType_whenSendRequest_thenReturnsBadRequest() {
-        String transportRequest = givenATransportRequestWithInvalidVehicleType();
+        String transportRequestData = givenATransportRequestWithInvalidVehicleType();
 
-        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequest);
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     @Test
     public void givenAnUnauthenticatedRequest_whenSendRequest_thenReturnsUnauthorized() {
-        String transportRequest = givenAValidTransportRequest();
+        String transportRequestData = givenAValidTransportRequest();
 
-        Response response = unauthenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequest);
+        Response response = unauthenticatedPost(TRANSPORT_REQUEST_ROUTE, transportRequestData);
 
         assertStatusCode(response, Status.UNAUTHORIZED);
     }
 
     private String givenAValidTransportRequest() {
-        return createTransportRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE, A_VALID_LONGITUDE);
+        return createTransportRequestData(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE, A_VALID_LONGITUDE);
     }
 
     private String givenATransportRequestWithInvalidLatitude() {
-        return createTransportRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, AN_INVALID_LATITUDE,
+        return createTransportRequestData(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, AN_INVALID_LATITUDE,
                                           A_VALID_LONGITUDE);
     }
 
     private String givenATransportRequestWithInvalidLongitude() {
-        return createTransportRequestJSON(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
+        return createTransportRequestData(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
                                           AN_INVALID_LONGITUDE);
     }
 
     private String givenATransportRequestWithInvalidVehicleType() {
-        return createTransportRequestJSON(AN_INVALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
+        return createTransportRequestData(AN_INVALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
                                           AN_INVALID_LONGITUDE);
     }
 
-    private String createTransportRequestJSON(String vehicleType, String note, double latitude, double longitude) {
+    private String createTransportRequestData(String vehicleType, String note, double latitude, double longitude) {
         TransportRequestDto transportRequestDto = new TransportRequestDto();
         transportRequestDto.setVehicleType(vehicleType);
         transportRequestDto.setNote(note);

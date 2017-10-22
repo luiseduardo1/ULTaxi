@@ -157,4 +157,10 @@ public abstract class IntegrationTest {
             .assertThat()
             .statusCode(status.getStatusCode());
     }
+
+    protected Map<String, String> createSearchQueryParameter(String parameter, String value) {
+        Map<String, String> queryParameters = new HashMap<>();
+        queryParameters.put(parameter, value);
+        return queryParameters;
+    }
 }
