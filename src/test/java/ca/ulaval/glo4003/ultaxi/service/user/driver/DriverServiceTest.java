@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -34,19 +33,20 @@ public class DriverServiceTest {
     @Mock
     private DriverDto driverDto;
     @Mock
-    DriverAssembler driverAssembler;
+    private DriverAssembler driverAssembler;
+    @Mock
+    private DriverValidator driverValidator;
     @Mock
     private UserRepository userRepository;
     @Mock
     private DriverSearchQueryBuilder driverSearchQueryBuilder;
     @Mock
     private DriverSearchParameters driverSearchParameters;
-
     private DriverService driverService;
 
     @Before
     public void setUp() {
-        driverService = new DriverService(userRepository, driverAssembler);
+        driverService = new DriverService(userRepository, driverAssembler, driverValidator);
     }
 
     @Test
@@ -56,6 +56,13 @@ public class DriverServiceTest {
         driverService.addDriver(driverDto);
 
         verify(userRepository).save(driver);
+    }
+
+    @Test
+    public void givenADriver_whenAddDriver__thenDriverValidatorIsCalled() {
+        driverService.addDriver(driverDto);
+
+        verify(driverValidator).checkSocialInsuranceNumberExistence(driverDto);
     }
 
     @Test(expected = EmptySearchResultsException.class)
@@ -73,29 +80,21 @@ public class DriverServiceTest {
     public void
     givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
         willReturn("arg").given(driverSearchParameters).getLastName();
-        willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
+        willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository)
+            .searchDrivers();
 
         List<DriverDto> driverDtos = driverService.searchBy(driverSearchParameters);
 
         assertEquals(1, driverDtos.size());
     }
 
-    private Map<String, User> givenDrivers() {
+
+    public Map<String, User> givenDrivers() {
         Map<String, User> drivers = new HashMap<>();
-        drivers.put("1", createDriver("Ronald", "Macdonald", "972487086"));
-        drivers.put("2", createDriver("Marcel", "Lepic", "348624487"));
-        drivers.put("3", createDriver("Lord", "Gargamel", "215136193"));
+        drivers.put("1", new Driver("Ronald", "Macdonald", "972487086"));
+        drivers.put("2", new Driver("Marcel", "Lepic", "348624487"));
+        drivers.put("3", new Driver("Lord", "Gargamel", "215136193"));
 
         return drivers;
-    }
-
-    private User createDriver(String firstName, String lastName, String socialInsuranceNumber) {
-        Driver driver = new Driver();
-        driver.setName(firstName);
-        driver.setLastName(lastName);
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-        driver.setRole(Role.Driver);
-
-        return driver;
     }
 }

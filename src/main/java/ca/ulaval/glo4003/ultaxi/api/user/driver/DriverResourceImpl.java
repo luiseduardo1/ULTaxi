@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsExceptio
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
@@ -29,7 +30,8 @@ public class DriverResourceImpl implements DriverResource {
             driverService.addDriver(driverDto);
             return Response.ok().build();
         } catch (UserAlreadyExistsException | InvalidUserNameException |
-            InvalidPhoneNumberException | InvalidSocialInsuranceNumberException exception) {
+            InvalidPhoneNumberException | InvalidSocialInsuranceNumberException |
+            SocialInsuranceNumberAlreadyExistException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }

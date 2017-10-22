@@ -37,6 +37,7 @@ import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
+import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverValidator;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
@@ -324,6 +325,7 @@ public final class ULTaxiMain {
 
     private static DriverService createDriverService() {
         DriverAssembler driverAssembler = createDriverAssembler();
-        return new DriverService(userRepository, driverAssembler);
+        DriverValidator driverValidator = new DriverValidator(userRepository);
+        return new DriverService(userRepository, driverAssembler, driverValidator);
     }
 }

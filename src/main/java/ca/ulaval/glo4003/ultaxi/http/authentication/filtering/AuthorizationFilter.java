@@ -29,10 +29,10 @@ import java.util.List;
 public class AuthorizationFilter implements ContainerRequestFilter {
 
     private static final String AUTHENTICATION_SCHEME = "Bearer";
-    @Context
-    private ResourceInfo resourceInfo;
     private final UserRepository userRepository;
     private final TokenManager tokenManager;
+    @Context
+    private ResourceInfo resourceInfo;
 
     public AuthorizationFilter(UserRepository userRepository, TokenManager tokenManager) {
         this.userRepository = userRepository;
