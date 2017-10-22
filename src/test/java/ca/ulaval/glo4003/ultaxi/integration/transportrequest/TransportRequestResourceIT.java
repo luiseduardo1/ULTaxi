@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.ultaxi.integration.transportrequest;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
-import com.google.gson.Gson;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +75,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     private String givenAValidTransportRequest() {
-        return createSerializedTransportRequest(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE, A_VALID_LONGITUDE);
+        return createSerializedTransportRequest(A_VALID_VEHICLE_TYPE, A_VALID_NOTE, A_VALID_LATITUDE,
+                                                A_VALID_LONGITUDE);
     }
 
     private String givenATransportRequestWithInvalidLatitude() {
@@ -94,7 +94,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
                                                 AN_INVALID_LONGITUDE);
     }
 
-    private String createSerializedTransportRequest(String vehicleType, String note, double latitude, double longitude) {
+    private String createSerializedTransportRequest(String vehicleType, String note, double latitude, double
+        longitude) {
         TransportRequestDto transportRequestDto = new TransportRequestDto();
         transportRequestDto.setVehicleType(vehicleType);
         transportRequestDto.setNote(note);

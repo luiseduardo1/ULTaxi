@@ -258,10 +258,10 @@ public final class ULTaxiMain {
             TransportRequestResource transportRequestResource = createTransportRequestResource();
 
             contextResources = Collections.unmodifiableSet(Sets.newHashSet(driverResource,
-                                                               userResource,
-                                                               vehicleResource,
-                                                               userAuthenticationResource,
-                                                               transportRequestResource));
+                                                                           userResource,
+                                                                           vehicleResource,
+                                                                           userAuthenticationResource,
+                                                                           transportRequestResource));
         }
         return contextResources;
     }

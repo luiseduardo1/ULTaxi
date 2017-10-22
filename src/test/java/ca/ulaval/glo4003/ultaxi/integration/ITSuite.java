@@ -20,7 +20,7 @@ import org.junit.runners.Suite;
     VehicleResourceIT.class,
     DriverResourceIT.class
 })
-public class BaseIT {
+public class ITSuite {
 
     @BeforeClass
     public static void setUpBaseServer() throws Exception {

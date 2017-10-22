@@ -204,7 +204,7 @@
                 <version>2.18</version>
                 <configuration>
                     <includes>
-                        <include>**/BaseIT.java</include>
+                        <include>**/ITSuite.java</include>
                     </includes>
                     <parallel>all</parallel>
                     <useUnlimitedThreads>true</useUnlimitedThreads>

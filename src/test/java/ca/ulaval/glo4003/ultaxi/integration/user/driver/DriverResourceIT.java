@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ultaxi.integration.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
-import com.google.gson.Gson;
 import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
