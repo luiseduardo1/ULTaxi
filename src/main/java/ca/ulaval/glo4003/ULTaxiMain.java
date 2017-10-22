@@ -75,7 +75,7 @@ public final class ULTaxiMain {
     private static final UserRepository userRepository = new UserRepositoryInMemory();
     private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
     private static final String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
-    private static TaskQueue taskQueue = new TaskQueueInMemory();
+    private static final TaskQueue taskQueue = new TaskQueueInMemory();
     private static boolean isDevelopmentEnvironment;
     private static int serverPort;
 
