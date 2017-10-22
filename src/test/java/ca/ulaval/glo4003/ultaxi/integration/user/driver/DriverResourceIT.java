@@ -49,7 +49,6 @@ public class DriverResourceIT extends IntegrationTest {
         driverDto.setLastName(A_VALID_LAST_NAME);
         driverDto.setPassword(A_VALID_PASSWORD);
 
-        Gson gson = new Gson();
-        return gson.toJson(driverDto);
+        return serializeDto(driverDto);
     }
 }

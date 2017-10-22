@@ -100,7 +100,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
         transportRequestDto.setNote(note);
         transportRequestDto.setLatitude(latitude);
         transportRequestDto.setLongitude(longitude);
-        Gson gson = new Gson();
-        return gson.toJson(transportRequestDto);
+
+        return serializeDto(transportRequestDto);
     }
 }
