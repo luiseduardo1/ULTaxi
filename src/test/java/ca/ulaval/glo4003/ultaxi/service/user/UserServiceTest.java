@@ -4,14 +4,13 @@ import static org.mockito.BDDMockito.verify;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
-import net.jodah.failsafe.function.CheckedRunnable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +30,7 @@ public class UserServiceTest {
     @Mock
     private UserAssembler userAssembler;
     @Mock
-    private TaskQueueProducer taskQueueProducer;
+    private TaskSender taskQueueProducer;
     @Mock
     private EmailSender emailSender;
 

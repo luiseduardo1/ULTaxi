@@ -4,12 +4,12 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 
 import java.util.logging.Logger;
 
-public class TaskQueueProducer {
+public class TaskSender {
 
     private TaskQueue taskQueue;
-    private Logger logger = Logger.getLogger(TaskQueueProducer.class.getName());
+    private Logger logger = Logger.getLogger(TaskSender.class.getName());
 
-    public TaskQueueProducer(TaskQueue taskQueue) {
+    public TaskSender(TaskQueue taskQueue) {
         this.taskQueue = taskQueue;
     }
 

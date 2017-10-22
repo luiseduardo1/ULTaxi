@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging;
 import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
-import net.jodah.failsafe.function.CheckedRunnable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +11,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class TaskQueueConsumerTest {
+public class TaskReceiverTest {
 
     private static final String SEND_TO = "test@example.com";
     private static final String REASON = "Registration";
 
-    TaskQueueConsumer taskQueueConsumer;
+    TaskReceiver taskQueueConsumer;
 
     @Mock
     TaskQueue taskQueue;
@@ -27,7 +26,7 @@ public class TaskQueueConsumerTest {
 
     @Before
     public void setUp() throws Exception {
-        taskQueueConsumer = new TaskQueueConsumer(taskQueue);
+        taskQueueConsumer = new TaskReceiver(taskQueue);
     }
 
     @Test

@@ -11,7 +11,7 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueueProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
@@ -231,7 +231,7 @@ public final class ULTaxiMain {
     }
 
     private static UserService createUserService(EmailSender emailSender) {
-        TaskQueueProducer taskQueueProducer = new TaskQueueProducer(taskQueue);
+        TaskSender taskQueueProducer = new TaskSender(taskQueue);
         UserService userService = new UserService(userRepository, createUserAssembler(),
                 taskQueueProducer, emailSender);
         return userService;

@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 
-public class TaskQueueConsumer {
+public class TaskReceiver {
 
     private TaskQueue taskQueue;
 
-    public TaskQueueConsumer(TaskQueue taskQueue) {
+    public TaskReceiver(TaskQueue taskQueue) {
         this.taskQueue = taskQueue;
     }
 
