@@ -26,9 +26,9 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     }
 
     @Override
-    public Response signOut(String token) {
+    public Response signOut(String userToken) {
         try {
-            userAuthenticationService.deauthenticate(token);
+            userAuthenticationService.deauthenticate(userToken);
             return Response.status(Response.Status.RESET_CONTENT).build();
         } catch (InvalidTokenException exception) {
             return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();

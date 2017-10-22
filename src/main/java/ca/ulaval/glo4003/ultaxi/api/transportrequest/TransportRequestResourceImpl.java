@@ -1,12 +1,13 @@
 package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
-import ca.ulaval.glo4003.ultaxi.api.middleware.authentication.Secured;
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserRoleException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
@@ -39,10 +40,11 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
     @Override
     @Secured({Role.Driver})
-    public Response searchAvailableTransportRequest(String token) {
+    public Response searchAvailableTransportRequest(String driverToken) {
         try {
-            Driver driver = (Driver) userAuthenticationService.authenticateFromToken(token);
-            TransportRequestSearchParameters searchParameters = new TransportRequestSearchParameters("Car");
+            Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
+            String type = driver.getVehicleType().name();
+            TransportRequestSearchParameters searchParameters = new TransportRequestSearchParameters(type);
             GenericEntity<List<TransportRequestDto>> availableTransportRequests =
                     new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {};
             return Response.ok(availableTransportRequests).build();

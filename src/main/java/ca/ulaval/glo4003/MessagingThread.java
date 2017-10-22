@@ -7,13 +7,12 @@ import ca.ulaval.glo4003.ultaxi.service.messaging.MessagingService;
 
 public class MessagingThread implements Runnable {
 
-    private MessagingService messagingService;
-    private MessageQueueConsumer messageQueueConsumer;
-    private MessageQueue messageQueue;
+    private final MessagingService messagingService;
+    private final MessageQueue messageQueue;
 
     public MessagingThread(MessageQueue messageQueue, EmailSender emailSender) {
         this.messageQueue = messageQueue;
-        this.messageQueueConsumer = new MessageQueueConsumer(messageQueue);
+        MessageQueueConsumer messageQueueConsumer = new MessageQueueConsumer(messageQueue);
         this.messagingService = new MessagingService(messageQueueConsumer, emailSender);
     }
 

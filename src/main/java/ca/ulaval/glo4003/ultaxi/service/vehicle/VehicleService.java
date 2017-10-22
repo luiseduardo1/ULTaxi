@@ -9,10 +9,10 @@ import java.util.logging.Logger;
 
 public class VehicleService {
 
-    private Logger logger = Logger.getLogger(VehicleService.class.getName());
+    private final Logger logger = Logger.getLogger(VehicleService.class.getName());
 
-    private VehicleRepository vehicleRepository;
-    private VehicleAssembler vehicleAssembler;
+    private final VehicleRepository vehicleRepository;
+    private final VehicleAssembler vehicleAssembler;
 
     public VehicleService(VehicleRepository vehicleRepository, VehicleAssembler vehicleAssembler) {
         this.vehicleRepository = vehicleRepository;

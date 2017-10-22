@@ -21,7 +21,7 @@ public class TransportRequestAssembler {
         transportRequestDto.setLatitude(transportRequest.getGeolocation().getLatitude());
         transportRequestDto.setLongitude(transportRequest.getGeolocation().getLongitude());
         transportRequestDto.setNote(transportRequest.getNote());
-        transportRequestDto.setVehicleType(transportRequest.getVehicleType());
+        transportRequestDto.setVehicleType(transportRequest.getVehicleType().name());
         return transportRequestDto;
     }
 }

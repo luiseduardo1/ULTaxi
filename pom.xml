@@ -12,6 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <jetty.version>9.2.3.v20140905</jetty.version>
         <jersey.version>2.7</jersey.version>
@@ -82,6 +83,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -175,8 +181,21 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <mainClass>ca.ulaval.glo4003.ULTaxiMain</mainClass>
+                    <cleanupDaemonThreads>true</cleanupDaemonThreads>
+                    <stopUnresponsiveDaemonThreads>true</stopUnresponsiveDaemonThreads>
+                    <arguments>
+                        <argument>--development</argument>
+                        <argument>--server-port=8080</argument>
+                    </arguments>
                 </configuration>
             </plugin>
             <plugin>
@@ -187,6 +206,8 @@
                     <includes>
                         <include>**/BaseIT.java</include>
                     </includes>
+                    <parallel>all</parallel>
+                    <useUnlimitedThreads>true</useUnlimitedThreads>
                 </configuration>
                 <executions>
                     <execution>

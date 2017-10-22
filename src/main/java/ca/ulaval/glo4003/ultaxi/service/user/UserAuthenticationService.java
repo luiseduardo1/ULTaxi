@@ -18,10 +18,10 @@ public class UserAuthenticationService {
             "Basic",
             "Digest"));
     private static long HOUR_IN_MILLISECONDS = 3600000;
-    private UserRepository userRepository;
-    private UserAssembler userAssembler;
-    private TokenManager tokenManager;
-    private TokenRepository tokenRepository;
+    private final TokenManager tokenManager;
+    private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
+    private final UserAssembler userAssembler;
 
     public UserAuthenticationService(UserRepository userRepository, UserAssembler userAssembler, TokenManager tokenManager, TokenRepository tokenRepository) {
         this.userRepository = userRepository;

@@ -12,7 +12,7 @@ public class MessageQueueConsumer {
             "\n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
 
-    private MessageQueue messageQueue;
+    private final MessageQueue messageQueue;
 
     public MessageQueueConsumer(MessageQueue messageQueue) {
         this.messageQueue = messageQueue;
@@ -24,10 +24,9 @@ public class MessageQueueConsumer {
 
     public Email convertToEmail(Message message) throws InvalidEmailTypeException {
         switch (message.getReason()) {
-            case "Registration":
-                Email email = new Email(message.getSentTo(), EMAIL_REGISTRATION_SUBJECT, EMAIL_REGISTRATION_CONTENT,
-                        EMAIL_SIGNATURE);
-                return email;
+           case Registration:
+                return new Email(message.getSentTo(), EMAIL_REGISTRATION_SUBJECT, EMAIL_REGISTRATION_CONTENT,
+                                 EMAIL_SIGNATURE);
             default:
                 throw new InvalidEmailTypeException("Invalid type");
         }

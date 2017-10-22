@@ -2,14 +2,14 @@ package ca.ulaval.glo4003.ultaxi.domain.vehicle;
 
 public class Car extends Vehicle {
 
-    private static final String VEHICLE_TYPE = "Car";
+    private static final VehicleType VEHICLE_TYPE = VehicleType.Car;
 
     public Car(String color, String model, String registrationNumber) {
         super(color, model, registrationNumber);
     }
 
     @Override
-    public String getType() {
+    public VehicleType getType() {
         return VEHICLE_TYPE;
     }
 }

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.api.middleware.authentication;
+package ca.ulaval.glo4003.ultaxi.http.authentication.filtering;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 

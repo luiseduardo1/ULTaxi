@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSinException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
 import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
@@ -12,13 +14,22 @@ import java.util.regex.Pattern;
 public class Driver extends User {
 
     private static final String PHONE_REGEX = "^\\(?([2-9][0-9]{2})\\)?[-. ]?([2-9](?!11)[0-9]{2})[-. ]?([0-9]{4})$";
-    private static final String SIN_REGEX = "^((\\d{3}[\\s-]?){2}\\d{3})|(\\d{9})$";
+    private static final String SOCIAL_INSURANCE_NUMBER_REGEX = "^((\\d{3}[\\s-]?){2}\\d{3})|(\\d{9})$";
 
     private String name;
     private String lastName;
     private String phoneNumber;
-    private String sin;
-    private String vehicleType;
+    private VehicleType vehicleType;
+    private String socialInsuranceNumber;
+
+    public Driver(){}
+
+    public Driver(String firstName, String lastName, String socialInsuranceNumber) {
+        this.setName(firstName);
+        this.setLastName(lastName);
+        this.setSocialInsuranceNumber(socialInsuranceNumber);
+        this.setRole(Role.Driver);
+    }
 
     public String getName() {
         return name;
@@ -48,23 +59,23 @@ public class Driver extends User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getSin() {
-        return sin;
+    public String getSocialInsuranceNumber() {
+        return socialInsuranceNumber;
     }
 
-    public void setSin(String sin) {
-        if (!isValidSin(sin)) {
-            throw new InvalidSinException("User has an invalid sin format.");
+    public void setSocialInsuranceNumber(String socialInsuranceNumber) {
+        if (!isValidSocialInsuranceNumber(socialInsuranceNumber)) {
+            throw new InvalidSocialInsuranceNumberException("User has an invalid socialInsuranceNumber format.");
         }
 
-        this.sin = sin;
+        this.socialInsuranceNumber = socialInsuranceNumber;
     }
 
-    public String getVehicleType() {
+    public VehicleType getVehicleType() {
         return vehicleType;
     }
 
-    public void setVehicleType(String vehicleType) {
+    public void setVehicleType(VehicleType vehicleType) {
         this.vehicleType = vehicleType;
     }
 
@@ -74,13 +85,13 @@ public class Driver extends User {
         return matcher.matches();
     }
 
-    private boolean isValidSin(String sin) {
-        Pattern pattern = Pattern.compile(SIN_REGEX);
-        Matcher matcher = pattern.matcher(sin);
+    private boolean isValidSocialInsuranceNumber(String socialInsuranceNumber) {
+        Pattern pattern = Pattern.compile(SOCIAL_INSURANCE_NUMBER_REGEX);
+        Matcher matcher = pattern.matcher(socialInsuranceNumber);
 
         if (matcher.matches()) {
-            String sinWithNonDigit = StringUtil.replaceNonDigitWithEmptySpace(sin);
-            int[] digits = StringUtil.stringToIntArr(sinWithNonDigit);
+            String socialInsuranceNumberWithNonDigit = StringUtil.replaceNonDigitWithEmptySpace(socialInsuranceNumber);
+            int[] digits = StringUtil.convertStringToIntegerArray(socialInsuranceNumberWithNonDigit);
             return LuhnAlgorithm.checkLuhnAlgorithm(digits);
         }
         return false;

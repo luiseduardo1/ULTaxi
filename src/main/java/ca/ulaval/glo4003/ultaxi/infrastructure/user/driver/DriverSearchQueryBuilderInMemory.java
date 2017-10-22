@@ -57,8 +57,9 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
     }
 
     @Override
-    public DriverSearchQueryBuilder withSin(String sin) {
-        return withNonNull(driver -> driver.getSin().equals(sin.trim()), sin);
+    public DriverSearchQueryBuilder withSocialInsuranceNumber(String socialInsuranceNumber) {
+        return withNonNull(driver -> driver.getSocialInsuranceNumber().equals(socialInsuranceNumber.trim()),
+                           socialInsuranceNumber);
     }
 
     private DriverSearchQueryBuilder withNonNull(Predicate<Driver> predicate, String value) {

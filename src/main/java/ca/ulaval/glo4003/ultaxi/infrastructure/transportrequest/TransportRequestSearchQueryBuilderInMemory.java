@@ -44,7 +44,7 @@ public class TransportRequestSearchQueryBuilderInMemory implements TransportRequ
 
     @Override
     public TransportRequestSearchQueryBuilder withVehicleType(String vehicleType) {
-        return withNonNull(transportRequest -> isSubsetOf(transportRequest.getVehicleType(), vehicleType), vehicleType);
+        return withNonNull(transportRequest -> isSubsetOf(transportRequest.getVehicleType().name(), vehicleType), vehicleType);
     }
 
     private TransportRequestSearchQueryBuilder withNonNull(Predicate<TransportRequest> predicate, String value) {

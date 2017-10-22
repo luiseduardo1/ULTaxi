@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.user.driver;
 
 import static org.junit.Assert.assertEquals;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
@@ -45,9 +44,9 @@ public class DriverSearchQueryBuilderInMemoryTest {
         List<Driver> foundDrivers = searchDriver.findAll();
         Driver foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = (Driver) createDriver("Ronald", "Macdonald", "972487086");
+        Driver expectedDriver = (Driver) aDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSin(), foundDriver.getSin());
+        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
@@ -59,43 +58,45 @@ public class DriverSearchQueryBuilderInMemoryTest {
         List<Driver> foundDrivers = searchDriver.findAll();
         Driver foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = (Driver) createDriver("Lord", "Gargamel", "215136193");
+        Driver expectedDriver = (Driver) aThirdDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSin(), foundDriver.getSin());
+        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
 
     @Test
-    public void givenSomeDriversAndASinFilter_whenFindingAll_thenReturnsTheRightDriver() {
-        DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withSin("348624487");
+    public void givenSomeDriversAndASocialInsuranceNumberFilter_whenFindingAll_thenReturnsTheRightDriver() {
+        DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withSocialInsuranceNumber("348624487");
 
         List<Driver> foundDrivers = searchDriver.findAll();
         Driver foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = (Driver) createDriver("Marcel", "Lepic", "348624487");
+        Driver expectedDriver = (Driver) anotherDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSin(), foundDriver.getSin());
+        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
 
     private Map<String, User> givenDrivers() {
         Map<String, User> drivers = new HashMap<>();
-        drivers.put("1", createDriver("Ronald", "Macdonald", "972487086"));
-        drivers.put("2", createDriver("Marcel", "Lepic", "348624487"));
-        drivers.put("3", createDriver("Lord", "Gargamel", "215136193"));
+        drivers.put("1", aDriver());
+        drivers.put("2", anotherDriver());
+        drivers.put("3", aThirdDriver());
 
         return drivers;
     }
 
-    private User createDriver(String firstName, String lastName, String sin) {
-        Driver driver = new Driver();
-        driver.setName(firstName);
-        driver.setLastName(lastName);
-        driver.setSin(sin);
-        driver.setRole(Role.Driver);
+    private User aDriver() {
+        return new Driver("Ronald", "Macdonald", "972487086");
+    }
 
-        return driver;
+    private User anotherDriver() {
+        return new Driver("Marcel", "Lepic", "348624487");
+    }
+
+    private User aThirdDriver() {
+        return new Driver("Lord", "Gargamel", "215136193");
     }
 }

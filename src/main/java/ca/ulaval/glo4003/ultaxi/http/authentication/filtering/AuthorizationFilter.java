@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.api.middleware.authentication;
+package ca.ulaval.glo4003.ultaxi.http.authentication.filtering;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
@@ -29,10 +29,10 @@ import java.util.List;
 public class AuthorizationFilter implements ContainerRequestFilter {
 
     private static final String AUTHENTICATION_SCHEME = "Bearer";
+    private final UserRepository userRepository;
+    private final TokenManager tokenManager;
     @Context
     private ResourceInfo resourceInfo;
-    private UserRepository userRepository;
-    private TokenManager tokenManager;
 
     public AuthorizationFilter(UserRepository userRepository, TokenManager tokenManager) {
         this.userRepository = userRepository;
@@ -44,7 +44,6 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
         String authorisationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authorisationHeader == null) {
-            // Necessary to short circuit the method if the authorization header was not given
             return;
         }
         String token = authorisationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();

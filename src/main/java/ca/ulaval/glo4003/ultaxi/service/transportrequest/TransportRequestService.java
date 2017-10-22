@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 public class TransportRequestService {
 
-    private TransportRequestRepository transportRequestRepository;
-    private TransportRequestAssembler transportRequestAssembler;
+    private final TransportRequestRepository transportRequestRepository;
+    private final TransportRequestAssembler transportRequestAssembler;
 
     public TransportRequestService(TransportRequestRepository transportRequestRepository, TransportRequestAssembler
             transportRequestAssembler) {

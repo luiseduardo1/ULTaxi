@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 
 public class MessagingService {
 
-    private Logger logger = Logger.getLogger(MessagingService.class.getName());
-    private MessageQueueConsumer messageQueueConsumer;
-    private EmailSender emailSender;
+    private final Logger logger = Logger.getLogger(MessagingService.class.getName());
+    private final MessageQueueConsumer messageQueueConsumer;
+    private final EmailSender emailSender;
 
     public MessagingService(MessageQueueConsumer messageQueueConsumer, EmailSender emailSender) {
         this.messageQueueConsumer = messageQueueConsumer;

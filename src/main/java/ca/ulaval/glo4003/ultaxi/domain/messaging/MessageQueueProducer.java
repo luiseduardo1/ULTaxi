@@ -4,8 +4,8 @@ import java.util.logging.Logger;
 
 public class MessageQueueProducer {
 
-    private MessageQueue messageQueue;
-    private Logger logger = Logger.getLogger(MessageQueueProducer.class.getName());
+    private final MessageQueue messageQueue;
+    private final Logger logger = Logger.getLogger(MessageQueueProducer.class.getName());
 
     public MessageQueueProducer(MessageQueue messageQueue) {
         this.messageQueue = messageQueue;

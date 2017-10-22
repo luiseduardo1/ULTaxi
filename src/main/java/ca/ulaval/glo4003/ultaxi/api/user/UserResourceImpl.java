@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 public class UserResourceImpl implements UserResource {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserResourceImpl(UserService userService) {
         this.userService = userService;
