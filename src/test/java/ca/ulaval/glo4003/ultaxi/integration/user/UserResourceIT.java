@@ -36,18 +36,26 @@ public class UserResourceIT extends IntegrationTest {
 
     @Test
     public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
-        String serializedUserWithInvalidName = createSerializedUserWithInvalidName();
+        String serializedUser = createSerializedUserWithInvalidName();
 
-        Response response = unauthenticatedPost(USERS_ROUTE, serializedUserWithInvalidName);
+        Response response = unauthenticatedPost(USERS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     private String createSerializedValidUser() {
-        return createSerializedUser(generateRandomWord(), A_VALID_PASSWORD, A_VALID_EMAIL);
+        return createSerializedUser(
+            generateRandomWord(),
+            A_VALID_PASSWORD,
+            A_VALID_EMAIL
+        );
     }
 
     private String createSerializedUserWithInvalidName() {
-        return createSerializedUser(AN_INVALID_NAME, A_VALID_PASSWORD, A_VALID_EMAIL);
+        return createSerializedUser(
+            AN_INVALID_NAME,
+            A_VALID_PASSWORD,
+            A_VALID_EMAIL
+        );
     }
 }

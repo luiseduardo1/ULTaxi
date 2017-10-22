@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.integration.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
-import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +11,8 @@ import javax.ws.rs.core.Response.Status;
 @RunWith(MockitoJUnitRunner.class)
 public class DriverResourceIT extends IntegrationTest {
 
-    private static final String DRIVERS_ROUTE = "/api/drivers";
-    private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "972487086";
     private static final String A_VALID_PASSWORD = "hunter2";
+    private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "972487086";
     private static final String A_VALID_PHONE_NUMBER = "2342355678";
     private static final String A_VALID_NAME = "Freddy";
     private static final String A_VALID_LAST_NAME = "Mercury";
@@ -22,7 +20,7 @@ public class DriverResourceIT extends IntegrationTest {
 
     @Test
     public void givenUnauthenticatedAdministrator_whenCreateADriver_thenReturnsUnauthorized() {
-        String serializedDriver = createSerializedDriver();
+        String serializedDriver = createSerializedValidDriver();
 
         Response response = unauthenticatedPost(DRIVERS_ROUTE, serializedDriver);
 
@@ -39,15 +37,14 @@ public class DriverResourceIT extends IntegrationTest {
         assertStatusCode(response, Status.UNAUTHORIZED);
     }
 
-    private String createSerializedDriver() {
-        DriverDto driverDto = new DriverDto();
-        driverDto.setUsername(generateRandomWord());
-        driverDto.setSocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
-        driverDto.setPhoneNumber(A_VALID_PHONE_NUMBER);
-        driverDto.setName(A_VALID_NAME);
-        driverDto.setLastName(A_VALID_LAST_NAME);
-        driverDto.setPassword(A_VALID_PASSWORD);
-
-        return serializeDto(driverDto);
+    private String createSerializedValidDriver() {
+        return createSerializedDriver(
+            generateRandomWord(),
+            A_VALID_PASSWORD,
+            A_VALID_SOCIAL_INSURANCE_NUMBER,
+            A_VALID_PHONE_NUMBER,
+            A_VALID_NAME,
+            A_VALID_LAST_NAME
+        );
     }
 }
