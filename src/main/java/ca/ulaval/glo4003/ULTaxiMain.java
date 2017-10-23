@@ -11,6 +11,7 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskReceiver;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
@@ -105,8 +106,8 @@ public final class ULTaxiMain {
         ServletHolder servletHolder = new ServletHolder(servletContainer);
         context.addServlet(servletHolder, "/*");
 
-        Thread messagingServer = new Thread(new MessagingServer(taskQueue));
-        messagingServer.start();
+        Thread messagingTaskReceiver = new Thread(new TaskReceiver(taskQueue));
+        messagingTaskReceiver.start();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[]{context});
