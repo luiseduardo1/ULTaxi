@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.domain.messaging.tasks;
+package ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
@@ -7,7 +7,7 @@ import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 import java.util.concurrent.TimeUnit;
 
-public class SendRegistrationEmailTask extends Task {
+public class SendRegistrationEmailTask extends MessagingTask {
 
     private static final String EMAIL_REGISTRATION_SUBJECT = "Welcome %s!";
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you %s for your request to " +

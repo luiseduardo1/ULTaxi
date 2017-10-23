@@ -14,26 +14,26 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TaskConsumerImplTest {
+public class MessagingTaskConsumerImplTest {
 
     @Mock
-    private TaskQueue taskQueue;
+    private MessagingTaskQueue messagingTaskQueue;
 
-    private TaskConsumerImpl taskConsumer;
+    private MessagingTaskConsumerImpl taskConsumer;
 
     @Before
     public void setUp() throws Exception {
-        taskConsumer = new TaskConsumerImpl(taskQueue);
+        taskConsumer = new MessagingTaskConsumerImpl(messagingTaskQueue);
     }
 
     @Test
     public void givenEmptyTaskQueue_whenTaskReceiverIsRunning_thenItShouldNotPeekTask() {
-        willReturn(true).given(taskQueue).isEmpty();
+        willReturn(true).given(messagingTaskQueue).isEmpty();
 
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(taskConsumer);
         service.shutdown();
 
-        verify(taskQueue, never()).peek();
+        verify(messagingTaskQueue, never()).peek();
     }
 }

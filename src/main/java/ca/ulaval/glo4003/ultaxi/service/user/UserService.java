@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.service.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskProducer;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.SendRegistrationEmailTask;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.SendRegistrationEmailTask;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
@@ -18,12 +18,12 @@ public class UserService {
 
     private UserRepository userRepository;
     private UserAssembler userAssembler;
-    private TaskProducer taskSender;
+    private MessagingTaskProducer taskSender;
     private EmailSender emailSender;
 
     public UserService(UserRepository userRepository,
                        UserAssembler userAssembler,
-                       TaskProducer taskSender,
+                       MessagingTaskProducer taskSender,
                        EmailSender emailSender) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
@@ -37,7 +37,7 @@ public class UserService {
         user.setRole(Role.Client);
         userRepository.save(user);
 
-        Task task = new SendRegistrationEmailTask(user.getEmailAddress(), user.getUsername(), emailSender);
-        taskSender.send(task);
+        MessagingTask messagingTask = new SendRegistrationEmailTask(user.getEmailAddress(), user.getUsername(), emailSender);
+        taskSender.send(messagingTask);
     }
 }

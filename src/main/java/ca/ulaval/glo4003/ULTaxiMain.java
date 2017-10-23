@@ -10,8 +10,8 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResource;
 import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
@@ -25,9 +25,9 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilte
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.TaskQueueInMemory;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskConsumerImpl;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskProducerImpl;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingTaskQueueInMemory;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskConsumerImpl;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducerImpl;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserDevDataFactory;
@@ -77,7 +77,7 @@ public final class ULTaxiMain {
     private static final UserRepository userRepository = new UserRepositoryInMemory();
     private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
     private static final String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
-    private static final TaskQueue taskQueue = new TaskQueueInMemory();
+    private static final MessagingTaskQueue MESSAGING_TASK_QUEUE = new MessagingTaskQueueInMemory();
     private static boolean isDevelopmentEnvironment;
     private static int serverPort;
 
@@ -107,7 +107,7 @@ public final class ULTaxiMain {
         ServletHolder servletHolder = new ServletHolder(servletContainer);
         context.addServlet(servletHolder, "/*");
 
-        Thread messagingTaskConsumer = new Thread(new TaskConsumerImpl(taskQueue));
+        Thread messagingTaskConsumer = new Thread(new MessagingTaskConsumerImpl(MESSAGING_TASK_QUEUE));
         messagingTaskConsumer.start();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -233,9 +233,9 @@ public final class ULTaxiMain {
     }
 
     private static UserService createUserService(EmailSender emailSender) {
-        TaskProducer taskProducer = new TaskProducerImpl(taskQueue);
+        MessagingTaskProducer messagingTaskProducer = new MessagingTaskProducerImpl(MESSAGING_TASK_QUEUE);
         UserService userService = new UserService(userRepository, createUserAssembler(),
-                taskProducer, emailSender);
+                messagingTaskProducer, emailSender);
         return userService;
     }
 
