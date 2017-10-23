@@ -132,7 +132,7 @@ public class TransportRequestResourceIT {
         transportRequestDto.setVehicleType(vehicleType);
         transportRequestDto.setNote(note);
         transportRequestDto.setStartingPositionLatitude(latitude);
-        transportRequestDto.setStartingPositionlongitude(longitude);
+        transportRequestDto.setStartingPositionLongitude(longitude);
         Gson gson = new Gson();
         return gson.toJson(transportRequestDto);
     }

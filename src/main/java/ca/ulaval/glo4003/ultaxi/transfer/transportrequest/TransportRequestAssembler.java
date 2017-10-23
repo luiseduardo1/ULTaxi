@@ -8,7 +8,7 @@ public class TransportRequestAssembler {
     public TransportRequest create(TransportRequestDto transportRequestDto) {
         Geolocation startingPosition = new Geolocation();
         startingPosition.setLatitude(transportRequestDto.getStartingPositionLatitude());
-        startingPosition.setLongitude(transportRequestDto.getStartingPositionlongitude());
+        startingPosition.setLongitude(transportRequestDto.getStartingPositionLongitude());
         TransportRequest transportRequest = new TransportRequest();
         transportRequest.setStartingPosition(startingPosition);
         transportRequest.setNote(transportRequestDto.getNote());
@@ -19,7 +19,7 @@ public class TransportRequestAssembler {
     public TransportRequestDto create(TransportRequest transportRequest) {
         TransportRequestDto transportRequestDto = new TransportRequestDto();
         transportRequestDto.setStartingPositionLatitude(transportRequest.getStartingPosition().getLatitude());
-        transportRequestDto.setStartingPositionlongitude(transportRequest.getStartingPosition().getLongitude());
+        transportRequestDto.setStartingPositionLongitude(transportRequest.getStartingPosition().getLongitude());
         transportRequestDto.setNote(transportRequest.getNote());
         transportRequestDto.setVehicleType(transportRequest.getVehicleType().name());
         return transportRequestDto;

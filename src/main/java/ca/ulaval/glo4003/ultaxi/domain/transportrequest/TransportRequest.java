@@ -13,6 +13,7 @@ public class TransportRequest {
     private Geolocation startingPosition;
     private String note;
     private VehicleType vehicleType;
+    private TransportRequestStatus transportRequestStatus = TransportRequestStatus.Pending;
 
     public Geolocation getStartingPosition() {
         return startingPosition;
@@ -36,6 +37,14 @@ public class TransportRequest {
         } catch (NullPointerException | IllegalArgumentException | IndexOutOfBoundsException exception) {
             throw new InvalidVehicleTypeException(String.format("%s is not a valid vehicle type.", vehicleType));
         }
+    }
+
+    public TransportRequestStatus getTransportRequestStatus() {
+        return this.transportRequestStatus;
+    }
+
+    public void setTransportRequestStatus(TransportRequestStatus transportRequestStatus) {
+        this.transportRequestStatus = transportRequestStatus;
     }
 
     public String getNote() {
