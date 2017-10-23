@@ -3,12 +3,12 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TransportRequestRepositoryInMemory implements TransportRequestRepository {
 
-    private final Map<String, TransportRequest> transportRequests = new HashMap<>();
+    private final Map<String, TransportRequest> transportRequests = new ConcurrentHashMap<>();
 
     @Override
     public TransportRequest findById(String id) {

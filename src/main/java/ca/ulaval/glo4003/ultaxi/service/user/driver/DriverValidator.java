@@ -23,12 +23,12 @@ public class DriverValidator {
                 .withSocialInsuranceNumber(driverDto.getSocialInsuranceNumber());
             List<Driver> drivers = driverSearchQueryBuilder.findAll();
             for (Driver driver : drivers) {
-                if (driver.getSocialInsuranceNumber() == driverDto.getSocialInsuranceNumber()) {
+                if (driver.getSocialInsuranceNumber().equals(driverDto.getSocialInsuranceNumber())) {
                     throw new SocialInsuranceNumberAlreadyExistException("Social insurance number already exist.");
                 }
             }
         } catch (EmptySearchResultsException exception) {
-            return;
+            // Nothing to do...
         }
     }
 }

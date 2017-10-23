@@ -6,12 +6,12 @@ import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class UserRepositoryInMemory implements UserRepository {
 
-    private final Map<String, User> users = new HashMap<>();
+    private final Map<String, User> users = new ConcurrentHashMap<>();
 
     @Override
     public User findByUsername(String username) {

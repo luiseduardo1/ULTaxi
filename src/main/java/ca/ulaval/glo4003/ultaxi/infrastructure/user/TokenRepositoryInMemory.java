@@ -4,10 +4,11 @@ import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TokenRepositoryInMemory implements TokenRepository {
 
-    private final Map<String, String> tokens = new HashMap<>();
+    private final Map<String, String> tokens = new ConcurrentHashMap<>();
 
     @Override
     public void save(String id, String token) {

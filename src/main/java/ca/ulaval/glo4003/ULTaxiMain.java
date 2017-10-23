@@ -29,8 +29,7 @@ public final class ULTaxiMain {
             .build()
             .parse(args);
         try {
-            Thread messagingThread = createMainSystems(options).orElseThrow(Exception::new);
-            messagingThread.start();
+            createMainSystems(options).ifPresent(Thread::start);
             server.start();
             server.join();
         } catch (Exception exception) {
@@ -42,8 +41,7 @@ public final class ULTaxiMain {
 
     public static void start() throws Exception {
         ULTaxiOptions options = new ULTaxiOptions();
-        Optional<Thread> messagingThread = createMainSystems(options);
-        messagingThread.ifPresent(Thread::start);
+        createMainSystems(options).ifPresent(Thread::start);
         server.start();
         server.join();
     }
