@@ -1,10 +1,12 @@
-package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
+package ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSender;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSenderConfigurationReader;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetup;

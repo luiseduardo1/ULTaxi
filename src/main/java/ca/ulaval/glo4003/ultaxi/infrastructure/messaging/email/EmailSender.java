@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
+package ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;

@@ -1,5 +1,7 @@
-package ca.ulaval.glo4003.ultaxi.domain.messaging;
+package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskConsumer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
 
 import java.util.concurrent.ExecutorService;
