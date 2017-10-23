@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSender;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 import java.util.concurrent.TimeUnit;
@@ -15,12 +15,12 @@ public class SendRegistrationEmailTask implements MessagingTask {
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
     private int DELAY_SECONDS_BETWEEN_RETRY_ATTEMPT = 10;
 
-    private EmailSender emailSender;
+    private JavaMailEmailSender emailSender;
     private String sendTo;
     private String recipientUsername;
     private RetryPolicy retryPolicy;
 
-    public SendRegistrationEmailTask(String sendTo, String recipientUsername, EmailSender emailSender) {
+    public SendRegistrationEmailTask(String sendTo, String recipientUsername, JavaMailEmailSender emailSender) {
         this.emailSender = emailSender;
         this.sendTo = sendTo;
         this.recipientUsername = recipientUsername;

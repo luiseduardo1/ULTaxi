@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.willReturn;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSender;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSenderConfigurationReader;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetup;
@@ -22,7 +20,7 @@ import javax.mail.MessagingException;
 import java.util.Properties;
 
 @RunWith(MockitoJUnitRunner.class)
-public class EmailSenderTest {
+public class JavaMailEmailSenderTest {
 
     private static final int SERVER_PORT = 3025;
     private static final String SERVER_HOST = "localhost";
@@ -36,7 +34,7 @@ public class EmailSenderTest {
 
     @Mock
     private EmailSenderConfigurationReader emailSenderConfigurationReader;
-    private EmailSender emailSender;
+    private JavaMailEmailSender javaMailEmailSender;
     private GreenMail greenMail;
 
     @Before
@@ -44,7 +42,7 @@ public class EmailSenderTest {
         greenMail = new GreenMail(new ServerSetup(SERVER_PORT, BIND_ADDRESS, PROTOCOL));
         greenMail.start();
         willReturn(someProperties()).given(emailSenderConfigurationReader).read();
-        emailSender = new EmailSender(emailSenderConfigurationReader);
+        javaMailEmailSender = new JavaMailEmailSender(emailSenderConfigurationReader);
     }
 
     @After
@@ -57,7 +55,7 @@ public class EmailSenderTest {
             MessagingException {
         Email email = new Email(TO_ADDRESS, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
 
-        emailSender.sendEmail(email);
+        javaMailEmailSender.sendEmail(email);
 
         assertTrue(greenMail.waitForIncomingEmail(5000, 1));
     }
@@ -68,8 +66,8 @@ public class EmailSenderTest {
         Email firstEmail = new Email(TO_ADDRESS, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
         Email secondEmail = new Email(TO_ANOTHER_ADDRESS, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
 
-        emailSender.sendEmail(firstEmail);
-        emailSender.sendEmail(secondEmail);
+        javaMailEmailSender.sendEmail(firstEmail);
+        javaMailEmailSender.sendEmail(secondEmail);
 
         assertTrue(greenMail.waitForIncomingEmail(5000, 2));
     }
@@ -79,7 +77,7 @@ public class EmailSenderTest {
             MessagingException {
         Email email = new Email(TO_ADDRESS, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
 
-        emailSender.sendEmail(email);
+        javaMailEmailSender.sendEmail(email);
 
         Message[] messages = greenMail.getReceivedMessages();
         String body = GreenMailUtil.getBody(messages[0]).replaceAll("=\r?\n", "");

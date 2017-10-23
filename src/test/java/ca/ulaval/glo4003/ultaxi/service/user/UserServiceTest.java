@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSender;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import org.junit.Before;
@@ -32,7 +32,7 @@ public class UserServiceTest {
     @Mock
     private MessagingTaskProducer taskQueueProducer;
     @Mock
-    private EmailSender emailSender;
+    private JavaMailEmailSender emailSender;
 
     private UserService userService;
 

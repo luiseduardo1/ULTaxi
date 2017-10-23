@@ -22,7 +22,7 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.http.CORSResponseFilter;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilter;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSender;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSenderConfigurationPropertyFileReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingTaskQueueInMemory;
@@ -205,7 +205,7 @@ public final class ULTaxiMain {
     }
 
     private static Set<Object> getContextResources() {
-        EmailSender emailSender = createEmailSender();
+        JavaMailEmailSender emailSender = createEmailSender();
         UserService userService = createUserService(emailSender);
         UserAuthenticationService userAuthenticationService = createUserAuthenticationService();
         VehicleService vehicleService = createVehicleService();
@@ -225,14 +225,14 @@ public final class ULTaxiMain {
                                                            transportRequestResource));
     }
 
-    private static EmailSender createEmailSender() {
+    private static JavaMailEmailSender createEmailSender() {
         EmailSenderConfigurationReader emailSenderConfigurationReader =
                 new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
-        EmailSender emailSender = new EmailSender(emailSenderConfigurationReader);
+        JavaMailEmailSender emailSender = new JavaMailEmailSender(emailSenderConfigurationReader);
         return emailSender;
     }
 
-    private static UserService createUserService(EmailSender emailSender) {
+    private static UserService createUserService(JavaMailEmailSender emailSender) {
         MessagingTaskProducer messagingTaskProducer = new MessagingTaskProducerImpl(MESSAGING_TASK_QUEUE);
         UserService userService = new UserService(userRepository, createUserAssembler(),
                 messagingTaskProducer, emailSender);
