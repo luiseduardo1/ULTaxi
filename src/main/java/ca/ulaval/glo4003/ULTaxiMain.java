@@ -11,7 +11,6 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskReceiver;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
@@ -27,6 +26,8 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.TaskQueueInMemory;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskReceiverImpl;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskSenderImpl;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserDevDataFactory;
@@ -106,7 +107,7 @@ public final class ULTaxiMain {
         ServletHolder servletHolder = new ServletHolder(servletContainer);
         context.addServlet(servletHolder, "/*");
 
-        Thread messagingTaskReceiver = new Thread(new TaskReceiver(taskQueue));
+        Thread messagingTaskReceiver = new Thread(new TaskReceiverImpl(taskQueue));
         messagingTaskReceiver.start();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -232,9 +233,9 @@ public final class ULTaxiMain {
     }
 
     private static UserService createUserService(EmailSender emailSender) {
-        TaskSender taskQueueProducer = new TaskSender(taskQueue);
+        TaskSender taskSender = new TaskSenderImpl(taskQueue);
         UserService userService = new UserService(userRepository, createUserAssembler(),
-                taskQueueProducer, emailSender);
+                taskSender, emailSender);
         return userService;
     }
 

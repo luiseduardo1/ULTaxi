@@ -10,24 +10,24 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TaskSenderTest {
+public class TaskSenderImplTest {
 
     @Mock
     private TaskQueue taskQueue;
     @Mock
     private Task task;
 
-    private TaskSender taskQueueProducer;
+    private TaskSenderImpl taskSender;
 
     @Before
     public void setUp() throws Exception {
-        taskQueueProducer = new TaskSender(taskQueue);
+        taskSender = new TaskSenderImpl(taskQueue);
     }
 
     @Test
     public void givenANewMessageToSend_whenEnqueueMessage_thenMessageIsPersisted()
             throws InterruptedException {
-        taskQueueProducer.send(task);
+        taskSender.send(task);
 
         verify(taskQueue).enqueue(task);
     }
