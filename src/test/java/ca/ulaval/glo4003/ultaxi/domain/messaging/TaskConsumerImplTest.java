@@ -14,16 +14,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TaskReceiverImplTest {
+public class TaskConsumerImplTest {
 
     @Mock
     private TaskQueue taskQueue;
 
-    private TaskReceiverImpl taskReceiver;
+    private TaskConsumerImpl taskConsumer;
 
     @Before
     public void setUp() throws Exception {
-        taskReceiver = new TaskReceiverImpl(taskQueue);
+        taskConsumer = new TaskConsumerImpl(taskQueue);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class TaskReceiverImplTest {
         willReturn(true).given(taskQueue).isEmpty();
 
         ExecutorService service = Executors.newSingleThreadExecutor();
-        service.execute(taskReceiver);
+        service.execute(taskConsumer);
         service.shutdown();
 
         verify(taskQueue, never()).peek();

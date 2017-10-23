@@ -11,7 +11,7 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskQueue;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskSender;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
@@ -26,8 +26,8 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.TaskQueueInMemory;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskReceiverImpl;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskSenderImpl;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskConsumerImpl;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskProducerImpl;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserDevDataFactory;
@@ -107,8 +107,8 @@ public final class ULTaxiMain {
         ServletHolder servletHolder = new ServletHolder(servletContainer);
         context.addServlet(servletHolder, "/*");
 
-        Thread messagingTaskReceiver = new Thread(new TaskReceiverImpl(taskQueue));
-        messagingTaskReceiver.start();
+        Thread messagingTaskConsumer = new Thread(new TaskConsumerImpl(taskQueue));
+        messagingTaskConsumer.start();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[]{context});
@@ -233,9 +233,9 @@ public final class ULTaxiMain {
     }
 
     private static UserService createUserService(EmailSender emailSender) {
-        TaskSender taskSender = new TaskSenderImpl(taskQueue);
+        TaskProducer taskProducer = new TaskProducerImpl(taskQueue);
         UserService userService = new UserService(userRepository, createUserAssembler(),
-                taskSender, emailSender);
+                taskProducer, emailSender);
         return userService;
     }
 

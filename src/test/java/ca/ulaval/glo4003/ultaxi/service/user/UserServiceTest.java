@@ -4,7 +4,7 @@ import static org.mockito.BDDMockito.verify;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 
-import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskSender;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.TaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
@@ -30,7 +30,7 @@ public class UserServiceTest {
     @Mock
     private UserAssembler userAssembler;
     @Mock
-    private TaskSender taskQueueProducer;
+    private TaskProducer taskQueueProducer;
     @Mock
     private EmailSender emailSender;
 

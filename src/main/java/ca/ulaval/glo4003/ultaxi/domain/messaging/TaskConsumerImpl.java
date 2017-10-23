@@ -5,13 +5,13 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TaskReceiverImpl implements TaskReceiver{
+public class TaskConsumerImpl implements TaskConsumer {
 
     private static int threadsNumber = 10;
     private final TaskQueue taskQueue;
     private final ExecutorService threadPool;
 
-    public TaskReceiverImpl(TaskQueue taskQueue) {
+    public TaskConsumerImpl(TaskQueue taskQueue) {
         this.taskQueue = taskQueue;
         this.threadPool = Executors.newFixedThreadPool(threadsNumber);
     }

@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.tasks.Task;
 
 import java.util.logging.Logger;
 
-public interface TaskSender {
+public interface TaskProducer {
 
     void send(Task task);
 }
