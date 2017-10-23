@@ -12,6 +12,7 @@ import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
@@ -205,7 +206,7 @@ public final class ULTaxiMain {
     }
 
     private static Set<Object> getContextResources() {
-        JavaMailEmailSender emailSender = createEmailSender();
+        EmailSender emailSender = createEmailSender();
         UserService userService = createUserService(emailSender);
         UserAuthenticationService userAuthenticationService = createUserAuthenticationService();
         VehicleService vehicleService = createVehicleService();
@@ -225,14 +226,14 @@ public final class ULTaxiMain {
                                                            transportRequestResource));
     }
 
-    private static JavaMailEmailSender createEmailSender() {
+    private static EmailSender createEmailSender() {
         EmailSenderConfigurationReader emailSenderConfigurationReader =
                 new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
-        JavaMailEmailSender emailSender = new JavaMailEmailSender(emailSenderConfigurationReader);
+        EmailSender emailSender = new JavaMailEmailSender(emailSenderConfigurationReader);
         return emailSender;
     }
 
-    private static UserService createUserService(JavaMailEmailSender emailSender) {
+    private static UserService createUserService(EmailSender emailSender) {
         MessagingTaskProducer messagingTaskProducer = new MessagingTaskProducerImpl(MESSAGING_TASK_QUEUE);
         UserService userService = new UserService(userRepository, createUserAssembler(),
                 messagingTaskProducer, emailSender);
