@@ -10,16 +10,16 @@ import java.util.UUID;
 public class TransportRequest {
 
     private final String id = UUID.randomUUID().toString();
-    private Geolocation geolocation;
+    private Geolocation startingPosition;
     private String note;
     private VehicleType vehicleType;
 
-    public Geolocation getGeolocation() {
-        return geolocation;
+    public Geolocation getStartingPosition() {
+        return startingPosition;
     }
 
-    public void setGeolocation(Geolocation geolocation) {
-        this.geolocation = geolocation;
+    public void setStartingPosition(Geolocation startingPosition) {
+        this.startingPosition = startingPosition;
     }
 
     public String getId() {

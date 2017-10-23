@@ -4,8 +4,8 @@ public class TransportRequestDto {
 
     private String vehicleType;
     private String note;
-    private double latitude;
-    private double longitude;
+    private double startingPositionLatitude;
+    private double startingPositionlongitude;
 
     public String getNote() {
         return note;
@@ -23,19 +23,19 @@ public class TransportRequestDto {
         this.vehicleType = vehicleType;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public double getStartingPositionLatitude() {
+        return startingPositionLatitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setStartingPositionLatitude(double startingPositionLatitude) {
+        this.startingPositionLatitude = startingPositionLatitude;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public double getStartingPositionlongitude() {
+        return startingPositionlongitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setStartingPositionlongitude(double startingPositionlongitude) {
+        this.startingPositionlongitude = startingPositionlongitude;
     }
 }

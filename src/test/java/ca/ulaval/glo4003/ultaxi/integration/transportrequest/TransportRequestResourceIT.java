@@ -131,8 +131,8 @@ public class TransportRequestResourceIT {
         TransportRequestDto transportRequestDto = new TransportRequestDto();
         transportRequestDto.setVehicleType(vehicleType);
         transportRequestDto.setNote(note);
-        transportRequestDto.setLatitude(latitude);
-        transportRequestDto.setLongitude(longitude);
+        transportRequestDto.setStartingPositionLatitude(latitude);
+        transportRequestDto.setStartingPositionlongitude(longitude);
         Gson gson = new Gson();
         return gson.toJson(transportRequestDto);
     }
