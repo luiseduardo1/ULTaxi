@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response.Status;
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleResourceIT extends IntegrationTest {
 
-    private static final String A_VALID_TYPE = VehicleType.Car.name();
+    private static final String A_VALID_TYPE = VehicleType.CAR.name();
     private static final String A_VALID_COLOR = "Dark Red";
     private static final String A_VALID_MODEL = "Nissan Sentra";
     private static final String AN_INVALID_TYPE = null;

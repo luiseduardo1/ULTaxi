@@ -14,8 +14,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class MessageQueueConsumerTest {
 
     private static final String SEND_TO = "test@example.com";
-    private static final Reason REASON = Reason.Registration;
-    private static final Reason INVALID_REASON = Reason.Other;
+    private static final Reason REASON = Reason.REGISTRATION;
+    private static final Reason INVALID_REASON = Reason.OTHER;
     MessageQueueConsumer messageQueueConsumer;
 
     @Mock

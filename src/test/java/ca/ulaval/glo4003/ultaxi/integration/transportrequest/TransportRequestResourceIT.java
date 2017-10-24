@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response.Status;
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestResourceIT extends IntegrationTest {
 
-    private static final String A_VALID_VEHICLE_TYPE = "Car";
+    private static final String A_VALID_VEHICLE_TYPE = "CAR";
     private static final String A_VALID_NOTE = "Note";
     private static final double A_VALID_LATITUDE = 45.12321;
     private static final double A_VALID_LONGITUDE = 15.34344;
