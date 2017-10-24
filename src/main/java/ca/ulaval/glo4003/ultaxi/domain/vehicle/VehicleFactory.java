@@ -12,17 +12,17 @@ public final class VehicleFactory {
     public static Vehicle getVehicle(String type, String color, String model, String registrationNumber) {
         VehicleType formattedType;
         try {
-            formattedType = VehicleType.valueOf(StringUtil.capitalize(type).trim());
+            formattedType = VehicleType.valueOf(type.toUpperCase().trim());
         } catch (NullPointerException | IndexOutOfBoundsException | IllegalArgumentException exception) {
             throw new InvalidVehicleTypeException(String.format("%s is not a valid vehicle type.", type));
         }
 
         switch (formattedType) {
-            case Car:
+            case CAR:
                 return new Car(color, model, registrationNumber);
-            case Van:
+            case VAN:
                 return new Van(color, model, registrationNumber);
-            case Limousine:
+            case LIMOUSINE:
                 return new Limousine(color, model, registrationNumber);
             default:
                 throw new InvalidVehicleTypeException(

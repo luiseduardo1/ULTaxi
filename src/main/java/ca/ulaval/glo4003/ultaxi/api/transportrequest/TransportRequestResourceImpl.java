@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 
 import javax.ws.rs.core.Response;
 
-@Secured({Role.Client})
+@Secured({Role.CLIENT})
 public class TransportRequestResourceImpl implements TransportRequestResource {
 
     private final TransportRequestService transportRequestService;

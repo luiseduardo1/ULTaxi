@@ -17,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class MessagingServiceTest {
 
-    private static final String REASON = "Registration";
+    private static final String REASON = "REGISTRATION";
     MessagingService messagingService;
 
     @Mock

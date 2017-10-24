@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/transportRequest")
-@Secured({Role.Client})
+@Secured({Role.CLIENT})
 public interface TransportRequestResource {
 
     @POST

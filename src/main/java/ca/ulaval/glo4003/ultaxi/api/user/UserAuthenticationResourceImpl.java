@@ -14,9 +14,9 @@ import java.util.List;
 
 public class UserAuthenticationResourceImpl implements UserAuthenticationResource {
 
-    private static final List<String> AUTHENTICATION_SCHEMES = Collections.unmodifiableList(Arrays.asList("Bearer",
-                                                                                                          "Basic",
-                                                                                                          "Digest"));
+    private static final List<String> AUTHENTICATION_SCHEMES = Collections.unmodifiableList(
+        Arrays.asList("Bearer", "Basic", "Digest")
+    );
     private static final long HOUR_IN_MILLISECONDS = 3600000;
     private final UserAuthenticationService userAuthenticationService;
     private final TokenManager tokenManager;

@@ -32,7 +32,7 @@ public class TransportRequest {
 
     public void setVehicleType(String vehicleType) {
         try {
-            this.vehicleType = VehicleType.valueOf(StringUtil.capitalize(vehicleType).trim());
+            this.vehicleType = VehicleType.valueOf(vehicleType.toUpperCase().trim());
         } catch (NullPointerException | IllegalArgumentException | IndexOutOfBoundsException exception) {
             throw new InvalidVehicleTypeException(String.format("%s is not a valid vehicle type.", vehicleType));
         }
