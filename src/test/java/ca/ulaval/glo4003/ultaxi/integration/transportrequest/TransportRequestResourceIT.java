@@ -24,7 +24,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Before
     public void setUp() {
-        authenticateAs(Role.Client);
+        authenticateAs(Role.CLIENT);
     }
 
     @Test

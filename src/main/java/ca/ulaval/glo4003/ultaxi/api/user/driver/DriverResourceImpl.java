@@ -24,7 +24,7 @@ public class DriverResourceImpl implements DriverResource {
     }
 
     @Override
-    @Secured(Role.Administrator)
+    @Secured(Role.ADMINISTRATOR)
     public Response createDriver(DriverDto driverDto) {
         try {
             driverService.addDriver(driverDto);
@@ -37,7 +37,7 @@ public class DriverResourceImpl implements DriverResource {
     }
 
     @Override
-    @Secured({Role.Administrator})
+    @Secured(Role.ADMINISTRATOR)
     public Response searchBy(String socialInsuranceNumber, String firstName, String lastName) {
         DriverSearchParameters searchParameters = new DriverSearchParameters(socialInsuranceNumber, firstName,
                                                                              lastName);
