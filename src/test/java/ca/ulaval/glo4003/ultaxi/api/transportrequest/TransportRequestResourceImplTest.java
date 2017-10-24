@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
@@ -90,5 +92,27 @@ public class TransportRequestResourceImplTest {
         transportRequestResource.searchAvailableTransportRequest(A_VALID_TOKEN);
 
         verify(transportRequestService).searchBy(any(TransportRequestSearchParameters.class));
+    }
+
+    @Test
+    public void givenNoAvailableTransportRequest_whenSearchAvailableTransportRequest_thenReturnsNotFound() {
+        willThrow(new EmptySearchResultsException("No results found."))
+            .given(transportRequestService)
+            .searchBy(any(TransportRequestSearchParameters.class));
+
+        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_TOKEN);
+
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenValidSearchQuery_whenSearchAvailableTransportRequest_thenReturnsOk() {
+            willReturn(transportRequestDtos)
+            .given(transportRequestService)
+            .searchBy(any(TransportRequestSearchParameters.class));
+
+        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_TOKEN);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 }
