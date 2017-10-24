@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
@@ -32,8 +32,6 @@ public class TransportRequestResourceImplTest {
     private TransportRequestService transportRequestService;
     @Mock
     private TransportRequestDto transportRequestDto;
-    @Mock
-    private TransportRequestSearchParameters searchParameters;
     @Mock
     private List<TransportRequestDto> transportRequestDtos;
     @Mock
@@ -63,6 +61,17 @@ public class TransportRequestResourceImplTest {
         willThrow(new InvalidVehicleTypeException("TransportRequest has an invalid vehicle type."))
                 .given(transportRequestService)
                 .sendRequest(transportRequestDto);
+
+        Response response = transportRequestResource.sendTransportRequest(transportRequestDto);
+
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenATransportRequestWithAnInvalidGeolocation_whenSendRequest_thenReturnsBadRequest() {
+        willThrow(new InvalidGeolocationException("TransportRequest has an invalid starting position geolocation."))
+            .given(transportRequestService)
+            .sendRequest(transportRequestDto);
 
         Response response = transportRequestResource.sendTransportRequest(transportRequestDto);
 

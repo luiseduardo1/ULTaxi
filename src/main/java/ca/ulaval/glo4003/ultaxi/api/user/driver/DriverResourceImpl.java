@@ -30,9 +30,8 @@ public class DriverResourceImpl implements DriverResource {
         try {
             driverService.addDriver(driverDto);
             return Response.ok().build();
-        } catch (UserAlreadyExistsException | InvalidUserNameException |
-            InvalidPhoneNumberException | InvalidSocialInsuranceNumberException |
-            SocialInsuranceNumberAlreadyExistException exception) {
+        } catch (UserAlreadyExistsException | InvalidUserNameException | InvalidPhoneNumberException |
+            InvalidSocialInsuranceNumberException | SocialInsuranceNumberAlreadyExistException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
@@ -40,10 +39,12 @@ public class DriverResourceImpl implements DriverResource {
     @Override
     @Secured({Role.Administrator})
     public Response searchBy(String socialInsuranceNumber, String firstName, String lastName) {
-        DriverSearchParameters searchParameters = new DriverSearchParameters(socialInsuranceNumber, firstName,
-                                                                             lastName);
+        DriverSearchParameters searchParameters =
+            new DriverSearchParameters(socialInsuranceNumber, firstName, lastName);
+
         try {
-            GenericEntity<List<DriverDto>> drivers = new GenericEntity<List<DriverDto>>(driverService.searchBy(searchParameters)) {};
+            GenericEntity<List<DriverDto>> drivers =
+                new GenericEntity<List<DriverDto>>(driverService.searchBy(searchParameters)) {};
             return Response.ok(drivers).build();
         } catch (EmptySearchResultsException exception) {
             return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();

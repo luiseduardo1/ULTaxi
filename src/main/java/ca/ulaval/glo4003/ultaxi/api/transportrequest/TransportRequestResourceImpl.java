@@ -33,7 +33,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
         try {
             String transportRequestId = transportRequestService.sendRequest(transportRequestDto);
             return Response.status(Response.Status.CREATED).entity(transportRequestId).build();
-        } catch (InvalidVehicleTypeException | InvalidGeolocationException | InvalidUserRoleException exception) {
+        } catch (InvalidVehicleTypeException | InvalidGeolocationException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
