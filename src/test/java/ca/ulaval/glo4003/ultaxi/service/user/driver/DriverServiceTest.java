@@ -77,8 +77,7 @@ public class DriverServiceTest {
     }
 
     @Test
-    public void
-    givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
+    public void givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
         willReturn("arg").given(driverSearchParameters).getLastName();
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository)
             .searchDrivers();
@@ -87,7 +86,6 @@ public class DriverServiceTest {
 
         assertEquals(1, driverDtos.size());
     }
-
 
     public Map<String, User> givenDrivers() {
         Map<String, User> drivers = new HashMap<>();

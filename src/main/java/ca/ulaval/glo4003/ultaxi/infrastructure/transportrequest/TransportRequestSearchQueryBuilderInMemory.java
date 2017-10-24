@@ -27,11 +27,10 @@ public class TransportRequestSearchQueryBuilderInMemory implements TransportRequ
                 .values()
                 .stream();
 
-        return throwIfEmptySearchResults(
-                predicates
-                        .stream()
-                        .reduce(transportRequests, Stream::filter, (x, y) -> y)
-                        .collect(Collectors.toList())
+        return throwIfEmptySearchResults(predicates
+                                        .stream()
+                                        .reduce(transportRequests, Stream::filter, (x, y) -> y)
+                                        .collect(Collectors.toList())
         );
     }
 

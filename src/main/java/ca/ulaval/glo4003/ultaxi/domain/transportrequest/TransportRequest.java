@@ -15,6 +15,16 @@ public class TransportRequest {
     private VehicleType vehicleType;
     private TransportRequestStatus transportRequestStatus = TransportRequestStatus.Pending;
 
+    public TransportRequest() {
+    }
+
+    public TransportRequest(Geolocation startingPosition, String note, VehicleType vehicleType) {
+        this.startingPosition = startingPosition;
+        this.note = note;
+        this.vehicleType = vehicleType;
+        this.transportRequestStatus = TransportRequestStatus.Pending;
+    }
+
     public Geolocation getStartingPosition() {
         return startingPosition;
     }
