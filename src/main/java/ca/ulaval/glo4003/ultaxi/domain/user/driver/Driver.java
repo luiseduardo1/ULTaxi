@@ -20,7 +20,8 @@ public class Driver extends User {
     private String phoneNumber;
     private String socialInsuranceNumber;
 
-    public Driver(){}
+    public Driver() {
+    }
 
     public Driver(String firstName, String lastName, String socialInsuranceNumber) {
         this.setName(firstName);
