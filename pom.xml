@@ -112,7 +112,7 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -204,7 +204,7 @@
                 <version>2.18</version>
                 <configuration>
                     <includes>
-                        <include>**/BaseIT.java</include>
+                        <include>**/ITSuite.java</include>
                     </includes>
                     <parallel>all</parallel>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
