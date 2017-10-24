@@ -1,5 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyString;
+
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
@@ -13,9 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.anyString;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverValidatorTest {
@@ -38,7 +38,8 @@ public class DriverValidatorTest {
     }
 
     @Test
-    public void givenADriverWithAValidNonExistentSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenContinue() {
+    public void
+    givenADriverWithAValidNonExistentSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenContinue() {
         String aValidSocialInsuranceNumber = "352342356";
         driverDto.setSocialInsuranceNumber(aValidSocialInsuranceNumber);
         willReturn(driverSearchQueryBuilder).given(userRepository).searchDrivers();

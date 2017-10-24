@@ -67,6 +67,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Application;
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -77,66 +78,104 @@ public final class ULTaxiMain {
     private static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private static final UserRepository userRepository = new UserRepositoryInMemory();
     private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
-    private static final String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
     private static final MessagingTaskQueue MESSAGING_TASK_QUEUE = new MessagingTaskQueueInMemory();
-    private static boolean isDevelopmentEnvironment;
-    private static int serverPort;
+    private static final String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
+    private static final int DEFAULT_PORT = 0;
+    private static final String DEFAULT_URI = "http://localhost";
+
+    private static boolean isDevelopmentEnvironment = true;
+    private static int serverPort = 0;
+    private static Server server;
+    private static Set<Object> contextResources;
 
     private ULTaxiMain() {
         throw new AssertionError("Instantiating main class...");
     }
 
-    public static void main(String[] args) throws Exception {
-
-        parseCommandLineOptions(args);
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/api/");
-        ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
-            @Override
-            public Set<Object> getSingletons() {
-                return getContextResources();
-            }
-        });
-
-        ContainerRequestFilter authenticationFilter = new AuthenticationFilter(tokenManager);
-        ContainerRequestFilter authorizationFilter = new AuthorizationFilter(userRepository, tokenManager);
-        resourceConfig.register(CORSResponseFilter.class);
-        resourceConfig.register(authenticationFilter);
-        resourceConfig.register(authorizationFilter);
-
-        ServletContainer servletContainer = new ServletContainer(resourceConfig);
-        ServletHolder servletHolder = new ServletHolder(servletContainer);
-        context.addServlet(servletHolder, "/*");
-
-        Thread messagingTaskConsumer = new Thread(new MessagingTaskConsumerImpl(MESSAGING_TASK_QUEUE));
-        messagingTaskConsumer.start();
-
-        ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[]{context});
-        Server server = new Server(serverPort);
-        server.setHandler(contexts);
-
-        setDevelopmentEnvironmentMockData();
-
+    public static void main(String[] args) {
         try {
-            server.start();
+            parseCommandLineOptions(args);
+            start();
             server.join();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         } finally {
             server.destroy();
+        }
+    }
+
+    public static void start() throws Exception {
+        if (server == null) {
+            ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            context.setContextPath("/api/");
+            ResourceConfig resourceConfig = ResourceConfig.forApplication(new Application() {
+                @Override
+                public Set<Object> getSingletons() {
+                    return getContextResources();
+                }
+            });
+
+            ContainerRequestFilter authenticationFilter = new AuthenticationFilter(tokenManager);
+            ContainerRequestFilter authorizationFilter = new AuthorizationFilter(userRepository, tokenManager);
+            resourceConfig.register(CORSResponseFilter.class);
+            resourceConfig.register(authenticationFilter);
+            resourceConfig.register(authorizationFilter);
+
+            ServletContainer servletContainer = new ServletContainer(resourceConfig);
+            ServletHolder servletHolder = new ServletHolder(servletContainer);
+            context.addServlet(servletHolder, "/*");
+
+            Thread messagingTaskConsumer = new Thread(new MessagingTaskConsumerImpl(MESSAGING_TASK_QUEUE));
+            messagingTaskConsumer.start();
+
+
+            ContextHandlerCollection contexts = new ContextHandlerCollection();
+            contexts.setHandlers(new Handler[]{context});
+            server = new Server(serverPort);
+            server.setHandler(contexts);
+            setDevelopmentEnvironmentMockData();
+
+            server.start();
+        }
+    }
+
+    public static void stop() throws Exception {
+        if (server != null) {
+            server.stop();
+            server.join();
+            server.destroy();
+            server = null;
+            contextResources = null;
+        }
+    }
+
+    public static String getBaseURI() {
+        if (server != null) {
+            URI uri = server.getURI();
+            return uri.getScheme() + "://" + uri.getHost();
+        } else {
+            return DEFAULT_URI;
+        }
+    }
+
+    public static int getPort() {
+        if (server != null) {
+            return server.getURI().getPort();
+        } else {
+            return DEFAULT_PORT;
         }
     }
 
     private static void setDevelopmentEnvironmentMockData() {
         if (isDevelopmentEnvironment) {
             UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
-            List<User> users = userDevDataFactory.createMockData();
+            List<User> users = userDevDataFactory.createMockData(new BcryptHashing());
             users.forEach(userRepository::save);
 
             VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
             List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
             vehicles.forEach(vehicleRepository::save);
         }
-
     }
 
     private static void parseCommandLineOptions(String[] arguments) {
@@ -164,7 +203,8 @@ public final class ULTaxiMain {
 
     private static void assignCommandLineOptions(CommandLine commandLine) {
         isDevelopmentEnvironment = commandLine.hasOption("development");
-        serverPort = Integer.parseUnsignedInt(commandLine.getOptionValue("server-port", "8080"));
+        serverPort = Integer.parseUnsignedInt(commandLine.getOptionValue("server-port",
+                                                                         Integer.toString(DEFAULT_PORT)));
     }
 
     private static Options createCommandLineOptions() {
@@ -206,24 +246,27 @@ public final class ULTaxiMain {
     }
 
     private static Set<Object> getContextResources() {
-        EmailSender emailSender = createEmailSender();
-        UserService userService = createUserService(emailSender);
-        UserAuthenticationService userAuthenticationService = createUserAuthenticationService();
-        VehicleService vehicleService = createVehicleService();
-        DriverService driverService = createDriverService();
+        if (contextResources == null) {
+            EmailSender emailSender = createEmailSender();
+            UserService userService = createUserService(emailSender);
+            UserAuthenticationService userAuthenticationService = createUserAuthenticationService();
+            VehicleService vehicleService = createVehicleService();
+            DriverService driverService = createDriverService();
 
-        UserResource userResource = createUserResource(userService);
-        DriverResource driverResource = createDriverResource(driverService);
-        VehicleResource vehicleResource = createVehicleResource(vehicleService);
-        UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
-            userAuthenticationService);
-        TransportRequestResource transportRequestResource = createTransportRequestResource();
+            UserResource userResource = createUserResource(userService);
+            DriverResource driverResource = createDriverResource(driverService);
+            VehicleResource vehicleResource = createVehicleResource(vehicleService);
+            UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
+                userAuthenticationService);
+            TransportRequestResource transportRequestResource = createTransportRequestResource();
 
-        return Collections.unmodifiableSet(Sets.newHashSet(driverResource,
-                                                           userResource,
-                                                           vehicleResource,
-                                                           userAuthenticationResource,
-                                                           transportRequestResource));
+            contextResources = Collections.unmodifiableSet(Sets.newHashSet(driverResource,
+                                                                           userResource,
+                                                                           vehicleResource,
+                                                                           userAuthenticationResource,
+                                                                           transportRequestResource));
+        }
+        return contextResources;
     }
 
     private static EmailSender createEmailSender() {

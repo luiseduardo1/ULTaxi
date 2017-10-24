@@ -20,7 +20,7 @@ public class DriverValidator {
     public void checkSocialInsuranceNumberExistence(DriverDto driverDto) {
         try {
             DriverSearchQueryBuilder driverSearchQueryBuilder = userRepository.searchDrivers()
-                    .withSocialInsuranceNumber(driverDto.getSocialInsuranceNumber());
+                .withSocialInsuranceNumber(driverDto.getSocialInsuranceNumber());
             List<Driver> drivers = driverSearchQueryBuilder.findAll();
             for (Driver driver : drivers) {
                 if (driver.getSocialInsuranceNumber() == driverDto.getSocialInsuranceNumber()) {

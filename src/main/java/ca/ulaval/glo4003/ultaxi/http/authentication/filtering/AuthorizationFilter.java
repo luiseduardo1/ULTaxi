@@ -60,7 +60,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
             } else {
                 checkPermissions(methodRoles, token);
             }
-        } catch (InvalidUserNameException e) {
+        } catch (InvalidUserNameException | InvalidUserRoleException e) {
             requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
         }
 
