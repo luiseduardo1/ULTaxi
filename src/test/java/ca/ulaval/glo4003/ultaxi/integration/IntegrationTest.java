@@ -56,8 +56,7 @@ public abstract class IntegrationTest {
 
     protected Response authenticatedPost(String path, String body) {
         return executePostRequest(
-            createAuthenticatedRequestSpecification(path, authenticationToken),
-            body
+            createAuthenticatedRequestSpecification(path, authenticationToken), body
         );
     }
 
@@ -67,8 +66,7 @@ public abstract class IntegrationTest {
 
     protected Response authenticatedGet(String path, Map<String, ?> queryParameters) {
         return executeGetRequest(
-            createAuthenticatedRequestSpecification(path, authenticationToken),
-            queryParameters
+            createAuthenticatedRequestSpecification(path, authenticationToken), queryParameters
         );
     }
 
@@ -84,8 +82,7 @@ public abstract class IntegrationTest {
 
     protected Response unauthenticatedGet(String path, Map<String, ?> queryParameters) {
         return executeGetRequest(
-            createBasicRequestSpecification(path),
-            queryParameters
+            createBasicRequestSpecification(path), queryParameters
         );
     }
 
