@@ -4,4 +4,5 @@ public interface MessagingTaskConsumer extends Runnable {
 
     @Override
     void run();
+
 }

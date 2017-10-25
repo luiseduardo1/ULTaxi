@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SendRegistrationEmailTask implements MessagingTask {
 
-    private static final String EMAIL_REGISTRATION_SUBJECT = "Welcome %s!";
+    private static final String EMAIL_REGISTRATION_SUBJECT = "Hi %s! Welcome to ULTaxi! ";
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you %s for your request to " +
             "subscribe to ULTaxi. \nHope you will enjoy it! \n \n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";

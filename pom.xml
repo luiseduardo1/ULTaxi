@@ -89,6 +89,11 @@
             <artifactId>commons-cli</artifactId>
             <version>1.2</version>
         </dependency>
+        <dependency>
+            <groupId>net.jodah</groupId>
+            <artifactId>failsafe</artifactId>
+            <version>1.0.4</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
@@ -120,11 +125,6 @@
             <artifactId>json-path</artifactId>
             <version>3.0.0</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.jodah</groupId>
-            <artifactId>failsafe</artifactId>
-            <version>1.0.4</version>
         </dependency>
         <!--  Gson: Java to Json conversion -->
         <dependency>

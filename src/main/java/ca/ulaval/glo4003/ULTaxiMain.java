@@ -125,9 +125,7 @@ public final class ULTaxiMain {
             ServletHolder servletHolder = new ServletHolder(servletContainer);
             context.addServlet(servletHolder, "/*");
 
-            Thread messagingTaskConsumer = new Thread(new MessagingTaskConsumerImpl(MESSAGING_TASK_QUEUE));
-            messagingTaskConsumer.start();
-
+            startMessagingTaskConsumerThread();
 
             ContextHandlerCollection contexts = new ContextHandlerCollection();
             contexts.setHandlers(new Handler[]{context});
@@ -164,6 +162,11 @@ public final class ULTaxiMain {
         } else {
             return DEFAULT_PORT;
         }
+    }
+
+    private static void startMessagingTaskConsumerThread() {
+        Thread messagingTaskConsumer = new Thread(new MessagingTaskConsumerImpl(MESSAGING_TASK_QUEUE));
+        messagingTaskConsumer.start();
     }
 
     private static void setDevelopmentEnvironmentMockData() {

@@ -12,6 +12,7 @@ public class MessagingTaskConsumerImpl implements MessagingTaskConsumer {
     private static int threadsNumber = 10;
     private final MessagingTaskQueue messagingTaskQueue;
     private final ExecutorService threadPool;
+    private boolean isRunning = true;
 
     public MessagingTaskConsumerImpl(MessagingTaskQueue messagingTaskQueue) {
         this.messagingTaskQueue = messagingTaskQueue;
@@ -20,7 +21,7 @@ public class MessagingTaskConsumerImpl implements MessagingTaskConsumer {
 
     @Override
     public void run() {
-        while (true) {
+        while (isRunning) {
             if (!messagingTaskQueue.isEmpty()) {
                 MessagingTask messagingTask = messagingTaskQueue.peek();
                 threadPool.execute(messagingTask);
@@ -28,4 +29,9 @@ public class MessagingTaskConsumerImpl implements MessagingTaskConsumer {
             }
         }
     }
+
+    public void stopMessagingThreadConsumer() {
+        this.isRunning = false;
+    }
+
 }
