@@ -25,7 +25,7 @@ public class MessagingTaskQueueInMemoryTest {
 
     @Test
     public void givenATask_whenTaskIsEnqueued_thenTaskHasSameParameters()
-            throws InterruptedException {
+        throws InterruptedException {
         messagingTaskQueue.enqueue(messagingTask);
 
         MessagingTask messagingTaskDequeued = messagingTaskQueue.peek();

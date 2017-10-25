@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.BDDMockito.willReturn;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import org.junit.Before;

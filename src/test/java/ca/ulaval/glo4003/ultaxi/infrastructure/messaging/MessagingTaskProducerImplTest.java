@@ -27,7 +27,7 @@ public class MessagingTaskProducerImplTest {
 
     @Test
     public void givenANewMessageToSend_whenEnqueueMessage_thenMessageIsPersisted()
-            throws InterruptedException {
+        throws InterruptedException {
         messagingTaskProducer.send(messagingTask);
 
         verify(messagingTaskQueue).enqueue(messagingTask);

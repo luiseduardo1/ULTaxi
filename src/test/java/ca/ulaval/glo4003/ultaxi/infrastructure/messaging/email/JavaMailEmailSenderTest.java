@@ -52,7 +52,7 @@ public class JavaMailEmailSenderTest {
 
     @Test
     public void givenAnEmail_whenIsSend_thenEmailSenderSendSuccessfully() throws
-            MessagingException {
+        MessagingException {
         Email email = new Email(TO_ADDRESS, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
 
         javaMailEmailSender.sendEmail(email);
@@ -62,7 +62,7 @@ public class JavaMailEmailSenderTest {
 
     @Test
     public void givenMultipleEmailsToBeSend_whenIsSend_thenEmailSenderSendSuccessfully() throws
-            MessagingException {
+        MessagingException {
         Email firstEmail = new Email(TO_ADDRESS, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
         Email secondEmail = new Email(TO_ANOTHER_ADDRESS, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
 
@@ -74,7 +74,7 @@ public class JavaMailEmailSenderTest {
 
     @Test
     public void givenAnEmail_whenIsSend_thenReceivedEmailShouldBeTheSame() throws
-            MessagingException {
+        MessagingException {
         Email email = new Email(TO_ADDRESS, EMAIL_SUBJECT, EMAIL_CONTENT, EMAIL_SIGNATURE);
 
         javaMailEmailSender.sendEmail(email);

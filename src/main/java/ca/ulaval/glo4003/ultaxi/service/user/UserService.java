@@ -22,9 +22,9 @@ public class UserService {
     private EmailSender emailSender;
 
     public UserService(UserRepository userRepository,
-                       UserAssembler userAssembler,
-                       MessagingTaskProducer messagingTaskProducer,
-                       EmailSender emailSender) {
+        UserAssembler userAssembler,
+        MessagingTaskProducer messagingTaskProducer,
+        EmailSender emailSender) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
         this.messagingTaskProducer = messagingTaskProducer;
@@ -37,7 +37,8 @@ public class UserService {
         user.setRole(Role.Client);
         userRepository.save(user);
 
-        MessagingTask messagingTask = new SendRegistrationEmailTask(user.getEmailAddress(), user.getUsername(), emailSender);
+        MessagingTask messagingTask = new SendRegistrationEmailTask(user.getEmailAddress(), user.getUsername(),
+                                                                    emailSender);
         messagingTaskProducer.send(messagingTask);
     }
 }

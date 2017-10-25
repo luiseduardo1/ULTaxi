@@ -36,7 +36,7 @@ public class User {
     public void setUsername(String username) {
         if (!isUserNameValid(username)) {
             throw new InvalidUserNameException(
-                    String.format("%s is not a valid name.", username)
+                String.format("%s is not a valid name.", username)
             );
         }
         this.username = username.toLowerCase().trim();
@@ -68,8 +68,8 @@ public class User {
 
     public boolean areCredentialsValid(String username, String plainTextPassword) {
         return username != null
-                && plainTextPassword != null
-                && username.equals(this.username)
-                && hashingStrategy.areEquals(plainTextPassword, password);
+            && plainTextPassword != null
+            && username.equals(this.username)
+            && hashingStrategy.areEquals(plainTextPassword, password);
     }
 }

@@ -11,7 +11,7 @@ public class TransportRequestService {
     private final TransportRequestAssembler transportRequestAssembler;
 
     public TransportRequestService(TransportRequestRepository transportRequestRepository, TransportRequestAssembler
-            transportRequestAssembler) {
+        transportRequestAssembler) {
         this.transportRequestRepository = transportRequestRepository;
         this.transportRequestAssembler = transportRequestAssembler;
     }

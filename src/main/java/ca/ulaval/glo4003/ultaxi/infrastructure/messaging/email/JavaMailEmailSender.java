@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-public class JavaMailEmailSender implements EmailSender{
+public class JavaMailEmailSender implements EmailSender {
 
     private static final String PROTOCOL = "smtp";
     private final Properties emailSenderProperties;
@@ -28,8 +28,8 @@ public class JavaMailEmailSender implements EmailSender{
             MimeMessage emailMessage = createEmailMessage(email);
             Transport transport = mailSession.getTransport(PROTOCOL);
             transport.connect(emailSenderProperties.getProperty("mail.host"),
-                    emailSenderProperties.getProperty("mail.from.id"),
-                    emailSenderProperties.getProperty("mail.from.password"));
+                              emailSenderProperties.getProperty("mail.from.id"),
+                              emailSenderProperties.getProperty("mail.from.password"));
             transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
             transport.close();
         } catch (MessagingException | UnsupportedEncodingException exception) {
@@ -38,12 +38,12 @@ public class JavaMailEmailSender implements EmailSender{
     }
 
     private MimeMessage createEmailMessage(Email email)
-            throws UnsupportedEncodingException, MessagingException {
+        throws UnsupportedEncodingException, MessagingException {
         mailSession = Session.getDefaultInstance(emailSenderProperties, null);
         MimeMessage emailMessage = new MimeMessage(mailSession);
 
         emailMessage.setFrom(new InternetAddress(emailSenderProperties.getProperty("mail.from.address"),
-                emailSenderProperties.getProperty("mail.from.name")));
+                                                 emailSenderProperties.getProperty("mail.from.name")));
         InternetAddress[] recipientAddresses = {new InternetAddress(email.getToAddress())};
         emailMessage.setRecipients(Message.RecipientType.TO, recipientAddresses);
         emailMessage.setSubject(email.getSubject());

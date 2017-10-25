@@ -52,8 +52,8 @@ public class DriverResourceImplTest {
     @Test
     public void givenAlreadyExistingDriver_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new UserAlreadyExistsException("User already exists."))
-                .given(driverService)
-                .addDriver(driverDto);
+            .given(driverService)
+            .addDriver(driverDto);
 
         Response response = driverResource.createDriver(driverDto);
 
@@ -74,8 +74,8 @@ public class DriverResourceImplTest {
     @Test
     public void givenDriverWithInvalidName_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new InvalidUserNameException("User has an invalid userName."))
-                .given(driverService)
-                .addDriver(driverDto);
+            .given(driverService)
+            .addDriver(driverDto);
 
         Response response = driverResource.createDriver(driverDto);
 
@@ -85,8 +85,8 @@ public class DriverResourceImplTest {
     @Test
     public void givenDriverWithInvalidPhoneNumber_whenCreateDriver_thenReturnsBadRequest() {
         willThrow(new InvalidPhoneNumberException("User has an invalid phone number."))
-                .given(driverService)
-                .addDriver(driverDto);
+            .given(driverService)
+            .addDriver(driverDto);
 
         Response response = driverResource.createDriver(driverDto);
 
@@ -107,8 +107,8 @@ public class DriverResourceImplTest {
     @Test
     public void givenValidSearchQueryWithNoAssociatedDriver_whenSearching_thenReturnsNotFound() {
         willThrow(new EmptySearchResultsException("No results found."))
-                .given(driverService)
-                .searchBy(any(DriverSearchParameters.class));
+            .given(driverService)
+            .searchBy(any(DriverSearchParameters.class));
 
         Response response = driverResource.searchBy(A_SOCIAL_INSURANCE_NUMBER, A_FIRST_NAME, A_LAST_NAME);
 
@@ -118,8 +118,8 @@ public class DriverResourceImplTest {
     @Test
     public void givenValidSearchQueryWithAssociatedDriver_whenSearching_thenReturnsOk() {
         willReturn(driverDtos)
-                .given(driverService)
-                .searchBy(any(DriverSearchParameters.class));
+            .given(driverService)
+            .searchBy(any(DriverSearchParameters.class));
 
         Response response = driverResource.searchBy(A_SOCIAL_INSURANCE_NUMBER, A_FIRST_NAME, A_LAST_NAME);
 

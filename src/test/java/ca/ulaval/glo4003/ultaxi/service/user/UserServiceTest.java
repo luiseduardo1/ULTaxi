@@ -45,9 +45,9 @@ public class UserServiceTest {
         willReturn(A_VALID_USERNAME).given(user).getUsername();
         willReturn(A_VALID_EMAIL).given(user).getEmailAddress();
         userService = new UserService(userRepository,
-                userAssembler,
-                messagingTaskProducer,
-                emailSender);
+                                      userAssembler,
+                                      messagingTaskProducer,
+                                      emailSender);
     }
 
     @Test

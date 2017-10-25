@@ -39,8 +39,8 @@ public class TransportRequestResourceImplTest {
     @Test
     public void givenATransportRequestWithAnInvalidVehicleType_whenSendRequest__thenReturnsBadRequest() {
         willThrow(new InvalidVehicleTypeException("TransportRequest has an invalid vehicle type."))
-                .given(transportRequestService)
-                .sendRequest(transportRequestDto);
+            .given(transportRequestService)
+            .sendRequest(transportRequestDto);
 
         Response response = transportRequestResource.sendTransportRequest(transportRequestDto);
 

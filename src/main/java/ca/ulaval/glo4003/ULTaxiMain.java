@@ -10,8 +10,8 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResource;
 import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResource;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
@@ -23,12 +23,12 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.http.CORSResponseFilter;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilter;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSenderConfigurationPropertyFileReader;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSenderConfigurationReader;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingTaskQueueInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingTaskConsumerImpl;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingTaskProducerImpl;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingTaskQueueInMemory;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSenderConfigurationPropertyFileReader;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.EmailSenderConfigurationReader;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserDevDataFactory;
@@ -274,7 +274,7 @@ public final class ULTaxiMain {
 
     private static EmailSender createEmailSender() {
         EmailSenderConfigurationReader emailSenderConfigurationReader =
-                new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
+            new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
         EmailSender emailSender = new JavaMailEmailSender(emailSenderConfigurationReader);
         return emailSender;
     }
@@ -282,13 +282,13 @@ public final class ULTaxiMain {
     private static UserService createUserService(EmailSender emailSender) {
         MessagingTaskProducer messagingTaskProducer = new MessagingTaskProducerImpl(MESSAGING_TASK_QUEUE);
         UserService userService = new UserService(userRepository, createUserAssembler(),
-                messagingTaskProducer, emailSender);
+                                                  messagingTaskProducer, emailSender);
         return userService;
     }
 
     private static UserAuthenticationService createUserAuthenticationService() {
         UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-                createUserAssembler());
+                                                                                            createUserAssembler());
 
         return userAuthenticationService;
     }
@@ -324,7 +324,7 @@ public final class ULTaxiMain {
     }
 
     private static UserAuthenticationResource createUseAuthenticationResource(UserAuthenticationService
-                                                                                      userAuthenticationService) {
+        userAuthenticationService) {
         return new UserAuthenticationResourceImpl(userAuthenticationService, tokenRepository, tokenManager);
     }
 
@@ -332,7 +332,7 @@ public final class ULTaxiMain {
         TransportRequestRepository transportRequestRepository = new TransportRequestRepositoryInMemory();
         TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
         TransportRequestService transportRequestService = new TransportRequestService(transportRequestRepository,
-                transportRequestAssembler);
+                                                                                      transportRequestAssembler);
 
         return new TransportRequestResourceImpl(transportRequestService);
     }

@@ -29,7 +29,7 @@ public class JWTTokenManager implements TokenManager {
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
         JwtBuilder jwtBuilder = Jwts.builder().setId(uuid).setIssuedAt(now).setSubject(subject)
-                .signWith(signatureAlgorithm, signingKey);
+            .signWith(signatureAlgorithm, signingKey);
 
         if (ttlInMillis > 0) {
             long expMillis = nowMillis + ttlInMillis;
@@ -43,7 +43,7 @@ public class JWTTokenManager implements TokenManager {
     public Claims parseToken(String token) {
         try {
             return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
-                    .parseClaimsJws(token).getBody();
+                .parseClaimsJws(token).getBody();
         } catch (Exception e) {
             throw new InvalidTokenException("Token can't be parsed.");
         }
