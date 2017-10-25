@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
 import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
@@ -19,6 +20,7 @@ public class Driver extends User {
     private String name;
     private String lastName;
     private String phoneNumber;
+    private VehicleType vehicleType;
     private String socialInsuranceNumber;
 
     public Vehicle vehicle;
@@ -30,7 +32,7 @@ public class Driver extends User {
         this.setName(firstName);
         this.setLastName(lastName);
         this.setSocialInsuranceNumber(socialInsuranceNumber);
-        this.setRole(Role.Driver);
+        this.setRole(Role.DRIVER);
     }
 
     public String getName() {
@@ -71,6 +73,14 @@ public class Driver extends User {
         }
 
         this.socialInsuranceNumber = socialInsuranceNumber;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public Vehicle getVehicle() {
