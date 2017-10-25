@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 public class TransportRequestTest {
 
     private static final String AN_INVALID_VEHICLE_TYPE = "Invalid";
-    private static final TransportRequestStatus PENDING_STATUS = TransportRequestStatus.Pending;
+    private static final TransportRequestStatus PENDING_STATUS = TransportRequestStatus.PENDING;
 
     private TransportRequest transportRequest;
 

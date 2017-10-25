@@ -29,7 +29,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     }
 
     @Override
-    @Secured({Role.Client})
+    @Secured({Role.CLIENT})
     public Response sendTransportRequest(String clientToken, TransportRequestDto transportRequestDto) {
         try {
             User user = userAuthenticationService.authenticateFromToken(clientToken);
@@ -41,7 +41,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     }
 
     @Override
-    @Secured({Role.Driver})
+    @Secured({Role.DRIVER})
     public Response searchAvailableTransportRequests(String driverToken) {
         try {
             Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);

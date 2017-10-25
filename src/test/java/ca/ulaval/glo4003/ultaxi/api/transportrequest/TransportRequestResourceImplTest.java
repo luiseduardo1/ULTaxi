@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +32,7 @@ public class TransportRequestResourceImplTest {
     private static final String A_VALID_USERNAME = "username";
     private static final String A_VALID_TOKEN = "Valid token";
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
-    private static final VehicleType A_VEHICLE_TYPE = VehicleType.Car;
+    private static final VehicleType A_VEHICLE_TYPE = VehicleType.CAR;
 
     @Mock
     private UserAuthenticationService userAuthenticationService;

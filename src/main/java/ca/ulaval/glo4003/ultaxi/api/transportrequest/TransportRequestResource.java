@@ -18,12 +18,12 @@ public interface TransportRequestResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Role.Client})
+    @Secured({Role.CLIENT})
     Response sendTransportRequest(@HeaderParam(value = "Authorization") String clientToken, TransportRequestDto transportRequestDto);
 
     @GET
     @Path("/search")
     @Produces(MediaType.APPLICATION_JSON)
-    @Secured({Role.Driver})
+    @Secured({Role.DRIVER})
     Response searchAvailableTransportRequests(@HeaderParam(value = "Authorization") String driverToken);
 }

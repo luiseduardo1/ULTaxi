@@ -29,7 +29,7 @@ public class Driver extends User {
         this.setName(firstName);
         this.setLastName(lastName);
         this.setSocialInsuranceNumber(socialInsuranceNumber);
-        this.setRole(Role.Driver);
+        this.setRole(Role.DRIVER);
     }
 
     public String getName() {

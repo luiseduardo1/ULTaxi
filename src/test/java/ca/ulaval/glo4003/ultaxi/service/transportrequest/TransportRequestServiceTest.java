@@ -83,9 +83,9 @@ public class TransportRequestServiceTest {
 
     private Map<String, TransportRequest> givenTransportRequests() {
         Map<String, TransportRequest> transportRequests = new HashMap<>();
-        transportRequests.put("1", new TransportRequest(new Geolocation(25.0, 26.0), "Note", VehicleType.Car, "ClientA"));
-        transportRequests.put("2", new TransportRequest(new Geolocation(35.0, 36.0), "Note", VehicleType.Van, "ClientB"));
-        transportRequests.put("3", new TransportRequest(new Geolocation(45.0, 46.0), "Note", VehicleType.Car, "ClientC"));
+        transportRequests.put("1", new TransportRequest("ClientA", new Geolocation(25.0, 26.0), "Note", VehicleType.CAR));
+        transportRequests.put("2", new TransportRequest("ClientB", new Geolocation(35.0, 36.0), "Note", VehicleType.VAN));
+        transportRequests.put("3", new TransportRequest("ClientC", new Geolocation(45.0, 46.0), "Note", VehicleType.CAR));
         return transportRequests;
     }
 }
