@@ -30,7 +30,7 @@ public class MessagingTaskConsumerImpl implements MessagingTaskConsumer {
         }
     }
 
-    public void stopMessagingThreadConsumer() {
+    public void stopTaskMessagingConsumerThread() {
         this.isRunning = false;
     }
 

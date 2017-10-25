@@ -34,7 +34,7 @@ public class MessagingTaskConsumerImplTest {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(messagingTaskConsumer);
         executorService.shutdown();
-        messagingTaskConsumer.stopMessagingThreadConsumer();
+        messagingTaskConsumer.stopTaskMessagingConsumerThread();
 
         verify(messagingTaskQueue, never()).peek();
     }
