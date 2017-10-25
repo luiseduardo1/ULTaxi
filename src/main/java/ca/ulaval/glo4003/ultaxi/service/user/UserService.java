@@ -16,14 +16,12 @@ public class UserService {
 
     private final Logger logger = Logger.getLogger(UserService.class.getName());
 
-    private UserRepository userRepository;
-    private UserAssembler userAssembler;
-    private MessagingTaskProducer messagingTaskProducer;
-    private EmailSender emailSender;
+    private final UserRepository userRepository;
+    private final UserAssembler userAssembler;
+    private final MessagingTaskProducer messagingTaskProducer;
+    private final EmailSender emailSender;
 
-    public UserService(UserRepository userRepository,
-        UserAssembler userAssembler,
-        MessagingTaskProducer messagingTaskProducer,
+    public UserService(UserRepository userRepository, UserAssembler userAssembler, MessagingTaskProducer messagingTaskProducer,
         EmailSender emailSender) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
