@@ -78,11 +78,11 @@ public final class ULTaxiMain {
     private static final MessageQueue messageQueue = new MessageQueueInMemory();
 
     private static final String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
-    private static final int DEFAULT_PORT = 0;
+    private static final int DEFAULT_PORT = 8080;
     private static final String DEFAULT_URI = "http://localhost";
 
     private static boolean isDevelopmentEnvironment = true;
-    private static int serverPort = 0;
+    private static int serverPort = 8080;
     private static Server server;
     private static Set<Object> contextResources;
 
