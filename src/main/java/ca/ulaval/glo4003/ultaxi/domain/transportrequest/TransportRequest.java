@@ -14,15 +14,17 @@ public class TransportRequest {
     private String note;
     private VehicleType vehicleType;
     private TransportRequestStatus transportRequestStatus = TransportRequestStatus.Pending;
+    private String clientUsername;
 
     public TransportRequest() {
     }
 
-    public TransportRequest(Geolocation startingPosition, String note, VehicleType vehicleType) {
+    public TransportRequest(Geolocation startingPosition, String note, VehicleType vehicleType, String clientUsername) {
         this.startingPosition = startingPosition;
         this.note = note;
         this.vehicleType = vehicleType;
         this.transportRequestStatus = TransportRequestStatus.Pending;
+        this.clientUsername = clientUsername;
     }
 
     public Geolocation getStartingPosition() {
@@ -49,14 +51,6 @@ public class TransportRequest {
         }
     }
 
-    public TransportRequestStatus getTransportRequestStatus() {
-        return this.transportRequestStatus;
-    }
-
-    public void setTransportRequestStatus(TransportRequestStatus transportRequestStatus) {
-        this.transportRequestStatus = transportRequestStatus;
-    }
-
     public String getNote() {
         return note;
     }
@@ -66,6 +60,22 @@ public class TransportRequest {
             this.note = "";
         }
         this.note = note;
+    }
+
+    public TransportRequestStatus getTransportRequestStatus() {
+        return this.transportRequestStatus;
+    }
+
+    public void setTransportRequestStatus(TransportRequestStatus transportRequestStatus) {
+        this.transportRequestStatus = transportRequestStatus;
+    }
+
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
+    }
+
+    public String getClientUsername() {
+        return clientUsername;
     }
 
 }

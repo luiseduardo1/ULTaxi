@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserRoleException;
@@ -29,9 +30,10 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
     @Override
     @Secured({Role.Client})
-    public Response sendTransportRequest(TransportRequestDto transportRequestDto) {
+    public Response sendTransportRequest(String clientToken, TransportRequestDto transportRequestDto) {
         try {
-            String transportRequestId = transportRequestService.sendRequest(transportRequestDto);
+            User user = userAuthenticationService.authenticateFromToken(clientToken);
+            String transportRequestId = transportRequestService.sendRequest(transportRequestDto, user.getUsername());
             return Response.status(Response.Status.CREATED).entity(transportRequestId).build();
         } catch (InvalidVehicleTypeException | InvalidGeolocationException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();

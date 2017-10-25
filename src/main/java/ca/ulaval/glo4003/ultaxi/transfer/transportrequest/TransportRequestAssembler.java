@@ -22,6 +22,7 @@ public class TransportRequestAssembler {
         transportRequestDto.setStartingPositionLongitude(transportRequest.getStartingPosition().getLongitude());
         transportRequestDto.setNote(transportRequest.getNote());
         transportRequestDto.setVehicleType(transportRequest.getVehicleType().name());
+        transportRequestDto.setClientUsername(transportRequest.getClientUsername());
         return transportRequestDto;
     }
 }

@@ -58,14 +58,14 @@ public class TransportRequestSearchQueryBuilderInMemoryTest {
     }
 
     private TransportRequest aFirstTransportRequest() {
-        return new TransportRequest(new Geolocation(25.0, 26.0), "Note", VehicleType.Car);
+        return new TransportRequest(new Geolocation(25.0, 26.0), "Note", VehicleType.Car, "ClientA");
     }
 
     private TransportRequest aSecondTransportRequest() {
-        return new TransportRequest(new Geolocation(35.0, 36.0), "Note", VehicleType.Van);
+        return new TransportRequest(new Geolocation(35.0, 36.0), "Note", VehicleType.Van, "ClientB");
     }
 
     private TransportRequest aThirdTransportRequest() {
-        return new TransportRequest(new Geolocation(45.0, 46.0), "Note", VehicleType.Car);
+        return new TransportRequest(new Geolocation(45.0, 46.0), "Note", VehicleType.Car, "ClientC");
     }
 }

@@ -19,7 +19,7 @@ public interface TransportRequestResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Role.Client})
-    Response sendTransportRequest(TransportRequestDto transportRequestDto);
+    Response sendTransportRequest(@HeaderParam(value = "Authorization") String clientToken, TransportRequestDto transportRequestDto);
 
     @GET
     @Path("/search")

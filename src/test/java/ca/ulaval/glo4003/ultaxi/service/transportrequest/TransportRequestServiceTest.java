@@ -29,6 +29,8 @@ import java.util.Map;
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestServiceTest {
 
+    private static final String A_CLIENT_USERNAME = "ClientUsername";
+
     @Mock
     private TransportRequest transportRequest;
     @Mock
@@ -53,7 +55,7 @@ public class TransportRequestServiceTest {
     public void givenAValidTransportRequest_whenSendRequest_thenRequestIsAdded() {
         willReturn(transportRequest).given(transportRequestAssembler).create(transportRequestDto);
 
-        transportRequestService.sendRequest(transportRequestDto);
+        transportRequestService.sendRequest(transportRequestDto, A_CLIENT_USERNAME);
 
         verify(transportRequestRepository).save(transportRequest);
     }
@@ -80,9 +82,9 @@ public class TransportRequestServiceTest {
 
     private Map<String, TransportRequest> givenTransportRequests() {
         Map<String, TransportRequest> transportRequests = new HashMap<>();
-        transportRequests.put("1", new TransportRequest(new Geolocation(25.0, 26.0), "Note", VehicleType.Car));
-        transportRequests.put("2", new TransportRequest(new Geolocation(35.0, 36.0), "Note", VehicleType.Van));
-        transportRequests.put("3", new TransportRequest(new Geolocation(45.0, 46.0), "Note", VehicleType.Car));
+        transportRequests.put("1", new TransportRequest(new Geolocation(25.0, 26.0), "Note", VehicleType.Car, "ClientA"));
+        transportRequests.put("2", new TransportRequest(new Geolocation(35.0, 36.0), "Note", VehicleType.Van, "ClientB"));
+        transportRequests.put("3", new TransportRequest(new Geolocation(45.0, 46.0), "Note", VehicleType.Car, "ClientC"));
         return transportRequests;
     }
 }

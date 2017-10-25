@@ -20,8 +20,9 @@ public class TransportRequestService {
         this.transportRequestAssembler = transportRequestAssembler;
     }
 
-    public String sendRequest(TransportRequestDto transportRequestDto) {
+    public String sendRequest(TransportRequestDto transportRequestDto, String clientUsername) {
         TransportRequest transportRequest = transportRequestAssembler.create(transportRequestDto);
+        transportRequest.setClientUsername(clientUsername);
         transportRequestRepository.save(transportRequest);
         return transportRequest.getId();
     }

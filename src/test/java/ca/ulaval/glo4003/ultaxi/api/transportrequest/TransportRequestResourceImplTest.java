@@ -4,10 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationException;
+import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
@@ -28,6 +31,11 @@ import java.util.List;
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestResourceImplTest {
 
+    private static final String A_VALID_USERNAME = "username";
+    private static final String A_VALID_TOKEN = "Valid token";
+    private static final String A_VALID_DRIVER_TOKEN = "Driver token";
+    private static final VehicleType A_VEHICLE_TYPE = VehicleType.Car;
+
     @Mock
     private UserAuthenticationService userAuthenticationService;
     @Mock
@@ -37,23 +45,26 @@ public class TransportRequestResourceImplTest {
     @Mock
     private List<TransportRequestDto> transportRequestDtos;
     @Mock
+    private User user;
+    @Mock
     private Driver driver;
 
-    private static final String A_VALID_TOKEN = "Valid token";
-    private static final VehicleType A_VEHICLE_TYPE = VehicleType.Car;
     private TransportRequestResource transportRequestResource;
 
     @Before
     public void setUp() throws Exception {
         transportRequestResource = new TransportRequestResourceImpl(transportRequestService, userAuthenticationService);
-        when(userAuthenticationService.authenticateFromToken(A_VALID_TOKEN)).thenReturn(driver);
+        when(userAuthenticationService.authenticateFromToken(A_VALID_TOKEN)).thenReturn(user);
+        when(user.getUsername()).thenReturn(A_VALID_USERNAME);
+
+        when(userAuthenticationService.authenticateFromToken(A_VALID_DRIVER_TOKEN)).thenReturn(driver);
         when(driver.getVehicleType()).thenReturn(A_VEHICLE_TYPE);
         when(transportRequestService.searchBy(any(TransportRequestSearchParameters.class))).thenReturn(transportRequestDtos);
     }
 
     @Test
     public void givenAValidTransportRequest_whenSendRequest_thenReturnsCreated() {
-        Response response = transportRequestResource.sendTransportRequest(transportRequestDto);
+        Response response = transportRequestResource.sendTransportRequest(A_VALID_TOKEN, transportRequestDto);
 
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
@@ -62,9 +73,9 @@ public class TransportRequestResourceImplTest {
     public void givenATransportRequestWithAnInvalidVehicleType_whenSendRequest__thenReturnsBadRequest() {
         willThrow(new InvalidVehicleTypeException("TransportRequest has an invalid vehicle type."))
                 .given(transportRequestService)
-                .sendRequest(transportRequestDto);
+                .sendRequest(transportRequestDto, A_VALID_USERNAME);
 
-        Response response = transportRequestResource.sendTransportRequest(transportRequestDto);
+        Response response = transportRequestResource.sendTransportRequest(A_VALID_TOKEN, transportRequestDto);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
@@ -73,23 +84,23 @@ public class TransportRequestResourceImplTest {
     public void givenATransportRequestWithAnInvalidGeolocation_whenSendRequest_thenReturnsBadRequest() {
         willThrow(new InvalidGeolocationException("TransportRequest has an invalid starting position geolocation."))
             .given(transportRequestService)
-            .sendRequest(transportRequestDto);
+            .sendRequest(transportRequestDto, A_VALID_USERNAME);
 
-        Response response = transportRequestResource.sendTransportRequest(transportRequestDto);
+        Response response = transportRequestResource.sendTransportRequest(A_VALID_TOKEN, transportRequestDto);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test
     public void givenAnAuthenticatedDriver_whenSearchAvailableTransportRequest_thenReturnsOk() {
-        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_TOKEN);
+        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_DRIVER_TOKEN);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
     public void givenATransportRequestResource_whenSearchAvailableTransportRequest_thenDelegateToRequestTransportService() {
-        transportRequestResource.searchAvailableTransportRequest(A_VALID_TOKEN);
+        transportRequestResource.searchAvailableTransportRequest(A_VALID_DRIVER_TOKEN);
 
         verify(transportRequestService).searchBy(any(TransportRequestSearchParameters.class));
     }
@@ -100,7 +111,7 @@ public class TransportRequestResourceImplTest {
             .given(transportRequestService)
             .searchBy(any(TransportRequestSearchParameters.class));
 
-        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_TOKEN);
+        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_DRIVER_TOKEN);
 
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
@@ -111,7 +122,7 @@ public class TransportRequestResourceImplTest {
             .given(transportRequestService)
             .searchBy(any(TransportRequestSearchParameters.class));
 
-        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_TOKEN);
+        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_DRIVER_TOKEN);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
