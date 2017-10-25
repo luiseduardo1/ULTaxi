@@ -63,29 +63,37 @@ public class TransportRequestServiceTest {
     @Test(expected = EmptySearchResultsException.class)
     public void givenAValidSearchQueryWithNoTransportRequestAssociated_whenSearching_thenThrowsException() {
         willReturn(transportRequestSearchQueryBuilder).given(transportRequestRepository).searchTransportRequests();
-        willReturn(transportRequestSearchQueryBuilder).given(transportRequestSearchQueryBuilder).withVehicleType(anyString());
-        willThrow(new EmptySearchResultsException("No results found.")).given(transportRequestSearchQueryBuilder).findAll();
+        willReturn(transportRequestSearchQueryBuilder).given(transportRequestSearchQueryBuilder).withVehicleType
+            (anyString());
+        willThrow(new EmptySearchResultsException("No results found.")).given(transportRequestSearchQueryBuilder)
+            .findAll();
 
         transportRequestService.searchBy(transportRequestSearchParameters);
     }
 
     @Test
-    public void givenAvailableTransportRequests_whenSearching_thenReturnsTransportRequestsAssociatedWithDriverVehicleType() {
+    public void
+    givenAvailableTransportRequests_whenSearching_thenReturnsTransportRequestsAssociatedWithDriverVehicleType() {
         String typeOfVehicleBeingSearched = "Car";
         willReturn(typeOfVehicleBeingSearched).given(transportRequestSearchParameters).getVehicleType();
-        willReturn(new TransportRequestSearchQueryBuilderInMemory(givenTransportRequests())).given(transportRequestRepository)
+        willReturn(new TransportRequestSearchQueryBuilderInMemory(givenTransportRequests())).given
+            (transportRequestRepository)
             .searchTransportRequests();
 
-        List<TransportRequestDto> transportRequestDtos = transportRequestService.searchBy(transportRequestSearchParameters);
+        List<TransportRequestDto> transportRequestDtos = transportRequestService.searchBy
+            (transportRequestSearchParameters);
 
         assertEquals(2, transportRequestDtos.size());
     }
 
     private Map<String, TransportRequest> givenTransportRequests() {
         Map<String, TransportRequest> transportRequests = new HashMap<>();
-        transportRequests.put("1", new TransportRequest("ClientA", new Geolocation(25.0, 26.0), "Note", VehicleType.CAR));
-        transportRequests.put("2", new TransportRequest("ClientB", new Geolocation(35.0, 36.0), "Note", VehicleType.VAN));
-        transportRequests.put("3", new TransportRequest("ClientC", new Geolocation(45.0, 46.0), "Note", VehicleType.CAR));
+        transportRequests.put("1", new TransportRequest("ClientA", new Geolocation(25.0, 26.0), "Note", VehicleType
+            .CAR));
+        transportRequests.put("2", new TransportRequest("ClientB", new Geolocation(35.0, 36.0), "Note", VehicleType
+            .VAN));
+        transportRequests.put("3", new TransportRequest("ClientC", new Geolocation(45.0, 46.0), "Note", VehicleType
+            .CAR));
         return transportRequests;
     }
 }

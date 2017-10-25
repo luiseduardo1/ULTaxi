@@ -56,7 +56,8 @@ public class TransportRequestResourceImplTest {
         when(user.getUsername()).thenReturn(A_VALID_USERNAME);
         when(userAuthenticationService.authenticateFromToken(A_VALID_DRIVER_TOKEN)).thenReturn(driver);
         when(driver.getVehicleType()).thenReturn(A_VEHICLE_TYPE);
-        when(transportRequestService.searchBy(any(TransportRequestSearchParameters.class))).thenReturn(transportRequestDtos);
+        when(transportRequestService.searchBy(any(TransportRequestSearchParameters.class))).thenReturn
+            (transportRequestDtos);
     }
 
     @Test
@@ -69,8 +70,8 @@ public class TransportRequestResourceImplTest {
     @Test
     public void givenATransportRequestWithAnInvalidVehicleType_whenSendRequest__thenReturnsBadRequest() {
         willThrow(new InvalidVehicleTypeException("TransportRequest has an invalid vehicle type."))
-                .given(transportRequestService)
-                .sendRequest(transportRequestDto, A_VALID_USERNAME);
+            .given(transportRequestService)
+            .sendRequest(transportRequestDto, A_VALID_USERNAME);
 
         Response response = transportRequestResource.sendTransportRequest(A_VALID_TOKEN, transportRequestDto);
 
@@ -96,7 +97,8 @@ public class TransportRequestResourceImplTest {
     }
 
     @Test
-    public void givenATransportRequestResource_whenSearchAvailableTransportRequests_thenDelegateToRequestTransportService() {
+    public void
+    givenATransportRequestResource_whenSearchAvailableTransportRequests_thenDelegateToRequestTransportService() {
         transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
         verify(transportRequestService).searchBy(any(TransportRequestSearchParameters.class));
@@ -115,7 +117,7 @@ public class TransportRequestResourceImplTest {
 
     @Test
     public void givenValidSearchQuery_whenSearchAvailableTransportRequests_thenReturnsOk() {
-            willReturn(transportRequestDtos)
+        willReturn(transportRequestDtos)
             .given(transportRequestService)
             .searchBy(any(TransportRequestSearchParameters.class));
 

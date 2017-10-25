@@ -24,13 +24,13 @@ public class TransportRequestSearchQueryBuilderInMemory implements TransportRequ
     @Override
     public List<TransportRequest> findAll() {
         Stream<TransportRequest> transportRequests = this.transportRequests
-                .values()
-                .stream();
+            .values()
+            .stream();
 
         return throwIfEmptySearchResults(predicates
-                                        .stream()
-                                        .reduce(transportRequests, Stream::filter, (x, y) -> y)
-                                        .collect(Collectors.toList())
+                                             .stream()
+                                             .reduce(transportRequests, Stream::filter, (x, y) -> y)
+                                             .collect(Collectors.toList())
         );
     }
 
@@ -43,7 +43,8 @@ public class TransportRequestSearchQueryBuilderInMemory implements TransportRequ
 
     @Override
     public TransportRequestSearchQueryBuilder withVehicleType(String vehicleType) {
-        return withNonNull(transportRequest -> isSubsetOf(transportRequest.getVehicleType().name(), vehicleType), vehicleType);
+        return withNonNull(transportRequest -> isSubsetOf(transportRequest.getVehicleType().name(), vehicleType),
+                           vehicleType);
     }
 
     private TransportRequestSearchQueryBuilder withNonNull(Predicate<TransportRequest> predicate, String value) {

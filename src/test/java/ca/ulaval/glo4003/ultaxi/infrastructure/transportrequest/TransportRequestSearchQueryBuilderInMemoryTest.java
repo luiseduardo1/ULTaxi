@@ -29,22 +29,27 @@ public class TransportRequestSearchQueryBuilderInMemoryTest {
 
     @Test(expected = EmptySearchResultsException.class)
     public void givenFilterWithNoCorrespondingTransportRequests_whenFindingAll_thenThrowsEmptySearchResultsException() {
-        TransportRequestSearchQueryBuilder searchTransportRequest = transportRequestSearchQueryBuilder.withVehicleType(VEHICLE_TYPE_NOT_PRESENT);
+        TransportRequestSearchQueryBuilder searchTransportRequest = transportRequestSearchQueryBuilder
+            .withVehicleType(VEHICLE_TYPE_NOT_PRESENT);
 
         searchTransportRequest.findAll();
     }
 
     @Test
-    public void givenAvailableTransportRequestAndVehicleTypeFilter_whenFindingAll_thenReturnsTheRightTransportRequest() {
-        TransportRequestSearchQueryBuilder searchTransportRequest = transportRequestSearchQueryBuilder.withVehicleType(VEHICLE_TYPE_PRESENT);
+    public void givenAvailableTransportRequestAndVehicleTypeFilter_whenFindingAll_thenReturnsTheRightTransportRequest
+        () {
+        TransportRequestSearchQueryBuilder searchTransportRequest = transportRequestSearchQueryBuilder
+            .withVehicleType(VEHICLE_TYPE_PRESENT);
 
         List<TransportRequest> foundTransportRequests = searchTransportRequest.findAll();
         TransportRequest foundTransportRequest = foundTransportRequests.get(0);
 
         TransportRequest expectedTransportRequest = aSecondTransportRequest();
         assertEquals(1, foundTransportRequests.size());
-        assertEquals(expectedTransportRequest.getStartingPosition().getLatitude(), foundTransportRequest.getStartingPosition().getLatitude(), GEOLOCATION_PRECISION_LOSS_DELTA);
-        assertEquals(expectedTransportRequest.getStartingPosition().getLatitude(), foundTransportRequest.getStartingPosition().getLatitude(), GEOLOCATION_PRECISION_LOSS_DELTA);
+        assertEquals(expectedTransportRequest.getStartingPosition().getLatitude(), foundTransportRequest
+            .getStartingPosition().getLatitude(), GEOLOCATION_PRECISION_LOSS_DELTA);
+        assertEquals(expectedTransportRequest.getStartingPosition().getLatitude(), foundTransportRequest
+            .getStartingPosition().getLatitude(), GEOLOCATION_PRECISION_LOSS_DELTA);
         assertEquals(expectedTransportRequest.getNote(), foundTransportRequest.getNote());
         assertEquals(expectedTransportRequest.getVehicleType(), foundTransportRequest.getVehicleType());
     }

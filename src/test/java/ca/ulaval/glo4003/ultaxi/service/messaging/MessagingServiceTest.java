@@ -36,7 +36,7 @@ public class MessagingServiceTest {
 
     @Test
     public void givenAEmailMessageToBeSent_whenSendMessage_thenEmailSenderIsCalled()
-            throws InterruptedException, InvalidEmailTypeException {
+        throws InterruptedException, InvalidEmailTypeException {
         willReturn(message).given(messageQueueConsumer).checkForMessage();
         willReturn(email).given(messageQueueConsumer).convertToEmail(message);
 
@@ -47,7 +47,7 @@ public class MessagingServiceTest {
 
     @Test
     public void givenAMessageToBeSent_whenSendMessageSuccessfully_thenMessageIsRemovedFromQueue()
-            throws InterruptedException {
+        throws InterruptedException {
         willReturn(message).given(messageQueueConsumer).checkForMessage();
 
         messagingService.sendMessage();

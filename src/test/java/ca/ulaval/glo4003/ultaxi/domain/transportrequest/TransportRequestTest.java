@@ -5,9 +5,6 @@ import static org.junit.Assert.assertEquals;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.JUnit4;
-import org.mockito.BDDMockito;
-import org.mockito.MockitoAnnotations;
 
 public class TransportRequestTest {
 

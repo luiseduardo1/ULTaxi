@@ -40,11 +40,11 @@ public class TransportRequestDto {
         this.startingPositionLatitude = startingPositionLatitude;
     }
 
-    public void setClientUsername(String clientUsername) {
-        this.clientUsername = clientUsername;
-    }
-
     public String getClientUsername() {
         return clientUsername;
+    }
+
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
     }
 }

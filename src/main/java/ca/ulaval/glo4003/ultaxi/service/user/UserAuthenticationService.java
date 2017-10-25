@@ -15,15 +15,16 @@ import java.util.List;
 public class UserAuthenticationService {
 
     private static final List<String> AUTHENTICATION_SCHEMES = Collections.unmodifiableList(Arrays.asList("Bearer",
-            "Basic",
-            "Digest"));
+                                                                                                          "Basic",
+                                                                                                          "Digest"));
     private static long HOUR_IN_MILLISECONDS = 3600000;
     private final TokenManager tokenManager;
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
     private final UserAssembler userAssembler;
 
-    public UserAuthenticationService(UserRepository userRepository, UserAssembler userAssembler, TokenManager tokenManager, TokenRepository tokenRepository) {
+    public UserAuthenticationService(UserRepository userRepository, UserAssembler userAssembler, TokenManager
+        tokenManager, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
         this.tokenManager = tokenManager;

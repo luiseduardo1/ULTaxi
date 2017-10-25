@@ -15,7 +15,7 @@ public class TransportRequestService {
     private final TransportRequestAssembler transportRequestAssembler;
 
     public TransportRequestService(TransportRequestRepository transportRequestRepository, TransportRequestAssembler
-            transportRequestAssembler) {
+        transportRequestAssembler) {
         this.transportRequestRepository = transportRequestRepository;
         this.transportRequestAssembler = transportRequestAssembler;
     }
@@ -29,11 +29,11 @@ public class TransportRequestService {
 
     public List<TransportRequestDto> searchBy(TransportRequestSearchParameters requestTransportSearchParameters) {
         return this.transportRequestRepository
-                .searchTransportRequests()
-                .withVehicleType(requestTransportSearchParameters.getVehicleType())
-                .findAll()
-                .stream()
-                .map(transportRequestAssembler::create)
-                .collect(Collectors.toList());
+            .searchTransportRequests()
+            .withVehicleType(requestTransportSearchParameters.getVehicleType())
+            .findAll()
+            .stream()
+            .map(transportRequestAssembler::create)
+            .collect(Collectors.toList());
     }
 }

@@ -5,8 +5,6 @@ import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserRoleException;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
@@ -23,7 +21,8 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     private TransportRequestService transportRequestService;
     private UserAuthenticationService userAuthenticationService;
 
-    public TransportRequestResourceImpl(TransportRequestService transportRequestService, UserAuthenticationService userAuthenticationService) {
+    public TransportRequestResourceImpl(TransportRequestService transportRequestService, UserAuthenticationService
+        userAuthenticationService) {
         this.transportRequestService = transportRequestService;
         this.userAuthenticationService = userAuthenticationService;
     }
@@ -43,11 +42,15 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Override
     @Secured({Role.DRIVER})
     public Response searchAvailableTransportRequests(String driverToken) {
+        Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
+
         try {
-            Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
-            TransportRequestSearchParameters searchParameters = new TransportRequestSearchParameters(driver.getVehicleType().name());
+            TransportRequestSearchParameters searchParameters =
+                new TransportRequestSearchParameters(driver.getVehicleType().name());
+
             GenericEntity<List<TransportRequestDto>> availableTransportRequests =
-                    new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {};
+                new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {};
+
             return Response.ok(availableTransportRequests).build();
         } catch (EmptySearchResultsException exception) {
             return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();

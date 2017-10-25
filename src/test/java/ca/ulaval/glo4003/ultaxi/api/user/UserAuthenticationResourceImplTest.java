@@ -78,7 +78,8 @@ public class UserAuthenticationResourceImplTest {
 
     @Test
     public void givenNullToken_whenSignOut_thenReturnsBadRequest() {
-        willThrow(new InvalidTokenException("Token can't be parsed.")).given(userAuthenticationService).deauthenticate(any());
+        willThrow(new InvalidTokenException("Token can't be parsed.")).given(userAuthenticationService)
+            .deauthenticate(any());
 
         Response response = userAuthenticationResource.signOut(null);
 

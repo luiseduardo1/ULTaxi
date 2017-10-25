@@ -77,7 +77,8 @@ public class DriverServiceTest {
     }
 
     @Test
-    public void givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
+    public void
+    givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
         willReturn("arg").given(driverSearchParameters).getLastName();
         willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository)
             .searchDrivers();

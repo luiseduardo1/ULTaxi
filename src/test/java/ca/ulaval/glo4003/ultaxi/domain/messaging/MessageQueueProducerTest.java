@@ -25,7 +25,7 @@ public class MessageQueueProducerTest {
 
     @Test
     public void givenANewMessageToSend_whenEnqueueMessage_thenMessageIsPersisted()
-            throws InterruptedException {
+        throws InterruptedException {
         messageQueueProducer.send(message);
 
         verify(messageQueue).enqueue(message);

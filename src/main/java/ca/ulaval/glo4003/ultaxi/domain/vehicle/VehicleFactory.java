@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.domain.vehicle;
 
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
-import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
 public final class VehicleFactory {
 
@@ -26,7 +25,7 @@ public final class VehicleFactory {
                 return new Limousine(color, model, registrationNumber);
             default:
                 throw new InvalidVehicleTypeException(
-                        String.format("%s is not a valid vehicle type.", type)
+                    String.format("%s is not a valid vehicle type.", type)
                 );
         }
     }

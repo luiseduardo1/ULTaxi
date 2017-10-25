@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
-import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
 import java.util.UUID;
 
@@ -26,12 +25,12 @@ public class TransportRequest {
         this.vehicleType = vehicleType;
     }
 
-    public void setClientUsername(String clientUsername) {
-        this.clientUsername = clientUsername;
-    }
-
     public String getClientUsername() {
         return clientUsername;
+    }
+
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
     }
 
     public Geolocation getStartingPosition() {

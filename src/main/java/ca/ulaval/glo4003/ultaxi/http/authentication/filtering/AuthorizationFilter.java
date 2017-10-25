@@ -4,8 +4,8 @@ import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserRoleException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;

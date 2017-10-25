@@ -12,24 +12,24 @@ public class VehicleDevDataFactory {
         List<Vehicle> vehicles = Lists.newArrayList();
 
         Vehicle vehicle1 = VehicleFactory.getVehicle(
-                "Car",
-                "Metallic Blue",
-                "Honda Civic Si",
-                "T98765");
+            "Car",
+            "Metallic Blue",
+            "Honda Civic Si",
+            "T98765");
         vehicles.add(vehicle1);
 
         Vehicle vehicle2 = VehicleFactory.getVehicle(
-                "Van",
-                "Dark Grey",
-                "Toyota Sienna XLE",
-                "T31337");
+            "Van",
+            "Dark Grey",
+            "Toyota Sienna XLE",
+            "T31337");
         vehicles.add(vehicle2);
 
         Vehicle vehicle3 = VehicleFactory.getVehicle(
-                "Limousine",
-                "Gloss Black",
-                "Chrysler 300 New York Edition",
-                "TS00700");
+            "Limousine",
+            "Gloss Black",
+            "Chrysler 300 New York Edition",
+            "TS00700");
         vehicles.add(vehicle3);
 
         return vehicles;

@@ -11,7 +11,7 @@ public class Geolocation {
     private double latitude;
     private double longitude;
 
-    public Geolocation(){
+    public Geolocation() {
     }
 
     public Geolocation(double latitude, double longitude) {

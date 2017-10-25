@@ -6,10 +6,8 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.InvalidEmailTyp
 public class MessageQueueConsumer {
 
     private static final String EMAIL_REGISTRATION_SUBJECT = "Hi! Welcome to ULTaxi!";
-
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you for your request to " +
-            "subscribe to ULTaxi. \nHope you will enjoy it! \n " +
-            "\n \n";
+        "subscribe to ULTaxi. \nHope you will enjoy it! \n \n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
 
     private final MessageQueue messageQueue;

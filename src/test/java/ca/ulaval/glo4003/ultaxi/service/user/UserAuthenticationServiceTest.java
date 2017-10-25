@@ -50,7 +50,8 @@ public class UserAuthenticationServiceTest {
         userToAuthenticate.setPassword(A_PASSWORD);
         willReturn(user).given(userRepository).findByUsername(A_NAME.trim().toLowerCase());
         willReturn(anotherUser).given(userAssembler).create(any(UserDto.class));
-        userAuthenticationService = new UserAuthenticationService(userRepository, userAssembler, tokenManager, tokenRepository);
+        userAuthenticationService = new UserAuthenticationService(userRepository, userAssembler, tokenManager,
+                                                                  tokenRepository);
     }
 
     @Test
