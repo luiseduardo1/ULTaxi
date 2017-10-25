@@ -78,7 +78,7 @@ public final class ULTaxiMain {
     private static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private static final UserRepository userRepository = new UserRepositoryInMemory();
     private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
-    private static final MessagingTaskQueue MESSAGING_TASK_QUEUE = new MessagingTaskQueueInMemory();
+    private static final MessagingTaskQueue MessagingTaskQueue = new MessagingTaskQueueInMemory();
     private static final String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
     private static final int DEFAULT_PORT = 0;
     private static final String DEFAULT_URI = "http://localhost";
@@ -165,7 +165,7 @@ public final class ULTaxiMain {
     }
 
     private static void startMessagingTaskConsumerThread() {
-        Thread messagingTaskConsumer = new Thread(new MessagingTaskConsumerImpl(MESSAGING_TASK_QUEUE));
+        Thread messagingTaskConsumer = new Thread(new MessagingTaskConsumerImpl(MessagingTaskQueue));
         messagingTaskConsumer.start();
     }
 
@@ -280,7 +280,7 @@ public final class ULTaxiMain {
     }
 
     private static UserService createUserService(EmailSender emailSender) {
-        MessagingTaskProducer messagingTaskProducer = new MessagingTaskProducerImpl(MESSAGING_TASK_QUEUE);
+        MessagingTaskProducer messagingTaskProducer = new MessagingTaskProducerImpl(MessagingTaskQueue);
         UserService userService = new UserService(userRepository, createUserAssembler(),
                                                   messagingTaskProducer, emailSender);
         return userService;
