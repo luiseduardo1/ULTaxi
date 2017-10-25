@@ -71,7 +71,8 @@ public class TransportRequestServiceTest {
 
     @Test
     public void givenAvailableTransportRequests_whenSearching_thenReturnsTransportRequestsAssociatedWithDriverVehicleType() {
-        willReturn("Car").given(transportRequestSearchParameters).getVehicleType();
+        String typeOfVehicleBeingSearched = "Car";
+        willReturn(typeOfVehicleBeingSearched).given(transportRequestSearchParameters).getVehicleType();
         willReturn(new TransportRequestSearchQueryBuilderInMemory(givenTransportRequests())).given(transportRequestRepository)
             .searchTransportRequests();
 

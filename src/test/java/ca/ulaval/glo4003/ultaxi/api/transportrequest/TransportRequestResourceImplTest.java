@@ -56,7 +56,6 @@ public class TransportRequestResourceImplTest {
         transportRequestResource = new TransportRequestResourceImpl(transportRequestService, userAuthenticationService);
         when(userAuthenticationService.authenticateFromToken(A_VALID_TOKEN)).thenReturn(user);
         when(user.getUsername()).thenReturn(A_VALID_USERNAME);
-
         when(userAuthenticationService.authenticateFromToken(A_VALID_DRIVER_TOKEN)).thenReturn(driver);
         when(driver.getVehicleType()).thenReturn(A_VEHICLE_TYPE);
         when(transportRequestService.searchBy(any(TransportRequestSearchParameters.class))).thenReturn(transportRequestDtos);
@@ -82,7 +81,7 @@ public class TransportRequestResourceImplTest {
 
     @Test
     public void givenATransportRequestWithAnInvalidGeolocation_whenSendRequest_thenReturnsBadRequest() {
-        willThrow(new InvalidGeolocationException("TransportRequest has an invalid starting position geolocation."))
+        willThrow(new InvalidGeolocationException("TransportRequest has an invalid geolocation."))
             .given(transportRequestService)
             .sendRequest(transportRequestDto, A_VALID_USERNAME);
 
@@ -92,37 +91,37 @@ public class TransportRequestResourceImplTest {
     }
 
     @Test
-    public void givenAnAuthenticatedDriver_whenSearchAvailableTransportRequest_thenReturnsOk() {
-        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_DRIVER_TOKEN);
+    public void givenAnAuthenticatedDriver_whenSearchAvailableTransportRequests_thenReturnsOk() {
+        Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
-    public void givenATransportRequestResource_whenSearchAvailableTransportRequest_thenDelegateToRequestTransportService() {
-        transportRequestResource.searchAvailableTransportRequest(A_VALID_DRIVER_TOKEN);
+    public void givenATransportRequestResource_whenSearchAvailableTransportRequests_thenDelegateToRequestTransportService() {
+        transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
         verify(transportRequestService).searchBy(any(TransportRequestSearchParameters.class));
     }
 
     @Test
-    public void givenNoAvailableTransportRequest_whenSearchAvailableTransportRequest_thenReturnsNotFound() {
-        willThrow(new EmptySearchResultsException("No results found."))
+    public void givenNoAvailableTransportRequests_whenSearchAvailableTransportRequests_thenReturnsNotFound() {
+        willThrow(new EmptySearchResultsException("No transport requests found."))
             .given(transportRequestService)
             .searchBy(any(TransportRequestSearchParameters.class));
 
-        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_DRIVER_TOKEN);
+        Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
 
     @Test
-    public void givenValidSearchQuery_whenSearchAvailableTransportRequest_thenReturnsOk() {
+    public void givenValidSearchQuery_whenSearchAvailableTransportRequests_thenReturnsOk() {
             willReturn(transportRequestDtos)
             .given(transportRequestService)
             .searchBy(any(TransportRequestSearchParameters.class));
 
-        Response response = transportRequestResource.searchAvailableTransportRequest(A_VALID_DRIVER_TOKEN);
+        Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }

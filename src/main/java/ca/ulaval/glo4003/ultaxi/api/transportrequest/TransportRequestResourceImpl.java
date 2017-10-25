@@ -42,7 +42,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
     @Override
     @Secured({Role.Driver})
-    public Response searchAvailableTransportRequest(String driverToken) {
+    public Response searchAvailableTransportRequests(String driverToken) {
         try {
             Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
             TransportRequestSearchParameters searchParameters = new TransportRequestSearchParameters(driver.getVehicleType().name());

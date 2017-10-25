@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 public class TransportRequestTest {
 
     private static final String AN_INVALID_VEHICLE_TYPE = "Invalid";
+    private static final TransportRequestStatus PENDING_STATUS = TransportRequestStatus.Pending;
 
     private TransportRequest transportRequest;
 
@@ -26,9 +27,9 @@ public class TransportRequestTest {
     }
 
     @Test
-    public void givenATransportRequest_whenCreated_thenStatusIsPending() {
+    public void givenATransportRequest_whenCreated_thenTransportRequestStatusIsPending() {
         TransportRequest aNewTransportRequest = new TransportRequest();
 
-        assertEquals(TransportRequestStatus.Pending, aNewTransportRequest.getTransportRequestStatus());
+        assertEquals(PENDING_STATUS, aNewTransportRequest.getTransportRequestStatus());
     }
 }

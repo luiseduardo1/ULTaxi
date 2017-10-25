@@ -25,5 +25,5 @@ public interface TransportRequestResource {
     @Path("/search")
     @Produces(MediaType.APPLICATION_JSON)
     @Secured({Role.Driver})
-    Response searchAvailableTransportRequest(@HeaderParam(value = "Authorization") String driverToken);
+    Response searchAvailableTransportRequests(@HeaderParam(value = "Authorization") String driverToken);
 }
