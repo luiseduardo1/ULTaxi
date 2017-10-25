@@ -77,8 +77,9 @@ public abstract class IntegrationTest {
     }
 
     protected Response unauthenticatedGet(String path) {
-        return executeGetRequest(createBasicRequestSpecification(path));
+        return unauthenticatedGet(path, new HashMap<>());
     }
+
 
     protected Response unauthenticatedGet(String path, Map<String, ?> queryParameters) {
         return executeGetRequest(
@@ -183,12 +184,6 @@ public abstract class IntegrationTest {
         Map<String, ?> queryParameters) {
         return requestSpecification
             .queryParams(queryParameters)
-            .when()
-            .get();
-    }
-
-    private Response executeGetRequest(RequestSpecification requestSpecification) {
-        return requestSpecification
             .when()
             .get();
     }
