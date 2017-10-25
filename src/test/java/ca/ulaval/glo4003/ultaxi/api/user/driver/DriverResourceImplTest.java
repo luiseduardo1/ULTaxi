@@ -8,7 +8,7 @@ import static org.mockito.Matchers.any;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
@@ -73,7 +73,7 @@ public class DriverResourceImplTest {
 
     @Test
     public void givenDriverWithInvalidName_whenCreateDriver_thenReturnsBadRequest() {
-        willThrow(new InvalidUserNameException("User has an invalid userName."))
+        willThrow(new InvalidUsernameException("User has an invalid userName."))
                 .given(driverService)
                 .addDriver(driverDto);
 

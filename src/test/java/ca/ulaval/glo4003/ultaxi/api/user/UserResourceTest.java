@@ -5,7 +5,7 @@ import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
@@ -58,7 +58,7 @@ public class UserResourceTest {
 
     @Test
     public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
-        willThrow(new InvalidUserNameException("User has an invalid userName."))
+        willThrow(new InvalidUsernameException("User has an invalid userName."))
                 .given(userService)
                 .addUser(userDto);
 

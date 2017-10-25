@@ -46,7 +46,7 @@ public class UserAuthenticationServiceTest {
     @Before
     public void setUp() throws Exception {
         this.userToAuthenticate = new UserDto();
-        userToAuthenticate.setUserName(A_NAME);
+        userToAuthenticate.setUsername(A_NAME);
         userToAuthenticate.setPassword(A_PASSWORD);
         willReturn(user).given(userRepository).findByUsername(A_NAME.trim().toLowerCase());
         willReturn(anotherUser).given(userAssembler).create(any(UserDto.class));

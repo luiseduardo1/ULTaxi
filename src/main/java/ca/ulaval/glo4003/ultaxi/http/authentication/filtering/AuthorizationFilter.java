@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserRoleException;
 
 import javax.annotation.Priority;
@@ -60,7 +60,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
             } else {
                 checkPermissions(methodRoles, token);
             }
-        } catch (InvalidUserNameException | InvalidUserRoleException e) {
+        } catch (InvalidUsernameException | InvalidUserRoleException e) {
             requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
         }
 
@@ -84,7 +84,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         String username = tokenManager.getUsername(token);
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new InvalidUserNameException("Username is invalid.");
+            throw new InvalidUsernameException("Username is invalid.");
         }
 
         Role userRole = user.getRole();

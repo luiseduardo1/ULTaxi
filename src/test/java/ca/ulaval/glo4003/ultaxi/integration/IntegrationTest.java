@@ -77,7 +77,7 @@ public abstract class IntegrationTest {
     }
 
     protected Response unauthenticatedGet(String path) {
-        return unauthenticatedGet(path, new HashMap<>());
+        return executeGetRequest(createBasicRequestSpecification(path));
     }
 
     protected Response unauthenticatedGet(String path, Map<String, ?> queryParameters) {
@@ -104,7 +104,7 @@ public abstract class IntegrationTest {
 
     protected String createSerializedUser(String username, String password, String email) {
         UserDto userDto = new UserDto();
-        userDto.setUserName(username);
+        userDto.setUsername(username);
         userDto.setPassword(password);
         userDto.setEmail(email);
 
@@ -183,6 +183,12 @@ public abstract class IntegrationTest {
         Map<String, ?> queryParameters) {
         return requestSpecification
             .queryParams(queryParameters)
+            .when()
+            .get();
+    }
+
+    private Response executeGetRequest(RequestSpecification requestSpecification) {
+        return requestSpecification
             .when()
             .get();
     }

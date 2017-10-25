@@ -16,12 +16,11 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     private static final String A_VALID_VEHICLE_TYPE = "Car";
     private static final String A_VALID_NOTE = "Note";
+    private static final String AN_INVALID_VEHICLE_TYPE = "Invalid";
     private static final double A_VALID_LATITUDE = 45.12321;
     private static final double A_VALID_LONGITUDE = 15.34344;
-    private static final String AN_INVALID_VEHICLE_TYPE = "Invalid";
     private static final double AN_INVALID_LATITUDE = -145.12321;
     private static final double AN_INVALID_LONGITUDE = 235.34344;
-    private static final String AN_INVALID_TOKEN = "Invalid token";
 
     @Before
     public void setUp() {
@@ -65,7 +64,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAnUnauthenticatedRequest_whenSendRequest_thenReturnsUnauthorized() {
+    public void givenAnUnauthenticatedClient_whenSendRequest_thenReturnsUnauthorized() {
         String serializedTransportRequest = createSerializedValidTransportRequest();
 
         Response response = unauthenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);

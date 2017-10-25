@@ -7,7 +7,7 @@ import static org.mockito.Matchers.anyString;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -34,17 +34,17 @@ public class UserTest {
         user = new User();
     }
 
-    @Test(expected = InvalidUserNameException.class)
+    @Test(expected = InvalidUsernameException.class)
     public void givenUserWithNullName_whenAssigningName_thenThrowsInvalidUserNameException() {
         user.setUsername(null);
     }
 
-    @Test(expected = InvalidUserNameException.class)
+    @Test(expected = InvalidUsernameException.class)
     public void givenUserWithEmptyName_whenAssigningName_thenThrowsInvalidUserNameException() {
         user.setUsername(AN_INVALID_NAME);
     }
 
-    @Test(expected = InvalidUserNameException.class)
+    @Test(expected = InvalidUsernameException.class)
     public void givenUserWithEmailAddressAsName_whenAssigningName_thenThrowsInvalidUserNameException() {
         user.setUsername(AN_EMAIL_ADDRESS);
     }

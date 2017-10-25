@@ -13,7 +13,7 @@ public class UserAssembler {
 
     public User create(UserDto userDto) {
         User user = new User();
-        user.setUsername(userDto.getUserName());
+        user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword(), hashingStrategy);
         user.setEmailAddress(userDto.getEmail());
         return user;
@@ -21,7 +21,7 @@ public class UserAssembler {
 
     public UserDto create(User user) {
         UserDto userDto = new UserDto();
-        userDto.setUserName(user.getUsername());
+        userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
         userDto.setEmail(user.getEmailAddress());
         return userDto;
