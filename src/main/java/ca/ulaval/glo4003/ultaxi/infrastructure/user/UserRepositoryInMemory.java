@@ -40,6 +40,6 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void update(User user) {
-        //
+        users.replace(user.getUsername(), user);
     }
 }
