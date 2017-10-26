@@ -12,7 +12,7 @@ import org.junit.Test;
 public class MessageQueueInMemoryTest {
 
     private static final String A_RECIPIENT_ADDRESS = "test@example.com";
-    private static final Reason A_REASON = Reason.Registration;
+    private static final Reason A_REASON = Reason.REGISTRATION;
 
     private MessageQueue messageQueue;
 

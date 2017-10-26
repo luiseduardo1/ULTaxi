@@ -21,5 +21,5 @@ public interface UserAuthenticationResource {
 
     @POST
     @Path("/signout")
-    Response signOut(@HeaderParam(value = "Authorization") String token);
+    Response signOut(@HeaderParam(value = "Authorization") String userToken);
 }

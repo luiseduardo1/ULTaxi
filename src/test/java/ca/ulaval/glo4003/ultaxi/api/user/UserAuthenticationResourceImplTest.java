@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -43,8 +42,7 @@ public class UserAuthenticationResourceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        userAuthenticationResource = new UserAuthenticationResourceImpl(userAuthenticationService,
-                                                                        tokenRepository, tokenManager);
+        userAuthenticationResource = new UserAuthenticationResourceImpl(userAuthenticationService);
     }
 
     @Test
@@ -72,17 +70,16 @@ public class UserAuthenticationResourceImplTest {
     }
 
     @Test
-    public void givenToken_whenSignOut_thenTokenIsDeleted() {
-        willReturn(AN_ID).given(tokenManager).getTokenId(A_TOKEN);
-
+    public void givenToken_whenSignOut_thenUserAuthenticationIsCalled() {
         userAuthenticationResource.signOut(AN_UNPARSED_TOKEN);
 
-        verify(tokenRepository).delete(AN_ID);
+        verify(userAuthenticationService).deauthenticate(AN_UNPARSED_TOKEN);
     }
 
     @Test
     public void givenNullToken_whenSignOut_thenReturnsBadRequest() {
-        willThrow(new InvalidTokenException("Token can't be parsed.")).given(tokenManager).getTokenId(any());
+        willThrow(new InvalidTokenException("Token can't be parsed.")).given(userAuthenticationService)
+            .deauthenticate(any());
 
         Response response = userAuthenticationResource.signOut(null);
 

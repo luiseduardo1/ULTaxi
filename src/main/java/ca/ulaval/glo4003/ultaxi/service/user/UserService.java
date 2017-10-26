@@ -30,9 +30,9 @@ public class UserService {
     public void addUser(UserDto userDto) {
         logger.info(String.format("Add new user %s.", userDto));
         User user = userAssembler.create(userDto);
-        user.setRole(Role.Client);
+        user.setRole(Role.CLIENT);
         userRepository.save(user);
-        Message registrationMessage = new Message(user.getEmailAddress(), Reason.Registration);
+        Message registrationMessage = new Message(user.getEmailAddress(), Reason.REGISTRATION);
         messageQueueProducer.send(registrationMessage);
     }
 

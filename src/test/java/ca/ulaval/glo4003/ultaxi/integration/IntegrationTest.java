@@ -80,6 +80,7 @@ public abstract class IntegrationTest {
         return unauthenticatedGet(path, new HashMap<>());
     }
 
+
     protected Response unauthenticatedGet(String path, Map<String, ?> queryParameters) {
         return executeGetRequest(
             createBasicRequestSpecification(path), queryParameters
@@ -104,7 +105,7 @@ public abstract class IntegrationTest {
 
     protected String createSerializedUser(String username, String password, String email) {
         UserDto userDto = new UserDto();
-        userDto.setUserName(username);
+        userDto.setUsername(username);
         userDto.setPassword(password);
         userDto.setEmail(email);
 
@@ -140,8 +141,8 @@ public abstract class IntegrationTest {
         TransportRequestDto transportRequestDto = new TransportRequestDto();
         transportRequestDto.setVehicleType(vehicleType);
         transportRequestDto.setNote(note);
-        transportRequestDto.setLatitude(latitude);
-        transportRequestDto.setLongitude(longitude);
+        transportRequestDto.setStartingPositionLatitude(latitude);
+        transportRequestDto.setStartingPositionLongitude(longitude);
 
         return serializeDto(transportRequestDto);
     }

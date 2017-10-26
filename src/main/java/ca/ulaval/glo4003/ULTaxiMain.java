@@ -257,7 +257,8 @@ public final class ULTaxiMain {
             VehicleResource vehicleResource = createVehicleResource(vehicleService);
             UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
                 userAuthenticationService);
-            TransportRequestResource transportRequestResource = createTransportRequestResource();
+            TransportRequestResource transportRequestResource = createTransportRequestResource
+                (userAuthenticationService);
 
             contextResources = Collections.unmodifiableSet(Sets.newHashSet(driverResource,
                                                                            userResource,
@@ -276,7 +277,9 @@ public final class ULTaxiMain {
 
     private static UserAuthenticationService createUserAuthenticationService() {
         UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-                                                                                            createUserAssembler());
+                                                                                            createUserAssembler(),
+                                                                                            tokenManager,
+                                                                                            tokenRepository);
 
         return userAuthenticationService;
     }
@@ -299,7 +302,6 @@ public final class ULTaxiMain {
 
     private static VehicleService createVehicleService() {
         VehicleAssembler vehicleAssembler = new VehicleAssembler();
-
         return new VehicleService(vehicleRepository, vehicleAssembler);
     }
 
@@ -313,16 +315,17 @@ public final class ULTaxiMain {
 
     private static UserAuthenticationResource createUseAuthenticationResource(UserAuthenticationService
         userAuthenticationService) {
-        return new UserAuthenticationResourceImpl(userAuthenticationService, tokenRepository, tokenManager);
+        return new UserAuthenticationResourceImpl(userAuthenticationService);
     }
 
-    private static TransportRequestResource createTransportRequestResource() {
+    private static TransportRequestResource createTransportRequestResource(UserAuthenticationService
+        userAuthenticationService) {
         TransportRequestRepository transportRequestRepository = new TransportRequestRepositoryInMemory();
         TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
         TransportRequestService transportRequestService = new TransportRequestService(transportRequestRepository,
                                                                                       transportRequestAssembler);
 
-        return new TransportRequestResourceImpl(transportRequestService);
+        return new TransportRequestResourceImpl(transportRequestService, userAuthenticationService);
     }
 
     private static DriverService createDriverService() {

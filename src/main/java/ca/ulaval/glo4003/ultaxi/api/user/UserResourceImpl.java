@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
@@ -21,7 +21,7 @@ public class UserResourceImpl implements UserResource {
         try {
             userService.addUser(userDto);
             return Response.ok().build();
-        } catch (UserAlreadyExistsException | InvalidUserNameException | InvalidPasswordException exception) {
+        } catch (UserAlreadyExistsException | InvalidUsernameException | InvalidPasswordException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
