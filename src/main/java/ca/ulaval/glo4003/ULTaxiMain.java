@@ -97,6 +97,8 @@ public final class ULTaxiMain {
             server.join();
         } catch (Exception exception) {
             exception.printStackTrace();
+        } finally {
+            server.destroy();
         }
     }
 
