@@ -9,14 +9,15 @@ import java.util.concurrent.Executors;
 
 public class MessagingTaskConsumerImpl implements MessagingTaskConsumer {
 
-    private static int threadsNumber = 10;
+    private final int availableProcessors;
     private final MessagingTaskQueue messagingTaskQueue;
     private final ExecutorService threadPool;
     private boolean isRunning = true;
 
     public MessagingTaskConsumerImpl(MessagingTaskQueue messagingTaskQueue) {
         this.messagingTaskQueue = messagingTaskQueue;
-        this.threadPool = Executors.newFixedThreadPool(threadsNumber);
+        this.availableProcessors = Runtime.getRuntime().availableProcessors();
+        this.threadPool = Executors.newFixedThreadPool(availableProcessors);
     }
 
     @Override
