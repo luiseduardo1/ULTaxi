@@ -1,8 +1,7 @@
-package ca.ulaval.glo4003.ultaxi.infrastructure.context;
+package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 
-import ca.ulaval.glo4003.ultaxi.infrastructure.context.exception.InvalidEmailSenderConfigurationFileTypeException;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationPropertyFileReader;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
+import ca.ulaval.glo4003.ultaxi.infrastructure.context.ULTaxiOptions;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.exception.InvalidEmailSenderConfigurationFileTypeException;
 
 public final class EmailSenderConfigurationReaderFactory {
 

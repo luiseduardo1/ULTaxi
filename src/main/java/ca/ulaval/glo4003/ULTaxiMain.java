@@ -2,11 +2,11 @@ package ca.ulaval.glo4003;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
 import ca.ulaval.glo4003.ultaxi.infrastructure.context.DevelopmentServerFactory;
-import ca.ulaval.glo4003.ultaxi.infrastructure.context.MessagingThreadFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.context.ServerFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.context.ULTaxiOptions;
 import ca.ulaval.glo4003.ultaxi.infrastructure.context.ULTaxiServer;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessageQueueInMemory;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingThreadFactory;
 import com.beust.jcommander.JCommander;
 
 import java.util.Optional;
@@ -29,9 +29,12 @@ public final class ULTaxiMain {
             .build()
             .parse(args);
         try {
-            createMainSystems(options).ifPresent(Thread::start);
+            MessageQueue messageQueue = createMessageQueue(options);
+            Thread messagingThread = createMessagingThread(options, messageQueue);
+            server = createServer(options, messageQueue);
+
+            messagingThread.start();
             server.start();
-            server.join();
         } catch (Exception exception) {
             exception.printStackTrace();
         } finally {
@@ -39,26 +42,34 @@ public final class ULTaxiMain {
         }
     }
 
-    public static void start() throws Exception {
-        ULTaxiOptions options = new ULTaxiOptions();
-        createMainSystems(options).ifPresent(Thread::start);
-        server.start();
-        server.join();
-    }
-
-    public static Optional<Thread> createMainSystems(ULTaxiOptions options) throws Exception {
-        Thread messagingThread = null;
+    private static ULTaxiServer createServer(ULTaxiOptions options, MessageQueue messageQueue) throws Exception {
         if (server == null) {
             ServerFactory serverFactory;
             if (options.isDevelopmentMode()) {
-                MessageQueue messageQueue = new MessageQueueInMemory();
                 serverFactory = new DevelopmentServerFactory(options, messageQueue);
-                messagingThread = MessagingThreadFactory.getMessagingThread(messageQueue, options);
-                server = serverFactory.getServer();
+                return serverFactory.getServer();
             }
         }
+        return null;
+    }
 
-        return Optional.ofNullable(messagingThread);
+    private static Thread createMessagingThread(ULTaxiOptions options, MessageQueue messageQueue) throws
+        Exception {
+        Thread messagingThread = null;
+        if (options.isDevelopmentMode()) {
+            messagingThread = MessagingThreadFactory.getMessagingThread(messageQueue, options);
+        }
+
+        return messagingThread;
+    }
+
+    private static MessageQueue createMessageQueue(ULTaxiOptions options) {
+        MessageQueue messageQueue = null;
+        if (options.isDevelopmentMode()) {
+            messageQueue = new MessageQueueInMemory();
+        }
+
+        return messageQueue;
     }
 
     public static void stop() throws Exception {

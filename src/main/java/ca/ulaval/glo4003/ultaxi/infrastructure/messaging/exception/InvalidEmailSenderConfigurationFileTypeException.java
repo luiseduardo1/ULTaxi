@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.infrastructure.context.exception;
+package ca.ulaval.glo4003.ultaxi.infrastructure.messaging.exception;
 
 public class InvalidEmailSenderConfigurationFileTypeException extends RuntimeException {
 

@@ -1,9 +1,8 @@
-package ca.ulaval.glo4003.ultaxi.infrastructure.context;
+package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 
 import ca.ulaval.glo4003.MessagingThread;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSender;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReader;
+import ca.ulaval.glo4003.ultaxi.infrastructure.context.ULTaxiOptions;
 
 public final class MessagingThreadFactory {
 

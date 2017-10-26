@@ -6,11 +6,10 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.VehicleAlreadyExistsExc
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class VehicleRepositoryInMemory implements VehicleRepository {
 
-    private final Map<String, Vehicle> vehicles = new ConcurrentHashMap<>();
+    private final Map<String, Vehicle> vehicles = new HashMap<>();
 
     @Override
     public Vehicle findByRegistrationNumber(String registrationNumber) {
