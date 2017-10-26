@@ -35,4 +35,10 @@ public class UserService {
         Message registrationMessage = new Message(user.getEmailAddress(), Reason.Registration);
         messageQueueProducer.send(registrationMessage);
     }
+
+    public void updateUser(UserDto userDto) {
+        logger.info(String.format("Updating a user with infos: %s", userDto));
+        User user = userAssembler.create(userDto);
+        userRepository.update(user);
+    }
 }

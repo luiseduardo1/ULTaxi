@@ -77,4 +77,14 @@ public class UserResourceTest {
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
+
+    @Test
+    public void givenInvalidEmail_whenUpdateUser_thenReturnsBadRequest() {
+
+    }
+
+    @Test
+    public void givenEmptyPassword_whenUpdateUser_thenReturnsBadRequest() {
+
+    }
 }

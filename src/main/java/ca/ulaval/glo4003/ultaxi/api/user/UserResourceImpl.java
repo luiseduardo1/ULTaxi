@@ -25,4 +25,14 @@ public class UserResourceImpl implements UserResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
+
+    @Override
+    public Response updateUser(UserDto userDto) {
+        try {
+            userService.updateUser(userDto);
+            return Response.ok().build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
 }
