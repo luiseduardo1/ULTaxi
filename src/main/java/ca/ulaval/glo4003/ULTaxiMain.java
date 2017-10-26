@@ -37,8 +37,6 @@ public final class ULTaxiMain {
             server.start();
         } catch (Exception exception) {
             exception.printStackTrace();
-        } finally {
-            server.destroy();
         }
     }
 
