@@ -21,7 +21,8 @@ public class ULTaxiOptions {
         converter = PathOptionConverter.class)
     private Path emailSenderConfigurationFilePath = Paths.get("emailSenderConfiguration.properties");
     @Parameter(names = "--configuration-filetype",
-        description = "the type of the configuration file of the email sender")
+        description = "the type of the configuration file of the email sender",
+        converter = EmailSenderConfigurationFileTypeOptionConverter.class)
     private EmailSenderConfigurationFileType emailSenderConfigurationFileType = EmailSenderConfigurationFileType
         .Properties;
     @Parameter(names = {"-h", "--help"},
