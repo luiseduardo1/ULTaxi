@@ -20,6 +20,6 @@ public interface UserResource {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Role.Administrator,Role.Client, Role.Driver})
-    Response updateUser(UserDto userDto);
+    @Secured({Role.ADMINISTRATOR, Role.CLIENT, Role.DRIVER})
+    Response updateUser(String userToken, UserDto userDto);
 }

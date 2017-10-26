@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import org.junit.Before;
@@ -23,13 +24,15 @@ public class UserResourceTest {
     @Mock
     private UserService userService;
     @Mock
+    private UserAuthenticationService userAuthenticationService;
+    @Mock
     private UserDto userDto;
 
     private UserResource userResource;
 
     @Before
     public void setUp() {
-        userResource = new UserResourceImpl(userService);
+        userResource = new UserResourceImpl(userService, userAuthenticationService);
     }
 
     @Test

@@ -36,7 +36,8 @@ public class UserService {
         messageQueueProducer.send(registrationMessage);
     }
 
-    public void updateUser(UserDto userDto) {
+    public void updateUser(UserDto userDto, String username) {
+        userDto.setUsername(username);
         logger.info(String.format("Updating a user with infos: %s", userDto));
         User user = userAssembler.create(userDto);
         userRepository.update(user);

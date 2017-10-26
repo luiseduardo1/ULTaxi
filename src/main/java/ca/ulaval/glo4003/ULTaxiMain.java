@@ -252,11 +252,11 @@ public final class ULTaxiMain {
             VehicleService vehicleService = createVehicleService();
             DriverService driverService = createDriverService();
 
-            UserResource userResource = createUserResource(userService);
+            UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
+                    userAuthenticationService);
+            UserResource userResource = createUserResource(userService, userAuthenticationService);
             DriverResource driverResource = createDriverResource(driverService);
             VehicleResource vehicleResource = createVehicleResource(vehicleService);
-            UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
-                userAuthenticationService);
             TransportRequestResource transportRequestResource = createTransportRequestResource
                 (userAuthenticationService);
 
@@ -305,8 +305,8 @@ public final class ULTaxiMain {
         return new VehicleService(vehicleRepository, vehicleAssembler);
     }
 
-    private static UserResource createUserResource(UserService userService) {
-        return new UserResourceImpl(userService);
+    private static UserResource createUserResource(UserService userService, UserAuthenticationService userAuthenticationService) {
+        return new UserResourceImpl(userService, userAuthenticationService);
     }
 
     private static VehicleResource createVehicleResource(VehicleService vehicleService) {
