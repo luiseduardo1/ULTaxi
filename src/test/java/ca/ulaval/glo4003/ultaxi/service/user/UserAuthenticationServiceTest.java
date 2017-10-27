@@ -3,7 +3,10 @@ package ca.ulaval.glo4003.ultaxi.service.user;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
+import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
@@ -20,7 +23,14 @@ public class UserAuthenticationServiceTest {
 
     private static final String A_NAME = "Ronald";
     private static final String A_PASSWORD = "Beaubrun";
+    private static final String A_TOKEN = "Ronald Mcdonald";
+    private static final String AN_UNPARSED_TOKEN = "Bearer Ronald Mcdonald";
+    private static final String AN_ID = "RONALD_MACDONALD";
     private UserAuthenticationService userAuthenticationService;
+    @Mock
+    private TokenRepository tokenRepository;
+    @Mock
+    private TokenManager tokenManager;
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -40,7 +50,8 @@ public class UserAuthenticationServiceTest {
         userToAuthenticate.setPassword(A_PASSWORD);
         willReturn(user).given(userRepository).findByUsername(A_NAME.trim().toLowerCase());
         willReturn(anotherUser).given(userAssembler).create(any(UserDto.class));
-        userAuthenticationService = new UserAuthenticationService(userRepository, userAssembler);
+        userAuthenticationService = new UserAuthenticationService(userRepository, userAssembler, tokenManager,
+                                                                  tokenRepository);
     }
 
     @Test
@@ -63,4 +74,14 @@ public class UserAuthenticationServiceTest {
     public void givenANonExistentUserToAuthenticate_whenAuthenticatingUser_thenExceptionIsThrown() {
         userAuthenticationService.authenticate(nonExistentUser);
     }
+
+    @Test
+    public void givenToken_whenDeauthenticate_thenTokenIsDeleted() {
+        willReturn(AN_ID).given(tokenManager).getTokenId(A_TOKEN);
+
+        userAuthenticationService.deauthenticate(AN_UNPARSED_TOKEN);
+
+        verify(tokenRepository).delete(AN_ID);
+    }
+
 }

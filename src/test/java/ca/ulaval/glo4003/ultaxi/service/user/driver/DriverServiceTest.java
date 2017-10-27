@@ -88,7 +88,6 @@ public class DriverServiceTest {
         assertEquals(1, driverDtos.size());
     }
 
-
     public Map<String, User> givenDrivers() {
         Map<String, User> drivers = new HashMap<>();
         drivers.put("1", new Driver("Ronald", "Macdonald", "972487086"));

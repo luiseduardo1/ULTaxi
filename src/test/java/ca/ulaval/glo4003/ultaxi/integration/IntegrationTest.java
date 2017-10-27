@@ -23,7 +23,7 @@ public abstract class IntegrationTest {
     protected static final String USERS_ROUTE = API_ROUTE + "/users";
     protected static final String DRIVERS_ROUTE = API_ROUTE + "/drivers";
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
-    protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transportRequest";
+    protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
     protected static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
     protected static final String SIGNOUT_ROUTE = USER_AUTHENTICATION_ROUTE + "/signout";
@@ -79,6 +79,7 @@ public abstract class IntegrationTest {
     protected Response unauthenticatedGet(String path) {
         return unauthenticatedGet(path, new HashMap<>());
     }
+
 
     protected Response unauthenticatedGet(String path, Map<String, ?> queryParameters) {
         return executeGetRequest(
@@ -140,8 +141,8 @@ public abstract class IntegrationTest {
         TransportRequestDto transportRequestDto = new TransportRequestDto();
         transportRequestDto.setVehicleType(vehicleType);
         transportRequestDto.setNote(note);
-        transportRequestDto.setLatitude(latitude);
-        transportRequestDto.setLongitude(longitude);
+        transportRequestDto.setStartingPositionLatitude(latitude);
+        transportRequestDto.setStartingPositionLongitude(longitude);
 
         return serializeDto(transportRequestDto);
     }

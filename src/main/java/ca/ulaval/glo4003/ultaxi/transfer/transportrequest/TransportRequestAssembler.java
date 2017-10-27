@@ -6,13 +6,23 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 public class TransportRequestAssembler {
 
     public TransportRequest create(TransportRequestDto transportRequestDto) {
-        Geolocation geolocation = new Geolocation();
-        geolocation.setLatitude(transportRequestDto.getLatitude());
-        geolocation.setLongitude(transportRequestDto.getLongitude());
+        Geolocation startingPosition = new Geolocation();
+        startingPosition.setLatitude(transportRequestDto.getStartingPositionLatitude());
+        startingPosition.setLongitude(transportRequestDto.getStartingPositionLongitude());
         TransportRequest transportRequest = new TransportRequest();
-        transportRequest.setGeolocation(geolocation);
+        transportRequest.setStartingPosition(startingPosition);
         transportRequest.setNote(transportRequestDto.getNote());
         transportRequest.setVehicleType(transportRequestDto.getVehicleType());
         return transportRequest;
+    }
+
+    public TransportRequestDto create(TransportRequest transportRequest) {
+        TransportRequestDto transportRequestDto = new TransportRequestDto();
+        transportRequestDto.setStartingPositionLatitude(transportRequest.getStartingPosition().getLatitude());
+        transportRequestDto.setStartingPositionLongitude(transportRequest.getStartingPosition().getLongitude());
+        transportRequestDto.setNote(transportRequest.getNote());
+        transportRequestDto.setVehicleType(transportRequest.getVehicleType().name());
+        transportRequestDto.setClientUsername(transportRequest.getClientUsername());
+        return transportRequestDto;
     }
 }
