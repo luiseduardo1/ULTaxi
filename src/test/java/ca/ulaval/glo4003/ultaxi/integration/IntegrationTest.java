@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.integration;
 
-import static io.restassured.RestAssured.given;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
@@ -16,6 +14,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import javax.ws.rs.core.Response.Status;
 import java.util.HashMap;
 import java.util.Map;
+
+import static io.restassured.RestAssured.given;
 
 public abstract class IntegrationTest {
 
@@ -70,9 +70,19 @@ public abstract class IntegrationTest {
         );
     }
 
+    protected Response authenticatedPut(String path, String body) {
+        return executePutRequest(createAuthenticatedRequestSpecification(path, authenticationToken), body);
+    }
+
+    protected Response unauthenticatedPut(String path, String body) {
+        return executePutRequest(
+                createBasicRequestSpecification(path), body
+        );
+    }
+
     protected Response unauthenticatedPost(String path, String body) {
         return executePostRequest(
-            createBasicRequestSpecification(path), body
+                createBasicRequestSpecification(path), body
         );
     }
 
@@ -178,6 +188,13 @@ public abstract class IntegrationTest {
             .body(body)
             .when()
             .post();
+    }
+
+    private Response executePutRequest(RequestSpecification requestSpecification, String body) {
+        return requestSpecification
+                .body(body)
+                .when()
+                .put();
     }
 
     private Response executeGetRequest(RequestSpecification requestSpecification,
