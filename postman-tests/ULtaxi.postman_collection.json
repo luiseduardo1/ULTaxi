@@ -1,8 +1,7 @@
 {
 	"info": {
 		"name": "ULtaxi",
-		"_postman_id": "5860e864-4d9f-63f1-3f8f-3886338ff2d4",
-		"description": "",
+		"_postman_id": "a349c333-0f69-a2cd-b985-e2594226934f",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -227,7 +226,10 @@
 						},
 						"method": "POST",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{base_url}}:{{server_port}}/api/users/auth/signout",
 							"host": [
@@ -266,7 +268,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"note\": \"A note\",\n\t\"latitude\": 1.343,\n\t\"longitude\": 1.34,\n\t\"vehicleType\": \"Car\"\n}"
+							"raw": "{\n\t\"note\": {{transport_request_note}},\n\t\"startingPositionLatitude\": {{starting_position_latitude}},\n\t\"startingPositionLongitude\": {{starting_position_longitude}},\n\t\"vehicleType\": {{transport_request_vehicle_type}}\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}:{{server_port}}/api/transportRequest",
