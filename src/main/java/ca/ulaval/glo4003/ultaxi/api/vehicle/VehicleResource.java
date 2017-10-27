@@ -6,10 +6,8 @@ import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -24,7 +22,12 @@ public interface VehicleResource {
     @POST
     @Path("/associate")
     @Consumes(MediaType.APPLICATION_JSON)
-    Response associateVehicle(@HeaderParam(value = "Authorization") String token,
-                              VehicleAssociationDto vehicleAssociationDto);
+    Response associateVehicle(VehicleAssociationDto vehicleAssociationDto);
+
+    @POST
+    @Path("/disassociate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    Response dissociateVehicle(VehicleAssociationDto vehicleAssociationDto);
+
 
 }

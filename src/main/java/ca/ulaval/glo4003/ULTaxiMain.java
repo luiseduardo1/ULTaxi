@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleAssociator;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.http.CORSResponseFilter;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilter;
@@ -257,8 +258,8 @@ public final class ULTaxiMain {
             VehicleResource vehicleResource = createVehicleResource(vehicleService);
             UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
                 userAuthenticationService);
-            TransportRequestResource transportRequestResource = createTransportRequestResource
-                (userAuthenticationService);
+            TransportRequestResource transportRequestResource = createTransportRequestResource(
+                userAuthenticationService);
 
             contextResources = Collections.unmodifiableSet(Sets.newHashSet(driverResource,
                                                                            userResource,
@@ -302,7 +303,9 @@ public final class ULTaxiMain {
 
     private static VehicleService createVehicleService() {
         VehicleAssembler vehicleAssembler = new VehicleAssembler();
-        return new VehicleService(vehicleRepository, vehicleAssembler);
+        VehicleAssociator vehicleAssociator = new VehicleAssociator();
+        return new VehicleService(vehicleRepository, vehicleAssembler, vehicleAssociator,
+            userRepository);
     }
 
     private static UserResource createUserResource(UserService userService) {
