@@ -15,7 +15,7 @@ public class SendRegistrationEmailTask implements MessagingTask {
     private static final String EMAIL_REGISTRATION_CONTENT = "Thank you %s for your request to " +
         "subscribe to ULTaxi. \nHope you will enjoy it! \n \n \n";
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
-    private int DELAY_SECONDS_BETWEEN_RETRY_ATTEMPT = 60;
+    private static final int DELAY_SECONDS_BETWEEN_RETRY_ATTEMPT = 60;
 
     private EmailSender emailSender;
     private String sendTo;

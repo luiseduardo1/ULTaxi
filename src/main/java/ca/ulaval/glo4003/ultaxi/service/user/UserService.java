@@ -21,8 +21,8 @@ public class UserService {
     private final MessagingTaskProducer messagingTaskProducer;
     private final EmailSender emailSender;
 
-    public UserService(UserRepository userRepository, UserAssembler userAssembler, MessagingTaskProducer messagingTaskProducer,
-        EmailSender emailSender) {
+    public UserService(UserRepository userRepository, UserAssembler userAssembler,
+        MessagingTaskProducer messagingTaskProducer, EmailSender emailSender) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
         this.messagingTaskProducer = messagingTaskProducer;
