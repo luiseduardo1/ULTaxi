@@ -11,8 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-//TODO:TO-SECURE
 @Path("/vehicles")
+@Secured(Role.ADMINISTRATOR)
 public interface VehicleResource {
 
     @POST
