@@ -23,8 +23,7 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     private final TokenRepository tokenRepository;
 
     public UserAuthenticationResourceImpl(UserAuthenticationService userAuthenticationService, TokenRepository
-        tokenRepository,
-        TokenManager tokenManager) {
+        tokenRepository, TokenManager tokenManager) {
         this.userAuthenticationService = userAuthenticationService;
         this.tokenManager = tokenManager;
         this.tokenRepository = tokenRepository;
@@ -34,7 +33,7 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     public Response authenticateUser(UserDto userDto) {
         try {
             userAuthenticationService.authenticate(userDto);
-            String token = tokenManager.createToken(userDto.getUserName(), HOUR_IN_MILLISECONDS);
+            String token = tokenManager.createToken(userDto.getUsername(), HOUR_IN_MILLISECONDS);
             tokenRepository.save(tokenManager.getTokenId(token), token);
             return Response.ok().entity(token).build();
         } catch (InvalidCredentialsException exception) {

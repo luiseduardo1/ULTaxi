@@ -104,7 +104,7 @@ public abstract class IntegrationTest {
 
     protected String createSerializedUser(String username, String password, String email) {
         UserDto userDto = new UserDto();
-        userDto.setUserName(username);
+        userDto.setUsername(username);
         userDto.setPassword(password);
         userDto.setEmail(email);
 

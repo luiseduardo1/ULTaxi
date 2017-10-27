@@ -1,6 +1,7 @@
-package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
+package ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.exception.EmailSendingFailureException;
 
 import javax.mail.Message;
@@ -12,13 +13,13 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-public class EmailSender {
+public class JavaMailEmailSender implements EmailSender {
 
     private static final String PROTOCOL = "smtp";
     private final Properties emailSenderProperties;
     private Session mailSession;
 
-    public EmailSender(EmailSenderConfigurationReader configurationReader) {
+    public JavaMailEmailSender(EmailSenderConfigurationReader configurationReader) {
         emailSenderProperties = configurationReader.read();
     }
 
