@@ -4,5 +4,7 @@ public interface HashingStrategy {
 
     String hash(String value);
 
+    String hashWithRandomSalt(String value);
+
     boolean areEquals(String plainValue, String hashedValue);
 }
