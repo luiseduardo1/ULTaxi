@@ -12,8 +12,8 @@ import javax.ws.rs.core.Response.Status;
 public class UserResourceIT extends IntegrationTest {
 
     private static final String A_VALID_PASSWORD = "Macdonald";
-    private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
     private static final String AN_INVALID_NAME = "ronald.macdonald@ulaval.ca";
+    private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
 
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {

@@ -64,7 +64,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAnUnauthenticatedRequest_whenSendRequest_thenReturnsUnauthorized() {
+    public void givenAnUnauthenticatedClient_whenSendRequest_thenReturnsUnauthorized() {
         String serializedTransportRequest = createSerializedValidTransportRequest();
 
         Response response = unauthenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
