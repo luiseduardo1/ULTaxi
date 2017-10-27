@@ -159,16 +159,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [
               {
@@ -375,20 +365,14 @@
         }
       ],
       "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
         "method": "POST",
         "header": [
           {
             "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
             "value": "application/json"
           }
         ],
@@ -397,7 +381,7 @@
           "raw": "{\n\t\"username\": {{administrator_username}},\n\t\"password\": {{administrator_password}},\n\t\"email\": {{administrator_email}}\n}"
         },
         "url": {
-          "raw": "{{base_url}}:{{server_port}}/api/users/",
+          "raw": "{{base_url}}:{{server_port}}/api/users/auth/signin",
           "host": [
             "{{base_url}}"
           ],
@@ -405,7 +389,8 @@
           "path": [
             "api",
             "users",
-            ""
+            "auth",
+            "signin"
           ]
         },
         "description": "# Uses\n\nSign in as a hardcoded administrator to execute some tasks.\nFor tests purpose only."
