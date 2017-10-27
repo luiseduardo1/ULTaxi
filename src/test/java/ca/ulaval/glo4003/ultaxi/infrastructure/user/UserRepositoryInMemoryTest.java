@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.willReturn;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,5 +60,16 @@ public class UserRepositoryInMemoryTest {
     public void givenExistingUser_whenSave_thenThrowsException() {
         userRepository.save(user);
         userRepository.save(user);
+    }
+
+    @Test
+    public void givenUserToUpdate_whenUpdatingUser_thenNoExceptionIsThrown() {
+        userRepository.save(user);
+        userRepository.put(user);
+    }
+
+    @Test(expected = NonExistentUserException.class)
+    public void givenNonExistentUserToUpdate_whenUpdatingUser_thenThrowsException() {
+        userRepository.put(new User());
     }
 }

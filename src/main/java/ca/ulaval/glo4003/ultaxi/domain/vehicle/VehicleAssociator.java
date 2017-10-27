@@ -8,14 +8,10 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociati
 public class VehicleAssociator {
 
     public void associate(Vehicle vehicle, User user) {
-        if (user.getRole() == Role.DRIVER) {
-
-            Driver driver = (Driver) user;
-
-            if(driver.getVehicle() == null && vehicle.getDriver() == null) {
-                vehicle.setDriver(driver);
-                driver.setVehicle(vehicle);
-            }
+        if (user.getRole() == Role.DRIVER &&
+            ((Driver)user).getVehicle() == null && vehicle.getDriver() == null) {
+            vehicle.setDriver((Driver) user);
+            ((Driver) user).setVehicle(vehicle);
         } else {
             throw new InvalidVehicleAssociationException("Can't make " +
                 "one-to-one Association");
