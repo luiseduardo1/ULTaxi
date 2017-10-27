@@ -27,7 +27,7 @@ public class UserRepositoryInMemory implements UserRepository {
         String name = user.getUsername();
         if (users.containsKey(name)) {
             throw new UserAlreadyExistsException(
-                String.format("User with userName %s already exists.", user.getUsername())
+                    String.format("User with username %s already exists.", user.getUsername())
             );
         }
         users.put(name, user);

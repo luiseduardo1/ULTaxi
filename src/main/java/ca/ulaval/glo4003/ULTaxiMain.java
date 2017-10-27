@@ -46,14 +46,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import jersey.repackaged.com.google.common.collect.Sets;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.*;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -258,7 +251,7 @@ public final class ULTaxiMain {
             DriverResource driverResource = createDriverResource(driverService);
             VehicleResource vehicleResource = createVehicleResource(vehicleService);
             TransportRequestResource transportRequestResource = createTransportRequestResource
-                (userAuthenticationService);
+                    (userAuthenticationService);
 
             contextResources = Collections.unmodifiableSet(Sets.newHashSet(driverResource,
                                                                            userResource,
@@ -305,7 +298,8 @@ public final class ULTaxiMain {
         return new VehicleService(vehicleRepository, vehicleAssembler);
     }
 
-    private static UserResource createUserResource(UserService userService, UserAuthenticationService userAuthenticationService) {
+    private static UserResource createUserResource(UserService userService, UserAuthenticationService
+            userAuthenticationService) {
         return new UserResourceImpl(userService, userAuthenticationService);
     }
 
