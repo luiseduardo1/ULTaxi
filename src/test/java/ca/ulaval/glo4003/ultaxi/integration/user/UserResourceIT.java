@@ -49,7 +49,7 @@ public class UserResourceIT extends IntegrationTest {
         authenticateAs(Role.DRIVER);
         String serializedUser = createSerializedValidUser();
 
-        Response response = authenticatedPut(USERS_ROUTE + "/update", serializedUser);
+        Response response = authenticatedPut(USERS_UPDATE_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.OK);
     }
@@ -58,7 +58,7 @@ public class UserResourceIT extends IntegrationTest {
     public void givenAnUnauthenticatedUser_whenUpdateUser_thenReturnsUnauthorized() {
         String serializedUser = createSerializedValidUser();
 
-        Response response = unauthenticatedPut(USERS_ROUTE + "/update", serializedUser);
+        Response response = unauthenticatedPut(USERS_UPDATE_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.UNAUTHORIZED);
     }
