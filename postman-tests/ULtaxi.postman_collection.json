@@ -2,6 +2,7 @@
 	"info": {
 		"name": "ULtaxi",
 		"_postman_id": "a349c333-0f69-a2cd-b985-e2594226934f",
+		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -181,7 +182,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"userName\": {{username}},\n\t\"password\": {{password}},\n\t\"email\": {{email}}\n}"
+							"raw": "{\n\t\"username\": {{username}},\n\t\"password\": {{password}},\n\t\"email\": {{email}}\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}:{{server_port}}/api/users/auth/signin",
@@ -226,10 +227,7 @@
 						},
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
 						"url": {
 							"raw": "{{base_url}}:{{server_port}}/api/users/auth/signout",
 							"host": [
@@ -254,7 +252,28 @@
 			"item": [
 				{
 					"name": "Create a transport request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setEnvironmentVariable(\"token\", responseBody);"
+								]
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -271,14 +290,14 @@
 							"raw": "{\n\t\"note\": {{transport_request_note}},\n\t\"startingPositionLatitude\": {{starting_position_latitude}},\n\t\"startingPositionLongitude\": {{starting_position_longitude}},\n\t\"vehicleType\": {{transport_request_vehicle_type}}\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}:{{server_port}}/api/transportRequest",
+							"raw": "{{base_url}}:{{server_port}}/api/transport-requests",
 							"host": [
 								"{{base_url}}"
 							],
 							"port": "{{server_port}}",
 							"path": [
 								"api",
-								"transportRequest"
+								"transport-requests"
 							]
 						},
 						"description": "transport request"
@@ -287,7 +306,28 @@
 				},
 				{
 					"name": "Search available transport requests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setEnvironmentVariable(\"token\", responseBody);"
+								]
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -322,41 +362,29 @@
 			]
 		},
 		{
-			"name": "vehicle",
-			"item": [
-				{
-					"name": "Create vehicle",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"type\": {{vehicle_type}},\n\t\"color\": {{vehicle_color}},\n\t\"model\": {{vehicle_model}},\n\t\"registrationNumber\": {{vehicle_registration_number}}\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}:{{server_port}}/api/vehicles",
-							"host": [
-								"{{base_url}}"
-							],
-							"port": "{{server_port}}",
-							"path": [
-								"api",
-								"vehicles"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Sign in as administrator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"token\", responseBody);"
+						]
+					}
+				}
+			],
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [
 					{
