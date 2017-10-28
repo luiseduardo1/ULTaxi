@@ -20,3 +20,6 @@ target/
 .classpath
 .project
 .settings
+
+# Infinitest
+infinitest.filters

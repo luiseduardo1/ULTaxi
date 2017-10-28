@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.service.user;
 
-import static org.mockito.BDDMockito.verify;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
@@ -17,6 +14,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.BDDMockito.verify;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -46,8 +46,8 @@ public class UserServiceTest {
         willReturn(A_VALID_EMAIL).given(user).getEmailAddress();
         userService = new UserService(userRepository,
                                       userAssembler,
-                                      messagingTaskProducer,
-                                      emailSender);
+                messagingTaskProducer,
+                emailSender);
     }
 
     @Test
@@ -62,5 +62,14 @@ public class UserServiceTest {
         userService.addUser(userDto);
 
         verify(messagingTaskProducer).send(any(MessagingTask.class));
+    }
+
+    @Test
+    public void givenAUserUpdate_whenUpdateUser_thenUserIsUpdated() {
+        willReturn(user).given(userAssembler).create(userDto);
+
+        userService.updateUser(userDto, A_VALID_USERNAME);
+
+        verify(userRepository).update(user);
     }
 }
