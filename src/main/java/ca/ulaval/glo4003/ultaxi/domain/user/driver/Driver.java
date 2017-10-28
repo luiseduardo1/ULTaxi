@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
 import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
@@ -21,6 +22,8 @@ public class Driver extends User {
     private String phoneNumber;
     private VehicleType vehicleType;
     private String socialInsuranceNumber;
+
+    public Vehicle vehicle;
 
     public Driver() {
     }
@@ -78,6 +81,14 @@ public class Driver extends User {
 
     public void setVehicleType(VehicleType vehicleType) {
         this.vehicleType = vehicleType;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {

@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.vehicle;
 
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.VehicleAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
@@ -36,4 +37,17 @@ public class VehicleRepositoryInMemory implements VehicleRepository {
         }
         vehicles.put(hashedRegistrationNumber, vehicle);
     }
+
+    @Override
+    public void put(Vehicle vehicle) {
+        String registrationNumber = vehicle.getRegistrationNumber();
+        if (findByRegistrationNumber(registrationNumber) == null) {
+            throw new NonExistentVehicleException(
+                String.format("Vehicle with the registration number %s don't" +
+                    " exists.", registrationNumber)
+            );
+        }
+        vehicles.put(registrationNumber, vehicle);
+    }
+
 }

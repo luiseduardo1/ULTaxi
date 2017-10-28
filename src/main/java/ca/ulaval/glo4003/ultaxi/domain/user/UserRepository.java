@@ -8,7 +8,7 @@ public interface UserRepository {
 
     void save(User user);
 
-    DriverSearchQueryBuilder searchDrivers();
+    void put(User user);
 
-    void update(User user);
+    DriverSearchQueryBuilder searchDrivers();
 }

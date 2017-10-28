@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,15 +65,25 @@ public class UserRepositoryInMemoryTest {
     }
 
     @Test
+    public void givenUserToUpdate_whenUpdatingUser_thenNoExceptionIsThrown() {
+        userRepository.save(user);
+        userRepository.put(user);
+    }
+
+    @Test(expected = NonExistentUserException.class)
+    public void givenNonExistentUserToUpdate_whenUpdatingUser_thenThrowsException() {
+        userRepository.put(new User());
+    }
+
+    @Test
     public void givenExistingUser_whenUpdate_thenUserHasUpdatedParameters() {
-        User user = new User();
         user.setUsername(A_USERNAME);
         user.setEmailAddress(ORIGINAL_EMAIL_ADDRESS);
         User sameUserWithAnotherEmailAddress = user;
         sameUserWithAnotherEmailAddress.setEmailAddress(UPDATED_EMAIL_ADDRESS);
 
         userRepository.save(user);
-        userRepository.update(sameUserWithAnotherEmailAddress);
+        userRepository.put(sameUserWithAnotherEmailAddress);
 
         User updatedUser = userRepository.findByUsername(user.getUsername());
         assertEquals(user.getUsername(), updatedUser.getUsername());

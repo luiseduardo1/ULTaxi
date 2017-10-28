@@ -5,4 +5,6 @@ public interface VehicleRepository {
     Vehicle findByRegistrationNumber(String registrationNumber);
 
     void save(Vehicle vehicle);
+
+    void put(Vehicle vehicle);
 }
