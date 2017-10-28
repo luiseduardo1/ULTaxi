@@ -31,6 +31,7 @@ public class VehicleAssociatorTest {
 
     @Test(expected = InvalidVehicleAssociationException.class)
     public void givenValidUserWithAnInvalidRole_WhenAssociating_thenExceptionIsThrown() {
+        user.setRole(null);
         vehicleAssociator.associate(vehicle, user);
     }
 
