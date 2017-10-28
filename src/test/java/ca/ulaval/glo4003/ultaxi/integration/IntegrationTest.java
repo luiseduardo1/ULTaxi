@@ -24,7 +24,7 @@ public abstract class IntegrationTest {
     protected static final String USERS_UPDATE_ROUTE = USERS_ROUTE + "/update";
     protected static final String DRIVERS_ROUTE = API_ROUTE + "/drivers";
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
-    protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transportRequest";
+    protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
     protected static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
     protected static final String SIGNOUT_ROUTE = USER_AUTHENTICATION_ROUTE + "/signout";
