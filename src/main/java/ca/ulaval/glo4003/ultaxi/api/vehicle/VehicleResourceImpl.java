@@ -39,7 +39,7 @@ public class VehicleResourceImpl implements VehicleResource {
             vehicleService.associateVehicle(vehicleAssociationDto);
             return Response.ok().build();
         } catch (NonExistentUserException |
-             NonExistentVehicleException |
+            NonExistentVehicleException |
             InvalidVehicleAssociationException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

@@ -8,7 +8,7 @@ public abstract class Vehicle {
     protected String model;
     protected String registrationNumber;
 
-    public Driver driver;
+    private Driver driver;
 
     public Vehicle(String color, String model, String registrationNumber) {
         this.color = color;
