@@ -70,7 +70,7 @@ public final class ULTaxiMain {
     private static final TokenManager tokenManager = new JWTTokenManager();
     private static final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private static final UserRepository userRepository = new UserRepositoryInMemory();
-    private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
+    private static final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(createHashingStrategy());
     private static final MessagingTaskQueue messagingTaskQueue = new MessagingTaskQueueInMemory();
     private static final String EMAIL_SENDER_CONFIGURATION_FILENAME = "emailSenderConfiguration.properties";
     private static final int DEFAULT_PORT = 0;

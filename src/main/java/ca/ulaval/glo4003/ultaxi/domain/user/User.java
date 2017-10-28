@@ -30,7 +30,7 @@ public class User {
             throw new InvalidHashingStrategyException("The hashing strategy is not valid.");
         }
         this.hashingStrategy = hashingStrategy;
-        this.password = hashingStrategy.hash(password);
+        this.password = hashingStrategy.hashWithRandomSalt(password);
     }
 
     public String getUsername() {
