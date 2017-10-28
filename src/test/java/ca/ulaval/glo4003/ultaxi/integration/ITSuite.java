@@ -22,9 +22,11 @@ import org.junit.runners.Suite;
 })
 public class ITSuite {
 
+    private static final String[] ARGUMENTS = {"--development"};
+
     @BeforeClass
     public static void setUpBaseServer() throws Exception {
-        ULTaxiMain.start();
+        ULTaxiMain.main(ARGUMENTS);
 
         RestAssured.baseURI = ULTaxiMain.getBaseURI();
         RestAssured.port = ULTaxiMain.getPort();
