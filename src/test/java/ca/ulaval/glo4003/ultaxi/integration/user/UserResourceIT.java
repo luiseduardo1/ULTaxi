@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.integration.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
 import io.restassured.response.Response;
 import org.junit.Test;
@@ -41,6 +42,25 @@ public class UserResourceIT extends IntegrationTest {
         Response response = unauthenticatedPost(USERS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenAlreadyExistingUser_whenUpdateUser_thenUserIsUpdated() {
+        authenticateAs(Role.DRIVER);
+        String serializedUser = createSerializedValidUser();
+
+        Response response = authenticatedPut(USERS_UPDATE_ROUTE, serializedUser);
+
+        assertStatusCode(response, Status.OK);
+    }
+
+    @Test
+    public void givenAnUnauthenticatedUser_whenUpdateUser_thenReturnsUnauthorized() {
+        String serializedUser = createSerializedValidUser();
+
+        Response response = unauthenticatedPut(USERS_UPDATE_ROUTE, serializedUser);
+
+        assertStatusCode(response, Status.UNAUTHORIZED);
     }
 
     private String createSerializedValidUser() {

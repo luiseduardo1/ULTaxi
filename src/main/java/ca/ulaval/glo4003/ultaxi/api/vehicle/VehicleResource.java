@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/vehicles")
-@Secured(Role.ADMINISTRATOR)
+//@Secured(Role.ADMINISTRATOR)
 public interface VehicleResource {
 
     @POST

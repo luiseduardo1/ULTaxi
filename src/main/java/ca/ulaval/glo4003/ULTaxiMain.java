@@ -50,14 +50,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import jersey.repackaged.com.google.common.collect.Sets;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.*;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -257,13 +250,13 @@ public final class ULTaxiMain {
             VehicleService vehicleService = createVehicleService();
             DriverService driverService = createDriverService();
 
-            UserResource userResource = createUserResource(userService);
+            UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
+                    userAuthenticationService);
+            UserResource userResource = createUserResource(userService, userAuthenticationService);
             DriverResource driverResource = createDriverResource(driverService);
             VehicleResource vehicleResource = createVehicleResource(vehicleService);
-            UserAuthenticationResource userAuthenticationResource = createUseAuthenticationResource(
-                userAuthenticationService);
-            TransportRequestResource transportRequestResource = createTransportRequestResource(
-                userAuthenticationService);
+            TransportRequestResource transportRequestResource = createTransportRequestResource
+                    (userAuthenticationService);
 
             contextResources = Collections.unmodifiableSet(Sets.newHashSet(driverResource,
                                                                            userResource,
@@ -276,7 +269,7 @@ public final class ULTaxiMain {
 
     private static EmailSender createEmailSender() {
         EmailSenderConfigurationReader emailSenderConfigurationReader =
-            new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
+                new EmailSenderConfigurationPropertyFileReader(EMAIL_SENDER_CONFIGURATION_FILENAME);
         EmailSender emailSender = new JavaMailEmailSender(emailSenderConfigurationReader);
         return emailSender;
     }
@@ -284,7 +277,7 @@ public final class ULTaxiMain {
     private static UserService createUserService(EmailSender emailSender) {
         MessagingTaskProducer messagingTaskProducer = new MessagingTaskProducerImpl(messagingTaskQueue);
         UserService userService = new UserService(userRepository, createUserAssembler(),
-                                                  messagingTaskProducer, emailSender);
+                messagingTaskProducer, emailSender);
         return userService;
     }
 
@@ -320,8 +313,9 @@ public final class ULTaxiMain {
             userRepository);
     }
 
-    private static UserResource createUserResource(UserService userService) {
-        return new UserResourceImpl(userService);
+    private static UserResource createUserResource(UserService userService, UserAuthenticationService
+            userAuthenticationService) {
+        return new UserResourceImpl(userService, userAuthenticationService);
     }
 
     private static VehicleResource createVehicleResource(VehicleService vehicleService) {

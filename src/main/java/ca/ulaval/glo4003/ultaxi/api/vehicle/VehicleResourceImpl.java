@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
 
 import javax.ws.rs.core.Response;
 
-@Secured(Role.ADMINISTRATOR)
+//@Secured(Role.ADMINISTRATOR)
 public class VehicleResourceImpl implements VehicleResource {
 
     private final VehicleService vehicleService;

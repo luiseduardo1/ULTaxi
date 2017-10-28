@@ -1,10 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.domain.user;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.anyString;
-
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
@@ -16,10 +12,16 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyString;
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserTest {
 
     private static final String AN_EMAIL_ADDRESS = "ronald.macdonald@ulaval.ca";
+    private static final String AN_INVALID_EMAIL_ADDRESS = "ronald.macdonald@.ulaval.ca";
     private static final String A_VALID_USERNAME = "Ronald Macdonald";
     private static final String A_VALID_PASSWORD = "mysupersecret";
     private static final String AN_INVALID_NAME = "      \t";
@@ -47,6 +49,11 @@ public class UserTest {
     @Test(expected = InvalidUsernameException.class)
     public void givenUserWithEmailAddressAsName_whenAssigningName_thenThrowsInvalidUserNameException() {
         user.setUsername(AN_EMAIL_ADDRESS);
+    }
+
+    @Test(expected = InvalidEmailAddressException.class)
+    public void givenUserWithInvalidEmailAddress_whenAssigningEmailAddress_thenThrowsInvalidEmailAddressException() {
+        user.setEmailAddress(AN_INVALID_EMAIL_ADDRESS);
     }
 
     @Test(expected = InvalidPasswordException.class)

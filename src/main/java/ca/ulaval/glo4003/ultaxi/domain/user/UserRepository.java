@@ -11,4 +11,6 @@ public interface UserRepository {
     void put(User user);
 
     DriverSearchQueryBuilder searchDrivers();
+
+    void update(User user);
 }

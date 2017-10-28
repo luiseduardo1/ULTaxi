@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.ultaxi.transfer.vehicle;
 public class VehicleAssociationDto {
 
     public String registrationNumber;
-    public String userName;
+    public String username;
 
     public String getRegistrationNumber() {
         return registrationNumber;
@@ -13,11 +13,11 @@ public class VehicleAssociationDto {
         this.registrationNumber = registrationNumber;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 }
