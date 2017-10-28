@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003;
 
-import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.infrastructure.context.DevelopmentServerFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.context.ServerFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.context.ULTaxiOptions;
 import ca.ulaval.glo4003.ultaxi.infrastructure.context.ULTaxiServer;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessageQueueInMemory;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingTaskQueueInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingThreadFactory;
 import com.beust.jcommander.JCommander;
 
@@ -29,7 +29,7 @@ public final class ULTaxiMain {
             .build()
             .parse(args);
         try {
-            MessageQueue messageQueue = createMessageQueue(options);
+            MessagingTaskQueue messageQueue = createMessageQueue(options);
             Thread messagingThread = createMessagingThread(options, messageQueue);
             server = createServer(options, messageQueue);
 
@@ -40,18 +40,17 @@ public final class ULTaxiMain {
         }
     }
 
-    private static ULTaxiServer createServer(ULTaxiOptions options, MessageQueue messageQueue) throws Exception {
-        if (server == null) {
-            ServerFactory serverFactory;
-            if (options.isDevelopmentMode()) {
-                serverFactory = new DevelopmentServerFactory(options, messageQueue);
-                return serverFactory.getServer();
-            }
+    private static ULTaxiServer createServer(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
+        ULTaxiServer server = null;
+        if (options.isDevelopmentMode()) {
+            ServerFactory serverFactory = new DevelopmentServerFactory(options, messageQueue);
+            server = serverFactory.getServer();
         }
-        return null;
+
+        return server;
     }
 
-    private static Thread createMessagingThread(ULTaxiOptions options, MessageQueue messageQueue) throws
+    private static Thread createMessagingThread(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws
         Exception {
         Thread messagingThread = null;
         if (options.isDevelopmentMode()) {
@@ -61,10 +60,10 @@ public final class ULTaxiMain {
         return messagingThread;
     }
 
-    private static MessageQueue createMessageQueue(ULTaxiOptions options) {
-        MessageQueue messageQueue = null;
+    private static MessagingTaskQueue createMessageQueue(ULTaxiOptions options) {
+        MessagingTaskQueue messageQueue = null;
         if (options.isDevelopmentMode()) {
-            messageQueue = new MessageQueueInMemory();
+            messageQueue = new MessagingTaskQueueInMemory();
         }
 
         return messageQueue;

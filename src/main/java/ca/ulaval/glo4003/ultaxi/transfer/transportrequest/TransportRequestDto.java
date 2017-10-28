@@ -2,10 +2,19 @@ package ca.ulaval.glo4003.ultaxi.transfer.transportrequest;
 
 public class TransportRequestDto {
 
+    private double startingPositionLatitude;
+    private double startingPositionLongitude;
     private String vehicleType;
     private String note;
-    private double latitude;
-    private double longitude;
+    private String clientUsername;
+
+    public double getStartingPositionLongitude() {
+        return startingPositionLongitude;
+    }
+
+    public void setStartingPositionLongitude(double startingPositionLongitude) {
+        this.startingPositionLongitude = startingPositionLongitude;
+    }
 
     public String getNote() {
         return note;
@@ -23,19 +32,19 @@ public class TransportRequestDto {
         this.vehicleType = vehicleType;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public double getStartingPositionLatitude() {
+        return startingPositionLatitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setStartingPositionLatitude(double startingPositionLatitude) {
+        this.startingPositionLatitude = startingPositionLatitude;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public String getClientUsername() {
+        return clientUsername;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
     }
 }

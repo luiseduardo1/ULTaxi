@@ -5,7 +5,8 @@ import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.UserResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
@@ -15,6 +16,8 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilter;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReaderFactory;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserDevDataFactory;
@@ -48,18 +51,24 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final DriverAssembler driverAssembler = new DriverAssembler(this.hashingStrategy);
     private final DriverValidator driverValidator = new DriverValidator(userRepository);
     private final DriverService driverService = new DriverService(userRepository, driverAssembler, driverValidator);
-    private final UserService userService = new UserService(userRepository, userAssembler, messageQueueProducer);
+    private final UserService userService;
+    private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-                                                                                                      userAssembler);
+                                                                                                      userAssembler,
+                                                                                                      tokenManager,
+                                                                                                      tokenRepository);
     private final VehicleService vehicleService = new VehicleService(vehicleRepository, vehicleAssembler);
     private final TransportRequestService transportRequestService = new TransportRequestService(
         transportRequestRepository,
         transportRequestAssembler
     );
-    private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
 
-    public DevelopmentServerFactory(ULTaxiOptions options, MessageQueue messageQueue) {
+    public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) {
         super(options, messageQueue);
+        EmailSender emailSender = new JavaMailEmailSender(
+            EmailSenderConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
+        );
+        userService = new UserService(userRepository, userAssembler, messageQueueProducer, emailSender);
         setDevelopmentEnvironmentMockData();
     }
 
@@ -81,19 +90,19 @@ public class DevelopmentServerFactory extends ServerFactory {
 
     @Override
     public ServerFactory withUserResource() {
-        resources.add(new UserResourceImpl(userService));
+        resources.add(new UserResourceImpl(userService, userAuthenticationService));
         return this;
     }
 
     @Override
     public ServerFactory withUserAuthenticationResource() {
-        resources.add(new UserAuthenticationResourceImpl(userAuthenticationService, tokenRepository, tokenManager));
+        resources.add(new UserAuthenticationResourceImpl(userAuthenticationService));
         return this;
     }
 
     @Override
     public ServerFactory withTransportRequestResource() {
-        resources.add(new TransportRequestResourceImpl(transportRequestService));
+        resources.add(new TransportRequestResourceImpl(transportRequestService, userAuthenticationService));
         return this;
     }
 

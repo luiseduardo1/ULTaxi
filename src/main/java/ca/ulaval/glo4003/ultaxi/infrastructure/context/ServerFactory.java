@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.context;
 
-import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueue;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.MessageQueueProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingTaskProducerImpl;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
@@ -15,10 +16,10 @@ public abstract class ServerFactory {
     protected final Set<ContainerRequestFilter> requestFilters = new HashSet<>();
     protected HashingStrategy hashingStrategy = new BcryptHashing();
     protected ULTaxiOptions options;
-    protected MessageQueueProducer messageQueueProducer;
+    protected MessagingTaskProducer messageQueueProducer;
 
-    public ServerFactory(ULTaxiOptions options, MessageQueue messageQueue) {
-        this.messageQueueProducer = new MessageQueueProducer(messageQueue);
+    public ServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) {
+        this.messageQueueProducer = new MessagingTaskProducerImpl(messageQueue);
         this.options = options;
     }
 

@@ -18,12 +18,12 @@ public interface DriverResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Role.Administrator)
+    @Secured(Role.ADMINISTRATOR)
     Response createDriver(DriverDto driverDto);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Secured({Role.Administrator})
+    @Secured({Role.ADMINISTRATOR})
     Response searchBy(@QueryParam("social-insurance-number") String socialInsuranceNumber,
         @QueryParam("first-name") String firstName,
         @QueryParam("last-name") String lastName);

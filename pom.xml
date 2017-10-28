@@ -89,6 +89,11 @@
             <artifactId>jcommander</artifactId>
             <version>1.72</version>
         </dependency>
+        <dependency>
+            <groupId>net.jodah</groupId>
+            <artifactId>failsafe</artifactId>
+            <version>1.0.4</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>

@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.integration.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
 import io.restassured.response.Response;
 import org.junit.Test;
@@ -12,8 +13,8 @@ import javax.ws.rs.core.Response.Status;
 public class UserResourceIT extends IntegrationTest {
 
     private static final String A_VALID_PASSWORD = "Macdonald";
-    private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
     private static final String AN_INVALID_NAME = "ronald.macdonald@ulaval.ca";
+    private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
 
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
@@ -41,6 +42,25 @@ public class UserResourceIT extends IntegrationTest {
         Response response = unauthenticatedPost(USERS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenAlreadyExistingUser_whenUpdateUser_thenUserIsUpdated() {
+        authenticateAs(Role.DRIVER);
+        String serializedUser = createSerializedValidUser();
+
+        Response response = authenticatedPut(USERS_UPDATE_ROUTE, serializedUser);
+
+        assertStatusCode(response, Status.OK);
+    }
+
+    @Test
+    public void givenAnUnauthenticatedUser_whenUpdateUser_thenReturnsUnauthorized() {
+        String serializedUser = createSerializedValidUser();
+
+        Response response = unauthenticatedPut(USERS_UPDATE_ROUTE, serializedUser);
+
+        assertStatusCode(response, Status.UNAUTHORIZED);
     }
 
     private String createSerializedValidUser() {

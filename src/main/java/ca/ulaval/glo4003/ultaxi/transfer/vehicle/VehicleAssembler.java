@@ -10,8 +10,7 @@ public class VehicleAssembler {
             vehicleDto.getType(),
             vehicleDto.getColor(),
             vehicleDto.getModel(),
-            vehicleDto.getRegistrationNumber()
-        );
+            vehicleDto.getRegistrationNumber());
     }
 
     public VehicleDto create(Vehicle vehicle) {

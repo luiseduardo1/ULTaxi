@@ -1,9 +1,13 @@
 package ca.ulaval.glo4003.ultaxi.domain.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserNameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 public class User {
 
@@ -34,15 +38,15 @@ public class User {
     }
 
     public void setUsername(String username) {
-        if (!isUserNameValid(username)) {
-            throw new InvalidUserNameException(
+        if (!isUsernameValid(username)) {
+            throw new InvalidUsernameException(
                 String.format("%s is not a valid name.", username)
             );
         }
         this.username = username.toLowerCase().trim();
     }
 
-    private boolean isUserNameValid(String name) {
+    private boolean isUsernameValid(String name) {
         return !isBlank(name) && !name.contains("@");
     }
 
@@ -55,7 +59,22 @@ public class User {
     }
 
     public void setEmailAddress(String emailAddress) {
+        if (!isValidEmailAddress(emailAddress)) {
+            throw new InvalidEmailAddressException(
+                    String.format("%s is not a valid email address", emailAddress)
+            );
+        }
         this.emailAddress = emailAddress;
+    }
+
+    private boolean isValidEmailAddress(String emailAddress) {
+        try {
+            InternetAddress email = new InternetAddress(emailAddress);
+            email.validate();
+        } catch (AddressException e) {
+            return false;
+        }
+        return true;
     }
 
     public Role getRole() {
