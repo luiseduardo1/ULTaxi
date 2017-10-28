@@ -78,7 +78,7 @@ public class UserTest {
 
     @Test
     public void givenTwoUsersWithSameNameAndPasswords_whenCheckingIfTheyAreTheSame_thenReturnsTrue() {
-        willReturn(A_HASH).given(hashingStrategy).hash(anyString());
+        willReturn(A_HASH).given(hashingStrategy).hashWithRandomSalt(anyString());
         willReturn(true).given(hashingStrategy).areEquals(anyString(), anyString());
         User anotherUser = new User();
         anotherUser.setUsername(A_VALID_USERNAME);

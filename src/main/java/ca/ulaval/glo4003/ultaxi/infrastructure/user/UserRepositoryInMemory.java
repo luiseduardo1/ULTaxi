@@ -48,9 +48,4 @@ public class UserRepositoryInMemory implements UserRepository {
     public DriverSearchQueryBuilder searchDrivers() {
         return new DriverSearchQueryBuilderInMemory(users);
     }
-
-    @Override
-    public void update(User user) {
-        users.replace(user.getUsername(), user);
-    }
 }

@@ -19,7 +19,7 @@ public class DriverResourceIT extends IntegrationTest {
     private static final String A_SEARCH_PARAMETER = "first-name";
 
     @Test
-    public void givenUnauthenticatedAdministrator_whenCreateADriver_thenReturnsUnauthorized() {
+    public void givenUnauthenticatedUser_whenCreateADriver_thenReturnsUnauthorized() {
         String serializedDriver = createSerializedValidDriver();
 
         Response response = unauthenticatedPost(DRIVERS_ROUTE, serializedDriver);
@@ -28,7 +28,7 @@ public class DriverResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenUnauthenticatedAdministrator_whenSearchingForDrivers_thenReturnsUnauthorized() {
+    public void givenUnauthenticatedUser_whenSearchingForDrivers_thenReturnsUnauthorized() {
         Response response = unauthenticatedGet(
             DRIVERS_ROUTE,
             createSearchQueryParameter(A_SEARCH_PARAMETER, A_VALID_NAME)

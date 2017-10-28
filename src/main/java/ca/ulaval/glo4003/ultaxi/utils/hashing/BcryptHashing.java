@@ -4,15 +4,16 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class BcryptHashing implements HashingStrategy {
 
+    private final String salt = BCrypt.gensalt();
+
     @Override
     public String hash(String value) {
-        String hashedValue = null;
-        if (value != null) {
-            String salt = BCrypt.gensalt();
-            hashedValue = BCrypt.hashpw(value, salt);
-        }
+        return hashWithSalt(value, this.salt);
+    }
 
-        return hashedValue;
+    @Override
+    public String hashWithRandomSalt(String value) {
+        return hashWithSalt(value, BCrypt.gensalt());
     }
 
     @Override
@@ -20,5 +21,14 @@ public class BcryptHashing implements HashingStrategy {
         return plainValue != null
             && hashedValue != null
             && BCrypt.checkpw(plainValue, hashedValue);
+    }
+
+    private String hashWithSalt(String value, String salt) {
+        String hashedValue = null;
+        if (value != null) {
+            hashedValue = BCrypt.hashpw(value, salt);
+        }
+
+        return hashedValue;
     }
 }

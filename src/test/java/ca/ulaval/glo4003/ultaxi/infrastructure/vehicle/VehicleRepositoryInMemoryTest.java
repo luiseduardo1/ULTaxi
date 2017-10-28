@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.VehicleAlreadyExistsException;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,7 @@ public class VehicleRepositoryInMemoryTest {
 
     @Before
     public void setUp() {
-        vehicleRepository = new VehicleRepositoryInMemory();
+        vehicleRepository = new VehicleRepositoryInMemory(new BcryptHashing());
 
         willReturn(A_REGISTRATION_NUMBER).given(vehicle).getRegistrationNumber();
     }

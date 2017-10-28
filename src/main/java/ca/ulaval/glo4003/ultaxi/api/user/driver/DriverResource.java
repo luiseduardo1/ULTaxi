@@ -18,7 +18,7 @@ public interface DriverResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Role.ADMINISTRATOR)
+    @Secured({Role.ADMINISTRATOR})
     Response createDriver(DriverDto driverDto);
 
     @GET

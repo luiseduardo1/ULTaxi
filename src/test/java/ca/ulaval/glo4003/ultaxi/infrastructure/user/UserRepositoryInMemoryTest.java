@@ -83,7 +83,7 @@ public class UserRepositoryInMemoryTest {
         sameUserWithAnotherEmailAddress.setEmailAddress(UPDATED_EMAIL_ADDRESS);
 
         userRepository.save(user);
-        userRepository.update(sameUserWithAnotherEmailAddress);
+        userRepository.put(sameUserWithAnotherEmailAddress);
 
         User updatedUser = userRepository.findByUsername(user.getUsername());
         assertEquals(user.getUsername(), updatedUser.getUsername());

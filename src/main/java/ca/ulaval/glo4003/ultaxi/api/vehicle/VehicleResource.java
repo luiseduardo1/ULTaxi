@@ -12,11 +12,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/vehicles")
-//@Secured(Role.ADMINISTRATOR)
+@Secured(Role.ADMINISTRATOR)
 public interface VehicleResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Secured(Role.ADMINISTRATOR)
     Response createVehicle(VehicleDto vehicleDto);
 
     @POST
