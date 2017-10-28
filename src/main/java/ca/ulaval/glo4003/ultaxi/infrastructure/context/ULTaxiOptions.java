@@ -15,7 +15,7 @@ public class ULTaxiOptions {
     private boolean isDevelopmentMode = false;
     @Parameter(names = {"-p", "--server-port"},
         description = "the port on which to bind the server")
-    private int serverPort = 8000;
+    private int serverPort = 0;
     @Parameter(names = "--configuration-file",
         description = "the name of the configuration containing the parameters of the email sender",
         converter = PathOptionConverter.class)
