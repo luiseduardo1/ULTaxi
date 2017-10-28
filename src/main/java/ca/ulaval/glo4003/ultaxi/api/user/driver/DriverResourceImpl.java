@@ -25,7 +25,7 @@ public class DriverResourceImpl implements DriverResource {
     }
 
     @Override
-    @Secured(Role.ADMINISTRATOR)
+    @Secured({Role.ADMINISTRATOR})
     public Response createDriver(DriverDto driverDto) {
         try {
             driverService.addDriver(driverDto);

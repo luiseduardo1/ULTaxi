@@ -42,7 +42,6 @@ import java.util.List;
 public class DevelopmentServerFactory extends ServerFactory {
 
     private final UserRepository userRepository = new UserRepositoryInMemory();
-    private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory();
     private final TransportRequestRepository transportRequestRepository = new TransportRequestRepositoryInMemory();
     private final VehicleAssembler vehicleAssembler = new VehicleAssembler();
     private final TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
@@ -57,6 +56,7 @@ public class DevelopmentServerFactory extends ServerFactory {
                                                                                                       userAssembler,
                                                                                                       tokenManager,
                                                                                                       tokenRepository);
+    private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleService vehicleService = new VehicleService(vehicleRepository, vehicleAssembler);
     private final TransportRequestService transportRequestService = new TransportRequestService(
         transportRequestRepository,
