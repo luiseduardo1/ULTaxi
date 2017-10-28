@@ -23,6 +23,7 @@ public class Driver extends User {
     private String socialInsuranceNumber;
 
     public Driver() {
+        this.setRole(Role.DRIVER);
     }
 
     public Driver(String firstName, String lastName, String socialInsuranceNumber) {

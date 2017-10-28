@@ -28,7 +28,7 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
         Stream<Driver> drivers = users
             .values()
             .stream()
-            .filter(user -> user.getRole() == Role.DRIVER)
+            .filter(user -> Role.DRIVER.equals(user.getRole()))
             .map(user -> (Driver) user);
         return throwIfEmptySearchResults(
             predicates
