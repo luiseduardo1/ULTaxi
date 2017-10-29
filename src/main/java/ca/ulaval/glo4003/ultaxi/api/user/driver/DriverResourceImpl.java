@@ -44,7 +44,8 @@ public class DriverResourceImpl implements DriverResource {
 
         try {
             GenericEntity<List<DriverDto>> drivers =
-                new GenericEntity<List<DriverDto>>(driverService.searchBy(searchParameters)) {};
+                new GenericEntity<List<DriverDto>>(driverService.searchBy(searchParameters)) {
+                };
             return Response.ok(drivers).build();
         } catch (EmptySearchResultsException exception) {
             return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();

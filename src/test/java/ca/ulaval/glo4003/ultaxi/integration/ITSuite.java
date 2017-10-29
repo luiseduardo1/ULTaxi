@@ -22,7 +22,7 @@ import org.junit.runners.Suite;
 })
 public class ITSuite {
 
-    private static final String[] ARGUMENTS = {"--development"};
+    private static final String[] ARGUMENTS = {"--development", "--server-port=8080"};
 
     @BeforeClass
     public static void setUpBaseServer() throws Exception {

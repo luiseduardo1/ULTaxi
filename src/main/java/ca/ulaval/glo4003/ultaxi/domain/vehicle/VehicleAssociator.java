@@ -9,23 +9,23 @@ public class VehicleAssociator {
 
     public void associate(Vehicle vehicle, User user) {
         if (user.getRole() == Role.DRIVER &&
-            ((Driver)user).getVehicle() == null && vehicle.getDriver() == null) {
+            ((Driver) user).getVehicle() == null && vehicle.getDriver() == null) {
             vehicle.setDriver((Driver) user);
             ((Driver) user).setVehicle(vehicle);
         } else {
             throw new InvalidVehicleAssociationException("Can't make " +
-                "one-to-one Association");
+                                                             "one-to-one Association");
         }
     }
 
     public void disassociate(Vehicle vehicle, User user) {
         if (user.getRole() == Role.DRIVER &&
-            ((Driver)user).getVehicle() != null && vehicle.getDriver() != null) {
+            ((Driver) user).getVehicle() != null && vehicle.getDriver() != null) {
             vehicle.setDriver(null);
-            ((Driver)user).setVehicle(null);
+            ((Driver) user).setVehicle(null);
         } else {
             throw new InvalidVehicleAssociationException("Can't dissociate " +
-                "vehicle from driver");
+                                                             "vehicle from driver");
         }
     }
 }

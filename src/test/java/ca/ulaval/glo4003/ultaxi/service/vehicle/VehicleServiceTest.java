@@ -36,7 +36,7 @@ public class VehicleServiceTest {
     @Before
     public void setUp() throws Exception {
         vehicleService = new VehicleService(vehicleRepository, vehicleAssembler, vehicleAssociator,
-            userRepository);
+                                            userRepository);
     }
 
     @Test
