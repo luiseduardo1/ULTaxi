@@ -21,6 +21,6 @@ public interface UserResource {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Role.ADMINISTRATOR, Role.CLIENT, Role.DRIVER})
+    @Secured(Role.CLIENT)
     Response updateUser(@HeaderParam(value = "Authorization") String userToken, UserDto userDto);
 }
