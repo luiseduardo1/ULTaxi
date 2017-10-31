@@ -8,24 +8,32 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociati
 public class VehicleAssociator {
 
     public void associate(Vehicle vehicle, User user) {
-        if (user.getRole() == Role.DRIVER &&
-            ((Driver) user).getVehicle() == null && vehicle.getDriver() == null) {
-            vehicle.setDriver((Driver) user);
-            ((Driver) user).setVehicle(vehicle);
+        if (user.getRole() != Role.DRIVER) {
+            throw new InvalidVehicleAssociationException("Can't make one-to-one Association");
+        }
+        Driver driver = (Driver) user;
+
+        if (driver.getVehicle() == null && vehicle.getDriver() == null) {
+            vehicle.setDriver(driver);
+            driver.setVehicle(vehicle);
+            driver.setVehicleType(vehicle.getType());
         } else {
-            throw new InvalidVehicleAssociationException("Can't make " +
-                                                             "one-to-one Association");
+            throw new InvalidVehicleAssociationException("Can't make one-to-one Association");
         }
     }
 
     public void disassociate(Vehicle vehicle, User user) {
-        if (user.getRole() == Role.DRIVER &&
-            ((Driver) user).getVehicle() != null && vehicle.getDriver() != null) {
+        if (user.getRole() != Role.DRIVER) {
+            throw new InvalidVehicleAssociationException("Can't dissociate vehicle from driver");
+        }
+        Driver driver = (Driver) user;
+
+        if (driver.getVehicle() != null && vehicle.getDriver() != null) {
             vehicle.setDriver(null);
-            ((Driver) user).setVehicle(null);
+            driver.setVehicle(null);
+            driver.setVehicleType(null);
         } else {
-            throw new InvalidVehicleAssociationException("Can't dissociate " +
-                                                             "vehicle from driver");
+            throw new InvalidVehicleAssociationException("Can't dissociate vehicle from driver");
         }
     }
 }
