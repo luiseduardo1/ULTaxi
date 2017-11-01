@@ -10,9 +10,7 @@ create_user_route() {
     local -r _user="${1}"
     curl -H "${json_content_type_header}" \
          -X POST \
-         --silent \
-         --show-error \
-         --fail \
+         -K "${curl_configuration_file}" \
          -d"${_user}" \
          "${base_url}/api/users"
 }
@@ -22,9 +20,7 @@ update_user_route() {
     local -r _updated_user="${2}"
     curl -H "${_authentication_header}" \
          -H "${json_content_type_header}" \
-         --silent \
-         --show-error \
-         --fail \
+         -K "${curl_configuration_file}" \
          -X PUT \
          -d"${_updated_user}" \
          "${base_url}/api/users/update"

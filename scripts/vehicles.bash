@@ -9,9 +9,7 @@ create_vehicle_route() {
     local -r _vehicle="${2}"
     curl -H "${_authentication_header}" \
          -H "${json_content_type_header}" \
-         --silent \
-         --show-error \
-         --fail \
+         -K "${curl_configuration_file}" \
          -X POST \
          -d"${_vehicle}" \
          "${base_url}/api/vehicles"
@@ -22,9 +20,7 @@ associate_vehicle_route() {
     local -r _vehicle_association="${2}"
     curl -H "${_authentication_header}" \
          -H "${json_content_type_header}" \
-         --silent \
-         --show-error \
-         --fail \
+         -K "${curl_configuration_file}" \
          -X POST \
          -d"${_vehicle_association}" \
          "${base_url}/api/vehicles/associate"
@@ -35,9 +31,7 @@ dissociate_vehicle_route() {
     local -r _vehicle_association="${2}"
     curl -H "${_authentication_header}" \
          -H "${json_content_type_header}" \
-         --silent \
-         --show-error \
-         --fail \
+         -K "${curl_configuration_file}" \
          -X POST \
          -d"${_vehicle_association}" \
          "${base_url}/api/vehicles/disassociate"

@@ -11,9 +11,7 @@ send_transport_request_route() {
     local -r _transport_request="${2}"
     curl -H "${_authentication_header}" \
          -H "${json_content_type_header}" \
-         --silent \
-         --show-error \
-         --fail \
+         -K "${curl_configuration_file}" \
          -X POST \
          -d"${_transport_request}" \
          "${base_url}/api/transport-requests"
@@ -23,9 +21,7 @@ search_available_transport_request_route() {
     local -r _authentication_header="${1}"
     curl -H "${_authentication_header}" \
          -H "${json_accept_header}" \
-         --silent \
-         --show-error \
-         --fail \
+         -K "${curl_configuration_file}" \
          -X GET \
          "${base_url}/api/transport-requests/search"
 }

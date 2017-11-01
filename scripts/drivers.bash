@@ -10,9 +10,7 @@ create_driver_route() {
     local -r _driver="${2}"
     curl -H "${_authentication_header}" \
          -H "${json_content_type_header}" \
-         --silent \
-         --show-error \
-         --fail \
+         -K "${curl_configuration_file}" \
          -X POST \
          -d"${_driver}" \
          "${base_url}/api/drivers"
@@ -23,10 +21,8 @@ search_driver_route() {
     local -r _search_parameters="${2}"
     curl -H "${_authentication_header}" \
          -H "${json_accept_header}" \
-         --silent \
-         --show-error \
+         -K "${curl_configuration_file}" \
          -X GET \
-         --fail \
          --data-urlencode "${_search_parameters}" \
          "${base_url}/api/drivers"
 }

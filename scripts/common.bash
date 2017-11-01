@@ -5,9 +5,9 @@
 declare -xr is_common_file_loaded=true
 
 declare -xr base_url="http://localhost:8080"
-declare -xr user_agent_header="User-Agent: ultaxi-curl-client"
 declare -xr json_content_type_header="Content-Type: application/json"
 declare -xr json_accept_header="Accept: application/json"
+declare -xr curl_configuration_file=".curlrc"
 
 declare -xr default_user="$(create_user "clientUsername" \
                                         "clientPassword" \
