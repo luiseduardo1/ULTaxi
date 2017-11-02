@@ -38,6 +38,20 @@ public class DriverSearchQueryBuilderInMemoryTest {
     }
 
     @Test
+    public void givenFilterWithCapitalLetters_whenFindingAll_thenReturnsCorrectDriver() {
+        DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withLastName("MaC");
+
+        List<Driver> foundDrivers = searchDriver.findAll();
+        Driver foundDriver = foundDrivers.get(0);
+
+        Driver expectedDriver = (Driver) aDriver();
+        assertEquals(1, foundDrivers.size());
+        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
+        assertEquals(expectedDriver.getName(), foundDriver.getName());
+        assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
+    }
+
+    @Test
     public void givenSomeDriversAndAFirstNameFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withFirstName("onal");
 

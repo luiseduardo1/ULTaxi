@@ -60,13 +60,14 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleAssociator vehicleAssociator = new VehicleAssociator();
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
-        vehicleAssembler, vehicleAssociator, userRepository);
+                                                                     vehicleAssembler, vehicleAssociator,
+                                                                     userRepository);
     private final TransportRequestService transportRequestService = new TransportRequestService(
         transportRequestRepository,
         transportRequestAssembler
     );
 
-    public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) {
+    public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
         super(options, messageQueue);
         EmailSender emailSender = new JavaMailEmailSender(
             EmailSenderConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
@@ -75,7 +76,7 @@ public class DevelopmentServerFactory extends ServerFactory {
         setDevelopmentEnvironmentMockData();
     }
 
-    private void setDevelopmentEnvironmentMockData() {
+    private void setDevelopmentEnvironmentMockData() throws Exception {
         UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
         List<User> users = userDevDataFactory.createMockData(new BcryptHashing());
         users.forEach(userRepository::save);

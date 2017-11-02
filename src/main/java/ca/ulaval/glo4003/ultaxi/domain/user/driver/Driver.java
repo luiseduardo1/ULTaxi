@@ -4,8 +4,8 @@ import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
 import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
@@ -26,6 +26,7 @@ public class Driver extends User {
     public Vehicle vehicle;
 
     public Driver() {
+        this.setRole(Role.DRIVER);
     }
 
     public Driver(String firstName, String lastName, String socialInsuranceNumber) {

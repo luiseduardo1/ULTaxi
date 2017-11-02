@@ -49,7 +49,8 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
                 new TransportRequestSearchParameters(driver.getVehicleType().name());
 
             GenericEntity<List<TransportRequestDto>> availableTransportRequests =
-                new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {};
+                new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {
+                };
 
             return Response.ok(availableTransportRequests).build();
         } catch (EmptySearchResultsException | InvalidTokenException exception) {

@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
+import static org.junit.Assert.assertEquals;
+
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import org.junit.Assert;
@@ -161,4 +165,11 @@ public class DriverTest {
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
+    @Test
+    public void
+    givenANewDriverUser_whenCreateDriver_thenRoleShouldBeADriver() {
+        User driver = new Driver();
+
+        assertEquals(driver.getRole(), Role.DRIVER);
+    }
 }
