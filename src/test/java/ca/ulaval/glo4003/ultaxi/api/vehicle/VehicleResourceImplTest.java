@@ -115,7 +115,7 @@ public class VehicleResourceImplTest {
     public void givenNonExistentUser_whenDissociatingVehicle_thenReturnsBadRequest() {
         willThrow(new NonExistentUserException("Non existing user"))
             .given(vehicleService)
-            .disassociateVehicle(vehicleAssociationDto);
+            .dissociateVehicle(vehicleAssociationDto);
 
         Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
 
@@ -126,7 +126,7 @@ public class VehicleResourceImplTest {
     public void givenNonExistentVehicle_whenDissociatingVehicle_thenReturnsBadRequest() {
         willThrow(new NonExistentVehicleException("Non existing vehicle"))
             .given(vehicleService)
-            .disassociateVehicle(vehicleAssociationDto);
+            .dissociateVehicle(vehicleAssociationDto);
 
         Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
 
@@ -137,7 +137,7 @@ public class VehicleResourceImplTest {
     public void givenNonValidAssociation_whenDissociatingVehicle_thenReturnsBadRequest() {
         willThrow(new InvalidVehicleAssociationException("Invalid vehicle association"))
             .given(vehicleService)
-            .disassociateVehicle(vehicleAssociationDto);
+            .dissociateVehicle(vehicleAssociationDto);
 
         Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
 

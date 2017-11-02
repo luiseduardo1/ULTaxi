@@ -48,7 +48,7 @@ public class VehicleService {
         vehicleRepository.put(vehicle);
     }
 
-    public void disassociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
+    public void dissociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
         logger.info(String.format("Vehicule dissacioation for %s", vehicleAssociationDto));
         User user = userRepository.findByUsername(vehicleAssociationDto.getUsername());
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(
