@@ -54,19 +54,19 @@ public class VehicleAssociatorTest {
         user.setRole(Role.DRIVER);
         vehicle.setDriver((Driver) user);
         ((Driver) user).setVehicle(vehicle);
-        vehicleAssociator.disassociate(vehicle, user);
+        vehicleAssociator.dissociate(vehicle, user);
     }
 
     @Test(expected = InvalidVehicleAssociationException.class)
     public void givenValidUserWithAnInvalidRole_WhenDissociating_thenExceptionIsThrown() {
-        vehicleAssociator.disassociate(vehicle, user);
+        vehicleAssociator.dissociate(vehicle, user);
     }
 
     @Test(expected = InvalidVehicleAssociationException.class)
     public void givenValidUserWithAnInvalidVehicle_WhenDissociating_thenExceptionIsThrown() {
         user.setRole(Role.DRIVER);
         ((Driver) user).setVehicle(vehicle);
-        vehicleAssociator.disassociate(vehicle, user);
+        vehicleAssociator.dissociate(vehicle, user);
     }
 
     @Test(expected = InvalidVehicleAssociationException.class)

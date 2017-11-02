@@ -53,7 +53,7 @@ public class VehicleService {
         User user = userRepository.findByUsername(vehicleAssociationDto.getUsername());
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(
             vehicleAssociationDto.getRegistrationNumber());
-        vehicleAssociator.disassociate(vehicle, user);
+        vehicleAssociator.dissociate(vehicle, user);
         userRepository.put(user);
         vehicleRepository.put(vehicle);
     }

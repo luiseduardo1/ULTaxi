@@ -18,11 +18,11 @@ public class VehicleAssociator {
             driver.setVehicle(vehicle);
             driver.setVehicleType(vehicle.getType());
         } else {
-            throw new InvalidVehicleAssociationException("Can't make one-to-one Association");
+            throw new InvalidVehicleAssociationException("Can't make one-to-one association");
         }
     }
 
-    public void disassociate(Vehicle vehicle, User user) {
+    public void dissociate(Vehicle vehicle, User user) {
         if (user.getRole() != Role.DRIVER) {
             throw new InvalidVehicleAssociationException("Can't dissociate vehicle from driver");
         }
