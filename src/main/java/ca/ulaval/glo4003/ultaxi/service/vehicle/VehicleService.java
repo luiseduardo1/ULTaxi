@@ -23,9 +23,9 @@ public class VehicleService {
 
 
     public VehicleService(VehicleRepository vehicleRepository,
-                          VehicleAssembler vehicleAssembler,
-                          VehicleAssociator vehicleAssociator,
-                          UserRepository userRepository) {
+        VehicleAssembler vehicleAssembler,
+        VehicleAssociator vehicleAssociator,
+        UserRepository userRepository) {
         this.vehicleRepository = vehicleRepository;
         this.vehicleAssembler = vehicleAssembler;
         this.vehicleAssociator = vehicleAssociator;
@@ -40,7 +40,7 @@ public class VehicleService {
 
     public void associateVehicle(VehicleAssociationDto vehicleAssociationDto) {
         logger.info(String.format("Vehicule association for %s", vehicleAssociationDto));
-        Driver driver = (Driver)userRepository.findByUsername(vehicleAssociationDto.getUsername());
+        Driver driver = (Driver) userRepository.findByUsername(vehicleAssociationDto.getUsername());
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(
             vehicleAssociationDto.getRegistrationNumber());
         vehicleAssociator.associate(vehicle, driver);
@@ -48,12 +48,12 @@ public class VehicleService {
         vehicleRepository.put(vehicle);
     }
 
-    public void disassociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
+    public void dissociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
         logger.info(String.format("Vehicule dissacioation for %s", vehicleAssociationDto));
         User user = userRepository.findByUsername(vehicleAssociationDto.getUsername());
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(
             vehicleAssociationDto.getRegistrationNumber());
-        vehicleAssociator.disassociate(vehicle, user);
+        vehicleAssociator.dissociate(vehicle, user);
         userRepository.put(user);
         vehicleRepository.put(vehicle);
     }

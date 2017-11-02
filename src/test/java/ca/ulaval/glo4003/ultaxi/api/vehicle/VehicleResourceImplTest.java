@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociati
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.VehicleAlreadyExistsException;
-import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
@@ -116,7 +115,7 @@ public class VehicleResourceImplTest {
     public void givenNonExistentUser_whenDissociatingVehicle_thenReturnsBadRequest() {
         willThrow(new NonExistentUserException("Non existing user"))
             .given(vehicleService)
-            .disassociateVehicle(vehicleAssociationDto);
+            .dissociateVehicle(vehicleAssociationDto);
 
         Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
 
@@ -127,7 +126,7 @@ public class VehicleResourceImplTest {
     public void givenNonExistentVehicle_whenDissociatingVehicle_thenReturnsBadRequest() {
         willThrow(new NonExistentVehicleException("Non existing vehicle"))
             .given(vehicleService)
-            .disassociateVehicle(vehicleAssociationDto);
+            .dissociateVehicle(vehicleAssociationDto);
 
         Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
 
@@ -138,7 +137,7 @@ public class VehicleResourceImplTest {
     public void givenNonValidAssociation_whenDissociatingVehicle_thenReturnsBadRequest() {
         willThrow(new InvalidVehicleAssociationException("Invalid vehicle association"))
             .given(vehicleService)
-            .disassociateVehicle(vehicleAssociationDto);
+            .dissociateVehicle(vehicleAssociationDto);
 
         Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
 

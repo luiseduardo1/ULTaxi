@@ -44,7 +44,7 @@ public class VehicleRepositoryInMemory implements VehicleRepository {
         if (findByRegistrationNumber(registrationNumber) == null) {
             throw new NonExistentVehicleException(
                 String.format("Vehicle with the registration number %s don't" +
-                    " exists.", registrationNumber)
+                                  " exists.", registrationNumber)
             );
         }
         vehicles.put(registrationNumber, vehicle);

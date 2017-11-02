@@ -28,7 +28,7 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
         Stream<Driver> drivers = users
             .values()
             .stream()
-            .filter(user -> user.getRole() == Role.DRIVER)
+            .filter(user -> Role.DRIVER.equals(user.getRole()))
             .map(user -> (Driver) user);
         return throwIfEmptySearchResults(
             predicates
@@ -71,6 +71,6 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
     }
 
     private boolean isSubsetOf(String value, String subset) {
-        return value.contains(subset.toLowerCase().trim());
+        return value != null && value.toLowerCase().trim().contains(subset.toLowerCase().trim());
     }
 }

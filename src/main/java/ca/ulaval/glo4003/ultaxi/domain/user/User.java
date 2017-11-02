@@ -61,7 +61,7 @@ public class User {
     public void setEmailAddress(String emailAddress) {
         if (!isValidEmailAddress(emailAddress)) {
             throw new InvalidEmailAddressException(
-                    String.format("%s is not a valid email address", emailAddress)
+                String.format("%s is not a valid email address", emailAddress)
             );
         }
         this.emailAddress = emailAddress;
