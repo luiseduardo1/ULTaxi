@@ -23,5 +23,5 @@ update_user_route() {
          -K "${curl_configuration_file}" \
          -X PUT \
          -d"${_updated_user}" \
-         "${base_url}/api/users/update"
+         "${base_url}/api/users"
 }
