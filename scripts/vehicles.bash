@@ -34,7 +34,7 @@ dissociate_vehicle_route() {
          -K "${curl_configuration_file}" \
          -X POST \
          -d"${_vehicle_association}" \
-         "${base_url}/api/vehicles/disassociate"
+         "${base_url}/api/vehicles/dissociate"
 }
 
 with_vehicle_association() {
