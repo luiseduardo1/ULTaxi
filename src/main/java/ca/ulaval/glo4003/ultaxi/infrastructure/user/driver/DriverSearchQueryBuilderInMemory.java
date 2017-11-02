@@ -71,6 +71,6 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
     }
 
     private boolean isSubsetOf(String value, String subset) {
-        return value.contains(subset.toLowerCase().trim());
+        return value != null && value.toLowerCase().trim().contains(subset.toLowerCase().trim());
     }
 }

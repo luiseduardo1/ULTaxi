@@ -38,44 +38,43 @@ public class VehicleAssociatorTest {
     @Test(expected = InvalidVehicleAssociationException.class)
     public void givenValidUserWithAnInvalidVehicle_WhenAssociating_thenExceptionIsThrown() {
         user.setRole(Role.DRIVER);
-        vehicle.setDriver((Driver)user);
+        vehicle.setDriver((Driver) user);
         vehicleAssociator.associate(vehicle, user);
     }
 
     @Test(expected = InvalidVehicleAssociationException.class)
     public void givenInValidUserWithAnInvalidVehicle_WhenAssociating_thenExceptionIsThrown() {
         user.setRole(Role.DRIVER);
-        ((Driver)user).setVehicle(vehicle);
+        ((Driver) user).setVehicle(vehicle);
         vehicleAssociator.associate(vehicle, user);
     }
 
     @Test
     public void givenValidUserAndValidVehicle_WhenDissociating_thenNoExceptionIsThrown() {
         user.setRole(Role.DRIVER);
-        vehicle.setDriver((Driver)user);
-        ((Driver)user).setVehicle(vehicle);
-        vehicleAssociator.disassociate(vehicle, user);
+        vehicle.setDriver((Driver) user);
+        ((Driver) user).setVehicle(vehicle);
+        vehicleAssociator.dissociate(vehicle, user);
     }
 
     @Test(expected = InvalidVehicleAssociationException.class)
     public void givenValidUserWithAnInvalidRole_WhenDissociating_thenExceptionIsThrown() {
-        vehicleAssociator.disassociate(vehicle, user);
+        vehicleAssociator.dissociate(vehicle, user);
     }
 
     @Test(expected = InvalidVehicleAssociationException.class)
     public void givenValidUserWithAnInvalidVehicle_WhenDissociating_thenExceptionIsThrown() {
         user.setRole(Role.DRIVER);
-        ((Driver)user).setVehicle(vehicle);
-        vehicleAssociator.disassociate(vehicle, user);
+        ((Driver) user).setVehicle(vehicle);
+        vehicleAssociator.dissociate(vehicle, user);
     }
 
     @Test(expected = InvalidVehicleAssociationException.class)
     public void givenInValidUserWithAValidVehicle_WhenDissociating_thenExceptionIsThrown() {
         user.setRole(Role.DRIVER);
-        vehicle.setDriver((Driver)user);
+        vehicle.setDriver((Driver) user);
         vehicleAssociator.associate(vehicle, user);
     }
-
 
 
 }

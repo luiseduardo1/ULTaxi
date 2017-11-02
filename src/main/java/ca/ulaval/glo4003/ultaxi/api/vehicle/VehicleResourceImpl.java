@@ -48,7 +48,7 @@ public class VehicleResourceImpl implements VehicleResource {
     @Override
     public Response dissociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
         try {
-            vehicleService.disassociateVehicle(vehicleAssociationDto);
+            vehicleService.dissociateVehicle(vehicleAssociationDto);
             return Response.ok().build();
         } catch (InvalidVehicleAssociationException |
             NonExistentVehicleException | NonExistentUserException

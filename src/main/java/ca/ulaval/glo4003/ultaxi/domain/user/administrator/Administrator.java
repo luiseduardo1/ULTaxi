@@ -4,5 +4,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 
 public class Administrator extends User {
 
-
+    public Administrator() {
+        super();
+    }
 }
