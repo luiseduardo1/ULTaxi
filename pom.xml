@@ -94,6 +94,11 @@
             <artifactId>failsafe</artifactId>
             <version>1.0.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>7.15.4</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
