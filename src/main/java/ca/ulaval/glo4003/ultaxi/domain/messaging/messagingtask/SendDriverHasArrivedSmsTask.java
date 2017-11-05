@@ -6,11 +6,13 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.exception.SmsSendingFailure
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
+import ca.ulaval.glo4003.ultaxi.domain.user.User;
+import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 
 public class SendDriverHasArrivedSmsTask implements MessagingTask {
 
@@ -19,21 +21,18 @@ public class SendDriverHasArrivedSmsTask implements MessagingTask {
     private static final int SECONDS_BETWEEN_RETRY_ATTEMPT = 60;
 
     private final String sourcePhoneNumber;
-    private final String destinationPhoneNumber;
     private final SmsSender smsSender;
-    private final Predicate<Object> hasCourseStarted;
+    private final UserRepository userRepository;
+    private final TransportRequestRepository transportRequestRepository;
+    private final String transportRequestId;
 
-    public SendDriverHasArrivedSmsTask(String sourcePhoneNumber, String destinationPhoneNumber, SmsSender smsSender,
-        String transportRequestId, TransportRequestRepository transportRequestRepository) {
+    public SendDriverHasArrivedSmsTask(String sourcePhoneNumber, SmsSender smsSender, String transportRequestId,
+        TransportRequestRepository transportRequestRepository, UserRepository userRepository) {
         this.sourcePhoneNumber = sourcePhoneNumber;
-        this.destinationPhoneNumber = destinationPhoneNumber;
         this.smsSender = smsSender;
-        // We do not need the object passed as a parameter by the `failsafe` package
-        this.hasCourseStarted = __ -> {
-            TransportRequest transportRequest = transportRequestRepository.findById(transportRequestId);
-            return transportRequest != null
-                && transportRequest.getTransportRequestStatus() == TransportRequestStatus.STARTED;
-        };
+        this.transportRequestId = transportRequestId;
+        this.transportRequestRepository = transportRequestRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -47,11 +46,22 @@ public class SendDriverHasArrivedSmsTask implements MessagingTask {
     private RetryPolicy createRetryPolicy() {
         return new RetryPolicy()
             .retryOn(SmsSendingFailureException.class)
-            .abortIf(hasCourseStarted::test)
+            .abortIf(this::hasCourseStarted)
             .withDelay(SECONDS_BETWEEN_RETRY_ATTEMPT, TimeUnit.SECONDS);
     }
 
+    private boolean hasCourseStarted(Object object) {
+        TransportRequest transportRequest = transportRequestRepository.findById(transportRequestId);
+        return transportRequest != null
+            && transportRequest.getTransportRequestStatus() == TransportRequestStatus.STARTED;
+    }
+
     public void execute() {
+        String destinationPhoneNumber = Optional
+            .ofNullable(transportRequestRepository.findById(transportRequestId))
+            .map(transportRequest -> userRepository.findByUsername(transportRequest.getClientUsername()))
+            .map(User::getPhoneNumber)
+            .orElseThrow(() -> new SmsSendingFailureException("Destination phone number could not be found."));
         Sms sms = new Sms(destinationPhoneNumber, sourcePhoneNumber, SMS_BODY_CONTENT);
         smsSender.sendSms(sms);
     }
