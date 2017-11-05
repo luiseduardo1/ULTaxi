@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.Sms;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.exception.SmsSendingFailureException;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.exception.UnrecoverableSmsSendingFailureException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
@@ -18,7 +19,7 @@ public class SendDriverHasArrivedSmsTask implements MessagingTask {
 
     private static final String SMS_BODY_CONTENT = "A driver has answered your request and is waiting for you at the " +
         "scheduled point.";
-    private static final int SECONDS_BETWEEN_RETRY_ATTEMPT = 60;
+    private static final int TIME_UNITS_BETWEEN_RETRY_ATTEMPT = 60;
 
     private final String sourcePhoneNumber;
     private final SmsSender smsSender;
@@ -46,8 +47,9 @@ public class SendDriverHasArrivedSmsTask implements MessagingTask {
     private RetryPolicy createRetryPolicy() {
         return new RetryPolicy()
             .retryOn(SmsSendingFailureException.class)
+            .abortOn(UnrecoverableSmsSendingFailureException.class)
             .abortIf(this::hasCourseStarted)
-            .withDelay(SECONDS_BETWEEN_RETRY_ATTEMPT, TimeUnit.SECONDS);
+            .withDelay(TIME_UNITS_BETWEEN_RETRY_ATTEMPT, TimeUnit.SECONDS);
     }
 
     private boolean hasCourseStarted(Object object) {
@@ -61,7 +63,8 @@ public class SendDriverHasArrivedSmsTask implements MessagingTask {
             .ofNullable(transportRequestRepository.findById(transportRequestId))
             .map(transportRequest -> userRepository.findByUsername(transportRequest.getClientUsername()))
             .map(User::getPhoneNumber)
-            .orElseThrow(() -> new SmsSendingFailureException("Destination phone number could not be found."));
+            .orElseThrow(() -> new UnrecoverableSmsSendingFailureException("No transport request/client could be " +
+                                                                               "found."));
         Sms sms = new Sms(destinationPhoneNumber, sourcePhoneNumber, SMS_BODY_CONTENT);
         smsSender.sendSms(sms);
     }
