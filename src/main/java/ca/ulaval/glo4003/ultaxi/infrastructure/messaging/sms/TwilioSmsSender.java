@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.Sms;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.exception.SmsSendingFailureException;
+import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
@@ -18,6 +19,7 @@ public class TwilioSmsSender implements SmsSender {
 
     @Override
     public void sendSms(Sms sms) {
+        Twilio.init(securityIdentifier, authenticationToken);
         PhoneNumber sourcePhoneNumber = new PhoneNumber(toTwilioPhoneNumber(sms.getSourcePhoneNumber()));
         PhoneNumber destinationPhoneNumber = new PhoneNumber(toTwilioPhoneNumber(sms.getDestinationPhoneNumber()));
         Message message = Message
