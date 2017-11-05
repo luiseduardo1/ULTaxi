@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
@@ -24,6 +25,7 @@ public class Driver extends User {
     private String socialInsuranceNumber;
 
     public Vehicle vehicle;
+    public TransportRequest transportRequest;
 
     public Driver() {
         this.setRole(Role.DRIVER);
@@ -90,6 +92,14 @@ public class Driver extends User {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public TransportRequest getTransportRequest() {
+        return transportRequest;
+    }
+
+    public void setTransportRequest(TransportRequest transportRequest) {
+        this.transportRequest = transportRequest;
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {

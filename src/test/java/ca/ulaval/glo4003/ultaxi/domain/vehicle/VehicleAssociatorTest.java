@@ -76,5 +76,4 @@ public class VehicleAssociatorTest {
         vehicleAssociator.associate(vehicle, user);
     }
 
-
 }

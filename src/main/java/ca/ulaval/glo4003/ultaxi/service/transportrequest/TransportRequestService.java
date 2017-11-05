@@ -1,8 +1,12 @@
 package ca.ulaval.glo4003.ultaxi.service.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestAssignator;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssignationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 
@@ -13,11 +17,15 @@ public class TransportRequestService {
 
     private final TransportRequestRepository transportRequestRepository;
     private final TransportRequestAssembler transportRequestAssembler;
+    private final UserRepository userRepository;
+    private final TransportRequestAssignator transportRequestAssignator;
 
     public TransportRequestService(TransportRequestRepository transportRequestRepository, TransportRequestAssembler
-        transportRequestAssembler) {
+            transportRequestAssembler, UserRepository userRepository, TransportRequestAssignator transportRequestAssignator) {
         this.transportRequestRepository = transportRequestRepository;
         this.transportRequestAssembler = transportRequestAssembler;
+        this.userRepository = userRepository;
+        this.transportRequestAssignator = transportRequestAssignator;
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientUsername) {
@@ -29,11 +37,19 @@ public class TransportRequestService {
 
     public List<TransportRequestDto> searchBy(TransportRequestSearchParameters requestTransportSearchParameters) {
         return this.transportRequestRepository
-            .searchTransportRequests()
-            .withVehicleType(requestTransportSearchParameters.getVehicleType())
-            .findAll()
-            .stream()
-            .map(transportRequestAssembler::create)
-            .collect(Collectors.toList());
+                .searchTransportRequests()
+                .withVehicleType(requestTransportSearchParameters.getVehicleType())
+                .findAll()
+                .stream()
+                .map(transportRequestAssembler::create)
+                .collect(Collectors.toList());
+    }
+
+    public void assignTransportRequest(TransportRequestAssignationDto transportRequestAssignationDto, String driverUserName) {
+        Driver driver = (Driver) userRepository.findByUsername(driverUserName);
+        TransportRequest transportRequest = transportRequestRepository.findById(transportRequestAssignationDto.getTransportRequestId());
+        transportRequestAssignator.assignToDriver(transportRequest, driver);
+        userRepository.put(driver);
+        transportRequestRepository.put(transportRequest);
     }
 }

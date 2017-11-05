@@ -14,8 +14,10 @@ public class TransportRequest {
     private String note;
     private VehicleType vehicleType;
     private TransportRequestStatus transportRequestStatus = TransportRequestStatus.PENDING;
+    private boolean availability;
 
     public TransportRequest() {
+        this.availability = true;
     }
 
     public TransportRequest(String clientUsername, Geolocation startingPosition, String note, VehicleType vehicleType) {
@@ -23,6 +25,7 @@ public class TransportRequest {
         this.startingPosition = startingPosition;
         this.note = note;
         this.vehicleType = vehicleType;
+        this.availability = true;
     }
 
     public String getClientUsername() {
@@ -76,4 +79,15 @@ public class TransportRequest {
         this.transportRequestStatus = transportRequestStatus;
     }
 
+    public Boolean isAvailable() {
+        return this.availability;
+    }
+
+    public void setAvailable() {
+        this.availability = true;
+    }
+
+    public void setUnavailable() {
+        this.availability = false;
+    }
 }

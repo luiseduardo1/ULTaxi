@@ -6,5 +6,7 @@ public interface TransportRequestRepository {
 
     void save(TransportRequest transportRequest);
 
+    void put(TransportRequest transportRequest);
+
     TransportRequestSearchQueryBuilder searchTransportRequests();
 }

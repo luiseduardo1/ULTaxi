@@ -7,11 +7,13 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestAssignator;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverValidator;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleAssociator;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
@@ -30,7 +32,6 @@ import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
-import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverValidator;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
@@ -54,23 +55,26 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final UserService userService;
     private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-                                                                                                      userAssembler,
-                                                                                                      tokenManager,
-                                                                                                      tokenRepository);
+            userAssembler,
+            tokenManager,
+            tokenRepository);
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleAssociator vehicleAssociator = new VehicleAssociator();
+    private final TransportRequestAssignator transportRequestAssignator = new TransportRequestAssignator();
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
-                                                                     vehicleAssembler, vehicleAssociator,
-                                                                     userRepository);
+            vehicleAssembler, vehicleAssociator,
+            userRepository);
     private final TransportRequestService transportRequestService = new TransportRequestService(
-        transportRequestRepository,
-        transportRequestAssembler
+            transportRequestRepository,
+            transportRequestAssembler,
+            userRepository,
+            transportRequestAssignator
     );
 
     public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
         super(options, messageQueue);
         EmailSender emailSender = new JavaMailEmailSender(
-            EmailSenderConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
+                EmailSenderConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
         userService = new UserService(userRepository, userAssembler, messageQueueProducer, emailSender);
         setDevelopmentEnvironmentMockData();

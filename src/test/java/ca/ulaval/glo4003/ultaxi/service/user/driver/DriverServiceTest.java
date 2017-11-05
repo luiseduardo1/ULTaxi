@@ -1,15 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverValidator;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
@@ -24,6 +19,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverServiceTest {
