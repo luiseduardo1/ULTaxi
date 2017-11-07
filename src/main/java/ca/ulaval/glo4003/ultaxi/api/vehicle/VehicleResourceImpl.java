@@ -25,35 +25,19 @@ public class VehicleResourceImpl implements VehicleResource {
     @Override
     @Secured(Role.ADMINISTRATOR)
     public Response createVehicle(VehicleDto vehicleDto) {
-        try {
-            vehicleService.addVehicle(vehicleDto);
-            return Response.ok().build();
-        } catch (VehicleAlreadyExistsException | InvalidVehicleTypeException exception) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        vehicleService.addVehicle(vehicleDto);
+        return Response.ok().build();
     }
 
     @Override
     public Response associateVehicle(VehicleAssociationDto vehicleAssociationDto) {
-        try {
-            vehicleService.associateVehicle(vehicleAssociationDto);
-            return Response.ok().build();
-        } catch (NonExistentUserException |
-            NonExistentVehicleException |
-            InvalidVehicleAssociationException exception) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        vehicleService.associateVehicle(vehicleAssociationDto);
+        return Response.ok().build();
     }
 
     @Override
     public Response dissociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
-        try {
-            vehicleService.dissociateVehicle(vehicleAssociationDto);
-            return Response.ok().build();
-        } catch (InvalidVehicleAssociationException |
-            NonExistentVehicleException | NonExistentUserException
-            exception) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        vehicleService.dissociateVehicle(vehicleAssociationDto);
+        return Response.ok().build();
     }
 }

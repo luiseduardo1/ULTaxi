@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 public class UserResourceImpl implements UserResource {
 
     private final UserService userService;
-    private UserAuthenticationService userAuthenticationService;
+    private final UserAuthenticationService userAuthenticationService;
 
     public UserResourceImpl(UserService userService, UserAuthenticationService userAuthenticationService) {
         this.userService = userService;
@@ -24,23 +24,15 @@ public class UserResourceImpl implements UserResource {
 
     @Override
     public Response createUser(UserDto userDto) {
-        try {
-            userService.addUser(userDto);
-            return Response.ok().build();
-        } catch (UserAlreadyExistsException | InvalidUsernameException | InvalidPasswordException exception) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        userService.addUser(userDto);
+        return Response.ok().build();
     }
 
     @Override
     @Secured({Role.ADMINISTRATOR, Role.CLIENT, Role.DRIVER})
     public Response updateUser(String userToken, UserDto userDto) {
-        try {
-            User user = userAuthenticationService.authenticateFromToken(userToken);
-            userService.updateUser(userDto, user.getUsername());
-            return Response.ok().build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        User user = userAuthenticationService.authenticateFromToken(userToken);
+        userService.updateUser(userDto, user.getUsername());
+        return Response.ok().build();
     }
 }

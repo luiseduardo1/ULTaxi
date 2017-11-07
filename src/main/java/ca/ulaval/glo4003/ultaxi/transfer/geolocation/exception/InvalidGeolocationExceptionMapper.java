@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationE
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Provider
@@ -15,7 +14,7 @@ public class InvalidGeolocationExceptionMapper implements ExceptionMapper<Invali
 
     @Override
     public Response toResponse(InvalidGeolocationException exception) {
-        logger.log(Level.SEVERE, exception.getMessage());
+        logger.info(exception.getMessage());
         return Response
             .status(Response.Status.BAD_REQUEST)
             .entity(exception.getMessage())
