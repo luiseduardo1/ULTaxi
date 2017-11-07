@@ -8,7 +8,7 @@ public class SmsSenderConfigurationPropertyFileReader implements SmsSenderConfig
 
     private final String filename;
 
-    SmsSenderConfigurationPropertyFileReader(String filename) {
+    public SmsSenderConfigurationPropertyFileReader(String filename) {
         this.filename = filename;
     }
 

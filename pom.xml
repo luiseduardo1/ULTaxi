@@ -205,8 +205,10 @@
                     <arguments>
                         <argument>--development</argument>
                         <argument>--server-port=8080</argument>
-                        <argument>--configuration-file="emailSenderConfiguration.properties"</argument>
-                        <argument>--configuration-filetype="properties"</argument>
+                        <argument>--email-configuration="emailSenderConfiguration.properties"</argument>
+                        <argument>"properties"</argument>
+                        <argument>--sms-configuration="sms-sender-configuration.properties"</argument>
+                        <argument>"properties"</argument>
                     </arguments>
                 </configuration>
             </plugin>
