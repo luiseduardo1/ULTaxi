@@ -64,11 +64,11 @@ public class VehicleRepositoryInMemoryTest {
     @Test
     public void givenExistentVehicle_whenUpdating_thenNoThrowsException() {
         vehicleRepository.save(vehicle);
-        vehicleRepository.put(vehicle);
+        vehicleRepository.update(vehicle);
     }
 
     @Test(expected = NonExistentVehicleException.class)
     public void givenNonExistentVehicle_whenUpdating_thenThrowsException() {
-        vehicleRepository.put(vehicle);
+        vehicleRepository.update(vehicle);
     }
 }
