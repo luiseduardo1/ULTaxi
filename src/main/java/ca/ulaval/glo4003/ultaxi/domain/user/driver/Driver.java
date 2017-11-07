@@ -21,7 +21,6 @@ public class Driver extends User {
     private String name;
     private String lastName;
     private String phoneNumber;
-    private VehicleType vehicleType;
     private String socialInsuranceNumber;
 
     public Vehicle vehicle;
@@ -78,8 +77,10 @@ public class Driver extends User {
     }
 
     public void associateVehicle(Vehicle vehicle) {
-        if (this.vehicle != null) {
-            throw new InvalidVehicleAssociationException("Driver already has a vehicle.");
+        if (this.vehicle != null || vehicle == null) {
+            throw new InvalidVehicleAssociationException("Can't associate this vehicle: it may be because the driver " +
+                                                             "already have a vehicle associated or the given vehicle " +
+                                                             "is invalid.");
         }
 
         vehicle.associateDriver(this);
@@ -87,19 +88,27 @@ public class Driver extends User {
     }
 
     public VehicleType getVehicleType() {
-        return vehicleType;
-    }
+        VehicleType vehicleType = null;
+        if (vehicle != null) {
+            vehicleType = vehicle.getType();
+        }
 
-    public void setVehicleType(VehicleType vehicleType) {
-        this.vehicleType = vehicleType;
+        return vehicleType;
     }
 
     public Vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void dissociateVehicle(Vehicle vehicle) {
+        if (this.vehicle == null || vehicle == null) {
+            throw new InvalidVehicleAssociationException("Can't dissociate this vehicle: it may be because the driver" +
+                                                             " has no vehicle associated or the given vehicle is " +
+                                                             "invalid.");
+        }
+
+        vehicle.dissociateDriver(this);
+        this.vehicle = null;
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {
