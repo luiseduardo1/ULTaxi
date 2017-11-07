@@ -49,6 +49,6 @@ public class TransportRequestService {
         TransportRequest transportRequest = transportRequestRepository.findById(transportRequestAssignationId);
         transportRequestAssignator.assignToDriver(transportRequest, driver);
         userRepository.put(driver);
-        transportRequestRepository.put(transportRequest);
+        transportRequestRepository.update(transportRequest);
     }
 }

@@ -35,8 +35,8 @@ public class TransportRequestRepositoryInMemoryTest {
     }
 
     @Test(expected = NonExistentTransportRequestException.class)
-    public void givenNonExistentTransportRequest_whenPut_thenThrowsException() {
-        transporRequestRepository.put(transportRequest);
+    public void givenNonExistentTransportRequest_whenUpdate_thenThrowsException() {
+        transporRequestRepository.update(transportRequest);
     }
 
 }
