@@ -13,7 +13,6 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.exception.InvalidTokenException;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssignationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 
@@ -64,10 +63,10 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
     @Override
     @Secured({Role.DRIVER})
-    public Response assignTransportRequest(String driverToken, TransportRequestAssignationDto transportRequestAssignationDto) {
+    public Response assignTransportRequest(String driverToken, String transportRequestId) {
         try {
             Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
-            transportRequestService.assignTransportRequest(transportRequestAssignationDto, driver.getUsername());
+            transportRequestService.assignTransportRequest(transportRequestId, driver.getUsername());
             return Response.ok().build();
         } catch (NonExistentUserException | InvalidTransportRequestAssignationException | NonExistentTransportRequestException exception) {
             return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();

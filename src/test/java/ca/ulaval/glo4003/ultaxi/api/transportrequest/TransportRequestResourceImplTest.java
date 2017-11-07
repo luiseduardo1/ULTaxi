@@ -11,7 +11,6 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssignationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 import org.junit.Before;
@@ -37,6 +36,7 @@ public class TransportRequestResourceImplTest {
     private static final String A_VALID_TOKEN = "Valid token";
     private static final String A_VALID_DRIVER_USERNAME = "driverUsername";
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
+    private static final String A_VALID_TRANSPORT_REQUEST_ID = "1";
     private static final VehicleType A_VEHICLE_TYPE = VehicleType.CAR;
 
     @Mock
@@ -47,8 +47,6 @@ public class TransportRequestResourceImplTest {
     private TransportRequestDto transportRequestDto;
     @Mock
     private List<TransportRequestDto> transportRequestDtos;
-    @Mock
-    private TransportRequestAssignationDto transportRequestAssignationDto;
     @Mock
     private User user;
     @Mock
@@ -136,25 +134,25 @@ public class TransportRequestResourceImplTest {
 
     @Test
     public void givenAnAuthenticatedDriver_whenAssignTransportRequest_thenReturnsOk(){
-        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, transportRequestAssignationDto);
+        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
     public void givenATranportRequestId_whenAssignTransportRequest_thenDelegateToTransportService(){
-        transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, transportRequestAssignationDto);
+        transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
 
-        verify(transportRequestService).assignTransportRequest(transportRequestAssignationDto,driver.getUsername());
+        verify(transportRequestService).assignTransportRequest(A_VALID_TRANSPORT_REQUEST_ID,driver.getUsername());
     }
 
     @Test
     public void givenNonExistentTransportRequest_whenAssignTransportRequest_thenReturnsNotFound() {
         willThrow(new NonExistentTransportRequestException("Non existing transport request"))
                 .given(transportRequestService)
-                .assignTransportRequest(transportRequestAssignationDto, A_VALID_DRIVER_USERNAME);
+                .assignTransportRequest(A_VALID_TRANSPORT_REQUEST_ID, A_VALID_DRIVER_USERNAME);
 
-        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, transportRequestAssignationDto);
+        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
@@ -163,9 +161,9 @@ public class TransportRequestResourceImplTest {
     public void givenNonExistentDriver_whenAssignTransportRequest_thenReturnsBadRequest() {
         willThrow(new NonExistentUserException("Non existing user"))
                 .given(transportRequestService)
-                .assignTransportRequest(transportRequestAssignationDto, A_VALID_DRIVER_USERNAME);
+                .assignTransportRequest(A_VALID_TRANSPORT_REQUEST_ID, A_VALID_DRIVER_USERNAME);
 
-        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, transportRequestAssignationDto);
+        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
@@ -174,9 +172,9 @@ public class TransportRequestResourceImplTest {
     public void givenNonValidAssociation_whenAssociatingVehicle_thenReturnsBadRequest() {
         willThrow(new InvalidTransportRequestAssignationException("Invalid vehicle association"))
                 .given(transportRequestService)
-                .assignTransportRequest(transportRequestAssignationDto, A_VALID_DRIVER_USERNAME);
+                .assignTransportRequest(A_VALID_TRANSPORT_REQUEST_ID, A_VALID_DRIVER_USERNAME);
 
-        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, transportRequestAssignationDto);
+        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }

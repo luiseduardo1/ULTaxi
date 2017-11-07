@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestReposito
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssignationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 
@@ -45,9 +44,9 @@ public class TransportRequestService {
                 .collect(Collectors.toList());
     }
 
-    public void assignTransportRequest(TransportRequestAssignationDto transportRequestAssignationDto, String driverUserName) {
+    public void assignTransportRequest(String transportRequestAssignationId, String driverUserName) {
         Driver driver = (Driver) userRepository.findByUsername(driverUserName);
-        TransportRequest transportRequest = transportRequestRepository.findById(transportRequestAssignationDto.getTransportRequestId());
+        TransportRequest transportRequest = transportRequestRepository.findById(transportRequestAssignationId);
         transportRequestAssignator.assignToDriver(transportRequest, driver);
         userRepository.put(driver);
         transportRequestRepository.put(transportRequest);

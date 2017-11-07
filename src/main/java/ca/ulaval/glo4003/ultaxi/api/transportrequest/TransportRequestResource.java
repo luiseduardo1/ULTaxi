@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssignationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 
 import javax.ws.rs.*;
@@ -28,5 +27,5 @@ public interface TransportRequestResource {
     @Path("/assign")
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Role.DRIVER})
-    Response assignTransportRequest(@HeaderParam(value = "Authorization") String clientToken, TransportRequestAssignationDto transportRequestAssignationDto);
+    Response assignTransportRequest(@HeaderParam(value = "Authorization") String clientToken, String transportRequestId);
 }
