@@ -2,9 +2,6 @@ package ca.ulaval.glo4003.ultaxi.api.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;

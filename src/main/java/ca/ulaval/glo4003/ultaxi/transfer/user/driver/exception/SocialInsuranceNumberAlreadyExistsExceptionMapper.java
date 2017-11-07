@@ -8,7 +8,8 @@ import javax.ws.rs.ext.Provider;
 import java.util.logging.Logger;
 
 @Provider
-public class SocialInsuranceNumberAlreadyExistsExceptionMapper implements ExceptionMapper<SocialInsuranceNumberAlreadyExistException> {
+public class SocialInsuranceNumberAlreadyExistsExceptionMapper implements
+    ExceptionMapper<SocialInsuranceNumberAlreadyExistException> {
 
     private static final Logger logger = Logger.getLogger(SocialInsuranceNumberAlreadyExistException.class.getName());
 

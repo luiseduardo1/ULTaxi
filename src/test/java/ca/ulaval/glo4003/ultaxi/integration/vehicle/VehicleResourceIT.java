@@ -5,7 +5,6 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import io.restassured.response.Response;
-import org.glassfish.jersey.server.ResourceConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
