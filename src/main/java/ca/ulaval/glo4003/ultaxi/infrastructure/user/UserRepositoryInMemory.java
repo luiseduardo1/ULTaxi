@@ -35,7 +35,7 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     @Override
-    public void put(User user) {
+    public void update(User user) {
         String name = user.getUsername();
         if (!users.containsKey(name)) {
             throw new NonExistentUserException(String.format("User with userName %s don't exist",
