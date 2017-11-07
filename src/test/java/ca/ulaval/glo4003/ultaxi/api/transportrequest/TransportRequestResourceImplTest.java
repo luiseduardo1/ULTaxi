@@ -68,28 +68,6 @@ public class TransportRequestResourceImplTest {
     }
 
     @Test
-    public void givenATransportRequestWithAnInvalidVehicleType_whenSendRequest__thenReturnsBadRequest() {
-        willThrow(new InvalidVehicleTypeException("TransportRequest has an invalid vehicle type."))
-            .given(transportRequestService)
-            .sendRequest(transportRequestDto, A_VALID_USERNAME);
-
-        Response response = transportRequestResource.sendTransportRequest(A_VALID_TOKEN, transportRequestDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenATransportRequestWithAnInvalidGeolocation_whenSendRequest_thenReturnsBadRequest() {
-        willThrow(new InvalidGeolocationException("TransportRequest has an invalid geolocation."))
-            .given(transportRequestService)
-            .sendRequest(transportRequestDto, A_VALID_USERNAME);
-
-        Response response = transportRequestResource.sendTransportRequest(A_VALID_TOKEN, transportRequestDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
     public void givenAnAuthenticatedDriver_whenSearchAvailableTransportRequests_thenReturnsOk() {
         Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
@@ -102,17 +80,6 @@ public class TransportRequestResourceImplTest {
         transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
         verify(transportRequestService).searchBy(any(TransportRequestSearchParameters.class));
-    }
-
-    @Test
-    public void givenNoAvailableTransportRequests_whenSearchAvailableTransportRequests_thenReturnsNotFound() {
-        willThrow(new EmptySearchResultsException("No transport requests found."))
-            .given(transportRequestService)
-            .searchBy(any(TransportRequestSearchParameters.class));
-
-        Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
-
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
 
     @Test

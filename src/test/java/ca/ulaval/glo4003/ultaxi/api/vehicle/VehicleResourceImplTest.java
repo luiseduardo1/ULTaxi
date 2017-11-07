@@ -44,27 +44,6 @@ public class VehicleResourceImplTest {
     }
 
     @Test
-    public void givenAlreadyExistingVehicle_whenCreateVehicle_thenReturnsBadRequest() {
-        willThrow(new VehicleAlreadyExistsException("Vehicle already exists."))
-            .given(vehicleService)
-            .addVehicle(vehicleDto);
-        Response response = vehicleResource.createVehicle(vehicleDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenVehicleWithInvalidType_whenCreateVehicle_thenReturnsBadRequest() {
-        willThrow(new InvalidVehicleTypeException("Vehicle has an invalid type."))
-            .given(vehicleService)
-            .addVehicle(vehicleDto);
-
-        Response response = vehicleResource.createVehicle(vehicleDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
     public void givenVehicleToAssociate_whenAssociatingVehicle_thenReturnsOk() {
         Response response = vehicleResource.associateVehicle(vehicleAssociationDto);
 
@@ -76,71 +55,5 @@ public class VehicleResourceImplTest {
         Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenNonExistentUser_whenAssociatingVehicle_thenReturnsBadRequest() {
-        willThrow(new NonExistentUserException("Non existing user"))
-            .given(vehicleService)
-            .associateVehicle(vehicleAssociationDto);
-
-        Response response = vehicleResource.associateVehicle(vehicleAssociationDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenNonExistentVehicle_whenAssociatingVehicle_thenReturnsBadRequest() {
-        willThrow(new NonExistentVehicleException("Non existing vehicle"))
-            .given(vehicleService)
-            .associateVehicle(vehicleAssociationDto);
-
-        Response response = vehicleResource.associateVehicle(vehicleAssociationDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenNonValidAssociation_whenAssociatingVehicle_thenReturnsBadRequest() {
-        willThrow(new InvalidVehicleAssociationException("Invalid vehicle association"))
-            .given(vehicleService)
-            .associateVehicle(vehicleAssociationDto);
-
-        Response response = vehicleResource.associateVehicle(vehicleAssociationDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenNonExistentUser_whenDissociatingVehicle_thenReturnsBadRequest() {
-        willThrow(new NonExistentUserException("Non existing user"))
-            .given(vehicleService)
-            .dissociateVehicle(vehicleAssociationDto);
-
-        Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenNonExistentVehicle_whenDissociatingVehicle_thenReturnsBadRequest() {
-        willThrow(new NonExistentVehicleException("Non existing vehicle"))
-            .given(vehicleService)
-            .dissociateVehicle(vehicleAssociationDto);
-
-        Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenNonValidAssociation_whenDissociatingVehicle_thenReturnsBadRequest() {
-        willThrow(new InvalidVehicleAssociationException("Invalid vehicle association"))
-            .given(vehicleService)
-            .dissociateVehicle(vehicleAssociationDto);
-
-        Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 }

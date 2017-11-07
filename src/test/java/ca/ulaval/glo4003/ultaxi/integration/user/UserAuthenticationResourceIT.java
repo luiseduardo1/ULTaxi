@@ -56,6 +56,13 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
         assertStatusCode(response, Status.RESET_CONTENT);
     }
 
+    @Test
+    public void givenUnauthenticatedUser_whenSignOut_thenReturnsBadRequest() {
+        Response response = signout();
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
     private String createSerializedValidUser() {
         return createSerializedUser(
             generateRandomWord(),

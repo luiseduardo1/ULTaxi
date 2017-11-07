@@ -3,7 +3,9 @@ package ca.ulaval.glo4003.ultaxi.integration.vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import io.restassured.response.Response;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,12 @@ public class VehicleResourceIT extends IntegrationTest {
     private static final String A_VALID_COLOR = "Dark Red";
     private static final String A_VALID_MODEL = "Nissan Sentra";
     private static final String AN_INVALID_TYPE = null;
+    private static final String AN_EXISTING_USERNAME = "driverUsername";
+    private static final String A_NON_EXISTENT_USERNAME = "a_non_existing_user_142621";
+    private static final String A_VALID_REGISTRATION_NUMBER = "TS00700";
+    private static final String A_NON_EXISTENT_REGISTRATION_NUMBER = "NONEXISTENTVEHICLEREGISTRATIONNUMBER";
+    private static final String VEHICLES_ASSOCIATION_ROUTE = String.format("%s/associate", VEHICLES_ROUTE);
+    private static final String VEHICLES_DISSOCIATION_ROUTE = String.format("%s/dissociate", VEHICLES_ROUTE);
 
     @Before
     public void setUp() {
@@ -71,6 +79,42 @@ public class VehicleResourceIT extends IntegrationTest {
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
+    @Test
+    public void givenNonExistentUser_whenAssociatingVehicle_thenReturnsBadRequest() {
+        String vehicleAssociation = createVehicleAssociationWithNonExistentUser();
+
+        Response response = authenticatedPost(VEHICLES_ASSOCIATION_ROUTE, vehicleAssociation);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenNonExistentVehicle_whenAssociatingVehicle_thenReturnsBadRequest() {
+        String vehicleAssociation = createVehicleAssociationWithNonExistentVehicle();
+
+        Response response = authenticatedPost(VEHICLES_ASSOCIATION_ROUTE, vehicleAssociation);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenNonExistentUser_whenDissociatingVehicle_thenReturnsBadRequest() {
+        String vehicleAssociation = createVehicleAssociationWithNonExistentUser();
+
+        Response response = authenticatedPost(VEHICLES_DISSOCIATION_ROUTE, vehicleAssociation);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenNonExistentVehicle_whenDissociatingVehicle_thenReturnsBadRequest() {
+        String vehicleAssociation = createVehicleAssociationWithNonExistentVehicle();
+
+        Response response = authenticatedPost(VEHICLES_DISSOCIATION_ROUTE, vehicleAssociation);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
     private String createSerializedValidVehicle() {
         return createSerializedVehicle(
             A_VALID_TYPE,
@@ -87,5 +131,20 @@ public class VehicleResourceIT extends IntegrationTest {
             A_VALID_MODEL,
             generateRandomWord()
         );
+    }
+
+    private String createVehicleAssociationWithNonExistentVehicle() {
+        return createVehicleAssociation(A_NON_EXISTENT_REGISTRATION_NUMBER, AN_EXISTING_USERNAME);
+    }
+
+    private String createVehicleAssociationWithNonExistentUser() {
+        return createVehicleAssociation(A_VALID_REGISTRATION_NUMBER, A_NON_EXISTENT_USERNAME);
+    }
+
+    private String createVehicleAssociation(String registrationNumber, String username) {
+        VehicleAssociationDto vehicleAssociationDto = new VehicleAssociationDto();
+        vehicleAssociationDto.setRegistrationNumber(registrationNumber);
+        vehicleAssociationDto.setUsername(username);
+        return serializeDto(vehicleAssociationDto);
     }
 }

@@ -40,11 +40,11 @@ public class VehicleService {
 
     public void associateVehicle(VehicleAssociationDto vehicleAssociationDto) {
         logger.info(String.format("Vehicule association for %s", vehicleAssociationDto));
-        Driver driver = (Driver) userRepository.findByUsername(vehicleAssociationDto.getUsername());
+        User user = userRepository.findByUsername(vehicleAssociationDto.getUsername());
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(
             vehicleAssociationDto.getRegistrationNumber());
-        vehicleAssociator.associate(vehicle, driver);
-        userRepository.put(driver);
+        vehicleAssociator.associate(vehicle, user);
+        userRepository.put(user);
         vehicleRepository.put(vehicle);
     }
 

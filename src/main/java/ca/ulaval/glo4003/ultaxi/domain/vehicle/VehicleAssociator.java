@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociati
 public class VehicleAssociator {
 
     public void associate(Vehicle vehicle, User user) {
-        if (user.getRole() != Role.DRIVER) {
+        if (user == null || vehicle == null || user.getRole() != Role.DRIVER) {
             throw new InvalidVehicleAssociationException("Can't make one-to-one Association");
         }
         Driver driver = (Driver) user;
@@ -23,7 +23,7 @@ public class VehicleAssociator {
     }
 
     public void dissociate(Vehicle vehicle, User user) {
-        if (user.getRole() != Role.DRIVER) {
+        if (user == null || vehicle == null || user.getRole() != Role.DRIVER) {
             throw new InvalidVehicleAssociationException("Can't dissociate vehicle from driver");
         }
         Driver driver = (Driver) user;

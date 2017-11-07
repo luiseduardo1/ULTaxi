@@ -54,15 +54,6 @@ public class UserAuthenticationResourceImplTest {
     }
 
     @Test
-    public void givenAnUserToAuthenticateWithBadCredentials_whenAuthenticating_thenResponseIsForbidden() {
-
-        doThrow(new InvalidCredentialsException("")).when(userAuthenticationService).authenticate(userDto);
-        Response response = userAuthenticationResource.authenticateUser(userDto);
-
-        assertEquals(Response.Status.FORBIDDEN.getStatusCode(), response.getStatus());
-    }
-
-    @Test
     public void givenToken_whenSignOut_thenReturnsResetContent() {
         Response response = userAuthenticationResource.signOut(AN_UNPARSED_TOKEN);
 
@@ -74,15 +65,5 @@ public class UserAuthenticationResourceImplTest {
         userAuthenticationResource.signOut(AN_UNPARSED_TOKEN);
 
         verify(userAuthenticationService).deauthenticate(AN_UNPARSED_TOKEN);
-    }
-
-    @Test
-    public void givenNullToken_whenSignOut_thenReturnsBadRequest() {
-        willThrow(new InvalidTokenException("Token can't be parsed.")).given(userAuthenticationService)
-            .deauthenticate(any());
-
-        Response response = userAuthenticationResource.signOut(null);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 }
