@@ -60,39 +60,6 @@ public class UserResourceImplTest {
     }
 
     @Test
-    public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
-        willThrow(new UserAlreadyExistsException("User already exists."))
-            .given(userService)
-            .addUser(userDto);
-
-        Response response = userResource.createUser(userDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenUserWithInvalidUsername_whenCreateUser_thenReturnsBadRequest() {
-        willThrow(new InvalidUsernameException("User has an invalid username."))
-            .given(userService)
-            .addUser(userDto);
-
-        Response response = userResource.createUser(userDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenUserWithEmptyPassword_whenCreateUser_thenReturnsBadRequest() {
-        willThrow(new InvalidPasswordException("User has an invalid password."))
-            .given(userService)
-            .addUser(userDto);
-
-        Response response = userResource.createUser(userDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
     public void givenAnAuthenticatedUser_whenUpdateUser_thenReturnsOK() {
         Response response = userResource.updateUser(A_VALID_TOKEN, userDto);
 
@@ -104,30 +71,6 @@ public class UserResourceImplTest {
         userResource.updateUser(A_VALID_TOKEN, userDto);
 
         verify(userService).updateUser(userDto, A_VALID_USERNAME);
-    }
-
-    @Test
-    public void givenAnEmptyPassword_whenUpdatingUser_thenReturnsBadRequest() {
-        when(userDto.getPassword()).thenReturn("");
-        willThrow(new InvalidPasswordException("User has an invalid password."))
-            .given(userService)
-            .updateUser(userDto, A_VALID_USERNAME);
-
-        Response response = userResource.updateUser(A_VALID_TOKEN, userDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenAnInvalidEmail_whenUpdatingUser_thenReturnsBadRequest() {
-        when(userDto.getEmail()).thenReturn(AN_INVALID_EMAIL_ADDRESS);
-        willThrow(new InvalidEmailAddressException("User has an invalid email address."))
-            .given(userService)
-            .updateUser(userDto, A_VALID_USERNAME);
-
-        Response response = userResource.updateUser(A_VALID_TOKEN, userDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 }
 
