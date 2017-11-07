@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberExceptio
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
 import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
@@ -74,6 +75,15 @@ public class Driver extends User {
         }
 
         this.socialInsuranceNumber = socialInsuranceNumber;
+    }
+
+    public void associateVehicle(Vehicle vehicle) {
+        if (this.vehicle != null) {
+            throw new InvalidVehicleAssociationException("Driver already has a vehicle.");
+        }
+
+        vehicle.associateDriver(this);
+        this.vehicle = vehicle;
     }
 
     public VehicleType getVehicleType() {

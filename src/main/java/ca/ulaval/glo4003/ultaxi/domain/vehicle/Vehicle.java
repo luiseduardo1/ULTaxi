@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.vehicle;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 
 public abstract class Vehicle {
 
@@ -30,6 +31,14 @@ public abstract class Vehicle {
 
     public Driver getDriver() {
         return driver;
+    }
+
+    public void associateDriver(Driver driver) {
+        if (this.driver != null) {
+            throw new InvalidVehicleAssociationException("Vehicle already has a driver associated.");
+        }
+
+        this.driver = driver;
     }
 
     public void setDriver(Driver driver) {
