@@ -45,7 +45,8 @@ public class TwilioSmsSenderTest {
     }
 
     @Test(expected = UnrecoverableSmsSendingFailureException.class)
-    public void givenPhoneNumberThatRequiresMissingPermissions_whenSendingSms_thenThrowsUnrecoverableSmsSendingFailureException() {
+    public void
+    givenPhoneNumberThatRequiresMissingPermissions_whenSendingSms_thenThrowsUnrecoverableSmsSendingFailureException() {
         Sms sms = new Sms(PHONE_NUMBER_THAT_REQUIRES_MISSING_PERMISSIONS, INVALID_PHONE_NUMBER, A_MESSAGE);
 
         smsSender.sendSms(sms);
