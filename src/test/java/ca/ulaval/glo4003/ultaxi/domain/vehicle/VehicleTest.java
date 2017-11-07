@@ -45,7 +45,7 @@ public class VehicleTest {
 
     @Test(expected = InvalidVehicleDissociationException.class)
     public void
-    givenAVehicleWithNoAssociatedDriver_whenDissociatingDriver_thenThrowsInvalidVehicleAssociationException() {
+    givenAVehicleWithNoAssociatedDriver_whenDissociatingDriver_thenThrowsInvalidVehicleDissociationException() {
         vehicle.dissociateDriver();
     }
 
