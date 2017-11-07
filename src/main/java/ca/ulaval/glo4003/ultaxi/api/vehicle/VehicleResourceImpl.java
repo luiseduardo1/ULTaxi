@@ -36,8 +36,8 @@ public class VehicleResourceImpl implements VehicleResource {
     }
 
     @Override
-    public Response dissociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
-        vehicleService.dissociateVehicle(vehicleAssociationDto);
+    public Response dissociateVehicle(String username) {
+        vehicleService.dissociateVehicle(username);
         return Response.ok().build();
     }
 }

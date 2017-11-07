@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.vehicle;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,21 +43,16 @@ public class VehicleTest {
         vehicle.associateDriver(null);
     }
 
-    @Test(expected = InvalidVehicleAssociationException.class)
+    @Test(expected = InvalidVehicleDissociationException.class)
     public void
     givenAVehicleWithNoAssociatedDriver_whenDissociatingDriver_thenThrowsInvalidVehicleAssociationException() {
-        vehicle.dissociateDriver(driver);
-    }
-
-    @Test(expected = InvalidVehicleAssociationException.class)
-    public void givenNullDriver_whenDissociatingDriver_thenThrowsInvalidVehicleAssociationException() {
-        vehicle.dissociateDriver(null);
+        vehicle.dissociateDriver();
     }
 
     @Test
     public void givenAVehicleWithAnAssociatedDriver_whenDissociatingDriver_thenDriverIsDissociated() {
         vehicle.associateDriver(driver);
 
-        vehicle.dissociateDriver(driver);
+        vehicle.dissociateDriver();
     }
 }

@@ -28,6 +28,7 @@ public class VehicleResourceImplTest {
     private VehicleDto vehicleDto;
     @Mock
     private VehicleAssociationDto vehicleAssociationDto;
+    private static final String A_USERNAME = "a_username";
 
     private VehicleResource vehicleResource;
 
@@ -52,7 +53,7 @@ public class VehicleResourceImplTest {
 
     @Test
     public void givenVehicleToDissociate_whenAssociatingVehicle_thenReturnsOk() {
-        Response response = vehicleResource.dissociateVehicle(vehicleAssociationDto);
+        Response response = vehicleResource.dissociateVehicle(A_USERNAME);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }

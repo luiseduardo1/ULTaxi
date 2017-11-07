@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumb
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
 import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
 import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
@@ -100,15 +101,14 @@ public class Driver extends User {
         return vehicle;
     }
 
-    public void dissociateVehicle(Vehicle vehicle) {
-        if (this.vehicle == null || vehicle == null) {
-            throw new InvalidVehicleAssociationException("Can't dissociate this vehicle: it may be because the driver" +
-                                                             " has no vehicle associated or the given vehicle is " +
-                                                             "invalid.");
+    public void dissociateVehicle() {
+        if (vehicle == null) {
+            throw new InvalidVehicleDissociationException("Can't dissociate this vehicle: it may be because the " +
+                                                              "driver has no vehicle associated or the given vehicle " +
+                                                              "is invalid.");
         }
-
-        vehicle.dissociateDriver(this);
-        this.vehicle = null;
+        vehicle.dissociateDriver();
+        vehicle = null;
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {

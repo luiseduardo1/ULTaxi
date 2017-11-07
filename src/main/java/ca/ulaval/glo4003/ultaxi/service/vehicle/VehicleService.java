@@ -7,11 +7,12 @@ import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
 
-import java.util.function.BiConsumer;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class VehicleService {
@@ -38,29 +39,12 @@ public class VehicleService {
     }
 
     public void associateVehicle(VehicleAssociationDto vehicleAssociationDto) {
-        withVehicleAssociationAction(
-            vehicleAssociationDto,
-            "Vehicle association for driver %s and vehicle %s",
-            Driver::associateVehicle
-        );
-    }
-
-    public void dissociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
-        withVehicleAssociationAction(
-            vehicleAssociationDto,
-            "Vehicle dissociation for driver %s and vehicle",
-            Driver::dissociateVehicle
-        );
-    }
-
-    private void withVehicleAssociationAction(VehicleAssociationDto vehicleAssociationDto, String logMessage,
-        BiConsumer<Driver, Vehicle> associationAction) {
         if (vehicleAssociationDto == null) {
             throw new InvalidVehicleAssociationException("The given vehicle association is null.");
         }
 
         logger.info(String.format(
-            logMessage,
+            "Vehicle association for driver %s and vehicle %s",
             vehicleAssociationDto.getUsername(),
             vehicleAssociationDto.getRegistrationNumber()
         ));
@@ -68,7 +52,26 @@ public class VehicleService {
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(vehicleAssociationDto.getRegistrationNumber());
 
         validateAssociationEntities(vehicle, user);
-        associationAction.accept((Driver) user, vehicle);
+        ((Driver) user).associateVehicle(vehicle);
+
+        userRepository.update(user);
+        vehicleRepository.update(vehicle);
+    }
+
+    public void dissociateVehicle(String username) {
+        User user = Optional
+            .ofNullable(username)
+            .map(userRepository::findByUsername)
+            .orElseThrow(() -> new InvalidVehicleDissociationException("Can't dissociate: the given username is " +
+                                                                           "invalid."));
+        if (user.getRole() != Role.DRIVER) {
+            throw new InvalidVehicleDissociationException("Can't dissociate: The given user is not a driver.");
+        }
+
+        logger.info(String.format("Dissociating user %s and his vehicle.", username));
+        Driver driver = (Driver) user;
+        Vehicle vehicle = driver.getVehicle();
+        driver.dissociateVehicle();
 
         userRepository.update(user);
         vehicleRepository.update(vehicle);

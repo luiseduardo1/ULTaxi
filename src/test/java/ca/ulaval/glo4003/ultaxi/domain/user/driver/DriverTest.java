@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberExceptio
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -187,7 +188,8 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidVehicleAssociationException.class)
-    public void givenADriverWithAVehicleAssociated_whenAssociatingVehicle_thenThrowsInvalidVehicleAssociationException() {
+    public void
+    givenADriverWithAVehicleAssociated_whenAssociatingVehicle_thenThrowsInvalidVehicleAssociationException() {
         driver.associateVehicle(vehicle);
 
         driver.associateVehicle(vehicle);
@@ -202,20 +204,13 @@ public class DriverTest {
     public void givenADriverWithAVehicleAssociated_whenDissociatingVehicle_thenVehicleIsDissociated() {
         driver.associateVehicle(vehicle);
 
-        driver.dissociateVehicle(vehicle);
+        driver.dissociateVehicle();
 
-        verify(vehicle).dissociateDriver(driver);
+        verify(vehicle).dissociateDriver();
     }
 
-    @Test(expected = InvalidVehicleAssociationException.class)
+    @Test(expected = InvalidVehicleDissociationException.class)
     public void givenADriverWithNoVehicleAssociated_whenDissociatingVehicle_thenThrowsInvalidAssociationException() {
-        driver.dissociateVehicle(vehicle);
-    }
-
-    @Test(expected = InvalidVehicleAssociationException.class)
-    public void givenNullVehicle_whenAssociatingVehicle_thenThrowsInvalidVehicleAssociatinException() {
-        driver.associateVehicle(vehicle);
-
-        driver.dissociateVehicle(null);
+        driver.dissociateVehicle();
     }
 }

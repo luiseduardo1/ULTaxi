@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
@@ -37,6 +38,7 @@ public class VehicleServiceTest {
     @Mock
     private VehicleAssociationDto vehicleAssociationDto;
 
+    private static final String A_USERNAME = "a_username";
     private VehicleService vehicleService;
 
     @Before
@@ -90,35 +92,28 @@ public class VehicleServiceTest {
     }
 
     @Test
-    public void givenValidVehicleAssociation_whenDissociatingVehicle_thenVehicleIsDissociated() {
-        vehicleService.dissociateVehicle(vehicleAssociationDto);
+    public void givenValidUsername_whenDissociatingVehicle_thenVehicleIsDissociated() {
+        vehicleService.dissociateVehicle(A_USERNAME);
 
-        verify(driver).dissociateVehicle(vehicle);
+        verify(driver).dissociateVehicle();
     }
 
-    @Test(expected = InvalidVehicleAssociationException.class)
-    public void givenInvalidUserRole_whenDissociatingVehicle_thenThrowsInvalidVehicleAssociationException() {
+    @Test(expected = InvalidVehicleDissociationException.class)
+    public void givenNullUsername_whenDissociatingVehicle_thenThrowsInvalidVehicleDissociationException() {
+        vehicleService.dissociateVehicle(null);
+    }
+
+    @Test(expected = InvalidVehicleDissociationException.class)
+    public void givenInvalidUserRole_whenDissociatingVehicle_thenThrowsInvalidVehicleDissociationException() {
         willReturn(Role.CLIENT).given(driver).getRole();
 
-        vehicleService.dissociateVehicle(vehicleAssociationDto);
+        vehicleService.dissociateVehicle(A_USERNAME);
     }
 
-    @Test(expected = InvalidVehicleAssociationException.class)
-    public void givenNonExistentUser_whenDissociatingVehicle_thenThrowsInvalidVehicleAssociationException() {
+    @Test(expected = InvalidVehicleDissociationException.class)
+    public void givenNonExistentUser_whenDissociatingVehicle_thenThrowsInvalidVehicleDissociationException() {
         willReturn(null).given(userRepository).findByUsername(anyString());
 
-        vehicleService.dissociateVehicle(vehicleAssociationDto);
-    }
-
-    @Test(expected = InvalidVehicleAssociationException.class)
-    public void givenNonExistentVehicle_whenDissociatingVehicle_thenThrowsInvalidVehicleAssociationException() {
-        willReturn(null).given(vehicleRepository).findByRegistrationNumber(anyString());
-
-        vehicleService.dissociateVehicle(vehicleAssociationDto);
-    }
-
-    @Test(expected = InvalidVehicleAssociationException.class)
-    public void givenNullVehicleAssociation_whenDissociatingVehicle_thenThrowsInvalidVehicleAssociationException() {
-        vehicleService.dissociateVehicle(null);
+        vehicleService.dissociateVehicle(A_USERNAME);
     }
 }

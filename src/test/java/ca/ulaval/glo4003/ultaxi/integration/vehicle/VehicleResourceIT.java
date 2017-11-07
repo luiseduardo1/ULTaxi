@@ -99,18 +99,7 @@ public class VehicleResourceIT extends IntegrationTest {
 
     @Test
     public void givenNonExistentUser_whenDissociatingVehicle_thenReturnsBadRequest() {
-        String vehicleAssociation = createVehicleAssociationWithNonExistentUser();
-
-        Response response = authenticatedPost(VEHICLES_DISSOCIATION_ROUTE, vehicleAssociation);
-
-        assertStatusCode(response, Status.BAD_REQUEST);
-    }
-
-    @Test
-    public void givenNonExistentVehicle_whenDissociatingVehicle_thenReturnsBadRequest() {
-        String vehicleAssociation = createVehicleAssociationWithNonExistentVehicle();
-
-        Response response = authenticatedPost(VEHICLES_DISSOCIATION_ROUTE, vehicleAssociation);
+        Response response = authenticatedPost(VEHICLES_DISSOCIATION_ROUTE, A_NON_EXISTENT_USERNAME);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
