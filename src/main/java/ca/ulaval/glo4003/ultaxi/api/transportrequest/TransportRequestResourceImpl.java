@@ -4,17 +4,13 @@ import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationE
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.NonExistentTransportRequestException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.exception.InvalidTokenException;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
-import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
@@ -23,20 +19,16 @@ import java.util.List;
 public class TransportRequestResourceImpl implements TransportRequestResource {
 
     private TransportRequestService transportRequestService;
-    private UserAuthenticationService userAuthenticationService;
 
-    public TransportRequestResourceImpl(TransportRequestService transportRequestService,
-                                        UserAuthenticationService userAuthenticationService) {
+    public TransportRequestResourceImpl(TransportRequestService transportRequestService) {
         this.transportRequestService = transportRequestService;
-        this.userAuthenticationService = userAuthenticationService;
     }
 
     @Override
     @Secured({Role.CLIENT})
     public Response sendTransportRequest(String clientToken, TransportRequestDto transportRequestDto) {
         try {
-            User user = userAuthenticationService.authenticateFromToken(clientToken);
-            String transportRequestId = transportRequestService.sendRequest(transportRequestDto, user.getUsername());
+            String transportRequestId = transportRequestService.sendRequest(transportRequestDto, clientToken);
             return Response.status(Response.Status.CREATED).entity(transportRequestId).build();
         } catch (InvalidVehicleTypeException | InvalidGeolocationException | InvalidTokenException exception) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -47,12 +39,8 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Secured({Role.DRIVER})
     public Response searchAvailableTransportRequests(String driverToken) {
         try {
-            Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
-            TransportRequestSearchParameters searchParameters =
-                    new TransportRequestSearchParameters(driver.getVehicleType().name());
-
             GenericEntity<List<TransportRequestDto>> availableTransportRequests =
-                    new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {};
+                    new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(driverToken)) {};
 
             return Response.ok(availableTransportRequests).build();
         } catch (EmptySearchResultsException | InvalidTokenException exception) {
@@ -64,8 +52,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Secured({Role.DRIVER})
     public Response assignTransportRequest(String driverToken, String transportRequestId) {
         try {
-            Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
-            transportRequestService.assignTransportRequest(transportRequestId, driver.getUsername());
+            transportRequestService.assignTransportRequest(driverToken, transportRequestId);
             return Response.ok().build();
         } catch (NonExistentUserException | InvalidTransportRequestAssignationException |
                 NonExistentTransportRequestException exception) {

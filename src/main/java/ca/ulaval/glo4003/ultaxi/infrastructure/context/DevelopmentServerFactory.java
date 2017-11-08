@@ -62,18 +62,16 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
             vehicleAssembler, vehicleAssociator,
             userRepository);
-    private final TransportRequestService transportRequestService = new TransportRequestService(
-            transportRequestRepository,
-            transportRequestAssembler,
-            userRepository
-    );
+    private final TransportRequestService transportRequestService;
 
     public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
         super(options, messageQueue);
         EmailSender emailSender = new JavaMailEmailSender(
                 EmailSenderConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
-        userService = new UserService(userRepository, userAssembler, messageQueueProducer, emailSender);
+        userService = new UserService(userRepository, userAssembler, messageQueueProducer, emailSender, tokenManager);
+        transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
+                userRepository, userService);
         setDevelopmentEnvironmentMockData();
     }
 
@@ -95,7 +93,7 @@ public class DevelopmentServerFactory extends ServerFactory {
 
     @Override
     public ServerFactory withUserResource() {
-        resources.add(new UserResourceImpl(userService, userAuthenticationService));
+        resources.add(new UserResourceImpl(userService));
         return this;
     }
 
@@ -107,7 +105,7 @@ public class DevelopmentServerFactory extends ServerFactory {
 
     @Override
     public ServerFactory withTransportRequestResource() {
-        resources.add(new TransportRequestResourceImpl(transportRequestService, userAuthenticationService));
+        resources.add(new TransportRequestResourceImpl(transportRequestService));
         return this;
     }
 

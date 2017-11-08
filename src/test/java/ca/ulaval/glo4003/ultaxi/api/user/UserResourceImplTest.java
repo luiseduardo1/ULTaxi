@@ -1,16 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
-import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import org.junit.Before;
@@ -21,17 +15,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceImplTest {
 
     private static final String A_VALID_TOKEN = "Valid token";
-    private static final String A_VALID_USERNAME = "username";
     private static final String AN_INVALID_EMAIL_ADDRESS = "ronald.macdonald@.ulaval.ca";
 
     @Mock
     private UserService userService;
-    @Mock
-    private UserAuthenticationService userAuthenticationService;
     @Mock
     private UserDto userDto;
     @Mock
@@ -41,9 +37,7 @@ public class UserResourceImplTest {
 
     @Before
     public void setUp() {
-        userResource = new UserResourceImpl(userService, userAuthenticationService);
-        when(userAuthenticationService.authenticateFromToken(A_VALID_TOKEN)).thenReturn(user);
-        when(user.getUsername()).thenReturn(A_VALID_USERNAME);
+        userResource = new UserResourceImpl(userService);
     }
 
     @Test
@@ -103,7 +97,7 @@ public class UserResourceImplTest {
     public void givenAUserResource_whenUpdatingUser_thenDelegateToUserService() {
         userResource.updateUser(A_VALID_TOKEN, userDto);
 
-        verify(userService).updateUser(userDto, A_VALID_USERNAME);
+        verify(userService).updateUser(userDto, A_VALID_TOKEN);
     }
 
     @Test
@@ -111,7 +105,7 @@ public class UserResourceImplTest {
         when(userDto.getPassword()).thenReturn("");
         willThrow(new InvalidPasswordException("User has an invalid password."))
             .given(userService)
-            .updateUser(userDto, A_VALID_USERNAME);
+            .updateUser(userDto, A_VALID_TOKEN);
 
         Response response = userResource.updateUser(A_VALID_TOKEN, userDto);
 
@@ -123,7 +117,7 @@ public class UserResourceImplTest {
         when(userDto.getEmail()).thenReturn(AN_INVALID_EMAIL_ADDRESS);
         willThrow(new InvalidEmailAddressException("User has an invalid email address."))
             .given(userService)
-            .updateUser(userDto, A_VALID_USERNAME);
+            .updateUser(userDto, A_VALID_TOKEN);
 
         Response response = userResource.updateUser(A_VALID_TOKEN, userDto);
 

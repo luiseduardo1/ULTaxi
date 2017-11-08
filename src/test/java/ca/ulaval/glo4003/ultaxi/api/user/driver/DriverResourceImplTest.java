@@ -1,16 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.api.user.driver;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.any;
-
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.*;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
@@ -22,6 +12,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverResourceImplTest {

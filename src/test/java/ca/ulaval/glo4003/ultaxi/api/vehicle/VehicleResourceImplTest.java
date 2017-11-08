@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.api.vehicle;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willThrow;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
@@ -18,6 +15,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleResourceImplTest {
