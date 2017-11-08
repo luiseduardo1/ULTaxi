@@ -1,10 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
-import java.util.List;
-
 public interface DriverSearchQueryBuilder {
 
-    List<Driver> findAll();
+    DriverSearchQuery build();
 
     DriverSearchQueryBuilder withFirstName(String firstName);
 

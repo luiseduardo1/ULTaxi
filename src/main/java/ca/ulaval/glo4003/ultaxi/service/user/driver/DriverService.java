@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
+import static java.util.stream.Collectors.toList;
+
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
@@ -8,7 +10,6 @@ import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class DriverService {
 
@@ -33,13 +34,11 @@ public class DriverService {
 
     public List<DriverDto> searchBy(DriverSearchParameters driverSearchParameters) {
         return userRepository
-            .searchDrivers()
-            .withFirstName(driverSearchParameters.getFirstName())
-            .withLastName(driverSearchParameters.getLastName())
-            .withSocialInsuranceNumber(driverSearchParameters.getSocialInsuranceNumber())
-            .findAll()
+            .searchDrivers(driverSearchParameters)
+            .execute()
+            .getResultsList()
             .stream()
             .map(driverAssembler::create)
-            .collect(Collectors.toList());
+            .collect(toList());
     }
 }

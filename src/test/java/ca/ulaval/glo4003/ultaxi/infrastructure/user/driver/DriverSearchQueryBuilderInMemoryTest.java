@@ -25,7 +25,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
     @Test
     public void givenSomeDriversNoFilter_whenFindingAll_thenReturnsAllTheDrivers() {
-        List<Driver> foundDrivers = driverSearchQueryBuilder.findAll();
+        List<Driver> foundDrivers = driverSearchQueryBuilder.build().execute().getResultsList();
 
         assertEquals(UNFILTERED_NUMBER_OF_DRIVERS, foundDrivers.size());
     }
@@ -34,14 +34,14 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenFilterWithNoCorrespondingDriver_whenFindingAll_thenThrowsEmptySearchResultsException() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withFirstName("beetlejuice");
 
-        searchDriver.findAll();
+        searchDriver.build().execute();
     }
 
     @Test
     public void givenFilterWithCapitalLetters_whenFindingAll_thenReturnsCorrectDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withLastName("MaC");
 
-        List<Driver> foundDrivers = searchDriver.findAll();
+        List<Driver> foundDrivers = searchDriver.build().execute().getResultsList();
         Driver foundDriver = foundDrivers.get(0);
 
         Driver expectedDriver = (Driver) aDriver();
@@ -55,7 +55,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenSomeDriversAndAFirstNameFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withFirstName("onal");
 
-        List<Driver> foundDrivers = searchDriver.findAll();
+        List<Driver> foundDrivers = searchDriver.build().execute().getResultsList();
         Driver foundDriver = foundDrivers.get(0);
 
         Driver expectedDriver = (Driver) aDriver();
@@ -69,7 +69,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenSomeDriversAndALastNameFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withLastName("rgam");
 
-        List<Driver> foundDrivers = searchDriver.findAll();
+        List<Driver> foundDrivers = searchDriver.build().execute().getResultsList();
         Driver foundDriver = foundDrivers.get(0);
 
         Driver expectedDriver = (Driver) aThirdDriver();
@@ -83,7 +83,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenSomeDriversAndASocialInsuranceNumberFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withSocialInsuranceNumber("348624487");
 
-        List<Driver> foundDrivers = searchDriver.findAll();
+        List<Driver> foundDrivers = searchDriver.build().execute().getResultsList();
         Driver foundDriver = foundDrivers.get(0);
 
         Driver expectedDriver = (Driver) anotherDriver();

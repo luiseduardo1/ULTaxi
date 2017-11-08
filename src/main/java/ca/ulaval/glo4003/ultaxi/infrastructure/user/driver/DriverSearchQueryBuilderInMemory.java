@@ -3,8 +3,9 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.user.driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQuery;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.SearchResults;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,27 +24,36 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
         this.users = users;
     }
 
-    @Override
-    public List<Driver> findAll() {
-        Stream<Driver> drivers = users
-            .values()
-            .stream()
-            .filter(user -> Role.DRIVER.equals(user.getRole()))
-            .map(user -> (Driver) user);
-        return throwIfEmptySearchResults(
-            predicates
-                .stream()
-                .reduce(drivers, Stream::filter, (x, y) -> y)
-                .collect(Collectors.toList())
-        );
-    }
+    private class DriverSearchQueryInMemory implements DriverSearchQuery {
 
-    private List<Driver> throwIfEmptySearchResults(List<Driver> searchResults) {
-        if (searchResults == null || searchResults.isEmpty()) {
-            throw new EmptySearchResultsException("No search results.");
+        private final Set<Predicate<Driver>> predicates;
+        private final Map<String, User> users;
+
+        private DriverSearchQueryInMemory(Map<String, User> users, Set<Predicate<Driver>> predicates) {
+            this.users = users;
+            this.predicates = predicates;
         }
 
-        return searchResults;
+        @Override
+        public SearchResults<Driver> execute() {
+            Stream<Driver> drivers = users
+                .values()
+                .stream()
+                .filter(user -> Role.DRIVER == user.getRole())
+                .map(user -> (Driver) user);
+            return new SearchResults<>(
+                predicates
+                    .stream()
+                    .reduce(drivers, Stream::filter, (x, y) -> y)
+                    .collect(Collectors.toList())
+            );
+        }
+
+    }
+
+    @Override
+    public DriverSearchQuery build() {
+        return new DriverSearchQueryInMemory(users, predicates);
     }
 
     @Override

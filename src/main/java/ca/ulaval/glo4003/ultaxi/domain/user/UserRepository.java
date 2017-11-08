@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQuery;
+import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 
 public interface UserRepository {
 
@@ -10,5 +11,5 @@ public interface UserRepository {
 
     void update(User user);
 
-    DriverSearchQueryBuilder searchDrivers();
+    DriverSearchQuery searchDrivers(DriverSearchParameters driverSearchParameters);
 }
