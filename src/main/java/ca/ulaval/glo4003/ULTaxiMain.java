@@ -29,7 +29,7 @@ public final class ULTaxiMain {
             .build()
             .parse(args);
         try {
-            MessagingTaskQueue messageQueue = createMessageQueue(options);
+            MessagingTaskQueue messageQueue = createMessagingTaskQueue(options);
             Thread messagingThread = createMessagingThread(options, messageQueue);
             server = createServer(options, messageQueue);
 
@@ -41,32 +41,17 @@ public final class ULTaxiMain {
     }
 
     private static ULTaxiServer createServer(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
-        ULTaxiServer server = null;
-        if (options.isDevelopmentMode()) {
-            ServerFactory serverFactory = new DevelopmentServerFactory(options, messageQueue);
-            server = serverFactory.getServer();
-        }
-
-        return server;
+        ServerFactory serverFactory = new DevelopmentServerFactory(options, messageQueue);
+        return serverFactory.getServer();
     }
 
     private static Thread createMessagingThread(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws
         Exception {
-        Thread messagingThread = null;
-        if (options.isDevelopmentMode()) {
-            messagingThread = MessagingThreadFactory.getMessagingThread(messageQueue, options);
-        }
-
-        return messagingThread;
+        return MessagingThreadFactory.getMessagingThread(messageQueue, options);
     }
 
-    private static MessagingTaskQueue createMessageQueue(ULTaxiOptions options) {
-        MessagingTaskQueue messageQueue = null;
-        if (options.isDevelopmentMode()) {
-            messageQueue = new MessagingTaskQueueInMemory();
-        }
-
-        return messageQueue;
+    private static MessagingTaskQueue createMessagingTaskQueue(ULTaxiOptions options) {
+        return new MessagingTaskQueueInMemory();
     }
 
     public static void stop() throws Exception {

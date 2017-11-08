@@ -10,9 +10,6 @@ import java.nio.file.Paths;
 @Parameters(separators = "=", commandDescription = "Run a ULTaxi server")
 public class ULTaxiOptions {
 
-    @Parameter(names = {"-d", "--development"},
-        description = "a flag indicating if the server should be run in development mode")
-    private boolean isDevelopmentMode = false;
     @Parameter(names = {"-p", "--server-port"},
         description = "the port on which to bind the server")
     private int serverPort = 0;
@@ -41,9 +38,5 @@ public class ULTaxiOptions {
 
     public int getServerPort() {
         return serverPort;
-    }
-
-    public boolean isDevelopmentMode() {
-        return isDevelopmentMode;
     }
 }

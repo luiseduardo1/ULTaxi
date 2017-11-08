@@ -25,23 +25,23 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void save(User user) {
-        String name = user.getUsername();
-        if (users.containsKey(name)) {
+        String username = user.getUsername();
+        if (users.containsKey(username)) {
             throw new UserAlreadyExistsException(
-                String.format("User with userName %s already exists.", name)
+                String.format("User with userName %s already exists.", username)
             );
         }
-        users.put(name, user);
+        users.put(username, user);
     }
 
     @Override
     public void update(User user) {
-        String name = user.getUsername();
-        if (!users.containsKey(name)) {
+        String username = user.getUsername();
+        if (!users.containsKey(username)) {
             throw new NonExistentUserException(String.format("User with userName %s don't exist",
-                                                             name));
+                                                             username));
         }
-        users.put(name, user);
+        users.put(username, user);
     }
 
     @Override
