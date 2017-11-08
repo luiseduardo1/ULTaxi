@@ -44,6 +44,6 @@ public class UserService {
         userDto.setUsername(username);
         logger.info(String.format("Updating a user with infos: %s", userDto));
         User user = userAssembler.create(userDto);
-        userRepository.put(user);
+        userRepository.update(user);
     }
 }
