@@ -21,7 +21,7 @@ public class SmsSenderConfigurationPropertyFileReader implements SmsSenderConfig
         try {
             smsSenderProperties.load(input);
         } catch (IOException exception) {
-            System.out.println("Email sender server configuration couldn't be loaded.");
+            System.out.println("Sms sender server configuration couldn't be loaded.");
         }
         return smsSenderProperties;
     }
