@@ -28,14 +28,14 @@ public class UserDevDataFactory {
         for (Role role : Role.values()) {
             if (role != Role.ANONYMOUS) {
                 users.addAll(
-                        createGenericRoleUser(role, hashingStrategy)
+                        createGenericRoleUsers(role, hashingStrategy)
                 );
             }
         }
         return users;
     }
 
-    private List<User> createGenericRoleUser(Role role, HashingStrategy hashingStrategy) throws Exception {
+    private List<User> createGenericRoleUsers(Role role, HashingStrategy hashingStrategy) throws Exception {
         return userTypesByRoles.get(role).apply(hashingStrategy);
     }
 

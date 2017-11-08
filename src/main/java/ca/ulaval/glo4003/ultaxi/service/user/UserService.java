@@ -51,7 +51,7 @@ public class UserService {
         messagingTaskProducer.send(messagingTask);
     }
 
-    public void updateUser(UserDto userDto, String userToken) {
+    public void updateClient(UserDto userDto, String userToken) {
         User user = getUserFromToken(userToken);
         userDto.setUsername(user.getUsername());
         logger.info(String.format("Updating a user with infos: %s", userDto));

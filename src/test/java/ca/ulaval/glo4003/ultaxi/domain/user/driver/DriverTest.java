@@ -10,15 +10,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverTest {
 
     private Driver driver;
 
+    @Mock
     TransportRequest transportRequest;
 
     @Before
@@ -108,7 +112,7 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
-    public void givenInvalidUserWithValidTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
+    public void givenDriverWithTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
         driver.setTransportRequest(transportRequest);
         driver.assignTransportRequest(transportRequest);
     }

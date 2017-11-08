@@ -32,6 +32,6 @@ public interface TransportRequestResource {
     @Path("/assign")
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Role.DRIVER})
-    Response assignTransportRequest(@HeaderParam(value = "Authorization") String clientToken,
+    Response assignTransportRequest(@HeaderParam(value = "Authorization") String driverToken,
                                     String transportRequestId);
 }

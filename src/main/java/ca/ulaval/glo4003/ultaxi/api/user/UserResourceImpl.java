@@ -30,9 +30,9 @@ public class UserResourceImpl implements UserResource {
 
     @Override
     @Secured({Role.CLIENT})
-    public Response updateUser(String userToken, UserDto userDto) {
+    public Response updateClient(String userToken, UserDto userDto) {
         try {
-            userService.updateUser(userDto, userToken);
+            userService.updateClient(userDto, userToken);
             return Response.ok().build();
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
