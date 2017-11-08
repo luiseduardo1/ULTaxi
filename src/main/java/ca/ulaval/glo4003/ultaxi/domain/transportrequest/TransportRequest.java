@@ -77,8 +77,9 @@ public class TransportRequest {
     }
 
     public boolean isAvailable() {
-        if(this.transportRequestStatus == TransportRequestStatus.PENDING)
+        if (this.transportRequestStatus == TransportRequestStatus.PENDING) {
             return true;
+        }
         return false;
     }
 

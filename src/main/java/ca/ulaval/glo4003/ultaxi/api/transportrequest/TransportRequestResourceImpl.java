@@ -25,8 +25,8 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     private TransportRequestService transportRequestService;
     private UserAuthenticationService userAuthenticationService;
 
-    public TransportRequestResourceImpl(TransportRequestService transportRequestService, UserAuthenticationService
-            userAuthenticationService) {
+    public TransportRequestResourceImpl(TransportRequestService transportRequestService,
+                                        UserAuthenticationService userAuthenticationService) {
         this.transportRequestService = transportRequestService;
         this.userAuthenticationService = userAuthenticationService;
     }
@@ -52,8 +52,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
                     new TransportRequestSearchParameters(driver.getVehicleType().name());
 
             GenericEntity<List<TransportRequestDto>> availableTransportRequests =
-                    new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {
-                    };
+                    new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {};
 
             return Response.ok(availableTransportRequests).build();
         } catch (EmptySearchResultsException | InvalidTokenException exception) {
@@ -68,7 +67,8 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
             Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
             transportRequestService.assignTransportRequest(transportRequestId, driver.getUsername());
             return Response.ok().build();
-        } catch (NonExistentUserException | InvalidTransportRequestAssignationException | NonExistentTransportRequestException exception) {
+        } catch (NonExistentUserException | InvalidTransportRequestAssignationException |
+                NonExistentTransportRequestException exception) {
             return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
         }
 
