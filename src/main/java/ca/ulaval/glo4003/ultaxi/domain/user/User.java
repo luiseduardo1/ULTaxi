@@ -3,16 +3,22 @@ package ca.ulaval.glo4003.ultaxi.domain.user;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User {
 
+    private static final String PHONE_REGEX = "^\\(?([2-9][0-9]{2})\\)?[-. ]?([2-9](?!11)[0-9]{2})[-. ]?([0-9]{4})$";
+
     private String username;
     private String password;
+    private String phoneNumber;
     private Role role;
     private String emailAddress;
     private HashingStrategy hashingStrategy;
@@ -83,6 +89,24 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        if (!isPhoneNumberValid(phoneNumber)) {
+            throw new InvalidPhoneNumberException("User has an invalid phone number.");
+        }
+
+        this.phoneNumber = phoneNumber;
+    }
+
+    private boolean isPhoneNumberValid(String phoneNumber) {
+        Pattern pattern = Pattern.compile(PHONE_REGEX);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
     }
 
     public boolean areCredentialsValid(String username, String plainTextPassword) {
