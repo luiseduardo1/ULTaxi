@@ -17,7 +17,7 @@ public class SearchResults<T> {
         this.resultsFound = resultsFound;
     }
 
-    public List<T> getResultsList() {
+    public List<T> getResults() {
         return Collections.unmodifiableList(resultsFound);
     }
 }

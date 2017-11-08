@@ -3,13 +3,10 @@ package ca.ulaval.glo4003.ultaxi.service.user.driver;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQuery;
-import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
@@ -41,7 +38,7 @@ public class DriverValidatorTest {
         driverDto.setUsername(A_USERNAME);
         driverDto.setPassword(A_PASSWORD);
         willReturn(searchResults).given(userRepository).searchDrivers(any());
-        willReturn(givenDrivers()).given(searchResults).getResultsList();
+        willReturn(givenDrivers()).given(searchResults).getResults();
     }
 
     @Test
@@ -58,7 +55,7 @@ public class DriverValidatorTest {
     public void
     givenADriverWithExistingSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenThrowsSocialInsuranceNumberAlreadyExistException() {
         willReturn(searchResults).given(userRepository).searchDrivers(any());
-        willReturn(givenDrivers()).given(searchResults).getResultsList();
+        willReturn(givenDrivers()).given(searchResults).getResults();
 
         String aValidSocialInsuranceNumber = "972487086";
         driverDto.setSocialInsuranceNumber(aValidSocialInsuranceNumber);

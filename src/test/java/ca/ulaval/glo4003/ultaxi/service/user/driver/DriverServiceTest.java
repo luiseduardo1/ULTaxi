@@ -9,8 +9,6 @@ import static org.mockito.Mockito.verify;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQuery;
-import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
@@ -81,7 +79,7 @@ public class DriverServiceTest {
     givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
         willReturn("arg").given(driverSearchParameters).getLastName();
         willReturn(driverSearchResults).given(userRepository).searchDrivers(any());
-        willReturn(Lists.newArrayList(A_DRIVER)).given(driverSearchResults).getResultsList();
+        willReturn(Lists.newArrayList(A_DRIVER)).given(driverSearchResults).getResults();
 
         List<DriverDto> driverDtos = driverService.searchBy(driverSearchParameters);
 

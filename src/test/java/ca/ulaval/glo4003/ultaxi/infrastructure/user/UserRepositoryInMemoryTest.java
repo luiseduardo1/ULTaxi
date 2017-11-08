@@ -115,7 +115,7 @@ public class UserRepositoryInMemoryTest {
 
         List<Driver> searchResults = userRepository
             .searchDrivers(driverSearchParameters)
-            .getResultsList();
+            .getResults();
 
         assertEquals(1, searchResults.size());
         assertEquals(driver, searchResults.get(0));
@@ -128,7 +128,7 @@ public class UserRepositoryInMemoryTest {
 
         List<Driver> searchResults = userRepository
             .searchDrivers(driverSearchParameters)
-            .getResultsList();
+            .getResults();
 
         assertEquals(1, searchResults.size());
         assertEquals(driver, searchResults.get(0));
@@ -141,7 +141,7 @@ public class UserRepositoryInMemoryTest {
 
         List<Driver> searchResults = userRepository
             .searchDrivers(driverSearchParameters)
-            .getResultsList();
+            .getResults();
 
         assertEquals(1, searchResults.size());
         assertEquals(driver, searchResults.get(0));
@@ -153,7 +153,7 @@ public class UserRepositoryInMemoryTest {
 
         List<Driver> searchResults = userRepository
             .searchDrivers(driverSearchParameters)
-            .getResultsList();
+            .getResults();
 
         assertEquals(1, searchResults.size());
         assertEquals(driver, searchResults.get(0));
@@ -166,6 +166,6 @@ public class UserRepositoryInMemoryTest {
 
         userRepository
             .searchDrivers(driverSearchParameters)
-            .getResultsList();
+            .getResults();
     }
 }
