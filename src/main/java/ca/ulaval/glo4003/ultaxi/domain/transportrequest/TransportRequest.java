@@ -14,7 +14,6 @@ public class TransportRequest {
     private String note;
     private VehicleType vehicleType;
     private TransportRequestStatus transportRequestStatus = TransportRequestStatus.PENDING;
-    private boolean availability = true;
 
     public TransportRequest() {
     }
@@ -78,14 +77,16 @@ public class TransportRequest {
     }
 
     public boolean isAvailable() {
-        return this.availability;
+        if(this.transportRequestStatus == TransportRequestStatus.PENDING)
+            return true;
+        return false;
     }
 
     public void setAvailable() {
-        this.availability = true;
+        this.transportRequestStatus = TransportRequestStatus.PENDING;
     }
 
     public void setUnavailable() {
-        this.availability = false;
+        this.transportRequestStatus = TransportRequestStatus.TAKEN;
     }
 }

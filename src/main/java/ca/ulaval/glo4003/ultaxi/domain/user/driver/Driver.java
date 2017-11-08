@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
@@ -119,5 +120,18 @@ public class Driver extends User {
         }
         return false;
     }
+
+    public void assignTransportRequest(TransportRequest transportRequest) {
+        if (this.transportRequest == null
+                && transportRequest.isAvailable()
+                && vehicleType == transportRequest.getVehicleType()) {
+            this.setTransportRequest(transportRequest);
+            transportRequest.setUnavailable();
+        } else {
+            throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
+        }
+
+    }
+
 
 }

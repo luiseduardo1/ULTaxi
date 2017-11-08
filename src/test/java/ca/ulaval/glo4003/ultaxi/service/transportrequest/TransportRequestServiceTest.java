@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ultaxi.service.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
-import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestAssignator;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
@@ -44,8 +43,6 @@ public class TransportRequestServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private TransportRequestAssignator transportRequestAssignator;
-    @Mock
     private TransportRequestSearchQueryBuilder transportRequestSearchQueryBuilder;
     @Mock
     private TransportRequestSearchParameters transportRequestSearchParameters;
@@ -54,7 +51,7 @@ public class TransportRequestServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler, userRepository, transportRequestAssignator);
+        transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler, userRepository);
     }
 
     @Test

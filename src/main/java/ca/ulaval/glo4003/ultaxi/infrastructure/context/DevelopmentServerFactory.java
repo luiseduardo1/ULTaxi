@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
-import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestAssignator;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
@@ -60,15 +59,13 @@ public class DevelopmentServerFactory extends ServerFactory {
             tokenRepository);
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleAssociator vehicleAssociator = new VehicleAssociator();
-    private final TransportRequestAssignator transportRequestAssignator = new TransportRequestAssignator();
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
             vehicleAssembler, vehicleAssociator,
             userRepository);
     private final TransportRequestService transportRequestService = new TransportRequestService(
             transportRequestRepository,
             transportRequestAssembler,
-            userRepository,
-            transportRequestAssignator
+            userRepository
     );
 
     public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {

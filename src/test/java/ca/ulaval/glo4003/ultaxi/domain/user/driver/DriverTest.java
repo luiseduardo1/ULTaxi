@@ -2,14 +2,18 @@ package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
 import static org.junit.Assert.assertEquals;
 
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -17,9 +21,12 @@ public class DriverTest {
 
     private Driver driver;
 
+    TransportRequest transportRequest;
+
     @Before
     public void setUp() {
         driver = new Driver();
+        transportRequest = new TransportRequest();
     }
 
     @Test
@@ -171,5 +178,28 @@ public class DriverTest {
         User driver = new Driver();
 
         assertEquals(driver.getRole(), Role.DRIVER);
+    }
+
+    @Test
+    public void givenValidTransportRequest_whenAssignTransportRequest_thenNoExceptionIsThrown() {
+        driver.assignTransportRequest(transportRequest);
+    }
+
+    @Test(expected = InvalidTransportRequestAssignationException.class)
+    public void givenUnavailableTransportRequest_whenTransportRequest_thenExceptionIsThrown() {
+        transportRequest.setUnavailable();
+        driver.assignTransportRequest(transportRequest);
+    }
+
+    @Test(expected = InvalidTransportRequestAssignationException.class)
+    public void givenInvalidUserWithValidTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
+        driver.setTransportRequest(transportRequest);
+        driver.assignTransportRequest(transportRequest);
+    }
+
+    @Test(expected = InvalidTransportRequestAssignationException.class)
+    public void givenInvalidDriverVehiculeType_whenAssignTransportRequest_thenExceptionIsThrown() {
+        driver.setVehicleType(VehicleType.VAN);
+        driver.assignTransportRequest(transportRequest);
     }
 }

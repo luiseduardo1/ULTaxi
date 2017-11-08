@@ -143,7 +143,7 @@ public class TransportRequestResourceImplTest {
     public void givenATranportRequestId_whenAssignTransportRequest_thenDelegateToTransportService(){
         transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
 
-        verify(transportRequestService).assignTransportRequest(A_VALID_TRANSPORT_REQUEST_ID,driver.getUsername());
+        verify(transportRequestService).assignTransportRequest(A_VALID_TRANSPORT_REQUEST_ID,A_VALID_DRIVER_USERNAME);
     }
 
     @Test
