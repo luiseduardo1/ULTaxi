@@ -35,7 +35,7 @@ public class VehicleAssociator {
 
     private void validate(Vehicle vehicle, User user) {
         if (user == null || vehicle == null || user.getRole() != Role.DRIVER) {
-            throw new InvalidVehicleAssociationException("Can't make one-to-one Association");
+            throw new InvalidVehicleAssociationException("Can't make one-to-one association");
         }
     }
 }

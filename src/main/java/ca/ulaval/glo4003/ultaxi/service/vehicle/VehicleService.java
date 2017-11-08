@@ -39,7 +39,7 @@ public class VehicleService {
     }
 
     public void associateVehicle(VehicleAssociationDto vehicleAssociationDto) {
-        logger.info(String.format("Vehicule association for %s", vehicleAssociationDto));
+        logger.info(String.format("Vehicle association for %s", vehicleAssociationDto));
         User user = userRepository.findByUsername(vehicleAssociationDto.getUsername());
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(
             vehicleAssociationDto.getRegistrationNumber());
@@ -49,7 +49,7 @@ public class VehicleService {
     }
 
     public void dissociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
-        logger.info(String.format("Vehicule dissacioation for %s", vehicleAssociationDto));
+        logger.info(String.format("Vehicle dissociation for %s", vehicleAssociationDto));
         User user = userRepository.findByUsername(vehicleAssociationDto.getUsername());
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(
             vehicleAssociationDto.getRegistrationNumber());
