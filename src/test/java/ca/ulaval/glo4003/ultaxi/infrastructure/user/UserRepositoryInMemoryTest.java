@@ -67,12 +67,12 @@ public class UserRepositoryInMemoryTest {
     @Test
     public void givenUserToUpdate_whenUpdatingUser_thenNoExceptionIsThrown() {
         userRepository.save(user);
-        userRepository.put(user);
+        userRepository.update(user);
     }
 
     @Test(expected = NonExistentUserException.class)
     public void givenNonExistentUserToUpdate_whenUpdatingUser_thenThrowsException() {
-        userRepository.put(new User());
+        userRepository.update(new User());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class UserRepositoryInMemoryTest {
         sameUserWithAnotherEmailAddress.setEmailAddress(UPDATED_EMAIL_ADDRESS);
 
         userRepository.save(user);
-        userRepository.put(sameUserWithAnotherEmailAddress);
+        userRepository.update(sameUserWithAnotherEmailAddress);
 
         User updatedUser = userRepository.findByUsername(user.getUsername());
         assertEquals(user.getUsername(), updatedUser.getUsername());

@@ -70,6 +70,6 @@ public class UserServiceTest {
 
         userService.updateUser(userDto, A_VALID_USERNAME);
 
-        verify(userRepository).put(user);
+        verify(userRepository).update(user);
     }
 }

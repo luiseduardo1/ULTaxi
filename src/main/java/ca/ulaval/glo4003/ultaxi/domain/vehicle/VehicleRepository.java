@@ -6,5 +6,5 @@ public interface VehicleRepository {
 
     void save(Vehicle vehicle);
 
-    void put(Vehicle vehicle);
+    void update(Vehicle vehicle);
 }

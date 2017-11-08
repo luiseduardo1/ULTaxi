@@ -203,7 +203,6 @@
                     <cleanupDaemonThreads>true</cleanupDaemonThreads>
                     <stopUnresponsiveDaemonThreads>true</stopUnresponsiveDaemonThreads>
                     <arguments>
-                        <argument>--development</argument>
                         <argument>--server-port=8080</argument>
                         <argument>--email-configuration="emailSenderConfiguration.properties"</argument>
                         <argument>"properties"</argument>
