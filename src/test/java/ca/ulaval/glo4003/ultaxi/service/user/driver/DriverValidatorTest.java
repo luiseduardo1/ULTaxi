@@ -2,13 +2,12 @@ package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQuery;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.SearchResults;
+import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQuery;
+import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import org.junit.Before;
@@ -28,10 +27,6 @@ public class DriverValidatorTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private DriverSearchQueryBuilder driverSearchQueryBuilder;
-    @Mock
-    private DriverSearchQuery driverSearchQuery;
-    @Mock
     private SearchResults<Driver> searchResults;
     private DriverDto driverDto;
     private DriverValidator driverValidator;
@@ -42,8 +37,7 @@ public class DriverValidatorTest {
         driverDto = new DriverDto();
         driverDto.setUsername(A_USERNAME);
         driverDto.setPassword(A_PASSWORD);
-        willReturn(driverSearchQuery).given(userRepository).searchDrivers(any());
-        willReturn(searchResults).given(driverSearchQuery).execute();
+        willReturn(searchResults).given(userRepository).searchDrivers(any());
         willReturn(givenDrivers()).given(searchResults).getResultsList();
     }
 

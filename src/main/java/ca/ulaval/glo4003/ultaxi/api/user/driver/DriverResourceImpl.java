@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;

@@ -2,8 +2,9 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQuery;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQuery;
+import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
@@ -47,11 +48,13 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     @Override
-    public DriverSearchQuery searchDrivers(DriverSearchParameters driverSearchParameters) {
-        return new DriverSearchQueryBuilderInMemory(users)
+    public SearchResults<Driver> searchDrivers(DriverSearchParameters driverSearchParameters) {
+        DriverSearchQuery query = new DriverSearchQueryBuilderInMemory(users)
             .withFirstName(driverSearchParameters.getFirstName())
             .withLastName(driverSearchParameters.getLastName())
             .withSocialInsuranceNumber(driverSearchParameters.getSocialInsuranceNumber())
             .build();
+
+        return query.execute();
     }
 }

@@ -35,7 +35,6 @@ public class DriverService {
     public List<DriverDto> searchBy(DriverSearchParameters driverSearchParameters) {
         return userRepository
             .searchDrivers(driverSearchParameters)
-            .execute()
             .getResultsList()
             .stream()
             .map(driverAssembler::create)

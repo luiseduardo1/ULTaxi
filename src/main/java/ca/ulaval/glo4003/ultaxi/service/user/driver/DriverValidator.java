@@ -2,9 +2,8 @@ package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQuery;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
@@ -26,9 +25,9 @@ public class DriverValidator {
                 null,
                 null
             );
-            DriverSearchQuery driverSearchQuery = userRepository.searchDrivers(driverSearchParameters);
+            SearchResults<Driver> searchResults = userRepository.searchDrivers(driverSearchParameters);
 
-            List<Driver> drivers = driverSearchQuery.execute().getResultsList();
+            List<Driver> drivers = searchResults.getResultsList();
             for (Driver driver : drivers) {
                 if (driver.getSocialInsuranceNumber().equals(driverDto.getSocialInsuranceNumber())) {
                     throw new SocialInsuranceNumberAlreadyExistException("Social insurance number already exist.");

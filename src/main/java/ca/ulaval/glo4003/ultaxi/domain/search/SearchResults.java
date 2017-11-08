@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.ultaxi.domain.user.driver;
+package ca.ulaval.glo4003.ultaxi.domain.search;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 
 import java.util.Collections;
 import java.util.List;
