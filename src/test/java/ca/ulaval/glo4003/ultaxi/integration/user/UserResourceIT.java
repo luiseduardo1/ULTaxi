@@ -46,7 +46,7 @@ public class UserResourceIT extends IntegrationTest {
 
     @Test
     public void givenAlreadyExistingUser_whenUpdateUser_thenUserIsUpdated() {
-        authenticateAs(Role.DRIVER);
+        authenticateAsSecondClient(Role.CLIENT);
         String serializedUser = createSerializedValidUser();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);

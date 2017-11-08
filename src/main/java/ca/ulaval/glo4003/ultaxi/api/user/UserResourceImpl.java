@@ -29,7 +29,7 @@ public class UserResourceImpl implements UserResource {
     }
 
     @Override
-    @Secured({Role.ADMINISTRATOR, Role.CLIENT, Role.DRIVER})
+    @Secured({Role.CLIENT})
     public Response updateUser(String userToken, UserDto userDto) {
         try {
             userService.updateUser(userDto, userToken);

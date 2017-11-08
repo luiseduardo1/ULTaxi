@@ -15,11 +15,13 @@ import java.util.function.Function;
 public class UserDevDataFactory {
 
     private final Map<Role, Function<HashingStrategy, User>> userTypesByRoles = new HashMap<>();
+    private final Map<Role, Function<HashingStrategy, User>> secondUserTypesByRoles = new HashMap<>();
 
     public UserDevDataFactory() {
         userTypesByRoles.put(Role.DRIVER, this::createDriver);
         userTypesByRoles.put(Role.CLIENT, this::createClient);
         userTypesByRoles.put(Role.ADMINISTRATOR, this::createAdministrator);
+        secondUserTypesByRoles.put(Role.CLIENT, this::createSecondClient);
     }
 
     public List<User> createMockData(HashingStrategy hashingStrategy) throws Exception {
@@ -27,15 +29,22 @@ public class UserDevDataFactory {
         for (Role role : Role.values()) {
             if (role != Role.ANONYMOUS) {
                 users.add(
-                    createGenericRoleUser(role, hashingStrategy)
+                        createGenericRoleUser(role, hashingStrategy)
                 );
             }
         }
+
+        users.add(createSecondGenericRoleUser(Role.CLIENT, hashingStrategy));
+
         return users;
     }
 
     private User createGenericRoleUser(Role role, HashingStrategy hashingStrategy) throws Exception {
         return userTypesByRoles.get(role).apply(hashingStrategy);
+    }
+
+    private User createSecondGenericRoleUser(Role role, HashingStrategy hashingStrategy) throws Exception {
+        return secondUserTypesByRoles.get(role).apply(hashingStrategy);
     }
 
     private User createDriver(HashingStrategy hashingStrategy) {
@@ -53,6 +62,10 @@ public class UserDevDataFactory {
         return updateBaseAttributes(new User(), Role.CLIENT, hashingStrategy);
     }
 
+    private User createSecondClient(HashingStrategy hashingStrategy) {
+        return updateSecondBaseAttributes(new User(), Role.CLIENT, hashingStrategy);
+    }
+
     private User createAdministrator(HashingStrategy hashingStrategy) {
         return updateBaseAttributes(new Administrator(), Role.ADMINISTRATOR, hashingStrategy);
     }
@@ -63,6 +76,15 @@ public class UserDevDataFactory {
         user.setUsername(lowercaseRole + "Username");
         user.setPassword(lowercaseRole + "Password", hashingStrategy);
         user.setEmailAddress(lowercaseRole + "@ultaxi.ca");
+        return user;
+    }
+
+    private User updateSecondBaseAttributes(User user, Role role, HashingStrategy hashingStrategy) {
+        String lowercaseRole = role.name().toLowerCase();
+        user.setRole(role);
+        user.setUsername(lowercaseRole + "SecondUsername");
+        user.setPassword(lowercaseRole + "SecondPassword", hashingStrategy);
+        user.setEmailAddress(lowercaseRole + "second@ultaxi.ca");
         return user;
     }
 }

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class TransportRequest {
 
-    private final String id = UUID.randomUUID().toString();
+    private String id = UUID.randomUUID().toString();
     private String clientUsername;
     private Geolocation startingPosition;
     private String note;
@@ -43,6 +43,10 @@ public class TransportRequest {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNote() {

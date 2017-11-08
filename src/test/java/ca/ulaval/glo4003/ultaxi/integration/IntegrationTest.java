@@ -24,6 +24,7 @@ public abstract class IntegrationTest {
     protected static final String DRIVERS_ROUTE = API_ROUTE + "/drivers";
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
     protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";
+    protected static final String ASSIGN_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/assign";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
     protected static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
     protected static final String SIGNOUT_ROUTE = USER_AUTHENTICATION_ROUTE + "/signout";
@@ -36,6 +37,12 @@ public abstract class IntegrationTest {
     protected Response authenticateAs(Role role) {
         return authenticateAs(
             createSerializedGenericRoleUser(role)
+        );
+    }
+
+    protected Response authenticateAsSecondClient(Role role) {
+        return authenticateAs(
+                createSerializedSecondUser(role)
         );
     }
 
@@ -104,12 +111,21 @@ public abstract class IntegrationTest {
             .statusCode(status.getStatusCode());
     }
 
+    protected String createSerializedSecondUser(Role role) {
+        String lowercaseRole = role.name().toLowerCase();
+        return createSerializedUser(
+            lowercaseRole + "SecondUsername",
+            lowercaseRole + "SecondPassword",
+            lowercaseRole + "second@ultaxi.ca"
+        );
+    }
+
     protected String createSerializedGenericRoleUser(Role role) {
         String lowercaseRole = role.name().toLowerCase();
         return createSerializedUser(
-            lowercaseRole + "Username",
-            lowercaseRole + "Password",
-            lowercaseRole + "@ultaxi.ca"
+                lowercaseRole + "Username",
+                lowercaseRole + "Password",
+                lowercaseRole + "@ultaxi.ca"
         );
     }
 

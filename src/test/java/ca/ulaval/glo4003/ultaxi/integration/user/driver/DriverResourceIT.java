@@ -15,7 +15,7 @@ import java.util.Map;
 public class DriverResourceIT extends IntegrationTest {
 
     private static final String A_VALID_PASSWORD = "hunter2";
-    private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "972487086";
+    private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "450050687";
     private static final String ANOTHER_VALID_SOCIAL_INSURANCE_NUMBER = "046454286";
     private static final String A_VALID_PHONE_NUMBER = "2342355678";
     private static final String A_VALID_NAME = "Freddy";
