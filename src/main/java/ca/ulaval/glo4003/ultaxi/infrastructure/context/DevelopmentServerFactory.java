@@ -17,7 +17,7 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleAssociator;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilter;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReaderFactory;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingConfigurationReaderFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
@@ -70,7 +70,7 @@ public class DevelopmentServerFactory extends ServerFactory {
     public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
         super(options, messageQueue);
         EmailSender emailSender = new JavaMailEmailSender(
-            EmailSenderConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
+            MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
         userService = new UserService(userRepository, userAssembler, messageQueueProducer, emailSender);
         setDevelopmentEnvironmentMockData();
