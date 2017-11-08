@@ -92,6 +92,6 @@ public class TransportRequest {
     }
 
     public void setUnavailable() {
-        this.transportRequestStatus = TransportRequestStatus.TAKEN;
+        this.transportRequestStatus = TransportRequestStatus.STARTED;
     }
 }
