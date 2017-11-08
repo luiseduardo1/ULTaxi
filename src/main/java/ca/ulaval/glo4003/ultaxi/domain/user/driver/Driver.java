@@ -24,7 +24,7 @@ public class Driver extends User {
     private String phoneNumber;
     private String socialInsuranceNumber;
 
-    public Vehicle vehicle;
+    private Vehicle vehicle;
 
     public Driver() {
         this.setRole(Role.DRIVER);
