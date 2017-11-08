@@ -122,16 +122,13 @@ public class Driver extends User {
     }
 
     public void assignTransportRequest(TransportRequest transportRequest) {
-        if (this.transportRequest == null
+        boolean transportRequestAssignationIsValid = (this.transportRequest == null
                 && transportRequest.isAvailable()
-                && vehicleType == transportRequest.getVehicleType()) {
-            this.setTransportRequest(transportRequest);
-            transportRequest.setUnavailable();
-        } else {
+                && vehicleType == transportRequest.getVehicleType());
+        if (!transportRequestAssignationIsValid) {
             throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
         }
-
+        this.setTransportRequest(transportRequest);
+        transportRequest.setUnavailable();
     }
-
-
 }

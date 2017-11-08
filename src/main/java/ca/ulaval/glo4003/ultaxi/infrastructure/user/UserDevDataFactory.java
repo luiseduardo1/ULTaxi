@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import jersey.repackaged.com.google.common.collect.Lists;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,37 +15,34 @@ import java.util.function.Function;
 
 public class UserDevDataFactory {
 
-    private final Map<Role, Function<HashingStrategy, User>> userTypesByRoles = new HashMap<>();
-    private final Map<Role, Function<HashingStrategy, User>> secondUserTypesByRoles = new HashMap<>();
+    private final Map<Role, Function<HashingStrategy, List<User>>> userTypesByRoles = new HashMap<>();
 
     public UserDevDataFactory() {
-        userTypesByRoles.put(Role.DRIVER, this::createDriver);
-        userTypesByRoles.put(Role.CLIENT, this::createClient);
-        userTypesByRoles.put(Role.ADMINISTRATOR, this::createAdministrator);
-        secondUserTypesByRoles.put(Role.CLIENT, this::createSecondClient);
+        userTypesByRoles.put(Role.DRIVER, this::createDrivers);
+        userTypesByRoles.put(Role.CLIENT, this::createClients);
+        userTypesByRoles.put(Role.ADMINISTRATOR, this::createAdministrators);
     }
 
     public List<User> createMockData(HashingStrategy hashingStrategy) throws Exception {
         List<User> users = Lists.newArrayList();
         for (Role role : Role.values()) {
             if (role != Role.ANONYMOUS) {
-                users.add(
+                users.addAll(
                         createGenericRoleUser(role, hashingStrategy)
                 );
             }
         }
-
-        users.add(createSecondGenericRoleUser(Role.CLIENT, hashingStrategy));
-
         return users;
     }
 
-    private User createGenericRoleUser(Role role, HashingStrategy hashingStrategy) throws Exception {
+    private List<User> createGenericRoleUser(Role role, HashingStrategy hashingStrategy) throws Exception {
         return userTypesByRoles.get(role).apply(hashingStrategy);
     }
 
-    private User createSecondGenericRoleUser(Role role, HashingStrategy hashingStrategy) throws Exception {
-        return secondUserTypesByRoles.get(role).apply(hashingStrategy);
+    private List<User> createDrivers(HashingStrategy hashingStrategy) {
+        List<User> drivers = new ArrayList<>();
+        drivers.add(createDriver(hashingStrategy));
+        return drivers;
     }
 
     private User createDriver(HashingStrategy hashingStrategy) {
@@ -54,8 +52,14 @@ public class UserDevDataFactory {
         driver.setSocialInsuranceNumber("972487086");
         driver.setLastName(lowercaseRole + "LastName");
         driver.setName(lowercaseRole + "Name");
-
         return driver;
+    }
+
+    private List<User> createClients(HashingStrategy hashingStrategy) {
+        List<User> users = new ArrayList<>();
+        users.add(createClient(hashingStrategy));
+        users.add(createSecondClient(hashingStrategy));
+        return users;
     }
 
     private User createClient(HashingStrategy hashingStrategy) {
@@ -64,6 +68,12 @@ public class UserDevDataFactory {
 
     private User createSecondClient(HashingStrategy hashingStrategy) {
         return updateSecondBaseAttributes(new User(), Role.CLIENT, hashingStrategy);
+    }
+
+    private List<User> createAdministrators(HashingStrategy hashingStrategy) {
+        List<User> users = new ArrayList<>();
+        users.add(createAdministrator(hashingStrategy));
+        return users;
     }
 
     private User createAdministrator(HashingStrategy hashingStrategy) {
