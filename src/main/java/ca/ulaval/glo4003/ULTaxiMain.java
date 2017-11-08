@@ -29,7 +29,7 @@ public final class ULTaxiMain {
             .build()
             .parse(args);
         try {
-            MessagingTaskQueue messageQueue = createMessageQueue(options);
+            MessagingTaskQueue messageQueue = createMessagingTaskQueue(options);
             Thread messagingThread = createMessagingThread(options, messageQueue);
             server = createServer(options, messageQueue);
 
@@ -50,7 +50,7 @@ public final class ULTaxiMain {
         return MessagingThreadFactory.getMessagingThread(messageQueue, options);
     }
 
-    private static MessagingTaskQueue createMessageQueue(ULTaxiOptions options) {
+    private static MessagingTaskQueue createMessagingTaskQueue(ULTaxiOptions options) {
         return new MessagingTaskQueueInMemory();
     }
 
