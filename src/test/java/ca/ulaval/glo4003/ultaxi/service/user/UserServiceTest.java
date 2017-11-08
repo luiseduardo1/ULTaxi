@@ -71,10 +71,10 @@ public class UserServiceTest {
     }
 
     @Test
-    public void givenAUserUpdate_whenUpdateUser_thenUserIsUpdated() {
+    public void givenAUserUpdate_whenUpdateClient_thenUserIsUpdated() {
         when(userService.getUserFromToken(A_VALID_TOKEN)).thenReturn(user);
         willReturn(user).given(userAssembler).create(userDto);
-        userService.updateUser(userDto, A_VALID_TOKEN);
+        userService.updateClient(userDto, A_VALID_TOKEN);
 
         verify(userRepository).update(user);
     }

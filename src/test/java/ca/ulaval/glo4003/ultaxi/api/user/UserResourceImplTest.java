@@ -87,39 +87,39 @@ public class UserResourceImplTest {
     }
 
     @Test
-    public void givenAnAuthenticatedUser_whenUpdateUser_thenReturnsOK() {
-        Response response = userResource.updateUser(A_VALID_TOKEN, userDto);
+    public void givenAnAuthenticatedUser_updateClient_thenReturnsOK() {
+        Response response = userResource.updateClient(A_VALID_TOKEN, userDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
-    public void givenAUserResource_whenUpdatingUser_thenDelegateToUserService() {
-        userResource.updateUser(A_VALID_TOKEN, userDto);
+    public void givenAUserResource_whenUpdatingClient_thenDelegateToUserService() {
+        userResource.updateClient(A_VALID_TOKEN, userDto);
 
-        verify(userService).updateUser(userDto, A_VALID_TOKEN);
+        verify(userService).updateClient(userDto, A_VALID_TOKEN);
     }
 
     @Test
-    public void givenAnEmptyPassword_whenUpdatingUser_thenReturnsBadRequest() {
+    public void givenAnEmptyPassword_whenUpdatingClient_thenReturnsBadRequest() {
         when(userDto.getPassword()).thenReturn("");
         willThrow(new InvalidPasswordException("User has an invalid password."))
             .given(userService)
-            .updateUser(userDto, A_VALID_TOKEN);
+            .updateClient(userDto, A_VALID_TOKEN);
 
-        Response response = userResource.updateUser(A_VALID_TOKEN, userDto);
+        Response response = userResource.updateClient(A_VALID_TOKEN, userDto);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test
-    public void givenAnInvalidEmail_whenUpdatingUser_thenReturnsBadRequest() {
+    public void givenAnInvalidEmail_whenUpdatingClient_thenReturnsBadRequest() {
         when(userDto.getEmail()).thenReturn(AN_INVALID_EMAIL_ADDRESS);
         willThrow(new InvalidEmailAddressException("User has an invalid email address."))
             .given(userService)
-            .updateUser(userDto, A_VALID_TOKEN);
+            .updateClient(userDto, A_VALID_TOKEN);
 
-        Response response = userResource.updateUser(A_VALID_TOKEN, userDto);
+        Response response = userResource.updateClient(A_VALID_TOKEN, userDto);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
