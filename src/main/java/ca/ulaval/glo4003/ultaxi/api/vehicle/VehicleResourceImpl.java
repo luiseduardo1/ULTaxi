@@ -1,11 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.api.vehicle;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.VehicleAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
@@ -36,8 +31,8 @@ public class VehicleResourceImpl implements VehicleResource {
     }
 
     @Override
-    public Response dissociateVehicle(VehicleAssociationDto vehicleAssociationDto) {
-        vehicleService.dissociateVehicle(vehicleAssociationDto);
+    public Response dissociateVehicle(String username) {
+        vehicleService.dissociateVehicle(username);
         return Response.ok().build();
     }
 }

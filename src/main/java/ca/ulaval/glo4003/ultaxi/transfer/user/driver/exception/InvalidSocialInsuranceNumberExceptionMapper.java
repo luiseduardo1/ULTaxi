@@ -8,7 +8,8 @@ import javax.ws.rs.ext.Provider;
 import java.util.logging.Logger;
 
 @Provider
-public class InvalidSocialInsuranceNumberExceptionMapper implements ExceptionMapper<InvalidSocialInsuranceNumberException> {
+public class InvalidSocialInsuranceNumberExceptionMapper implements
+    ExceptionMapper<InvalidSocialInsuranceNumberException> {
 
     private static final Logger logger = Logger.getLogger(InvalidSocialInsuranceNumberException.class.getName());
 

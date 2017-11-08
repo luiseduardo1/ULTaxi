@@ -5,6 +5,8 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
 import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
 import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 
@@ -17,10 +19,9 @@ public class Driver extends User {
 
     private String name;
     private String lastName;
-    private VehicleType vehicleType;
     private String socialInsuranceNumber;
 
-    public Vehicle vehicle;
+    private Vehicle vehicle;
 
     public Driver() {
         this.setRole(Role.DRIVER);
@@ -61,20 +62,38 @@ public class Driver extends User {
         this.socialInsuranceNumber = socialInsuranceNumber;
     }
 
-    public VehicleType getVehicleType() {
-        return vehicleType;
+    public void associateVehicle(Vehicle vehicle) {
+        if (this.vehicle != null || vehicle == null) {
+            throw new InvalidVehicleAssociationException("Can't associate this vehicle: it may be because the driver " +
+                                                             "already have a vehicle associated or the given vehicle " +
+                                                             "is invalid.");
+        }
+
+        vehicle.associateDriver(this);
+        this.vehicle = vehicle;
     }
 
-    public void setVehicleType(VehicleType vehicleType) {
-        this.vehicleType = vehicleType;
+    public VehicleType getVehicleType() {
+        VehicleType vehicleType = null;
+        if (vehicle != null) {
+            vehicleType = vehicle.getType();
+        }
+
+        return vehicleType;
     }
 
     public Vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void dissociateVehicle() {
+        if (vehicle == null) {
+            throw new InvalidVehicleDissociationException("Can't dissociate this vehicle: it may be because the " +
+                                                              "driver has no vehicle associated or the given vehicle " +
+                                                              "is invalid.");
+        }
+        vehicle.dissociateDriver();
+        vehicle = null;
     }
 
     private boolean isValidSocialInsuranceNumber(String socialInsuranceNumber) {

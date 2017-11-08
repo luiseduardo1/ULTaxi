@@ -30,7 +30,7 @@ dissociate_vehicle_route() {
     local -r _authentication_header="${1}"
     local -r _vehicle_association="${2}"
     curl -H "${_authentication_header}" \
-         -H "${json_content_type_header}" \
+         -H "${plain_text_content_type_header}" \
          -K "${curl_configuration_file}" \
          -X POST \
          -d"${_vehicle_association}" \
@@ -45,6 +45,6 @@ with_vehicle_association() {
 
     ${_function} "${@}"
 
-    dissociate_vehicle_route "${_administrator_authentication_header}" "${vehicle_association}"
+    dissociate_vehicle_route "${_administrator_authentication_header}" "${driver_username}"
     signout_route "${_administrator_authentication_header}"
 }
