@@ -25,14 +25,8 @@ public class DriverValidator {
                 null,
                 null
             );
-            SearchResults<Driver> searchResults = userRepository.searchDrivers(driverSearchParameters);
-
-            List<Driver> drivers = searchResults.getResultsList();
-            for (Driver driver : drivers) {
-                if (driver.getSocialInsuranceNumber().equals(driverDto.getSocialInsuranceNumber())) {
-                    throw new SocialInsuranceNumberAlreadyExistException("Social insurance number already exist.");
-                }
-            }
+            userRepository.searchDrivers(driverSearchParameters);
+            throw new SocialInsuranceNumberAlreadyExistException("Social insurance number already exist.");
         } catch (EmptySearchResultsException exception) {
             // Nothing to do...
         }
