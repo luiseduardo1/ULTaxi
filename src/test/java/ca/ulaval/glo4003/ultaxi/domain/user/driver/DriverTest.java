@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import org.junit.Assert;
@@ -26,88 +25,6 @@ public class DriverTest {
     public void setUp() {
         driver = new Driver();
         transportRequest = new TransportRequest();
-    }
-
-    @Test
-    public void givenOnlyNumbersPhoneNumber_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "2342355678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithParenthesis_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "(234)2355678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithDashes_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "234-235-5678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithSpaces_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "234 235 5678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithDots_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "234.235.5678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithInvalidCentralOffice_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "314 159 2653";
-
-        driver.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithInvalidNumberingPlanArea_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException
-        () {
-        String phoneNumber = "123 234 5678";
-
-        driver.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithAlphaNumericalCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException
-        () {
-        String phoneNumber = "1b3 2z4 56a8";
-
-        driver.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithSpecialCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "1!3 2?4 56!8";
-
-        driver.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberTooLong_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "234 235 56784";
-
-        driver.setPhoneNumber(phoneNumber);
     }
 
     @Test

@@ -4,7 +4,6 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
@@ -16,12 +15,10 @@ import java.util.regex.Pattern;
 
 public class Driver extends User {
 
-    private static final String PHONE_REGEX = "^\\(?([2-9][0-9]{2})\\)?[-. ]?([2-9](?!11)[0-9]{2})[-. ]?([0-9]{4})$";
     private static final String SOCIAL_INSURANCE_NUMBER_REGEX = "^((\\d{3}[\\s-]?){2}\\d{3})|(\\d{9})$";
 
     private String name;
     private String lastName;
-    private String phoneNumber;
     private VehicleType vehicleType;
     private String socialInsuranceNumber;
 
@@ -53,18 +50,6 @@ public class Driver extends User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        if (!isPhoneNumberValid(phoneNumber)) {
-            throw new InvalidPhoneNumberException("User has an invalid phone number.");
-        }
-
-        this.phoneNumber = phoneNumber;
     }
 
     public String getSocialInsuranceNumber() {
@@ -101,12 +86,6 @@ public class Driver extends User {
 
     public void setTransportRequest(TransportRequest transportRequest) {
         this.transportRequest = transportRequest;
-    }
-
-    private boolean isPhoneNumberValid(String phoneNumber) {
-        Pattern pattern = Pattern.compile(PHONE_REGEX);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        return matcher.matches();
     }
 
     private boolean isValidSocialInsuranceNumber(String socialInsuranceNumber) {
