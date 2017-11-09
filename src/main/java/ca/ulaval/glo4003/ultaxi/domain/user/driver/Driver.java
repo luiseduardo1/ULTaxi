@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
@@ -22,6 +24,7 @@ public class Driver extends User {
     private String socialInsuranceNumber;
 
     private Vehicle vehicle;
+    private TransportRequest transportRequest;
 
     public Driver() {
         this.setRole(Role.DRIVER);
@@ -108,4 +111,11 @@ public class Driver extends User {
         return false;
     }
 
+    public void updateTransportRequestStatus(TransportRequestStatus status) {
+        this.transportRequest.updateStatus(status);
+    }
+
+    public TransportRequest getTransportRequest() {
+        return this.transportRequest;
+    }
 }

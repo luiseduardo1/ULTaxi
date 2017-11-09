@@ -13,7 +13,7 @@ public class TransportRequest {
     private Geolocation startingPosition;
     private String note;
     private VehicleType vehicleType;
-    private TransportRequestStatus transportRequestStatus = TransportRequestStatus.PENDING;
+    private TransportRequestStatus status = TransportRequestStatus.PENDING;
 
     public TransportRequest() {
     }
@@ -69,11 +69,14 @@ public class TransportRequest {
     }
 
     public TransportRequestStatus getTransportRequestStatus() {
-        return this.transportRequestStatus;
+        return this.status;
     }
 
-    public void setTransportRequestStatus(TransportRequestStatus transportRequestStatus) {
-        this.transportRequestStatus = transportRequestStatus;
+    public void setStatus(TransportRequestStatus status) {
+        this.status = status;
     }
 
+    public void updateStatus(TransportRequestStatus status) {
+        this.status = status;
+    }
 }

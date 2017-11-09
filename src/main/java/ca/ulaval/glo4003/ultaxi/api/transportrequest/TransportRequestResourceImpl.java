@@ -45,4 +45,11 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
         return Response.ok(availableTransportRequests).build();
     }
+
+    @Override
+    public Response notifyHasArrived(String driverToken) {
+        Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
+        transportRequestService.notifyDriverHasArrived(driver);
+        return Response.ok().build();
+    }
 }

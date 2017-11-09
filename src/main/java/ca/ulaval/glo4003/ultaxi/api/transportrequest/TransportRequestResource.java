@@ -27,4 +27,10 @@ public interface TransportRequestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Secured({Role.DRIVER})
     Response searchAvailableTransportRequests(@HeaderParam(value = "Authorization") String driverToken);
+
+    @POST
+    @Path("/notification/arrived")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Role.DRIVER})
+    Response notifyHasArrived(@HeaderParam(value = "Authorization") String driverToken);
 }
