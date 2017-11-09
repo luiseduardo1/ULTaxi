@@ -13,11 +13,10 @@ import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleAssociator;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilter;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.EmailSenderConfigurationReaderFactory;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingConfigurationReaderFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
@@ -58,9 +57,8 @@ public class DevelopmentServerFactory extends ServerFactory {
                                                                                                       tokenManager,
                                                                                                       tokenRepository);
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
-    private final VehicleAssociator vehicleAssociator = new VehicleAssociator();
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
-                                                                     vehicleAssembler, vehicleAssociator,
+                                                                     vehicleAssembler,
                                                                      userRepository);
     private final TransportRequestService transportRequestService = new TransportRequestService(
         transportRequestRepository,
@@ -70,7 +68,7 @@ public class DevelopmentServerFactory extends ServerFactory {
     public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
         super(options, messageQueue);
         EmailSender emailSender = new JavaMailEmailSender(
-            EmailSenderConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
+            MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
         userService = new UserService(userRepository, userAssembler, messageQueueProducer, emailSender);
         setDevelopmentEnvironmentMockData();

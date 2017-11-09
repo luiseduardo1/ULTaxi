@@ -94,6 +94,11 @@
             <artifactId>failsafe</artifactId>
             <version>1.0.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>7.15.4</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
@@ -143,6 +148,11 @@
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
             <version>0.3m</version>
+        </dependency>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.10</version>
         </dependency>
     </dependencies>
 
@@ -199,8 +209,10 @@
                     <stopUnresponsiveDaemonThreads>true</stopUnresponsiveDaemonThreads>
                     <arguments>
                         <argument>--server-port=8080</argument>
-                        <argument>--configuration-file="emailSenderConfiguration.properties"</argument>
-                        <argument>--configuration-filetype="properties"</argument>
+                        <argument>--email-configuration="emailSenderConfiguration.properties"</argument>
+                        <argument>"properties"</argument>
+                        <argument>--sms-configuration="sms-sender-configuration.properties"</argument>
+                        <argument>"properties"</argument>
                     </arguments>
                 </configuration>
             </plugin>
