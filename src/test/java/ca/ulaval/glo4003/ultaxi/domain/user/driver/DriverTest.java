@@ -106,7 +106,7 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
-    public void givenUnavailableTransportRequest_whenTransportRequest_thenExceptionIsThrown() {
+    public void givenUnavailableTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
         transportRequest.setUnavailable();
         driver.assignTransportRequest(transportRequest);
     }
