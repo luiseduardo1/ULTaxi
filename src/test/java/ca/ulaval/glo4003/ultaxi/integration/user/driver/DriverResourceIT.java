@@ -21,10 +21,11 @@ public class DriverResourceIT extends IntegrationTest {
     private static final String A_VALID_NAME = "Freddy";
     private static final String A_VALID_LAST_NAME = "Mercury";
     private static final String A_SEARCH_PARAMETER = "first-name";
+    private static final String ADMINISTRATOR_INDEX_ONE = "1";
 
     @Test
     public void givenAuthenticatedAdmin_whenCreatingADriver_thenReturnsOk() {
-        authenticateAs(Role.ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR, ADMINISTRATOR_INDEX_ONE);
 
         Response response = authenticatedPost(DRIVERS_ROUTE, createSerializedValidDriver());
 
@@ -33,7 +34,7 @@ public class DriverResourceIT extends IntegrationTest {
 
     @Test
     public void givenAuthenticatedAdmin_whenSearchingForADriver_thenReturnsOk() {
-        authenticateAs(Role.ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR, ADMINISTRATOR_INDEX_ONE);
         authenticatedPost(DRIVERS_ROUTE, createSerializedValidDriver(ANOTHER_VALID_SOCIAL_INSURANCE_NUMBER));
 
         Map<String, String> queryParameters = new HashMap<>();

@@ -18,10 +18,12 @@ public class VehicleResourceIT extends IntegrationTest {
     private static final String A_VALID_COLOR = "Dark Red";
     private static final String A_VALID_MODEL = "Nissan Sentra";
     private static final String AN_INVALID_TYPE = null;
+    private static final String ADMINISTRATOR_INDEX_ONE = "1";
+    private static final String CLIENT_INDEX_ONE = "1";
 
     @Before
     public void setUp() {
-        authenticateAs(Role.ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR, ADMINISTRATOR_INDEX_ONE);
     }
 
     @Test
@@ -35,7 +37,7 @@ public class VehicleResourceIT extends IntegrationTest {
 
     @Test
     public void givenNonAdministratorAuthenticatedUser_whenCreateVehicle_thenReturnsForbidden() {
-        authenticateAs(Role.CLIENT);
+        authenticateAs(Role.CLIENT, CLIENT_INDEX_ONE);
         String serializedVehicle = createSerializedValidVehicle();
 
         Response response = authenticatedPost(VEHICLES_ROUTE, serializedVehicle);

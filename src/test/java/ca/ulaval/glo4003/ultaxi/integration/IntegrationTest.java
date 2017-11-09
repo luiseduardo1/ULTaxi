@@ -34,15 +34,9 @@ public abstract class IntegrationTest {
 
     private String authenticationToken = "";
 
-    protected Response authenticateAs(Role role) {
+    protected Response authenticateAs(Role role, String index) {
         return authenticateAs(
-            createSerializedGenericRoleUser(role)
-        );
-    }
-
-    protected Response authenticateAsSecondClient(Role role) {
-        return authenticateAs(
-                createSerializedSecondUser(role)
+            createSerializedGenericRoleUser(role, index)
         );
     }
 
@@ -111,21 +105,12 @@ public abstract class IntegrationTest {
             .statusCode(status.getStatusCode());
     }
 
-    protected String createSerializedSecondUser(Role role) {
+    protected String createSerializedGenericRoleUser(Role role, String index) {
         String lowercaseRole = role.name().toLowerCase();
         return createSerializedUser(
-            lowercaseRole + "SecondUsername",
-            lowercaseRole + "SecondPassword",
-            lowercaseRole + "second@ultaxi.ca"
-        );
-    }
-
-    protected String createSerializedGenericRoleUser(Role role) {
-        String lowercaseRole = role.name().toLowerCase();
-        return createSerializedUser(
-                lowercaseRole + "Username",
-                lowercaseRole + "Password",
-                lowercaseRole + "@ultaxi.ca"
+                lowercaseRole + index + "Username",
+                lowercaseRole + index + "Password",
+                lowercaseRole + index + "@ultaxi.ca"
         );
     }
 
