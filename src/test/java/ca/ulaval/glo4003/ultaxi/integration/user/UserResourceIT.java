@@ -15,7 +15,7 @@ public class UserResourceIT extends IntegrationTest {
     private static final String A_VALID_PASSWORD = "Macdonald";
     private static final String AN_INVALID_NAME = "ronald.macdonald@ulaval.ca";
     private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
-    private static final String CLIENT_INDEX_TWO = "2";
+    private static final String SECOND_CLIENT = "2";
 
     @Test
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
@@ -47,7 +47,7 @@ public class UserResourceIT extends IntegrationTest {
 
     @Test
     public void givenAlreadyExistingUser_whenUpdateUser_thenUserIsUpdated() {
-        authenticateAs(Role.CLIENT, CLIENT_INDEX_TWO);
+        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedValidUser();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
