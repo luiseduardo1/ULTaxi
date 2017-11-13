@@ -26,10 +26,9 @@ public class UserResourceImpl implements UserResource {
     }
 
     @Override
-    @Secured({Role.ADMINISTRATOR, Role.CLIENT, Role.DRIVER})
-    public Response updateUser(String userToken, UserDto userDto) {
-        User user = userAuthenticationService.authenticateFromToken(userToken);
-        userService.updateUser(userDto, user.getUsername());
+    @Secured({Role.CLIENT})
+    public Response updateClient(String clientToken, UserDto userDto) {
+        userService.updateClient(userDto, clientToken);
         return Response.ok().build();
     }
 }

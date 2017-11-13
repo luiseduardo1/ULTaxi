@@ -74,11 +74,12 @@ public class DevelopmentServerFactory extends ServerFactory {
             MessagingConfigurationReaderFactory.getSmsSenderConfigurationFileReader(options)
         );
 
-        userService = new UserService(userRepository, userAssembler, messagingTaskProducer, emailSender);
+        userService = new UserService(userRepository, userAssembler, messagingTaskProducer, emailSender, tokenManager);
         transportRequestService = new TransportRequestService(
             transportRequestRepository,
             transportRequestAssembler,
             userRepository,
+            userService,
             messagingTaskProducer,
             smsSender
         );
@@ -116,7 +117,7 @@ public class DevelopmentServerFactory extends ServerFactory {
 
     @Override
     public ServerFactory withTransportRequestResource() {
-        resources.add(new TransportRequestResourceImpl(transportRequestService, userAuthenticationService));
+        resources.add(new TransportRequestResourceImpl(transportRequestService));
         return this;
     }
 

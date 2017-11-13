@@ -12,10 +12,13 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
+import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
@@ -32,7 +35,9 @@ import java.util.Map;
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestServiceTest {
 
-    private static final String A_CLIENT_USERNAME = "ClientUsername";
+    private static final String A_VALID_TOKEN = "Valid token";
+    private static final String A_VALID_DRIVER_TOKEN = "Driver token";
+    private static final VehicleType CAR_VEHICULE_TYPE = VehicleType.CAR;
 
     @Mock
     private TransportRequest transportRequest;
@@ -49,26 +54,34 @@ public class TransportRequestServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
+    private UserService userService;
+    @Mock
     private MessagingTaskProducer messagingTaskProducer;
     @Mock
     private SmsSender smsSender;
+    @Mock
+    private Driver driver;
+    @Mock
+    private User user;
 
     private TransportRequestService transportRequestService;
 
     @Before
     public void setUp() throws Exception {
-        transportRequestService = new TransportRequestService(transportRequestRepository,
-                                                              transportRequestAssembler,
-                                                              userRepository,
-                                                              messagingTaskProducer,
+        transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
+                                                              userRepository, userService, messagingTaskProducer,
                                                               smsSender);
+        willReturn(driver).given(userService).getUserFromToken(A_VALID_DRIVER_TOKEN);
+        willReturn(user).given(userService).getUserFromToken(A_VALID_TOKEN);
+        willReturn(CAR_VEHICULE_TYPE).given(driver).getVehicleType();
+
     }
 
     @Test
     public void givenAValidTransportRequest_whenSendRequest_thenRequestIsAdded() {
         willReturn(transportRequest).given(transportRequestAssembler).create(transportRequestDto);
 
-        transportRequestService.sendRequest(transportRequestDto, A_CLIENT_USERNAME);
+        transportRequestService.sendRequest(transportRequestDto, A_VALID_TOKEN);
 
         verify(transportRequestRepository).save(transportRequest);
     }
@@ -81,8 +94,9 @@ public class TransportRequestServiceTest {
         willThrow(new EmptySearchResultsException("No results found.")).given(transportRequestSearchQueryBuilder)
             .findAll();
 
-        transportRequestService.searchBy(transportRequestSearchParameters);
+        transportRequestService.searchBy(A_VALID_DRIVER_TOKEN);
     }
+
 
     @Test
     public void
@@ -94,7 +108,7 @@ public class TransportRequestServiceTest {
             .searchTransportRequests();
 
         List<TransportRequestDto> transportRequestDtos = transportRequestService.searchBy
-            (transportRequestSearchParameters);
+            (A_VALID_DRIVER_TOKEN);
 
         assertEquals(2, transportRequestDtos.size());
     }

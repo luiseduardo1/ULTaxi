@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
@@ -22,37 +23,42 @@ public class TransportRequestService {
     private final TransportRequestRepository transportRequestRepository;
     private final TransportRequestAssembler transportRequestAssembler;
     private final UserRepository userRepository;
+    private final UserService userService;
     private final MessagingTaskProducer messagingTaskProducer;
     private final SmsSender smsSender;
 
     public TransportRequestService(TransportRequestRepository transportRequestRepository, TransportRequestAssembler
-        transportRequestAssembler, UserRepository userRepository, MessagingTaskProducer messagingTaskProducer,
-        SmsSender smsSender) {
+        transportRequestAssembler, UserRepository userRepository, UserService userService,
+        MessagingTaskProducer messagingTaskProducer, SmsSender smsSender) {
         this.transportRequestRepository = transportRequestRepository;
         this.transportRequestAssembler = transportRequestAssembler;
         this.userRepository = userRepository;
+        this.userService = userService;
         this.messagingTaskProducer = messagingTaskProducer;
         this.smsSender = smsSender;
     }
 
-    public String sendRequest(TransportRequestDto transportRequestDto, String clientUsername) {
+    public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) {
+        User user = userService.getUserFromToken(clientToken);
         TransportRequest transportRequest = transportRequestAssembler.create(transportRequestDto);
-        transportRequest.setClientUsername(clientUsername);
+        transportRequest.setClientUsername(user.getUsername());
         transportRequestRepository.save(transportRequest);
         return transportRequest.getId();
     }
 
-    public List<TransportRequestDto> searchBy(TransportRequestSearchParameters requestTransportSearchParameters) {
+    public List<TransportRequestDto> searchBy(String driverToken) {
+        Driver driver = (Driver) userService.getUserFromToken(driverToken);
         return this.transportRequestRepository
             .searchTransportRequests()
-            .withVehicleType(requestTransportSearchParameters.getVehicleType())
+            .withVehicleType(driver.getVehicleType().name())
             .findAll()
             .stream()
             .map(transportRequestAssembler::create)
             .collect(Collectors.toList());
     }
 
-    public void notifyDriverHasArrived(Driver driver) {
+    public void notifyDriverHasArrived(String driverToken) {
+        Driver driver = (Driver) userService.getUserFromToken(driverToken);
         driver.updateTransportRequestStatus(TransportRequestStatus.ARRIVED);
         userRepository.update(driver);
         TransportRequest transportRequest = driver.getTransportRequest();

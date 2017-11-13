@@ -16,31 +16,23 @@ import java.util.List;
 public class TransportRequestResourceImpl implements TransportRequestResource {
 
     private TransportRequestService transportRequestService;
-    private UserAuthenticationService userAuthenticationService;
 
-    public TransportRequestResourceImpl(TransportRequestService transportRequestService, UserAuthenticationService
-        userAuthenticationService) {
+    public TransportRequestResourceImpl(TransportRequestService transportRequestService) {
         this.transportRequestService = transportRequestService;
-        this.userAuthenticationService = userAuthenticationService;
     }
 
     @Override
     @Secured({Role.CLIENT})
     public Response sendTransportRequest(String clientToken, TransportRequestDto transportRequestDto) {
-        User user = userAuthenticationService.authenticateFromToken(clientToken);
-        String transportRequestId = transportRequestService.sendRequest(transportRequestDto, user.getUsername());
+        String transportRequestId = transportRequestService.sendRequest(transportRequestDto, clientToken);
         return Response.status(Response.Status.CREATED).entity(transportRequestId).build();
     }
 
     @Override
     @Secured({Role.DRIVER})
     public Response searchAvailableTransportRequests(String driverToken) {
-        Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
-        TransportRequestSearchParameters searchParameters =
-            new TransportRequestSearchParameters(driver.getVehicleType().name());
-
         GenericEntity<List<TransportRequestDto>> availableTransportRequests =
-            new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(searchParameters)) {
+            new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(driverToken)) {
             };
 
         return Response.ok(availableTransportRequests).build();
@@ -48,8 +40,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
     @Override
     public Response notifyHasArrived(String driverToken) {
-        Driver driver = (Driver) userAuthenticationService.authenticateFromToken(driverToken);
-        transportRequestService.notifyDriverHasArrived(driver);
+        transportRequestService.notifyDriverHasArrived(driverToken);
         return Response.ok().build();
     }
 }

@@ -27,11 +27,10 @@ public class TransportRequestResourceImplTest {
 
     private static final String A_VALID_USERNAME = "username";
     private static final String A_VALID_TOKEN = "Valid token";
+    private static final String A_VALID_DRIVER_USERNAME = "driverUsername";
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
     private static final VehicleType A_VEHICLE_TYPE = VehicleType.CAR;
 
-    @Mock
-    private UserAuthenticationService userAuthenticationService;
     @Mock
     private TransportRequestService transportRequestService;
     @Mock
@@ -47,13 +46,13 @@ public class TransportRequestResourceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        transportRequestResource = new TransportRequestResourceImpl(transportRequestService, userAuthenticationService);
-        when(userAuthenticationService.authenticateFromToken(A_VALID_TOKEN)).thenReturn(user);
+        transportRequestResource = new TransportRequestResourceImpl(transportRequestService);
         when(user.getUsername()).thenReturn(A_VALID_USERNAME);
-        when(userAuthenticationService.authenticateFromToken(A_VALID_DRIVER_TOKEN)).thenReturn(driver);
         when(driver.getVehicleType()).thenReturn(A_VEHICLE_TYPE);
-        when(transportRequestService.searchBy(any(TransportRequestSearchParameters.class))).thenReturn
+        when(driver.getUsername()).thenReturn(A_VALID_DRIVER_USERNAME);
+        when(transportRequestService.searchBy(A_VALID_DRIVER_TOKEN)).thenReturn
             (transportRequestDtos);
+
     }
 
     @Test
@@ -75,17 +74,19 @@ public class TransportRequestResourceImplTest {
     givenATransportRequestResource_whenSearchAvailableTransportRequests_thenDelegateToRequestTransportService() {
         transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
-        verify(transportRequestService).searchBy(any(TransportRequestSearchParameters.class));
+        verify(transportRequestService).searchBy(A_VALID_DRIVER_TOKEN);
     }
+
 
     @Test
     public void givenValidSearchQuery_whenSearchAvailableTransportRequests_thenReturnsOk() {
         willReturn(transportRequestDtos)
             .given(transportRequestService)
-            .searchBy(any(TransportRequestSearchParameters.class));
+            .searchBy(A_VALID_DRIVER_TOKEN);
 
         Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
+
 }

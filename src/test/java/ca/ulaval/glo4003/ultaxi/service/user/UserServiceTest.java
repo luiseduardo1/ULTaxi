@@ -1,13 +1,14 @@
 package ca.ulaval.glo4003.ultaxi.service.user;
 
-
 import static org.mockito.BDDMockito.verify;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
+import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
@@ -21,6 +22,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
+    private static final String A_VALID_TOKEN = "Valid token";
     private final static String A_VALID_USERNAME = "Valid username";
     private final static String A_VALID_EMAIL = "Valid email";
 
@@ -36,6 +38,8 @@ public class UserServiceTest {
     private MessagingTaskProducer messagingTaskProducer;
     @Mock
     private EmailSender emailSender;
+    @Mock
+    private TokenManager tokenManager;
 
     private UserService userService;
 
@@ -47,7 +51,8 @@ public class UserServiceTest {
         userService = new UserService(userRepository,
                                       userAssembler,
                                       messagingTaskProducer,
-                                      emailSender);
+                                      emailSender,
+                                      tokenManager);
     }
 
     @Test
@@ -65,11 +70,26 @@ public class UserServiceTest {
     }
 
     @Test
-    public void givenAUserUpdate_whenUpdateUser_thenUserIsUpdated() {
+    public void givenAClientUpdate_whenUpdateClient_thenClientIsUpdated() {
+        when(userService.getUserFromToken(A_VALID_TOKEN)).thenReturn(user);
         willReturn(user).given(userAssembler).create(userDto);
 
-        userService.updateUser(userDto, A_VALID_USERNAME);
+        userService.updateClient(userDto, A_VALID_TOKEN);
 
         verify(userRepository).update(user);
     }
+
+    @Test
+    public void givenAUserToken_whenGetUserFromToken_thenDelegateToTokenManager(){
+        userService.getUserFromToken(A_VALID_TOKEN);
+        verify(tokenManager).getUsername(A_VALID_TOKEN);
+    }
+
+    @Test
+    public void givenAUserToken_whenGetUserFromToken_thenDelegateToUserRepository(){
+        willReturn(A_VALID_USERNAME).given(tokenManager).getUsername(A_VALID_TOKEN);
+        userService.getUserFromToken(A_VALID_TOKEN);
+        verify(userRepository).findByUsername(A_VALID_USERNAME);
+    }
+
 }

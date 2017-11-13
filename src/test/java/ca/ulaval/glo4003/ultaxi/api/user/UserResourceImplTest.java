@@ -20,8 +20,6 @@ import javax.ws.rs.core.Response;
 public class UserResourceImplTest {
 
     private static final String A_VALID_TOKEN = "Valid token";
-    private static final String A_VALID_USERNAME = "username";
-    private static final String AN_INVALID_EMAIL_ADDRESS = "ronald.macdonald@.ulaval.ca";
 
     @Mock
     private UserService userService;
@@ -29,16 +27,12 @@ public class UserResourceImplTest {
     private UserAuthenticationService userAuthenticationService;
     @Mock
     private UserDto userDto;
-    @Mock
-    private User user;
 
     private UserResource userResource;
 
     @Before
     public void setUp() {
         userResource = new UserResourceImpl(userService, userAuthenticationService);
-        when(userAuthenticationService.authenticateFromToken(A_VALID_TOKEN)).thenReturn(user);
-        when(user.getUsername()).thenReturn(A_VALID_USERNAME);
     }
 
     @Test
@@ -55,17 +49,17 @@ public class UserResourceImplTest {
     }
 
     @Test
-    public void givenAnAuthenticatedUser_whenUpdateUser_thenReturnsOK() {
-        Response response = userResource.updateUser(A_VALID_TOKEN, userDto);
+    public void givenAnAuthenticatedClient_whenUpdateClient_thenReturnsOK() {
+        Response response = userResource.updateClient(A_VALID_TOKEN, userDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
-    public void givenAUserResource_whenUpdatingUser_thenDelegateToUserService() {
-        userResource.updateUser(A_VALID_TOKEN, userDto);
+    public void givenAUserResource_whenUpdatingClient_thenDelegateToUserService() {
+        userResource.updateClient(A_VALID_TOKEN, userDto);
 
-        verify(userService).updateUser(userDto, A_VALID_USERNAME);
+        verify(userService).updateClient(userDto, A_VALID_TOKEN);
     }
 }
 
