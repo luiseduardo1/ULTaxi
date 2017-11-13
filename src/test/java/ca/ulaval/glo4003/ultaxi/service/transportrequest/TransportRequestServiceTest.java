@@ -7,9 +7,12 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
@@ -43,12 +46,22 @@ public class TransportRequestServiceTest {
     private TransportRequestSearchQueryBuilder transportRequestSearchQueryBuilder;
     @Mock
     private TransportRequestSearchParameters transportRequestSearchParameters;
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private MessagingTaskProducer messagingTaskProducer;
+    @Mock
+    private SmsSender smsSender;
 
     private TransportRequestService transportRequestService;
 
     @Before
     public void setUp() throws Exception {
-        transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler);
+        transportRequestService = new TransportRequestService(transportRequestRepository,
+                                                              transportRequestAssembler,
+                                                              userRepository,
+                                                              messagingTaskProducer,
+                                                              smsSender);
     }
 
     @Test
