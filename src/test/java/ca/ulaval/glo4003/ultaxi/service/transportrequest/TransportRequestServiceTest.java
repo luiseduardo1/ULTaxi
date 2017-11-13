@@ -12,6 +12,8 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -38,6 +40,7 @@ public class TransportRequestServiceTest {
     private static final String A_VALID_TOKEN = "Valid token";
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
     private static final VehicleType CAR_VEHICULE_TYPE = VehicleType.CAR;
+    private static final TransportRequestStatus DRIVER_HAS_ARRIVED = TransportRequestStatus.ARRIVED;
 
     @Mock
     private TransportRequest transportRequest;
@@ -74,7 +77,6 @@ public class TransportRequestServiceTest {
         willReturn(driver).given(userService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(user).given(userService).getUserFromToken(A_VALID_TOKEN);
         willReturn(CAR_VEHICULE_TYPE).given(driver).getVehicleType();
-
     }
 
     @Test
@@ -97,7 +99,6 @@ public class TransportRequestServiceTest {
         transportRequestService.searchBy(A_VALID_DRIVER_TOKEN);
     }
 
-
     @Test
     public void
     givenAvailableTransportRequests_whenSearching_thenReturnsTransportRequestsAssociatedWithDriverVehicleType() {
@@ -111,6 +112,14 @@ public class TransportRequestServiceTest {
             (A_VALID_DRIVER_TOKEN);
 
         assertEquals(2, transportRequestDtos.size());
+    }
+
+    @Test(expected = DriverHasNoTransportRequestAssignedException.class)
+    public void givenDriverWithNoTransportRequestAssigned_whenNotifyHasArrived_thenThrowsException() {
+        willThrow(new DriverHasNoTransportRequestAssignedException("Driver don't have a transport request assigned"))
+            .given(driver).updateTransportRequestStatus(DRIVER_HAS_ARRIVED);
+        
+        transportRequestService.notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
     }
 
     private Map<String, TransportRequest> givenTransportRequests() {

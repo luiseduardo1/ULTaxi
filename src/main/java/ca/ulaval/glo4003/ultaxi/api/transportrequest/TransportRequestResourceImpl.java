@@ -39,6 +39,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     }
 
     @Override
+    @Secured({Role.DRIVER})
     public Response notifyHasArrived(String driverToken) {
         transportRequestService.notifyDriverHasArrived(driverToken);
         return Response.ok().build();

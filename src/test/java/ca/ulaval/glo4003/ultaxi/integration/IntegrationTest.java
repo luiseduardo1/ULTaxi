@@ -24,6 +24,7 @@ public abstract class IntegrationTest {
     protected static final String DRIVERS_ROUTE = API_ROUTE + "/drivers";
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
     protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";
+    protected static final String DRIVER_HAS_ARRIVED_NOTIFICATION = TRANSPORT_REQUEST_ROUTE + "/notification/arrived";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
     protected static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
     protected static final String SIGNOUT_ROUTE = USER_AUTHENTICATION_ROUTE + "/signout";
@@ -51,6 +52,12 @@ public abstract class IntegrationTest {
     protected Response signout() {
         return executePostRequest(
             createAuthenticatedRequestSpecification(SIGNOUT_ROUTE, authenticationToken)
+        );
+    }
+
+    protected Response authenticatedPost(String path) {
+        return executePostRequest(
+            createAuthenticatedRequestSpecification(path, authenticationToken)
         );
     }
 

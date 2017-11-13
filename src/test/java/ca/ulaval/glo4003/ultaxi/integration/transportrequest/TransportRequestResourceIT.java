@@ -22,13 +22,9 @@ public class TransportRequestResourceIT extends IntegrationTest {
     private static final double AN_INVALID_LATITUDE = -145.12321;
     private static final double AN_INVALID_LONGITUDE = 235.34344;
 
-    @Before
-    public void setUp() {
-        authenticateAs(Role.CLIENT);
-    }
-
     @Test
     public void givenAValidTransportRequest_whenSendRequest_thenRequestIsCreated() {
+        authenticateAs(Role.CLIENT);
         String serializedTransportRequest = createSerializedValidTransportRequest();
 
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
@@ -38,6 +34,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenATransportRequestWithInvalidLatitude_whenSendRequest_thenReturnsBadRequest() {
+        authenticateAs(Role.CLIENT);
         String serializedTransportRequest = createSerializedTransportRequestWithInvalidLatitude();
 
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
@@ -47,6 +44,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenATransportRequestWithInvalidLongitude_whenSendRequest_thenReturnsBadRequest() {
+        authenticateAs(Role.CLIENT);
         String serializedTransportRequest = createSerializedTransportRequestWithInvalidLongitude();
 
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
@@ -56,9 +54,19 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenATransportRequestWithInvalidVehicleType_whenSendRequest_thenReturnsBadRequest() {
+        authenticateAs(Role.CLIENT);
         String serializedTransportRequest = createSerializedTransportRequestWithInvalidVehicleType();
 
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenADriverWithNoTransportRequestAssigned_whenNotifyHasArrived_thenReturnsBadRequest() {
+        authenticateAs(Role.DRIVER);
+
+        Response response = authenticatedPost(DRIVER_HAS_ARRIVED_NOTIFICATION);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }

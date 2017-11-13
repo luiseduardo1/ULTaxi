@@ -52,7 +52,6 @@ public class TransportRequestResourceImplTest {
         when(driver.getUsername()).thenReturn(A_VALID_DRIVER_USERNAME);
         when(transportRequestService.searchBy(A_VALID_DRIVER_TOKEN)).thenReturn
             (transportRequestDtos);
-
     }
 
     @Test
@@ -77,7 +76,6 @@ public class TransportRequestResourceImplTest {
         verify(transportRequestService).searchBy(A_VALID_DRIVER_TOKEN);
     }
 
-
     @Test
     public void givenValidSearchQuery_whenSearchAvailableTransportRequests_thenReturnsOk() {
         willReturn(transportRequestDtos)
@@ -87,6 +85,21 @@ public class TransportRequestResourceImplTest {
         Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenAnAuthenticatedDriver_whenNotifyHasArrived_thenReturnsOk() {
+        Response response = transportRequestResource.notifyHasArrived(A_VALID_DRIVER_TOKEN);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void
+    givenAnAuthenticatedDriver_whenNotifyHasArrived_thenDelegateToRequestTransportService() {
+        transportRequestResource.notifyHasArrived(A_VALID_DRIVER_TOKEN);
+
+        verify(transportRequestService).notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
     }
 
 }

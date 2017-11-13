@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
@@ -22,7 +23,6 @@ public class Driver extends User {
     private String name;
     private String lastName;
     private String socialInsuranceNumber;
-
     private Vehicle vehicle;
     private TransportRequest transportRequest;
 
@@ -112,6 +112,9 @@ public class Driver extends User {
     }
 
     public void updateTransportRequestStatus(TransportRequestStatus status) {
+        if (this.transportRequest == null) {
+            throw new DriverHasNoTransportRequestAssignedException("This driver don't have a transport request assigned.");
+        }
         this.transportRequest.updateStatus(status);
     }
 
