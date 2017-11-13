@@ -10,5 +10,5 @@ public interface TransportRequestRepository {
 
     TransportRequestSearchQueryBuilder searchTransportRequests();
 
-    void update();
+    //void update();
 }
