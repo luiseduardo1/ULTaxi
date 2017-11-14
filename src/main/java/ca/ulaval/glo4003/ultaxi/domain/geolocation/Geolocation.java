@@ -11,41 +11,31 @@ public class Geolocation {
     private double latitude;
     private double longitude;
 
-    public Geolocation() {
-    }
-
     public Geolocation(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude = validateLatitude(latitude);
+        this.longitude = validateLongitude(longitude);
     }
 
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-        if (!isLatitudeValid()) {
-            throw new InvalidGeolocationException("The latitude of the geolocation is not valid");
-        }
-    }
-
     public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-        if (!isLongitudeValid()) {
+    private double validateLatitude(double latitude) {
+        if (latitude < LATITUDE_MIN || latitude > LATITUDE_MAX) {
+            throw new InvalidGeolocationException("The latitude of the geolocation is not valid");
+        }
+        return latitude;
+    }
+
+    private double validateLongitude(double longitude) {
+        if (longitude < LONGITUDE_MIN || longitude > LONGITUDE_MAX) {
             throw new InvalidGeolocationException("The longitude of the geolocation is not valid");
         }
+        return longitude;
     }
 
-    public boolean isLatitudeValid() {
-        return latitude >= LATITUDE_MIN && latitude <= LATITUDE_MAX;
-    }
-
-    public boolean isLongitudeValid() {
-        return longitude >= LONGITUDE_MIN && longitude <= LONGITUDE_MAX;
-    }
 }
