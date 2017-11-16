@@ -23,7 +23,6 @@ public class Driver extends User {
     private String lastName;
     private String socialInsuranceNumber;
 
-    private Vehicle vehicle;
     private TransportRequest transportRequest;
     private Vehicle vehicle;
 
@@ -123,11 +122,12 @@ public class Driver extends User {
     public void assignTransportRequest(TransportRequest transportRequest) {
         boolean transportRequestAssignationIsValid = (this.transportRequest == null
                 && transportRequest.isAvailable()
-                && vehicleType == transportRequest.getVehicleType());
+                && (this.vehicle != null && this.vehicle.getType() ==
+                transportRequest.getVehicleType()) || this.vehicle == null);
         if (!transportRequestAssignationIsValid) {
             throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
         }
-        this.setTransportRequest(transportRequest);
+        this.transportRequest = transportRequest;
         transportRequest.setUnavailable();
     }
 }

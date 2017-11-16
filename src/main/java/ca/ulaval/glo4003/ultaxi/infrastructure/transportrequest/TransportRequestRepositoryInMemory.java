@@ -14,22 +14,17 @@ public class TransportRequestRepositoryInMemory implements TransportRequestRepos
 
     @Override
     public TransportRequest findById(String id) {
-        return transportRequests.get(id);
-    }
-
-    @Override
-    public void save(TransportRequest transportRequest) {
-        transportRequests.put(transportRequest.getId(), transportRequest);
-    }
-
-    @Override
-    public void update(TransportRequest transportRequest) {
-        String transportRequestId = transportRequest.getId();
-        if (findById(transportRequestId) == null) {
+        TransportRequest foundTransportRequest = transportRequests.get(id);
+        if (foundTransportRequest == null) {
             throw new NonExistentTransportRequestException(
                     String.format("Transport request doesn't exist.")
             );
         }
+        return foundTransportRequest;
+    }
+
+    @Override
+    public void save(TransportRequest transportRequest) {
         transportRequests.put(transportRequest.getId(), transportRequest);
     }
 

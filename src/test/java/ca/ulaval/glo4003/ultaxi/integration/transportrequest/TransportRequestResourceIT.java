@@ -23,8 +23,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
     private static final double AN_INVALID_LONGITUDE = 235.34344;
     private static final String A_VALID_TRANSPORT_REQUEST_ID = "1";
     private static final String AN_INVALID_TRANSPORT_REQUEST_ID = "2";
-    private static final String CLIENT_INDEX_ONE = "1";
-    private static final String DRIVER_INDEX_ONE = "1";
+    private static final String A_CLIENT = "1";
+    private static final String A_DRIVER = "1";
 
     @Before
     public void setUp() {
@@ -32,7 +32,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenAValidTransportRequest_whenSendRequest_thenRequestIsCreated() {
-        authenticateAs(Role.CLIENT, CLIENT_INDEX_ONE);
+        authenticateAs(Role.CLIENT, A_CLIENT);
         String serializedTransportRequest = createSerializedValidTransportRequest();
 
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
@@ -42,7 +42,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenATransportRequestWithInvalidLatitude_whenSendRequest_thenReturnsBadRequest() {
-        authenticateAs(Role.CLIENT, CLIENT_INDEX_ONE);
+        authenticateAs(Role.CLIENT, A_CLIENT);
         String serializedTransportRequest = createSerializedTransportRequestWithInvalidLatitude();
 
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
@@ -52,7 +52,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenATransportRequestWithInvalidLongitude_whenSendRequest_thenReturnsBadRequest() {
-        authenticateAs(Role.CLIENT, CLIENT_INDEX_ONE);
+        authenticateAs(Role.CLIENT, A_CLIENT);
         String serializedTransportRequest = createSerializedTransportRequestWithInvalidLongitude();
 
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
@@ -62,7 +62,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenATransportRequestWithInvalidVehicleType_whenSendRequest_thenReturnsBadRequest() {
-        authenticateAs(Role.CLIENT, CLIENT_INDEX_ONE);
+        authenticateAs(Role.CLIENT, A_CLIENT);
         String serializedTransportRequest = createSerializedTransportRequestWithInvalidVehicleType();
 
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
@@ -81,7 +81,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenAValidTransportRequestId_whenAssignTransportRequest_thenReturnsIsOk(){
-        authenticateAs(Role.DRIVER, DRIVER_INDEX_ONE);
+        authenticateAs(Role.DRIVER, A_DRIVER);
         String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;
 
         Response response = authenticatedPost(ASSIGN_TRANSPORT_REQUEST_ROUTE, transportRequestId);
@@ -91,7 +91,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenAnUnauthenticatedDriver_whenAssignTransportRequest_thenReturnsUnauthorized() {
-        authenticateAs(Role.DRIVER, DRIVER_INDEX_ONE);
+        authenticateAs(Role.DRIVER, A_DRIVER);
         String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;
 
         Response response = unauthenticatedPost(ASSIGN_TRANSPORT_REQUEST_ROUTE, transportRequestId);
@@ -101,7 +101,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenAnInValidTransportRequestId_whenAssignTransportRequest_thenReturnsBadRequest(){
-        authenticateAs(Role.DRIVER, DRIVER_INDEX_ONE);
+        authenticateAs(Role.DRIVER, A_DRIVER);
         String transportRequestId = AN_INVALID_TRANSPORT_REQUEST_ID;
 
         Response response = authenticatedPost(ASSIGN_TRANSPORT_REQUEST_ROUTE, transportRequestId);
@@ -111,7 +111,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenAnAuthenticatedClient_whenAssignTransportRequest_thenReturnsForbidden(){
-        authenticateAs(Role.CLIENT, CLIENT_INDEX_ONE);
+        authenticateAs(Role.CLIENT, A_CLIENT);
         String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;
 
         Response response = authenticatedPost(ASSIGN_TRANSPORT_REQUEST_ROUTE, transportRequestId);

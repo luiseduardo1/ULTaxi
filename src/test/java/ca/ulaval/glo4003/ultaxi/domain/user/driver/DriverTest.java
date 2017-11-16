@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTranspo
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.Van;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
@@ -29,9 +30,10 @@ public class DriverTest {
     private Driver driver;
     @Mock
     private Vehicle vehicle;
-
     @Mock
-    TransportRequest transportRequest;
+    private Van van;
+
+    private TransportRequest transportRequest;
 
     @Before
     public void setUp() {
@@ -144,6 +146,8 @@ public class DriverTest {
 
     @Test
     public void givenValidTransportRequest_whenAssignTransportRequest_thenNoExceptionIsThrown() {
+        driver.associateVehicle(vehicle);
+
         driver.assignTransportRequest(transportRequest);
     }
 
@@ -160,8 +164,9 @@ public class DriverTest {
     }
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
-    public void givenInvalidDriverVehiculeType_whenAssignTransportRequest_thenExceptionIsThrown() {
-        driver.setVehicleType(VehicleType.VAN);
+    public void givenInvalidDriverVehicleType_whenAssignTransportRequest_thenExceptionIsThrown() {
+        transportRequest.setVehicleType("car");
+        driver.associateVehicle(van);
         driver.assignTransportRequest(transportRequest);
     }
 }

@@ -12,11 +12,9 @@ import javax.ws.rs.core.Response;
 public class UserResourceImpl implements UserResource {
 
     private final UserService userService;
-    private final UserAuthenticationService userAuthenticationService;
 
-    public UserResourceImpl(UserService userService, UserAuthenticationService userAuthenticationService) {
+    public UserResourceImpl(UserService userService) {
         this.userService = userService;
-        this.userAuthenticationService = userAuthenticationService;
     }
 
     @Override
@@ -26,10 +24,9 @@ public class UserResourceImpl implements UserResource {
     }
 
     @Override
-    @Secured({Role.ADMINISTRATOR, Role.CLIENT, Role.DRIVER})
-    public Response updateUser(String userToken, UserDto userDto) {
-        User user = userAuthenticationService.authenticateFromToken(userToken);
-        userService.updateUser(userDto, user.getUsername());
+    @Secured(Role.CLIENT)
+    public Response updateClient(String userToken, UserDto userDto) {
+        userService.updateClient(userDto, userToken);
         return Response.ok().build();
     }
 }

@@ -63,8 +63,8 @@ public class UserResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAlreadyExistingUser_whenUpdateUser_thenUserIsUpdated() {
-        authenticateAs(Role.DRIVER);
+    public void givenAlreadyExistingUser_whenUpdateClient_thenUserIsUpdated() {
+        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedValidUser();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
@@ -73,7 +73,7 @@ public class UserResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAnUnauthenticatedUser_whenUpdateUser_thenReturnsUnauthorized() {
+    public void givenAnUnauthenticatedUser_whenUpdateClient_thenReturnsUnauthorized() {
         String serializedUser = createSerializedValidUser();
 
         Response response = unauthenticatedPut(USERS_ROUTE, serializedUser);
@@ -91,8 +91,8 @@ public class UserResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAUserWithAnEmptyPassword_whenUpdatingUser_thenReturnsBadRequest() {
-        authenticateAs(Role.CLIENT);
+    public void givenAUserWithAnEmptyPassword_whenUpdatingClient_thenReturnsUnauthorized() {
+        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedUserWithEmptyPassword();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
@@ -101,13 +101,13 @@ public class UserResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAUserWithAnInvalidEmail_whenUpdatingUser_thenReturnsBadRequest() {
-        authenticateAs(Role.CLIENT);
+    public void givenAUserWithAnInvalidEmail_whenUpdatingClient_thenReturnsUnauthorized() {
+        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedUserWithInvalidEmail();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
 
-        assertStatusCode(response, Status.BAD_REQUEST);
+        assertStatusCode(response, Status.UNAUTHORIZED);
     }
 
     private static String createSerializedValidUser() {

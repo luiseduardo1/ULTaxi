@@ -76,10 +76,6 @@ public class TransportRequest {
         return this.transportRequestStatus;
     }
 
-    public void setTransportRequestStatus(TransportRequestStatus transportRequestStatus) {
-        this.transportRequestStatus = transportRequestStatus;
-    }
-
     public boolean isAvailable() {
         if (this.transportRequestStatus == TransportRequestStatus.PENDING) {
             return true;

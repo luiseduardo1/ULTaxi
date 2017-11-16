@@ -15,6 +15,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestRepositoryInMemoryTest {
 
+    private static final String A_INVALID_TRANSPORT_ID = "4234";
+
     @Mock
     private TransportRequest transportRequest;
 
@@ -35,8 +37,8 @@ public class TransportRequestRepositoryInMemoryTest {
     }
 
     @Test(expected = NonExistentTransportRequestException.class)
-    public void givenNonExistentTransportRequest_whenUpdate_thenThrowsException() {
-        transporRequestRepository.update(transportRequest);
+    public void givenNonExistentTransportRequest_whenFindById_thenThrowsException() {
+        transporRequestRepository.findById(A_INVALID_TRANSPORT_ID);
     }
 
 }

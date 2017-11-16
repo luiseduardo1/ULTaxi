@@ -62,12 +62,6 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
                                                                      vehicleAssembler,
                                                                      userRepository);
-    private final TransportRequestService transportRequestService = new TransportRequestService(
-        transportRequestRepository,
-        transportRequestAssembler
-    );
-            vehicleAssembler, vehicleAssociator,
-            userRepository);
     private final TransportRequestService transportRequestService;
 
     public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
