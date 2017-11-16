@@ -8,10 +8,13 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
+import org.reflections.Reflections;
 
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.ext.Provider;
 import java.net.URI;
+import java.util.Objects;
 import java.util.Set;
 
 public class ULTaxiServer {
@@ -41,10 +44,29 @@ public class ULTaxiServer {
                 return resources;
             }
         });
+
+        registerExceptionMappers(resourceConfiguration);
         resourceConfiguration.register(CORSResponseFilter.class);
         requestFilters.forEach(resourceConfiguration::register);
 
         return resourceConfiguration;
+    }
+
+    private void registerExceptionMappers(ResourceConfig resourceConfiguration) {
+        Reflections reflections = new Reflections("ca.ulaval.glo4003.ultaxi.transfer");
+        Set<Class<?>> exceptionMappers = reflections.getTypesAnnotatedWith(Provider.class);
+        exceptionMappers
+            .stream()
+            .map(Class::getTypeName)
+            .map(type -> {
+                try {
+                    return Class.forName(type);
+                } catch (ClassNotFoundException exception) {
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .forEach(resourceConfiguration::register);
     }
 
     public String getBaseURI() {

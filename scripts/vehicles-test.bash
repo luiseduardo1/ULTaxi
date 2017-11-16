@@ -39,6 +39,6 @@ it_should_dissociate_a_driver_and_a_vehicle() {
     local -r _authentication_header="${1}"
 
     decorate_test_name "As an authenticated administrator, I should be able to dissociate a driver and a vehicle."
-    dissociate_vehicle_route "${_authentication_header}" "${vehicle_association}"
+    dissociate_vehicle_route "${_authentication_header}" "${driver_username}"
     handle_test_result "${?}"
 }

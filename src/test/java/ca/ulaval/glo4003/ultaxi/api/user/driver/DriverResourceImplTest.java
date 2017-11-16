@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.ultaxi.api.user.driver;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.*;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
@@ -42,72 +46,6 @@ public class DriverResourceImplTest {
         Response response = driverResource.createDriver(driverDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenAlreadyExistingDriver_whenCreateDriver_thenReturnsBadRequest() {
-        willThrow(new UserAlreadyExistsException("User already exists."))
-            .given(driverService)
-            .addDriver(driverDto);
-
-        Response response = driverResource.createDriver(driverDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenADriverWithAlreadyExistingSocialInsuranceNumber_whenCreateDriver_thenReturnsBadRequest() {
-        willThrow(new SocialInsuranceNumberAlreadyExistException("Social insurance number already exist"))
-            .given(driverService)
-            .addDriver(driverDto);
-
-        Response response = driverResource.createDriver(driverDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenDriverWithInvalidName_whenCreateDriver_thenReturnsBadRequest() {
-        willThrow(new InvalidUsernameException("User has an invalid userName."))
-            .given(driverService)
-            .addDriver(driverDto);
-
-        Response response = driverResource.createDriver(driverDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenDriverWithInvalidPhoneNumber_whenCreateDriver_thenReturnsBadRequest() {
-        willThrow(new InvalidPhoneNumberException("User has an invalid phone number."))
-            .given(driverService)
-            .addDriver(driverDto);
-
-        Response response = driverResource.createDriver(driverDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenDriverWithInvalidSocialInsuranceNumber_whenCreateDriver_thenReturnsBadRequest() {
-        willThrow(new InvalidSocialInsuranceNumberException("User has an invalid social insurance number."))
-            .given(driverService)
-            .addDriver(driverDto);
-
-        Response response = driverResource.createDriver(driverDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenValidSearchQueryWithNoAssociatedDriver_whenSearching_thenReturnsNotFound() {
-        willThrow(new EmptySearchResultsException("No results found."))
-            .given(driverService)
-            .searchBy(any(DriverSearchParameters.class));
-
-        Response response = driverResource.searchBy(A_SOCIAL_INSURANCE_NUMBER, A_FIRST_NAME, A_LAST_NAME);
-
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
 
     @Test

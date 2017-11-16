@@ -3,6 +3,12 @@ package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.NonExistentTransportRequestException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;

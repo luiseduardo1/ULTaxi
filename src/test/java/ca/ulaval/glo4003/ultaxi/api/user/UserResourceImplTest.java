@@ -1,6 +1,11 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
+import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
@@ -24,10 +29,13 @@ import static org.mockito.Mockito.when;
 public class UserResourceImplTest {
 
     private static final String A_VALID_TOKEN = "Valid token";
+    private static final String A_VALID_USERNAME = "username";
     private static final String AN_INVALID_EMAIL_ADDRESS = "ronald.macdonald@.ulaval.ca";
 
     @Mock
     private UserService userService;
+    @Mock
+    private UserAuthenticationService userAuthenticationService;
     @Mock
     private UserDto userDto;
     @Mock
@@ -51,39 +59,6 @@ public class UserResourceImplTest {
     public void givenANewCreatedUser_whenRegistering_thenDelegateToUserService() {
         userResource.createUser(userDto);
         verify(userService).addUser(userDto);
-    }
-
-    @Test
-    public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
-        willThrow(new UserAlreadyExistsException("User already exists."))
-            .given(userService)
-            .addUser(userDto);
-
-        Response response = userResource.createUser(userDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenUserWithInvalidUsername_whenCreateUser_thenReturnsBadRequest() {
-        willThrow(new InvalidUsernameException("User has an invalid username."))
-            .given(userService)
-            .addUser(userDto);
-
-        Response response = userResource.createUser(userDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenUserWithEmptyPassword_whenCreateUser_thenReturnsBadRequest() {
-        willThrow(new InvalidPasswordException("User has an invalid password."))
-            .given(userService)
-            .addUser(userDto);
-
-        Response response = userResource.createUser(userDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test

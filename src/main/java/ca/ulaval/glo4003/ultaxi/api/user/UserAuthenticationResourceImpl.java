@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
-import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.exception.InvalidTokenException;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 
@@ -17,22 +15,14 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
 
     @Override
     public Response authenticateUser(UserDto userDto) {
-        try {
-            String token = userAuthenticationService.authenticate(userDto);
-            return Response.ok().entity(token).build();
-        } catch (InvalidCredentialsException exception) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+        String token = userAuthenticationService.authenticate(userDto);
+        return Response.ok().entity(token).build();
     }
 
     @Override
     public Response signOut(String userToken) {
-        try {
-            userAuthenticationService.deauthenticate(userToken);
-            return Response.status(Response.Status.RESET_CONTENT).build();
-        } catch (InvalidTokenException exception) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
-        }
+        userAuthenticationService.deauthenticate(userToken);
+        return Response.status(Response.Status.RESET_CONTENT).build();
     }
 
 }
