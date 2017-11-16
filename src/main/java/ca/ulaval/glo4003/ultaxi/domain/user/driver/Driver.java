@@ -123,7 +123,7 @@ public class Driver extends User {
         boolean transportRequestAssignationIsValid = (this.transportRequest == null
                 && transportRequest.isAvailable()
                 && (this.vehicle != null && this.vehicle.getType() ==
-                transportRequest.getVehicleType()) || this.vehicle == null);
+                transportRequest.getVehicleType() || this.vehicle == null));
         if (!transportRequestAssignationIsValid) {
             throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
         }

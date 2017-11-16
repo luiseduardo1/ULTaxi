@@ -101,13 +101,13 @@ public class UserResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAUserWithAnInvalidEmail_whenUpdatingClient_thenReturnsUnauthorized() {
+    public void givenAUserWithAnInvalidEmail_whenUpdatingClient_thenReturnsBadRequest() {
         authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedUserWithInvalidEmail();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
 
-        assertStatusCode(response, Status.UNAUTHORIZED);
+        assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     private static String createSerializedValidUser() {

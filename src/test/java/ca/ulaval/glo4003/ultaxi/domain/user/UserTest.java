@@ -1,10 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.domain.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.*;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
