@@ -25,8 +25,10 @@ public class UserTest {
     private static final String AN_INVALID_NAME = "      \t";
     private static final String AN_INVALID_PASSWORD = "    \t";
     private static final String A_HASH = RandomStringUtils.randomAlphabetic(10);
+
     @Mock
     private HashingStrategy hashingStrategy;
+
     private User user;
 
     @Before

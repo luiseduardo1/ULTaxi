@@ -23,6 +23,8 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleServiceTest {
 
+    private static final String A_USERNAME = "a_username";
+
     @Mock
     private Vehicle vehicle;
     @Mock
@@ -38,7 +40,6 @@ public class VehicleServiceTest {
     @Mock
     private VehicleAssociationDto vehicleAssociationDto;
 
-    private static final String A_USERNAME = "a_username";
     private VehicleService vehicleService;
 
     @Before

@@ -26,7 +26,7 @@ public class UserAuthenticationServiceTest {
     private static final String A_TOKEN = "Ronald Mcdonald";
     private static final String AN_UNPARSED_TOKEN = "Bearer Ronald Mcdonald";
     private static final String AN_ID = "RONALD_MACDONALD";
-    private UserAuthenticationService userAuthenticationService;
+
     @Mock
     private TokenRepository tokenRepository;
     @Mock
@@ -41,7 +41,9 @@ public class UserAuthenticationServiceTest {
     private UserDto nonExistentUser;
     @Mock
     private UserAssembler userAssembler;
+
     private UserDto userToAuthenticate;
+    private UserAuthenticationService userAuthenticationService;
 
     @Before
     public void setUp() throws Exception {

@@ -43,6 +43,7 @@ public class DriverServiceTest {
     private DriverSearchQueryBuilder driverSearchQueryBuilder;
     @Mock
     private DriverSearchParameters driverSearchParameters;
+
     private DriverService driverService;
 
     @Before

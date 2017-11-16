@@ -36,6 +36,7 @@ public class SendDriverHasArrivedSmsTaskTest {
     private SmsSender smsSender;
     @Mock
     private User user;
+
     private SendDriverHasArrivedSmsTask sendDriverHasArrivedSmsTask;
 
     @Before

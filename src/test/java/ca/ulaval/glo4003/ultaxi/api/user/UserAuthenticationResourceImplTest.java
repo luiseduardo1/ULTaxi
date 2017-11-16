@@ -19,19 +19,11 @@ import static org.mockito.Mockito.verify;
 public class UserAuthenticationResourceImplTest {
 
     private static final String AN_UNPARSED_TOKEN = "Bearer Ronald Mcdonald";
-    private static final String A_TOKEN = "Ronald Mcdonald";
-    private static final String AN_ID = "RONALD_MACDONALD";
+
     @Mock
     private UserAuthenticationService userAuthenticationService;
-
     @Mock
     private UserDto userDto;
-
-    @Mock
-    private TokenRepository tokenRepository;
-
-    @Mock
-    private TokenManager tokenManager;
 
     private UserAuthenticationResource userAuthenticationResource;
 

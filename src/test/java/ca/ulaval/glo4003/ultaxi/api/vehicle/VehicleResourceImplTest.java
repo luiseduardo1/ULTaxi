@@ -16,13 +16,14 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleResourceImplTest {
 
+    private static final String A_USERNAME = "a_username";
+
     @Mock
     private VehicleService vehicleService;
     @Mock
     private VehicleDto vehicleDto;
     @Mock
     private VehicleAssociationDto vehicleAssociationDto;
-    private static final String A_USERNAME = "a_username";
 
     private VehicleResource vehicleResource;
 

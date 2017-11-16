@@ -22,12 +22,14 @@ public class DriverResourceImplTest {
     private static final String A_SOCIAL_INSURANCE_NUMBER = "972487086";
     private static final String A_FIRST_NAME = "Ronald";
     private static final String A_LAST_NAME = "Macdonald";
+
     @Mock
     private DriverService driverService;
     @Mock
     private DriverDto driverDto;
     @Mock
     private List<DriverDto> driverDtos;
+
     private DriverResource driverResource;
 
     @Before
