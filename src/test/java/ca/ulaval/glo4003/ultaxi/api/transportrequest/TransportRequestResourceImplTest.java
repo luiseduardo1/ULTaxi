@@ -1,10 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
-import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
-import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.NonExistentTransportRequestException;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
@@ -19,7 +16,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -63,28 +59,6 @@ public class TransportRequestResourceImplTest {
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
 
-    /*@Test
-    public void givenATransportRequestWithAnInvalidVehicleType_whenSendRequest_thenReturnsBadRequest() {
-        willThrow(new InvalidVehicleTypeException("TransportRequest has an invalid vehicle type."))
-            .given(transportRequestService)
-            .sendRequest(transportRequestDto, A_VALID_TOKEN);
-
-        Response response = transportRequestResource.sendTransportRequest(A_VALID_TOKEN, transportRequestDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    } */
-
-    /*@Test
-    public void givenATransportRequestWithAnInvalidGeolocation_whenSendRequest_thenReturnsBadRequest() {
-        willThrow(new InvalidGeolocationException("TransportRequest has an invalid geolocation."))
-            .given(transportRequestService)
-            .sendRequest(transportRequestDto, A_VALID_TOKEN);
-
-        Response response = transportRequestResource.sendTransportRequest(A_VALID_TOKEN, transportRequestDto);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }*/
-
     @Test
     public void givenAnAuthenticatedDriver_whenSearchAvailableTransportRequests_thenReturnsOk() {
         Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
@@ -99,17 +73,6 @@ public class TransportRequestResourceImplTest {
 
         verify(transportRequestService).searchBy(A_VALID_DRIVER_TOKEN);
     }
-
-    /*@Test
-    public void givenNoAvailableTransportRequests_whenSearchAvailableTransportRequests_thenReturnsNotFound() {
-        willThrow(new EmptySearchResultsException("No transport requests found."))
-            .given(transportRequestService)
-            .searchBy(A_VALID_DRIVER_TOKEN);
-
-        Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
-
-        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
-    }*/
 
     @Test
     public void givenValidSearchQuery_whenSearchAvailableTransportRequests_thenReturnsOk() {
@@ -135,37 +98,4 @@ public class TransportRequestResourceImplTest {
 
         verify(transportRequestService).assignTransportRequest(A_VALID_DRIVER_TOKEN,A_VALID_TRANSPORT_REQUEST_ID);
     }
-
-    /*@Test
-    public void givenNonExistentTransportRequest_whenAssignTransportRequest_thenReturnsNotFound() {
-        willThrow(new NonExistentTransportRequestException("Non existing transport request"))
-                .given(transportRequestService)
-                .assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
-
-        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }*/
-
-    /*@Test
-    public void givenNonExistentDriver_whenAssignTransportRequest_thenReturnsBadRequest() {
-        willThrow(new NonExistentUserException("Non existing user"))
-                .given(transportRequestService)
-                .assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
-
-        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    } */
-
-    /*@Test
-    public void givenNonValidAssociation_whenAssociatingVehicle_thenReturnsBadRequest() {
-        willThrow(new InvalidTransportRequestAssignationException("Invalid vehicle association"))
-                .given(transportRequestService)
-                .assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
-
-        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }*/
 }

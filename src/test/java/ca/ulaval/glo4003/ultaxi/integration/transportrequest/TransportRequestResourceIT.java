@@ -9,6 +9,9 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response.Status;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 
 @RunWith(MockitoJUnitRunner.class)
