@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
@@ -21,6 +23,7 @@ public class Driver extends User {
     private String lastName;
     private String socialInsuranceNumber;
 
+    private TransportRequest transportRequest;
     private Vehicle vehicle;
 
     public Driver() {
@@ -96,6 +99,14 @@ public class Driver extends User {
         vehicle = null;
     }
 
+    public TransportRequest getTransportRequest() {
+        return transportRequest;
+    }
+
+    public void setTransportRequest(TransportRequest transportRequest) {
+        this.transportRequest = transportRequest;
+    }
+
     private boolean isValidSocialInsuranceNumber(String socialInsuranceNumber) {
         Pattern pattern = Pattern.compile(SOCIAL_INSURANCE_NUMBER_REGEX);
         Matcher matcher = pattern.matcher(socialInsuranceNumber);
@@ -108,4 +119,15 @@ public class Driver extends User {
         return false;
     }
 
+    public void assignTransportRequest(TransportRequest transportRequest) {
+        boolean transportRequestAssignationIsValid = (this.transportRequest == null
+                && transportRequest.isAvailable()
+                && (this.vehicle != null && this.vehicle.getType() ==
+                transportRequest.getVehicleType() || this.vehicle == null));
+        if (!transportRequestAssignationIsValid) {
+            throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
+        }
+        this.transportRequest = transportRequest;
+        transportRequest.setUnavailable();
+    }
 }

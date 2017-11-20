@@ -14,6 +14,7 @@ public class VehicleTest {
 
     @Mock
     private Driver driver;
+
     private Vehicle vehicle;
 
     @Before
