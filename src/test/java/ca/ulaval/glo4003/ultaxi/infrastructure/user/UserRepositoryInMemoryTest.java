@@ -109,7 +109,8 @@ public class UserRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenDriverSearchParametersWithExistingUserNameSet_whenSearchingDrivers_thenReturnsTheCorrespondingDrivers() {
+    public void
+    givenDriverSearchParametersWithExistingUserNameSet_whenSearchingDrivers_thenReturnsTheCorrespondingDrivers() {
         willReturn("ona").given(driverSearchParameters).getFirstName();
         userRepository.save(driver);
 
@@ -122,7 +123,8 @@ public class UserRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenDriverSearchParametersWithExistingLastNameSet_whenSearchingDrivers_thenReturnsTheCorrespondingDrivers() {
+    public void
+    givenDriverSearchParametersWithExistingLastNameSet_whenSearchingDrivers_thenReturnsTheCorrespondingDrivers() {
         willReturn("dOna").given(driverSearchParameters).getLastName();
         userRepository.save(driver);
 
@@ -135,7 +137,8 @@ public class UserRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenDriverSearchParametersWithExistingSocialAssuranceNumberSet_whenSearchingDrivers_thenReturnsTheCorrespondingDrivers() {
+    public void
+    givenDriverSearchParametersWithExistingSocialAssuranceNumberSet_whenSearchingDrivers_thenReturnsTheCorrespondingDrivers() {
         willReturn(A_SOCIAL_INSURANCE_NUMBER).given(driverSearchParameters).getSocialInsuranceNumber();
         userRepository.save(driver);
 
@@ -160,7 +163,8 @@ public class UserRepositoryInMemoryTest {
     }
 
     @Test(expected = EmptySearchResultsException.class)
-    public void givenDriverSearchParametersWithNoCorrespondingDrivers_whenSearchingDrivers_thenThrowsEmptySearchResultsException() {
+    public void
+    givenDriverSearchParametersWithNoCorrespondingDrivers_whenSearchingDrivers_thenThrowsEmptySearchResultsException() {
         willReturn("NONEXISTINGNAME").given(driverSearchParameters).getFirstName();
         userRepository.save(driver);
 
