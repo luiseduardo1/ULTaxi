@@ -4,6 +4,8 @@ import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.administrator.Administrator;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.Car;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import jersey.repackaged.com.google.common.collect.Lists;
 
@@ -58,8 +60,8 @@ public class UserDevDataFactory {
         driver.setSocialInsuranceNumber("972487086");
         driver.setLastName(lowercaseRole + "LastName");
         driver.setName(lowercaseRole + "Name");
-        //Vehicle vehicle = new Car("blue", "tesft", "test");
-        //driver.associateVehicle(vehicle);
+        Vehicle vehicle = new Car("blue", "tesft", "test");
+        driver.associateVehicle(vehicle);
         return driver;
     }
 

@@ -62,6 +62,12 @@ public abstract class IntegrationTest {
         );
     }
 
+    protected Response authenticatedPost(String path) {
+        return executePostRequest(
+                createAuthenticatedRequestSpecification(path, authenticationToken)
+        );
+    }
+
     protected Response authenticatedGet(String path) {
         return authenticatedGet(path, new HashMap<>());
     }

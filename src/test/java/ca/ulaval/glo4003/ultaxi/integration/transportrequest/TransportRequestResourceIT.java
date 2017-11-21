@@ -83,6 +83,24 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     @Test
+    public void givenAnAuthenticatedDriver_whenSearchTransportRequest_thenReturnsIsOk(){
+        authenticateAs(Role.DRIVER, A_DRIVER);
+
+        Response response = authenticatedGet(SEARCH_TRANSPORT_REQUEST_ROUTE);
+
+        assertStatusCode(response, Status.OK);
+    }
+
+    @Test
+    public void givenAnUnauthenticatedDriver_whenSearchTransportRequest_thenReturnsUnauthorized() {
+        authenticateAs(Role.DRIVER, A_DRIVER);
+
+        Response response = unauthenticatedGet(SEARCH_TRANSPORT_REQUEST_ROUTE);
+
+        assertStatusCode(response, Status.UNAUTHORIZED);
+    }
+
+    @Test
     public void givenAValidTransportRequestId_whenAssignTransportRequest_thenReturnsIsOk(){
         authenticateAs(Role.DRIVER, A_DRIVER);
         String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;

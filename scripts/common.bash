@@ -10,12 +10,12 @@ declare -xr json_accept_header="Accept: application/json"
 declare -xr plain_text_content_type_header="Content-Type: text/plain"
 declare -xr curl_configuration_file=".curlrc"
 
-declare -xr default_user="$(create_user "clientUsername" \
-                                        "clientPassword" \
-                                        "client@ultaxi.ca")"
-declare -xr default_driver="$(create_user "driverUsername" \
-                                          "driverPassword" \
-                                          "driver@ultaxi.ca")"
+declare -xr default_user="$(create_user "client1Username" \
+                                        "client1Password" \
+                                        "client1@ultaxi.ca")"
+declare -xr default_driver="$(create_user "driver1Username" \
+                                          "driver1Password" \
+                                          "driver1@ultaxi.ca")"
 
 declare -xr username="john_smith"
 declare -xr updated_username="john_smith_2"
@@ -38,9 +38,9 @@ declare -xr driver="$(create_driver "${driver_username}" \
                                     "${driver_last_name}" \
                                     "${driver_first_name}")"
 
-declare -xr administrator_username="administratorUsername"
-declare -xr administrator_password="administratorPassword"
-declare -xr administrator_email="administrator@ultaxi.ca"
+declare -xr administrator_username="administrator1Username"
+declare -xr administrator_password="administrator1Password"
+declare -xr administrator_email="administrator1@ultaxi.ca"
 declare -xr administrator="$(create_user "${administrator_username}" \
                                          "${administrator_password}" \
                                          "${administrator_email}")"
