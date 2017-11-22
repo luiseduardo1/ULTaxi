@@ -11,6 +11,7 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociat
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehiculeUpdateDistanceRateDTO;
 
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -82,5 +83,9 @@ public class VehicleService {
             throw new InvalidVehicleAssociationException("Can't associate this vehicle with the given driver. Verify " +
                                                              "that the driver and the vehicle exist.");
         }
+    }
+
+    public void updateDistanceRate(VehiculeUpdateDistanceRateDTO vehiculeUpdateDistanceRateDTO) {
+
     }
 }
