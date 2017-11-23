@@ -60,8 +60,6 @@ public class UserDevDataFactory {
         driver.setSocialInsuranceNumber("972487086");
         driver.setLastName(lowercaseRole + "LastName");
         driver.setName(lowercaseRole + "Name");
-        Vehicle vehicle = new Car("blue", "tesft", "test");
-        driver.associateVehicle(vehicle);
         return driver;
     }
 
