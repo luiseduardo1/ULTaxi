@@ -30,9 +30,8 @@ public class TransportRequestRepositoryInMemory implements TransportRequestRepos
                 String.format("Transport request doesn't exist.")
             );
         }
-        transportRequests.put(transportRequest.getId(), transportRequest);
+        transportRequests.put(transportRequestId, transportRequest);
     }
-
 
     @Override
     public TransportRequestSearchQueryBuilder searchTransportRequests() {
