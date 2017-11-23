@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.integration;
 
-import static io.restassured.RestAssured.given;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
@@ -17,6 +15,8 @@ import javax.ws.rs.core.Response.Status;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.restassured.RestAssured.given;
+
 public abstract class IntegrationTest {
 
     protected static final String API_ROUTE = "/api";
@@ -25,6 +25,8 @@ public abstract class IntegrationTest {
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
     protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";
     protected static final String DRIVER_HAS_ARRIVED_NOTIFICATION = TRANSPORT_REQUEST_ROUTE + "/notification/arrived";
+    protected static final String ASSIGN_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/assign";
+    protected static final String SEARCH_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/search";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
     protected static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
     protected static final String SIGNOUT_ROUTE = USER_AUTHENTICATION_ROUTE + "/signout";
@@ -34,9 +36,9 @@ public abstract class IntegrationTest {
 
     private String authenticationToken = "";
 
-    protected Response authenticateAs(Role role) {
+    protected Response authenticateAs(Role role, String index) {
         return authenticateAs(
-            createSerializedGenericRoleUser(role)
+            createSerializedGenericRoleUser(role, index)
         );
     }
 
@@ -111,12 +113,12 @@ public abstract class IntegrationTest {
             .statusCode(status.getStatusCode());
     }
 
-    protected String createSerializedGenericRoleUser(Role role) {
+    protected String createSerializedGenericRoleUser(Role role, String index) {
         String lowercaseRole = role.name().toLowerCase();
         return createSerializedUser(
-            lowercaseRole + "Username",
-            lowercaseRole + "Password",
-            lowercaseRole + "@ultaxi.ca"
+                lowercaseRole + index + "Username",
+                lowercaseRole + index + "Password",
+                lowercaseRole + index + "@ultaxi.ca"
         );
     }
 

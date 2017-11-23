@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class TransportRequest {
 
-    private final String id = UUID.randomUUID().toString();
+    private String id = UUID.randomUUID().toString();
     private String clientUsername;
     private Geolocation startingPosition;
     private String note;
@@ -46,6 +46,10 @@ public class TransportRequest {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getNote() {
         return note;
     }
@@ -79,5 +83,20 @@ public class TransportRequest {
         }
 
         this.status = newStatus;
+    }
+
+    public boolean isAvailable() {
+        if (this.status == TransportRequestStatus.PENDING) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setAvailable() {
+        this.status = TransportRequestStatus.PENDING;
+    }
+
+    public void setUnavailable() {
+        this.status = TransportRequestStatus.STARTED;
     }
 }

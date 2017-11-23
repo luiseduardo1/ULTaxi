@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.api.vehicle;
 
-import static org.junit.Assert.assertEquals;
-
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
@@ -13,8 +11,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleResourceImplTest {
+
+    private static final String A_USERNAME = "a_username";
 
     @Mock
     private VehicleService vehicleService;
@@ -22,7 +24,6 @@ public class VehicleResourceImplTest {
     private VehicleDto vehicleDto;
     @Mock
     private VehicleAssociationDto vehicleAssociationDto;
-    private static final String A_USERNAME = "a_username";
 
     private VehicleResource vehicleResource;
 

@@ -1,12 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.service.transportrequest;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
@@ -15,8 +8,6 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
-import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
-import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -26,7 +17,6 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequest
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +27,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestServiceTest {
 
@@ -45,9 +42,6 @@ public class TransportRequestServiceTest {
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
     private static final VehicleType CAR_VEHICULE_TYPE = VehicleType.CAR;
     private static final String A_TRANSPORT_REQUEST_ID = "Transport request Id";
-    private static final TransportRequestStatus DRIVER_HAS_ARRIVED = TransportRequestStatus.ARRIVED;
-    private static final TransportRequestStatus RIDE_HAS_STARTED = TransportRequestStatus.STARTED;
-    private static final TransportRequestStatus TRANSPORT_REQUEST_IS_PENDING = TransportRequestStatus.PENDING;
 
     @Mock
     private TransportRequest transportRequest;
@@ -59,8 +53,6 @@ public class TransportRequestServiceTest {
     private TransportRequestAssembler transportRequestAssembler;
     @Mock
     private TransportRequestSearchQueryBuilder transportRequestSearchQueryBuilder;
-    @Mock
-    private TransportRequestSearchParameters transportRequestSearchParameters;
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -113,8 +105,6 @@ public class TransportRequestServiceTest {
     @Test
     public void
     givenAvailableTransportRequests_whenSearching_thenReturnsTransportRequestsAssociatedWithDriverVehicleType() {
-        String typeOfVehicleBeingSearched = "Car";
-        willReturn(typeOfVehicleBeingSearched).given(transportRequestSearchParameters).getVehicleType();
         willReturn(new TransportRequestSearchQueryBuilderInMemory(givenTransportRequests())).given
             (transportRequestRepository)
             .searchTransportRequests();

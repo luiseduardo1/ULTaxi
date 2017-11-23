@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
@@ -15,23 +12,18 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationResourceImplTest {
 
     private static final String AN_UNPARSED_TOKEN = "Bearer Ronald Mcdonald";
-    private static final String A_TOKEN = "Ronald Mcdonald";
-    private static final String AN_ID = "RONALD_MACDONALD";
+
     @Mock
     private UserAuthenticationService userAuthenticationService;
-
     @Mock
     private UserDto userDto;
-
-    @Mock
-    private TokenRepository tokenRepository;
-
-    @Mock
-    private TokenManager tokenManager;
 
     private UserAuthenticationResource userAuthenticationResource;
 

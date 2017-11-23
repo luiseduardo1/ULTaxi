@@ -1,18 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
-import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +14,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestResourceImplTest {
 
@@ -29,6 +26,7 @@ public class TransportRequestResourceImplTest {
     private static final String A_VALID_TOKEN = "Valid token";
     private static final String A_VALID_DRIVER_USERNAME = "driverUsername";
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
+    private static final String A_VALID_TRANSPORT_REQUEST_ID = "1";
     private static final VehicleType A_VEHICLE_TYPE = VehicleType.CAR;
 
     @Mock
@@ -95,10 +93,24 @@ public class TransportRequestResourceImplTest {
     }
 
     @Test
+    public void givenAnAuthenticatedDriver_whenAssignTransportRequest_thenReturnsOk(){
+        Response response = transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
     public void givenAnAuthenticatedDriver_whenNotifyHasArrived_thenDelegateToRequestTransportService() {
         transportRequestResource.notifyHasArrived(A_VALID_DRIVER_TOKEN);
 
         verify(transportRequestService).notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
+    }
+
+    @Test
+    public void givenATranportRequestId_whenAssignTransportRequest_thenDelegateToTransportService(){
+        transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
+
+        verify(transportRequestService).assignTransportRequest(A_VALID_DRIVER_TOKEN,A_VALID_TRANSPORT_REQUEST_ID);
     }
 
 }

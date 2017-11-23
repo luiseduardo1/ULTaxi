@@ -1,10 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.service.user;
 
-import static org.mockito.BDDMockito.verify;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
@@ -19,11 +14,16 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.BDDMockito.verify;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
-    private static final String A_VALID_TOKEN = "Valid token";
     private final static String A_VALID_USERNAME = "Valid username";
+    private static final String A_VALID_TOKEN = "Valid token";
     private final static String A_VALID_EMAIL = "Valid email";
 
     @Mock

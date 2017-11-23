@@ -5,15 +5,16 @@ import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.UserResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
-import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverValidator;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilter;
@@ -21,6 +22,7 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilte
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingConfigurationReaderFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.TwilioSmsSender;
+import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserDevDataFactory;
@@ -32,7 +34,6 @@ import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
-import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverValidator;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
@@ -57,9 +58,9 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final TransportRequestService transportRequestService;
     private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-                                                                                                      userAssembler,
-                                                                                                      tokenManager,
-                                                                                                      tokenRepository);
+            userAssembler,
+            tokenManager,
+            tokenRepository);
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
                                                                      vehicleAssembler,
@@ -70,6 +71,7 @@ public class DevelopmentServerFactory extends ServerFactory {
         EmailSender emailSender = new JavaMailEmailSender(
             MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
+
         SmsSender smsSender = new TwilioSmsSender(
             MessagingConfigurationReaderFactory.getSmsSenderConfigurationFileReader(options)
         );
@@ -84,6 +86,7 @@ public class DevelopmentServerFactory extends ServerFactory {
             smsSender
         );
 
+
         setDevelopmentEnvironmentMockData();
     }
 
@@ -95,6 +98,10 @@ public class DevelopmentServerFactory extends ServerFactory {
         VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
         List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
         vehicles.forEach(vehicleRepository::save);
+
+        TransportRequestDevDataFactory transportRequestDevDataFactory = new TransportRequestDevDataFactory();
+        List<TransportRequest> transportRequests = transportRequestDevDataFactory.createMockData();
+        transportRequests.forEach(transportRequestRepository::save);
     }
 
     @Override
@@ -105,7 +112,7 @@ public class DevelopmentServerFactory extends ServerFactory {
 
     @Override
     public ServerFactory withUserResource() {
-        resources.add(new UserResourceImpl(userService, userAuthenticationService));
+        resources.add(new UserResourceImpl(userService));
         return this;
     }
 

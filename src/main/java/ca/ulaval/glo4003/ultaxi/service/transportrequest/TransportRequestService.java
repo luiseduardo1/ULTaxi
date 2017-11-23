@@ -13,7 +13,6 @@ import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +35,7 @@ public class TransportRequestService {
         this.userService = userService;
         this.messagingTaskProducer = messagingTaskProducer;
         this.smsSender = smsSender;
+
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) {
@@ -49,12 +49,20 @@ public class TransportRequestService {
     public List<TransportRequestDto> searchBy(String driverToken) {
         Driver driver = (Driver) userService.getUserFromToken(driverToken);
         return this.transportRequestRepository
-            .searchTransportRequests()
-            .withVehicleType(driver.getVehicleType().name())
-            .findAll()
-            .stream()
-            .map(transportRequestAssembler::create)
-            .collect(Collectors.toList());
+                .searchTransportRequests()
+                .withVehicleType(driver.getVehicleType().name())
+                .findAll()
+                .stream()
+                .map(transportRequestAssembler::create)
+                .collect(Collectors.toList());
+    }
+
+    public void assignTransportRequest(String driverToken, String transportRequestAssignationId) {
+        Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        TransportRequest transportRequest = transportRequestRepository.findById(transportRequestAssignationId);
+        driver.assignTransportRequest(transportRequest);
+        userRepository.update(driver);
+        transportRequestRepository.save(transportRequest);
     }
 
     public void notifyDriverHasArrived(String driverToken) {

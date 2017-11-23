@@ -5,5 +5,4 @@ public class NonExistentTransportRequestException extends RuntimeException {
     public NonExistentTransportRequestException(String message) {
         super(message);
     }
-
 }

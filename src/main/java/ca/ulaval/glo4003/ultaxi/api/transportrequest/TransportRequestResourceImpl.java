@@ -1,13 +1,9 @@
 package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
-import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestSearchParameters;
 
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
@@ -42,6 +38,13 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Secured({Role.DRIVER})
     public Response notifyHasArrived(String driverToken) {
         transportRequestService.notifyDriverHasArrived(driverToken);
+        return Response.ok().build();
+    }
+
+    @Override
+    @Secured({Role.DRIVER})
+    public Response assignTransportRequest(String driverToken, String transportRequestId) {
+        transportRequestService.assignTransportRequest(driverToken, transportRequestId);
         return Response.ok().build();
     }
 }
