@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
@@ -129,5 +131,10 @@ public class DriverTest {
     @Test(expected = InvalidVehicleDissociationException.class)
     public void givenADriverWithNoVehicleAssociated_whenDissociatingVehicle_thenThrowsInvalidAssociationException() {
         driver.dissociateVehicle();
+    }
+
+    @Test(expected = DriverHasNoTransportRequestAssignedException.class)
+    public void givenADriverWithNoTransportRequestAssigned_whenGetCurrentTransportRequestId_thenThrowsException() {
+        driver.getCurrentTransportRequestId();
     }
 }

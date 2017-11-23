@@ -3,17 +3,20 @@ package ca.ulaval.glo4003.ultaxi.service.transportrequest;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -37,10 +40,14 @@ import java.util.Map;
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestServiceTest {
 
+    private static final String A_USERNAME = "Username";
     private static final String A_VALID_TOKEN = "Valid token";
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
     private static final VehicleType CAR_VEHICULE_TYPE = VehicleType.CAR;
+    private static final String A_TRANSPORT_REQUEST_ID = "Transport request Id";
     private static final TransportRequestStatus DRIVER_HAS_ARRIVED = TransportRequestStatus.ARRIVED;
+    private static final TransportRequestStatus RIDE_HAS_STARTED = TransportRequestStatus.STARTED;
+    private static final TransportRequestStatus TRANSPORT_REQUEST_IS_PENDING = TransportRequestStatus.PENDING;
 
     @Mock
     private TransportRequest transportRequest;
@@ -76,7 +83,11 @@ public class TransportRequestServiceTest {
                                                               smsSender);
         willReturn(driver).given(userService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(user).given(userService).getUserFromToken(A_VALID_TOKEN);
+        willReturn(A_USERNAME).given(transportRequest).getClientUsername();
+        willReturn(user).given(userRepository).findByUsername(A_USERNAME);
         willReturn(CAR_VEHICULE_TYPE).given(driver).getVehicleType();
+        willReturn(A_TRANSPORT_REQUEST_ID).given(driver).getCurrentTransportRequestId();
+        willReturn(transportRequest).given(transportRequestRepository).findById(A_TRANSPORT_REQUEST_ID);
     }
 
     @Test
@@ -114,12 +125,18 @@ public class TransportRequestServiceTest {
         assertEquals(2, transportRequestDtos.size());
     }
 
-    @Test(expected = DriverHasNoTransportRequestAssignedException.class)
-    public void givenDriverWithNoTransportRequestAssigned_whenNotifyHasArrived_thenThrowsException() {
-        willThrow(new DriverHasNoTransportRequestAssignedException("Driver don't have a transport request assigned"))
-            .given(driver).updateTransportRequestStatus(DRIVER_HAS_ARRIVED);
-        
+    @Test
+    public void givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenTransportRequestStatusIsModified() {
         transportRequestService.notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
+
+        verify(transportRequest).updateStatus(TransportRequestStatus.ARRIVED);
+    }
+
+    @Test
+    public void givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenMessagingTaskProducerIsCalled() {
+        transportRequestService.notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
+
+        verify(messagingTaskProducer).send(any(MessagingTask.class));
     }
 
     private Map<String, TransportRequest> givenTransportRequests() {

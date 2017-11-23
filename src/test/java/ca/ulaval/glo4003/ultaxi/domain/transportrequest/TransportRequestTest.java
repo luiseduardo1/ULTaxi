@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 
 import static org.junit.Assert.assertEquals;
 
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,4 +30,12 @@ public class TransportRequestTest {
 
         assertEquals(PENDING_STATUS, aNewTransportRequest.getTransportRequestStatus());
     }
+
+    @Test(expected = InvalidTransportRequestStatusException.class)
+    public void givenATransportRequestWithArrivedStatus_whenUpdatingStatusToArrived_thenThrowsException() {
+        transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
+        transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
+    }
+
+
 }

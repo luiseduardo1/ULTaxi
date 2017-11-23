@@ -95,8 +95,7 @@ public class TransportRequestResourceImplTest {
     }
 
     @Test
-    public void
-    givenAnAuthenticatedDriver_whenNotifyHasArrived_thenDelegateToRequestTransportService() {
+    public void givenAnAuthenticatedDriver_whenNotifyHasArrived_thenDelegateToRequestTransportService() {
         transportRequestResource.notifyHasArrived(A_VALID_DRIVER_TOKEN);
 
         verify(transportRequestService).notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
