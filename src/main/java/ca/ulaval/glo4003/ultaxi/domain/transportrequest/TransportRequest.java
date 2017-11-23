@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 
@@ -72,11 +73,11 @@ public class TransportRequest {
         return this.status;
     }
 
-    public void setStatus(TransportRequestStatus status) {
-        this.status = status;
-    }
+    public void updateStatus(TransportRequestStatus newStatus) {
+        if (newStatus == TransportRequestStatus.ARRIVED && this.status != TransportRequestStatus.PENDING) {
+            throw new InvalidTransportRequestStatusException(String.format("The status can't be updated to %s when the actual status is %s.", newStatus, status));
+        }
 
-    public void updateStatus(TransportRequestStatus status) {
-        this.status = status;
+        this.status = newStatus;
     }
 }
