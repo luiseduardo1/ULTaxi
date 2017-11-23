@@ -24,6 +24,7 @@ public class Driver extends User {
     private String lastName;
     private String socialInsuranceNumber;
     private Vehicle vehicle;
+    private String currentTransportRequestId;
     private TransportRequest transportRequest;
 
     public Driver() {
@@ -111,11 +112,11 @@ public class Driver extends User {
         return false;
     }
 
-    public void updateTransportRequestStatus(TransportRequestStatus status) {
-        if (this.transportRequest == null) {
+    public String getCurrentTransportRequestId() {
+        if (this.currentTransportRequestId == null) {
             throw new DriverHasNoTransportRequestAssignedException("This driver don't have a transport request assigned.");
         }
-        this.transportRequest.updateStatus(status);
+        return this.currentTransportRequestId;
     }
 
     public TransportRequest getTransportRequest() {
