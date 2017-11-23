@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.http.authentication.filtering;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
+import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserRoleException;
@@ -31,12 +32,15 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     private static final String AUTHENTICATION_SCHEME = "Bearer";
     private final UserRepository userRepository;
     private final TokenManager tokenManager;
+    private final TokenRepository tokenRepository;
     @Context
     private ResourceInfo resourceInfo;
 
-    public AuthorizationFilter(UserRepository userRepository, TokenManager tokenManager) {
+    public AuthorizationFilter(UserRepository userRepository, TokenManager tokenManager,
+                               TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.tokenManager = tokenManager;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
@@ -46,6 +50,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         if (authorisationHeader == null) {
             return;
         }
+
         String token = authorisationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
 
         Class<?> resourceClass = resourceInfo.getResourceClass();
@@ -91,5 +96,15 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         if (!allowedRoles.contains(userRole)) {
             throw new InvalidUserRoleException("Not a valid Permission.");
         }
+
+        if (checkTokenExistence(token)) {
+            throw new InvalidUserRoleException("Not a valid token.");
+        }
     }
+
+    private boolean checkTokenExistence(String token) {
+        return tokenRepository.getToken(tokenManager.getTokenId(token)) == null;
+    }
+
+
 }
