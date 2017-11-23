@@ -6,8 +6,10 @@ import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
@@ -86,6 +88,14 @@ public class VehicleService {
     }
 
     public void updateDistanceRate(VehiculeUpdateDistanceRateDTO vehiculeUpdateDistanceRateDTO) {
+        vehiculeUpdateDistanceRateDTO.getType()
+    }
 
+    private VehicleType getVehiculeType(String vehicleType) {
+        try {
+            return VehicleType.valueOf(vehicleType.toUpperCase().trim());
+        } catch (NullPointerException | IllegalArgumentException | IndexOutOfBoundsException exception) {
+            throw new InvalidVehicleTypeException(String.format("%s is not a valid vehicle type.", vehicleType));
+        }
     }
 }

@@ -4,6 +4,8 @@ import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
 
+import java.math.BigDecimal;
+
 public abstract class Vehicle {
 
     protected String color;
@@ -11,6 +13,7 @@ public abstract class Vehicle {
     protected String registrationNumber;
 
     private Driver driver = null;
+
 
     public Vehicle(String color, String model, String registrationNumber) {
         this.color = color;
@@ -53,4 +56,8 @@ public abstract class Vehicle {
     }
 
     public abstract VehicleType getType();
+
+    public abstract BigDecimal getDistanceRate();
+
+    public abstract void setDistanceRate(BigDecimal distanceRate);
 }
