@@ -57,10 +57,10 @@ public class TransportRequestService {
                 .collect(Collectors.toList());
     }
 
-    public void assignTransportRequest(String driverToken, String transportRequestAssignationId) {
+    public void assignTransportRequest(String driverToken, String transportRequestId) {
         Driver driver = (Driver) userService.getUserFromToken(driverToken);
-        TransportRequest transportRequest = transportRequestRepository.findById(transportRequestAssignationId);
-        driver.assignTransportRequest(transportRequest);
+        TransportRequest transportRequest = transportRequestRepository.findById(transportRequestId);
+        driver.assignTransportRequestId(transportRequest);
         userRepository.update(driver);
         transportRequestRepository.save(transportRequest);
     }

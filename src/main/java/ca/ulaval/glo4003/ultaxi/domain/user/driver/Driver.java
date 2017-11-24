@@ -127,15 +127,17 @@ public class Driver extends User {
         return this.currentTransportRequestId;
     }
 
-    public void assignTransportRequest(TransportRequest transportRequest) {
-        boolean transportRequestAssignationIsValid = (this.transportRequest == null
+    public void assignTransportRequestId(TransportRequest transportRequest) {
+        boolean transportRequestAssignationIsValid = (
+            this.currentTransportRequestId == null
                 && transportRequest.isAvailable()
                 && (this.vehicle != null && this.vehicle.getType() ==
                 transportRequest.getVehicleType() || this.vehicle == null));
+
         if (!transportRequestAssignationIsValid) {
             throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
         }
-        this.transportRequest = transportRequest;
+        this.currentTransportRequestId = transportRequest.getId();
         transportRequest.setUnavailable();
     }
 }
