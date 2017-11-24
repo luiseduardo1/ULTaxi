@@ -24,7 +24,6 @@ public class DriverValidator {
             userRepository.searchDrivers(driverSearchParameters);
             throw new SocialInsuranceNumberAlreadyExistException("Social insurance number already exist.");
         } catch (EmptySearchResultsException exception) {
-            // Nothing to do...
         }
     }
 }
