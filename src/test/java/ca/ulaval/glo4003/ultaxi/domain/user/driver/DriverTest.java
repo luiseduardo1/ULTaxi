@@ -149,25 +149,25 @@ public class DriverTest {
     public void givenValidTransportRequest_whenAssignTransportRequest_thenNoExceptionIsThrown() {
         driver.associateVehicle(vehicle);
 
-        driver.assignTransportRequest(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
     }
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
     public void givenUnavailableTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
         transportRequest.setUnavailable();
-        driver.assignTransportRequest(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
     }
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
     public void givenDriverWithTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
-        driver.setTransportRequest(transportRequest);
-        driver.assignTransportRequest(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
     }
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
-    public void givenInvalidDriverVehicleType_whenAssignTransportRequest_thenExceptionIsThrown() {
+    public void givenInvalidDriverVehicleType_whenAssignTransportRequestId_thenExceptionIsThrown() {
         transportRequest.setVehicleType("car");
         driver.associateVehicle(van);
-        driver.assignTransportRequest(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
     }
 }

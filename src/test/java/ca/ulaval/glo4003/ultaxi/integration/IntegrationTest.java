@@ -95,11 +95,6 @@ public abstract class IntegrationTest {
         );
     }
 
-    protected Response unauthenticatedGet(String path) {
-        return unauthenticatedGet(path, new HashMap<>());
-    }
-
-
     protected Response unauthenticatedGet(String path, Map<String, ?> queryParameters) {
         return executeGetRequest(
             createBasicRequestSpecification(path), queryParameters
@@ -132,7 +127,7 @@ public abstract class IntegrationTest {
     }
 
     protected String createSerializedDriver(String username, String password,
-        String socialInsuranceNumber, String phoneNumber, String name, String lastName) {
+        String socialInsuranceNumber, String phoneNumber, String name, String lastName, String emailAddress) {
         DriverDto driverDto = new DriverDto();
         driverDto.setUsername(username);
         driverDto.setPassword(password);
@@ -140,6 +135,7 @@ public abstract class IntegrationTest {
         driverDto.setPhoneNumber(phoneNumber);
         driverDto.setName(name);
         driverDto.setLastName(lastName);
+        driverDto.setEmailAddress(emailAddress);
 
         return serializeDto(driverDto);
     }
