@@ -1,15 +1,21 @@
 package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+
+import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverValidator;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
-import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
+import com.beust.jcommander.internal.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,12 +25,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverServiceTest {
@@ -40,11 +40,13 @@ public class DriverServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private DriverSearchQueryBuilder driverSearchQueryBuilder;
-    @Mock
     private DriverSearchParameters driverSearchParameters;
+    @Mock
+    private SearchResults<Driver> driverSearchResults;
 
     private DriverService driverService;
+
+    private static final Driver A_DRIVER = new Driver("Lord", "Gargamel", "215136193");
 
     @Before
     public void setUp() {
@@ -69,11 +71,7 @@ public class DriverServiceTest {
 
     @Test(expected = EmptySearchResultsException.class)
     public void givenValidSearchQueryWithNoDriversAssociated_whenSearching_thenThrowsEmptySearchResultsException() {
-        willReturn(driverSearchQueryBuilder).given(userRepository).searchDrivers();
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withFirstName(anyString());
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withLastName(anyString());
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSocialInsuranceNumber(anyString());
-        willThrow(new EmptySearchResultsException("No results found.")).given(driverSearchQueryBuilder).findAll();
+        willThrow(new EmptySearchResultsException("No results found.")).given(userRepository).searchDrivers(any());
 
         driverService.searchBy(driverSearchParameters);
     }
@@ -82,8 +80,8 @@ public class DriverServiceTest {
     public void
     givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
         willReturn("arg").given(driverSearchParameters).getLastName();
-        willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository)
-            .searchDrivers();
+        willReturn(driverSearchResults).given(userRepository).searchDrivers(any());
+        willReturn(Lists.newArrayList(A_DRIVER)).given(driverSearchResults).getResults();
 
         List<DriverDto> driverDtos = driverService.searchBy(driverSearchParameters);
 
@@ -94,7 +92,7 @@ public class DriverServiceTest {
         Map<String, User> drivers = new HashMap<>();
         drivers.put("1", new Driver("Ronald", "Macdonald", "972487086"));
         drivers.put("2", new Driver("Marcel", "Lepic", "348624487"));
-        drivers.put("3", new Driver("Lord", "Gargamel", "215136193"));
+        drivers.put("3", A_DRIVER);
 
         return drivers;
     }

@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 
 import java.util.HashSet;
 import java.util.List;
