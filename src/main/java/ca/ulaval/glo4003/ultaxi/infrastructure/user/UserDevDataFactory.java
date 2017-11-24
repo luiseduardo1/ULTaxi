@@ -4,8 +4,6 @@ import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.administrator.Administrator;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.Car;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import jersey.repackaged.com.google.common.collect.Lists;
 
@@ -18,11 +16,11 @@ import java.util.function.Function;
 public class UserDevDataFactory {
 
     private final Map<Role, Function<HashingStrategy, List<User>>> userTypesByRoles = new HashMap<>();
-    private static final int CLIENT_QUANTITY = 2;
-    private static final int ADMINISTRATOR_QUANTITY = 1;
-    private static final int DRIVER_QUANTITY = 1;
+
+    private CommonUser commonUser;
 
     public UserDevDataFactory() {
+        commonUser = new CommonUser();
         userTypesByRoles.put(Role.DRIVER, this::createDrivers);
         userTypesByRoles.put(Role.CLIENT, this::createClients);
         userTypesByRoles.put(Role.ADMINISTRATOR, this::createAdministrators);
@@ -46,15 +44,13 @@ public class UserDevDataFactory {
 
     private List<User> createDrivers(HashingStrategy hashingStrategy) {
         List<User> drivers = new ArrayList<>();
-        for (int i = 0; i <= DRIVER_QUANTITY; i++) {
-            drivers.add(createDriver(hashingStrategy, i));
-        }
+        drivers.add(createDriver(hashingStrategy));
         return drivers;
     }
 
-    private User createDriver(HashingStrategy hashingStrategy, int driverNumber) {
+    private User createDriver(HashingStrategy hashingStrategy) {
         Driver driver = (Driver) updateBaseAttributes(new Driver(), Role.DRIVER,
-                hashingStrategy, String.valueOf(driverNumber));
+                hashingStrategy);
         String lowercaseRole = Role.DRIVER.name().toLowerCase();
         driver.setPhoneNumber("2342355678");
         driver.setSocialInsuranceNumber("972487086");
@@ -65,35 +61,41 @@ public class UserDevDataFactory {
 
     private List<User> createClients(HashingStrategy hashingStrategy) {
         List<User> users = new ArrayList<>();
-        for (int i = 0; i <= CLIENT_QUANTITY; i++) {
-            users.add(createClient(hashingStrategy, i));
-        }
+        users.add(createClient(hashingStrategy));
+        users.add(createUpdatingClient(hashingStrategy));
         return users;
     }
 
-    private User createClient(HashingStrategy hashingStrategy, int clientNumber) {
-        return updateBaseAttributes(new User(), Role.CLIENT, hashingStrategy, String.valueOf(clientNumber));
+    private User createClient(HashingStrategy hashingStrategy) {
+        return updateBaseAttributes(new User(), Role.CLIENT, hashingStrategy);
     }
 
     private List<User> createAdministrators(HashingStrategy hashingStrategy) {
         List<User> users = new ArrayList<>();
-        for (int i = 0; i <= ADMINISTRATOR_QUANTITY; i++) {
-            users.add(createAdministrator(hashingStrategy, i));
-        }
+        users.add(createAdministrator(hashingStrategy));
         return users;
     }
 
-    private User createAdministrator(HashingStrategy hashingStrategy, int clientNumber) {
+    private User createAdministrator(HashingStrategy hashingStrategy) {
         return updateBaseAttributes(new Administrator(), Role.ADMINISTRATOR,
-                hashingStrategy, String.valueOf(clientNumber));
+                hashingStrategy);
     }
 
-    private User updateBaseAttributes(User user, Role role, HashingStrategy hashingStrategy, String indexNumber) {
+    private User updateBaseAttributes(User user, Role role, HashingStrategy hashingStrategy) {
         String lowercaseRole = role.name().toLowerCase();
         user.setRole(role);
-        user.setUsername(lowercaseRole + indexNumber + "Username");
-        user.setPassword(lowercaseRole + indexNumber + "Password", hashingStrategy);
-        user.setEmailAddress(lowercaseRole + indexNumber + "@ultaxi.ca");
+        user.setUsername(lowercaseRole + "Username");
+        user.setPassword(lowercaseRole + "Password", hashingStrategy);
+        user.setEmailAddress(lowercaseRole + "@ultaxi.ca");
+        return user;
+    }
+
+    private User createUpdatingClient(HashingStrategy hashingStrategy) {
+        User user = new User();
+        user.setRole(Role.CLIENT);
+        user.setUsername(commonUser.getUpdatingClientName());
+        user.setPassword(commonUser.getUpdatingClientPassword(), hashingStrategy);
+        user.setEmailAddress(commonUser.getUpdatingClientEmail());
         return user;
     }
 }

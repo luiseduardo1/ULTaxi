@@ -9,14 +9,15 @@ import java.util.List;
 public class TransportRequestDevDataFactory {
 
     public List<TransportRequest> createMockData() {
-        List<TransportRequest> transportRequests = Lists.newArrayList();
 
-        TransportRequest transportRequest1 = new TransportRequest();
-        transportRequest1.setId("1");
-        transportRequest1.setVehicleType("Car");
+        TransportRequest transportRequest = new TransportRequest();
+        transportRequest.setId("1");
+        transportRequest.setVehicleType("Car");
         Geolocation geolocation = new Geolocation(12.4534,13.4534);
-        transportRequest1.setStartingPosition(geolocation);
-        transportRequests.add(transportRequest1);
+        transportRequest.setStartingPosition(geolocation);
+
+        List<TransportRequest> transportRequests = Lists.newArrayList();
+        transportRequests.add(transportRequest);
 
         return transportRequests;
     }
