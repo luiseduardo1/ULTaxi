@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -46,7 +47,7 @@ public class DriverServiceTest {
 
     private DriverService driverService;
 
-    private static final Driver A_DRIVER = new Driver("Lord", "Gargamel", "215136193");
+    private static final Driver A_DRIVER = new Driver("Lord", "Gargamel", new SocialInsuranceNumber("215136193"));
 
     @Before
     public void setUp() {
@@ -90,8 +91,8 @@ public class DriverServiceTest {
 
     public Map<String, User> givenDrivers() {
         Map<String, User> drivers = new HashMap<>();
-        drivers.put("1", new Driver("Ronald", "Macdonald", "972487086"));
-        drivers.put("2", new Driver("Marcel", "Lepic", "348624487"));
+        drivers.put("1", new Driver("Ronald", "Macdonald", new SocialInsuranceNumber("972487086")));
+        drivers.put("2", new Driver("Marcel", "Lepic", new SocialInsuranceNumber("348624487")));
         drivers.put("3", A_DRIVER);
 
         return drivers;
