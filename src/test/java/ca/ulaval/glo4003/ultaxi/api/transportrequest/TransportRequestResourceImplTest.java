@@ -48,7 +48,7 @@ public class TransportRequestResourceImplTest {
         when(user.getUsername()).thenReturn(A_VALID_USERNAME);
         when(driver.getVehicleType()).thenReturn(A_VEHICLE_TYPE);
         when(driver.getUsername()).thenReturn(A_VALID_DRIVER_USERNAME);
-        when(transportRequestService.searchBy(A_VALID_DRIVER_TOKEN)).thenReturn
+        when(transportRequestService.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN)).thenReturn
             (transportRequestDtos);
     }
 
@@ -71,14 +71,14 @@ public class TransportRequestResourceImplTest {
     givenATransportRequestResource_whenSearchAvailableTransportRequests_thenDelegateToRequestTransportService() {
         transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
-        verify(transportRequestService).searchBy(A_VALID_DRIVER_TOKEN);
+        verify(transportRequestService).searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
     }
 
     @Test
     public void givenValidSearchQuery_whenSearchAvailableTransportRequests_thenReturnsOk() {
         willReturn(transportRequestDtos)
             .given(transportRequestService)
-            .searchBy(A_VALID_DRIVER_TOKEN);
+            .searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 
         Response response = transportRequestResource.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
 

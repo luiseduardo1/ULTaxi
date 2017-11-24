@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
@@ -35,7 +36,6 @@ public class TransportRequestService {
         this.userService = userService;
         this.messagingTaskProducer = messagingTaskProducer;
         this.smsSender = smsSender;
-
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) {
@@ -46,8 +46,12 @@ public class TransportRequestService {
         return transportRequest.getId();
     }
 
-    public List<TransportRequestDto> searchBy(String driverToken) {
+    public List<TransportRequestDto> searchAvailableTransportRequests(String driverToken) {
         Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        if (driver.getVehicleType() == null) {
+            throw new NonExistentVehicleException("There is no vehicle associated to this driver.");
+        }
+
         return this.transportRequestRepository
                 .searchTransportRequests()
                 .withVehicleType(driver.getVehicleType().name())
@@ -62,7 +66,7 @@ public class TransportRequestService {
         TransportRequest transportRequest = transportRequestRepository.findById(transportRequestId);
         driver.assignTransportRequestId(transportRequest);
         userRepository.update(driver);
-        transportRequestRepository.save(transportRequest);
+        transportRequestRepository.update(transportRequest);
     }
 
     public void notifyDriverHasArrived(String driverToken) {

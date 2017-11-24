@@ -99,7 +99,7 @@ public class TransportRequestServiceTest {
         willThrow(new EmptySearchResultsException("No results found.")).given(transportRequestSearchQueryBuilder)
             .findAll();
 
-        transportRequestService.searchBy(A_VALID_DRIVER_TOKEN);
+        transportRequestService.searchAvailableTransportRequests(A_VALID_DRIVER_TOKEN);
     }
 
     @Test
@@ -109,8 +109,8 @@ public class TransportRequestServiceTest {
             (transportRequestRepository)
             .searchTransportRequests();
 
-        List<TransportRequestDto> transportRequestDtos = transportRequestService.searchBy
-            (A_VALID_DRIVER_TOKEN);
+        List<TransportRequestDto> transportRequestDtos = transportRequestService.searchAvailableTransportRequests(
+            A_VALID_DRIVER_TOKEN);
 
         assertEquals(2, transportRequestDtos.size());
     }
