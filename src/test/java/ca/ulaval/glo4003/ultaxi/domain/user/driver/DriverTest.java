@@ -47,58 +47,6 @@ public class DriverTest {
         Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
     }
 
-    //@Test
-    //public void
-    //givenValidSocialInsuranceNumberWithDashes_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
-    //    String socialInsuranceNumber = "972-487-086";
-    //
-    //    driver.setSocialInsuranceNumber(socialInsuranceNumber);
-    //
-    //    Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
-    //}
-    //
-    //@Test(expected = InvalidSocialInsuranceNumberException.class)
-    //public void
-    //givenSocialInsuranceNumberWithTooManyDigits_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-    //    String socialInsuranceNumber = "9724870865";
-    //
-    //    driver.setSocialInsuranceNumber(socialInsuranceNumber);
-    //}
-    //
-    //@Test
-    //public void
-    //givenValidSocialInsuranceNumberWithEmptySpace_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
-    //    String socialInsuranceNumber = "972 487 086";
-    //
-    //    driver.setSocialInsuranceNumber(socialInsuranceNumber);
-    //
-    //    Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
-    //}
-    //
-    //@Test(expected = InvalidSocialInsuranceNumberException.class)
-    //public void
-    //givenInvalidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-    //    String socialInsuranceNumber = "234154346";
-    //
-    //    driver.setSocialInsuranceNumber(socialInsuranceNumber);
-    //}
-    //
-    //@Test(expected = InvalidSocialInsuranceNumberException.class)
-    //public void
-    //givenSocialInsuranceNumberWithSpecialCharacters_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-    //    String socialInsuranceNumber = "1!3 2?4 56!8";
-    //
-    //    driver.setSocialInsuranceNumber(socialInsuranceNumber);
-    //}
-    //
-    //@Test(expected = InvalidSocialInsuranceNumberException.class)
-    //public void
-    //givenValidSocialInsuranceNumberWithDots_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-    //    String socialInsuranceNumber = "972.487.086";
-    //
-    //    driver.setSocialInsuranceNumber(socialInsuranceNumber);
-    //}
-
     @Test
     public void
     givenANewDriverUser_whenCreateDriver_thenRoleShouldBeADriver() {
