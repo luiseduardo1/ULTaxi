@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 @Provider
 public class InvalidTransportRequestAssignationExceptionMapper
-        implements ExceptionMapper<InvalidTransportRequestAssignationException> {
+    implements ExceptionMapper<InvalidTransportRequestAssignationException> {
 
     private static final Logger logger = Logger.getLogger(InvalidTransportRequestAssignationException.class.getName());
 

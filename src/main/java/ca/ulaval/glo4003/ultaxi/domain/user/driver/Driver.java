@@ -101,8 +101,8 @@ public class Driver extends User {
     public void assignTransportRequest(TransportRequest transportRequest) {
         boolean transportRequestAssignationIsValid = (
             this.transportRequest == null
-            && transportRequest.isAvailable()
-            && (this.vehicle != null
+                && transportRequest.isAvailable()
+                && (this.vehicle != null
                 && this.vehicle.getType() == transportRequest.getVehicleType()
                 || this.vehicle == null)
         );

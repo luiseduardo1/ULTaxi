@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.integration;
 
+import static io.restassured.RestAssured.given;
+
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.AuthenticationDto;
@@ -15,8 +17,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import javax.ws.rs.core.Response.Status;
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.restassured.RestAssured.given;
 
 public abstract class IntegrationTest {
 
@@ -110,8 +110,8 @@ public abstract class IntegrationTest {
     protected String createSerializedGenericRoleCredentials(Role role, String index) {
         String lowercaseRole = role.name().toLowerCase();
         return createSerializedCredentials(
-                lowercaseRole + index + "Username",
-                lowercaseRole + index + "Password"
+            lowercaseRole + index + "Username",
+            lowercaseRole + index + "Password"
         );
     }
 

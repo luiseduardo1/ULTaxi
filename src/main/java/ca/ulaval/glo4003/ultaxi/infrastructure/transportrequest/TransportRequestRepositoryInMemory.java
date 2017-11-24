@@ -17,7 +17,7 @@ public class TransportRequestRepositoryInMemory implements TransportRequestRepos
         TransportRequest foundTransportRequest = transportRequests.get(id);
         if (foundTransportRequest == null) {
             throw new NonExistentTransportRequestException(
-                    String.format("Transport request doesn't exist.")
+                String.format("Transport request doesn't exist.")
             );
         }
         return foundTransportRequest;

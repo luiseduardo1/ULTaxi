@@ -20,9 +20,8 @@ public class UserResourceIT extends IntegrationTest {
     private static final String AN_INVALID_EMAIL = "invalid.email.gmail.com";
     private static final String AN_EMPTY_PASSWORD = "";
     private static final String SECOND_CLIENT = "2";
-
-    private boolean isUserCreated = false;
     private final String aValidUser = createSerializedValidUser();
+    private boolean isUserCreated = false;
 
     @Before
     public void setUp() {

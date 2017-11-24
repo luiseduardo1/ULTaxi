@@ -33,7 +33,8 @@ public class UserAuthenticationService {
 
     public String authenticate(AuthenticationDto authenticationDto) {
         User user = userRepository.findByUsername(authenticationDto.getUsername());
-        if (user == null || !user.areValidCredentials(authenticationDto.getUsername(), authenticationDto.getPassword())) {
+        if (user == null ||
+            !user.areValidCredentials(authenticationDto.getUsername(), authenticationDto.getPassword())) {
             throw new InvalidCredentialsException("Credentials are invalid.");
         }
         return generateToken(user.getUsername());

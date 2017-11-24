@@ -9,13 +9,14 @@ public enum TwilioErrorType {
     OTHER(-1);
 
     private static final Map<Integer, TwilioErrorType> typesByIntegerCode = new HashMap<>();
-    private final int value;
 
     static {
         for (TwilioErrorType errorType : TwilioErrorType.values()) {
             typesByIntegerCode.put(errorType.value, errorType);
         }
     }
+
+    private final int value;
 
     TwilioErrorType(int value) {
         this.value = value;
