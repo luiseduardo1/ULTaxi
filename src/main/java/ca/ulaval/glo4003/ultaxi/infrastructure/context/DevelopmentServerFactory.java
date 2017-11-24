@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.context;
 
 import ca.ulaval.glo4003.ultaxi.api.transportrequest.TransportRequestResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResourceImpl;
-import ca.ulaval.glo4003.ultaxi.api.user.UserResourceImpl;
+import ca.ulaval.glo4003.ultaxi.api.user.client.ClientResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
@@ -100,7 +100,7 @@ public class DevelopmentServerFactory extends ServerFactory {
 
     @Override
     public ServerFactory withUserResource() {
-        resources.add(new UserResourceImpl(clientService));
+        resources.add(new ClientResourceImpl(clientService));
         return this;
     }
 

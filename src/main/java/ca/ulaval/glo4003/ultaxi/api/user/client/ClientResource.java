@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.api.user;
+package ca.ulaval.glo4003.ultaxi.api.user.client;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
@@ -12,8 +12,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/users")
-public interface UserResource {
+@Path("/clients")
+public interface ClientResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -22,5 +22,5 @@ public interface UserResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Role.CLIENT)
-    Response updateClient(@HeaderParam(value = "Authorization") String userToken, ClientDto clientDto);
+    Response updateClient(@HeaderParam(value = "Authorization") String clientToken, ClientDto clientDto);
 }

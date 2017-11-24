@@ -21,7 +21,7 @@ import java.util.Map;
 public abstract class IntegrationTest {
 
     protected static final String API_ROUTE = "/api";
-    protected static final String USERS_ROUTE = API_ROUTE + "/users";
+    protected static final String USERS_ROUTE = API_ROUTE + "/clients";
     protected static final String DRIVERS_ROUTE = API_ROUTE + "/drivers";
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
     protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";

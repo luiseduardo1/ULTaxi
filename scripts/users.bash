@@ -12,7 +12,7 @@ create_user_route() {
          -X POST \
          -K "${curl_configuration_file}" \
          -d"${_user}" \
-         "${base_url}/api/users"
+         "${base_url}/api/clients"
 }
 
 update_user_route() {
@@ -23,5 +23,5 @@ update_user_route() {
          -K "${curl_configuration_file}" \
          -X PUT \
          -d"${_updated_user}" \
-         "${base_url}/api/users"
+         "${base_url}/api/clients"
 }

@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.ultaxi.integration;
 import ca.ulaval.glo4003.ULTaxiMain;
 import ca.ulaval.glo4003.ultaxi.integration.transportrequest.TransportRequestResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.user.UserAuthenticationResourceIT;
-import ca.ulaval.glo4003.ultaxi.integration.user.UserResourceIT;
+import ca.ulaval.glo4003.ultaxi.integration.user.ClientResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.user.driver.DriverResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.vehicle.VehicleResourceIT;
 import io.restassured.RestAssured;
@@ -15,7 +15,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     UserAuthenticationResourceIT.class,
-    UserResourceIT.class,
+    ClientResourceIT.class,
     TransportRequestResourceIT.class,
     VehicleResourceIT.class,
     DriverResourceIT.class

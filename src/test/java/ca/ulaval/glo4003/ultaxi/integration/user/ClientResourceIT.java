@@ -11,7 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import javax.ws.rs.core.Response.Status;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserResourceIT extends IntegrationTest {
+public class ClientResourceIT extends IntegrationTest {
 
     private static final String A_VALID_PASSWORD = "userPassword";
     private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";

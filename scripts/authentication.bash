@@ -11,7 +11,7 @@ signin_route() {
                             -X POST \
                             -K "${curl_configuration_file}" \
                             -d"${_user}" \
-                            "${base_url}/api/users/auth/signin")"
+                            "${base_url}/api/clients/auth/signin")"
     [ -z "${_token}" ] && return 1
     echo "${_token}"
 }
@@ -21,7 +21,7 @@ signout_route() {
     curl -H "${_authentication_header}" \
          -X POST \
          -K "${curl_configuration_file}" \
-         "${base_url}/api/users/auth/signout"
+         "${base_url}/api/clients/auth/signout"
 }
 
 execute_logged_as() {
