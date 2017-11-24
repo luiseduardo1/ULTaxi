@@ -1,14 +1,21 @@
 package ca.ulaval.glo4003.ultaxi.service.transportrequest;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
+
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
@@ -25,12 +32,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestServiceTest {
@@ -66,7 +67,8 @@ public class TransportRequestServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler, userRepository, userService);
+        transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
+                                                              userRepository, userService);
         willReturn(driver).given(userService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(user).given(userService).getUserFromToken(A_VALID_TOKEN);
         willReturn(vehicle).given(driver).getVehicle();

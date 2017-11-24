@@ -1,5 +1,11 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
+
+import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
@@ -12,8 +18,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.anyString;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverValidatorTest {
@@ -23,7 +27,7 @@ public class DriverValidatorTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private DriverSearchQueryBuilder driverSearchQueryBuilder;
+    private SearchResults<Driver> searchResults;
     private DriverDto driverDto;
     private DriverValidator driverValidator;
 
@@ -33,28 +37,28 @@ public class DriverValidatorTest {
         driverDto = new DriverDto();
         driverDto.setUsername(A_USERNAME);
         driverDto.setPassword(A_PASSWORD);
+        willReturn(searchResults).given(userRepository).searchDrivers(any());
+        willReturn(givenDrivers()).given(searchResults).getResults();
     }
 
     @Test
     public void
     givenADriverWithAValidNonExistentSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenContinue() {
+        willThrow(new EmptySearchResultsException("Empty search results.")).given(userRepository).searchDrivers(any());
         String aValidSocialInsuranceNumber = "352342356";
         driverDto.setSocialInsuranceNumber(aValidSocialInsuranceNumber);
-        willReturn(driverSearchQueryBuilder).given(userRepository).searchDrivers();
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSocialInsuranceNumber(anyString());
-        willReturn(givenDrivers()).given(driverSearchQueryBuilder).findAll();
 
         driverValidator.checkSocialInsuranceNumberExistence(driverDto);
     }
 
     @Test(expected = SocialInsuranceNumberAlreadyExistException.class)
     public void
-    givenADriverWithExistingSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenTrowSocialInsuranceNumberAlreadyExistException() {
+    givenADriverWithExistingSocialInsuranceNumber_whenCheckSocialInsuranceNumberExistence_thenThrowsSocialInsuranceNumberAlreadyExistException() {
+        willReturn(searchResults).given(userRepository).searchDrivers(any());
+        willReturn(givenDrivers()).given(searchResults).getResults();
+
         String aValidSocialInsuranceNumber = "972487086";
         driverDto.setSocialInsuranceNumber(aValidSocialInsuranceNumber);
-        willReturn(driverSearchQueryBuilder).given(userRepository).searchDrivers();
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSocialInsuranceNumber(anyString());
-        willReturn(givenDrivers()).given(driverSearchQueryBuilder).findAll();
 
         driverValidator.checkSocialInsuranceNumberExistence(driverDto);
     }
