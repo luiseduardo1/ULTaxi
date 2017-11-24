@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
+import ca.ulaval.glo4003.ultaxi.service.user.client.ClientService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
 import org.junit.Before;

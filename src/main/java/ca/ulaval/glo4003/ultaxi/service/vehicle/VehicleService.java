@@ -48,13 +48,13 @@ public class VehicleService {
             vehicleAssociationDto.getUsername(),
             vehicleAssociationDto.getRegistrationNumber()
         ));
-        User user = userRepository.findByUsername(vehicleAssociationDto.getUsername());
+        Driver driver = (Driver) userRepository.findByUsername(vehicleAssociationDto.getUsername());
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(vehicleAssociationDto.getRegistrationNumber());
 
-        validateAssociationEntities(vehicle, user);
-        ((Driver) user).associateVehicle(vehicle);
+        validateAssociationEntities(vehicle, driver);
+        driver.associateVehicle(vehicle);
 
-        userRepository.update(user);
+        userRepository.update(driver);
         vehicleRepository.update(vehicle);
     }
 

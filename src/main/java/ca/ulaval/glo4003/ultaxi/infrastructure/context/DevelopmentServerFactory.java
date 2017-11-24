@@ -29,7 +29,7 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.JWTTokenManager;
 import ca.ulaval.glo4003.ultaxi.infrastructure.vehicle.VehicleDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.vehicle.VehicleRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
-import ca.ulaval.glo4003.ultaxi.service.user.ClientService;
+import ca.ulaval.glo4003.ultaxi.service.user.client.ClientService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;

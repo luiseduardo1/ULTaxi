@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.ultaxi.integration;
 
 import ca.ulaval.glo4003.ULTaxiMain;
 import ca.ulaval.glo4003.ultaxi.integration.transportrequest.TransportRequestResourceIT;
-import ca.ulaval.glo4003.ultaxi.integration.user.UserAuthenticationResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.user.ClientResourceIT;
+import ca.ulaval.glo4003.ultaxi.integration.user.UserAuthenticationResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.user.driver.DriverResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.vehicle.VehicleResourceIT;
 import io.restassured.RestAssured;

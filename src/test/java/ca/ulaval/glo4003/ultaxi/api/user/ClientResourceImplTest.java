@@ -5,7 +5,7 @@ import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.api.user.client.ClientResource;
 import ca.ulaval.glo4003.ultaxi.api.user.client.ClientResourceImpl;
-import ca.ulaval.glo4003.ultaxi.service.user.ClientService;
+import ca.ulaval.glo4003.ultaxi.service.user.client.ClientService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
 import org.junit.Before;
 import org.junit.Test;

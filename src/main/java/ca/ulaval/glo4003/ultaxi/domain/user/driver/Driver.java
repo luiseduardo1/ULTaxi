@@ -54,7 +54,7 @@ public class Driver extends User {
 
     public void setSocialInsuranceNumber(String socialInsuranceNumber) {
         if (!isValidSocialInsuranceNumber(socialInsuranceNumber)) {
-            throw new InvalidSocialInsuranceNumberException("User has an invalid socialInsuranceNumber format.");
+            throw new InvalidSocialInsuranceNumberException("Driver has an invalid socialInsuranceNumber format.");
         }
 
         this.socialInsuranceNumber = socialInsuranceNumber;

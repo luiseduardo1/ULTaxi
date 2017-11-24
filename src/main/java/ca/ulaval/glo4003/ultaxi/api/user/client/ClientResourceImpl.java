@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.ultaxi.api.user.client;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
-import ca.ulaval.glo4003.ultaxi.service.user.ClientService;
+import ca.ulaval.glo4003.ultaxi.service.user.client.ClientService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
 
 import javax.ws.rs.core.Response;
