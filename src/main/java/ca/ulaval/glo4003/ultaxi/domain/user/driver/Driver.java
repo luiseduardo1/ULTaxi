@@ -25,7 +25,6 @@ public class Driver extends User {
     private String socialInsuranceNumber;
     private Vehicle vehicle;
     private String currentTransportRequestId;
-    private TransportRequest transportRequest;
 
     public Driver() {
         this.setRole(Role.DRIVER);
@@ -99,15 +98,7 @@ public class Driver extends User {
         vehicle.dissociateDriver();
         vehicle = null;
     }
-
-    public TransportRequest getTransportRequest() {
-        return transportRequest;
-    }
-
-    public void setTransportRequest(TransportRequest transportRequest) {
-        this.transportRequest = transportRequest;
-    }
-
+    
     private boolean isValidSocialInsuranceNumber(String socialInsuranceNumber) {
         Pattern pattern = Pattern.compile(SOCIAL_INSURANCE_NUMBER_REGEX);
         Matcher matcher = pattern.matcher(socialInsuranceNumber);
