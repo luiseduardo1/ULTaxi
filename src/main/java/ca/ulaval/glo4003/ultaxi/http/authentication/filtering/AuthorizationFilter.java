@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserRoleException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
+import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.exception.InexistantTokenException;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
@@ -98,7 +99,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         }
 
         if (checkTokenExistence(token)) {
-            throw new InvalidUserRoleException("Not a valid token.");
+            throw new InexistantTokenException("Not a valid token.");
         }
     }
 
