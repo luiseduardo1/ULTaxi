@@ -78,7 +78,7 @@ public class TransportRequest {
     }
 
     public void updateStatus(TransportRequestStatus newStatus) {
-        if (newStatus == TransportRequestStatus.ARRIVED && this.status != TransportRequestStatus.PENDING) {
+        if (newStatus == TransportRequestStatus.ARRIVED && this.status != TransportRequestStatus.ACCEPTED) {
             throw new InvalidTransportRequestStatusException(String.format("The status can't be updated to %s when the actual status is %s.", newStatus, status));
         }
 
@@ -97,6 +97,6 @@ public class TransportRequest {
     }
 
     public void setUnavailable() {
-        this.status = TransportRequestStatus.STARTED;
+        this.status = TransportRequestStatus.ACCEPTED;
     }
 }
