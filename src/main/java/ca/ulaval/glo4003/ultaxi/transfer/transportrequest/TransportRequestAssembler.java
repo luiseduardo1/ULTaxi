@@ -6,9 +6,8 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 public class TransportRequestAssembler {
 
     public TransportRequest create(TransportRequestDto transportRequestDto) {
-        Geolocation startingPosition = new Geolocation();
-        startingPosition.setLatitude(transportRequestDto.getStartingPositionLatitude());
-        startingPosition.setLongitude(transportRequestDto.getStartingPositionLongitude());
+        Geolocation startingPosition = new Geolocation(transportRequestDto.getStartingPositionLatitude(),
+                                                       transportRequestDto.getStartingPositionLongitude());
         TransportRequest transportRequest = new TransportRequest();
         transportRequest.setStartingPosition(startingPosition);
         transportRequest.setNote(transportRequestDto.getNote());
