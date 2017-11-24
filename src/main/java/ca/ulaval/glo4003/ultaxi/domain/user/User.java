@@ -12,16 +12,38 @@ import javax.mail.internet.InternetAddress;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class User {
+public abstract class User {
 
     private static final String PHONE_REGEX = "^\\(?([2-9][0-9]{2})\\)?[-. ]?([2-9](?!11)[0-9]{2})[-. ]?([0-9]{4})$";
 
     private String username;
     private String password;
     private String phoneNumber;
-    private Role role;
     private String emailAddress;
     private HashingStrategy hashingStrategy;
+
+    public User(String username, String password, String phoneNumber, String emailAddress, HashingStrategy
+        hashingStrategy) {
+        setUsername(username);
+        setPassword(password, hashingStrategy);
+        setPhoneNumber(phoneNumber);
+        setEmailAddress(emailAddress);
+    }
+
+    public abstract Role getRole();
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        if (!isUsernameValid(username)) {
+            throw new InvalidUsernameException(
+                String.format("%s is not a valid name.", username)
+            );
+        }
+        this.username = username.toLowerCase().trim();
+    }
 
     public String getPassword() {
         return password;
@@ -39,25 +61,16 @@ public class User {
         this.password = hashingStrategy.hashWithRandomSalt(password);
     }
 
-    public String getUsername() {
-        return username;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setUsername(String username) {
-        if (!isUsernameValid(username)) {
-            throw new InvalidUsernameException(
-                String.format("%s is not a valid name.", username)
-            );
+    public void setPhoneNumber(String phoneNumber) {
+        if (!isValidPhoneNumber(phoneNumber)) {
+            throw new InvalidPhoneNumberException("User has an invalid phone number.");
         }
-        this.username = username.toLowerCase().trim();
-    }
 
-    private boolean isUsernameValid(String name) {
-        return !isBlank(name) && !name.contains("@");
-    }
-
-    private boolean isBlank(String value) {
-        return value == null || value.trim().isEmpty();
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmailAddress() {
@@ -73,6 +86,27 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
+    public boolean areValidCredentials(String username, String plainTextPassword) {
+        return username != null
+            && plainTextPassword != null
+            && username.toLowerCase().trim().equals(this.username)
+            && hashingStrategy.areEquals(plainTextPassword, password);
+    }
+
+    private boolean isUsernameValid(String name) {
+        return !isBlank(name) && !name.contains("@");
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        Pattern pattern = Pattern.compile(PHONE_REGEX);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
+    }
+
     private boolean isValidEmailAddress(String emailAddress) {
         try {
             InternetAddress email = new InternetAddress(emailAddress);
@@ -81,38 +115,5 @@ public class User {
             return false;
         }
         return true;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        if (!isPhoneNumberValid(phoneNumber)) {
-            throw new InvalidPhoneNumberException("User has an invalid phone number.");
-        }
-
-        this.phoneNumber = phoneNumber;
-    }
-
-    private boolean isPhoneNumberValid(String phoneNumber) {
-        Pattern pattern = Pattern.compile(PHONE_REGEX);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        return matcher.matches();
-    }
-
-    public boolean areCredentialsValid(String username, String plainTextPassword) {
-        return username != null
-            && plainTextPassword != null
-            && username.equals(this.username)
-            && hashingStrategy.areEquals(plainTextPassword, password);
     }
 }

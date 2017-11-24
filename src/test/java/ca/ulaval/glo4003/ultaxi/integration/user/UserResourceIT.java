@@ -2,10 +2,7 @@ package ca.ulaval.glo4003.ultaxi.integration.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
-import com.google.gson.Gson;
 import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,21 +14,23 @@ import javax.ws.rs.core.Response.Status;
 public class UserResourceIT extends IntegrationTest {
 
     private static final String A_VALID_PASSWORD = "userPassword";
+    private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
+    private static final String A_VALID_PHONE_NUMBER = "581-319-0987";
     private static final String AN_INVALID_NAME = "ronald.macdonald@ulaval.ca";
     private static final String AN_INVALID_EMAIL = "invalid.email.gmail.com";
-    private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
-    private static final String SECOND_CLIENT = "2";
     private static final String AN_EMPTY_PASSWORD = "";
-    private static final String A_VALID_USER = createSerializedValidUser();
-    private static boolean isUserCreated = false;
+    private static final String SECOND_CLIENT = "2";
+
+    private boolean isUserCreated = false;
+    private final String aValidUser = createSerializedValidUser();
 
     @Before
     public void setUp() {
         if (!isUserCreated) {
-            unauthenticatedPost(USERS_ROUTE, A_VALID_USER);
+            unauthenticatedPost(USERS_ROUTE, aValidUser);
             isUserCreated = true;
         }
-        authenticateAs(A_VALID_USER);
+        authenticateAs(aValidUser);
     }
 
     @Test
@@ -110,20 +109,20 @@ public class UserResourceIT extends IntegrationTest {
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
-    private static String createSerializedValidUser() {
-        UserDto user = new UserDto();
-        user.setUsername(RandomStringUtils.randomAlphabetic(20));
-        user.setPassword(A_VALID_PASSWORD);
-        user.setEmail(A_VALID_EMAIL);
-        Gson gson = new Gson();
-
-        return gson.toJson(user);
+    private String createSerializedValidUser() {
+        return createSerializedUser(
+            generateRandomWord(),
+            A_VALID_PASSWORD,
+            A_VALID_PHONE_NUMBER,
+            A_VALID_EMAIL
+        );
     }
 
     private String createSerializedUserWithInvalidName() {
         return createSerializedUser(
             AN_INVALID_NAME,
             A_VALID_PASSWORD,
+            A_VALID_PHONE_NUMBER,
             A_VALID_EMAIL
         );
     }
@@ -132,6 +131,7 @@ public class UserResourceIT extends IntegrationTest {
         return createSerializedUser(
             generateRandomWord(),
             A_VALID_PASSWORD,
+            A_VALID_PHONE_NUMBER,
             AN_INVALID_EMAIL
         );
     }
@@ -140,6 +140,7 @@ public class UserResourceIT extends IntegrationTest {
         return createSerializedUser(
             generateRandomWord(),
             AN_EMPTY_PASSWORD,
+            A_VALID_PHONE_NUMBER,
             A_VALID_EMAIL
         );
     }

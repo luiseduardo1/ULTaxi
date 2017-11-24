@@ -72,7 +72,7 @@ public class UserRepositoryInMemoryTest {
 
     @Test(expected = NonExistentUserException.class)
     public void givenNonExistentUserToUpdate_whenUpdatingUser_thenThrowsException() {
-        userRepository.update(new User());
+        userRepository.update(user);
     }
 
     @Test

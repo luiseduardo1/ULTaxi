@@ -12,23 +12,26 @@ public class DriverAssembler {
     }
 
     public Driver create(DriverDto driverDto) {
-        Driver driver = new Driver();
-        driver.setUsername(driverDto.getUsername());
-        driver.setPassword(driverDto.getPassword(), hashingStrategy);
-        driver.setName(driverDto.getName());
-        driver.setLastName(driverDto.getLastName());
-        driver.setPhoneNumber(driverDto.getPhoneNumber());
-        driver.setSocialInsuranceNumber(driverDto.getSocialInsuranceNumber());
-        return driver;
+        return new Driver(
+            driverDto.getUsername(),
+            driverDto.getPassword(),
+            driverDto.getPhoneNumber(),
+            driverDto.getEmailAddress(),
+            hashingStrategy,
+            driverDto.getFirstName(),
+            driverDto.getLastName(),
+            driverDto.getSocialInsuranceNumber()
+        );
     }
 
     public DriverDto create(Driver driver) {
         DriverDto driverDto = new DriverDto();
         driverDto.setUsername(driver.getUsername());
         driverDto.setPassword(driver.getPassword());
-        driverDto.setName(driver.getName());
-        driverDto.setLastName(driver.getLastName());
         driverDto.setPhoneNumber(driver.getPhoneNumber());
+        driverDto.setEmailAddress(driver.getEmailAddress());
+        driverDto.setFirstName(driver.getFirstName());
+        driverDto.setLastName(driver.getLastName());
         driverDto.setSocialInsuranceNumber(driver.getSocialInsuranceNumber());
         return driverDto;
     }

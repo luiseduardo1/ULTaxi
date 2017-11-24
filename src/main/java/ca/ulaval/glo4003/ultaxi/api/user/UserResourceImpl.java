@@ -2,29 +2,29 @@ package ca.ulaval.glo4003.ultaxi.api.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
-import ca.ulaval.glo4003.ultaxi.service.user.UserService;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import ca.ulaval.glo4003.ultaxi.service.user.ClientService;
+import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
 
 import javax.ws.rs.core.Response;
 
 public class UserResourceImpl implements UserResource {
 
-    private final UserService userService;
+    private final ClientService clientService;
 
-    public UserResourceImpl(UserService userService) {
-        this.userService = userService;
+    public UserResourceImpl(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @Override
-    public Response createUser(UserDto userDto) {
-        userService.addUser(userDto);
+    public Response createClient(ClientDto clientDto) {
+        clientService.addClient(clientDto);
         return Response.ok().build();
     }
 
     @Override
     @Secured(Role.CLIENT)
-    public Response updateClient(String userToken, UserDto userDto) {
-        userService.updateClient(userDto, userToken);
+    public Response updateClient(String userToken, ClientDto clientDto) {
+        clientService.updateClient(clientDto, userToken);
         return Response.ok().build();
     }
 }

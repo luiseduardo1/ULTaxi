@@ -48,7 +48,7 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
 
     @Override
     public DriverSearchQueryBuilder withFirstName(String firstName) {
-        return withNonNull(driver -> isSubsetOf(driver.getName(), firstName), firstName);
+        return withNonNull(driver -> isSubsetOf(driver.getFirstName(), firstName), firstName);
     }
 
     @Override

@@ -18,22 +18,28 @@ import static org.mockito.Matchers.anyString;
 @RunWith(MockitoJUnitRunner.class)
 public class UserTest {
 
-    private static final String AN_EMAIL_ADDRESS = "ronald.macdonald@ulaval.ca";
-    private static final String AN_INVALID_EMAIL_ADDRESS = "ronald.macdonald@.ulaval.ca";
     private static final String A_VALID_USERNAME = "Ronald Macdonald";
     private static final String A_VALID_PASSWORD = "mysupersecret";
+    private static final String A_VALID_PHONE_NUMBER = "234-235-5678";
+    private static final String A_VALID_EMAIL_ADDRESS = "ronald.macdonald@ulaval.ca";
     private static final String AN_INVALID_NAME = "      \t";
     private static final String AN_INVALID_PASSWORD = "    \t";
+    private static final String AN_INVALID_EMAIL_ADDRESS = "ronald.macdonald@.ulaval.ca";
     private static final String A_HASH = RandomStringUtils.randomAlphabetic(10);
 
     @Mock
     private HashingStrategy hashingStrategy;
 
     private User user;
+    private User anotherUser;
 
     @Before
     public void setUp() {
-        user = new User();
+        user = createValidUser();
+        anotherUser = createValidUser();
+
+        willReturn(A_HASH).given(hashingStrategy).hashWithRandomSalt(anyString());
+        willReturn(true).given(hashingStrategy).areEquals(anyString(), anyString());
     }
 
     @Test(expected = InvalidUsernameException.class)
@@ -48,7 +54,7 @@ public class UserTest {
 
     @Test(expected = InvalidUsernameException.class)
     public void givenUserWithEmailAddressAsName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setUsername(AN_EMAIL_ADDRESS);
+        user.setUsername(A_VALID_EMAIL_ADDRESS);
     }
 
     @Test(expected = InvalidEmailAddressException.class)
@@ -78,20 +84,12 @@ public class UserTest {
 
     @Test
     public void givenTwoUsersWithSameNameAndPasswords_whenCheckingIfTheyAreTheSame_thenReturnsTrue() {
-        willReturn(A_HASH).given(hashingStrategy).hashWithRandomSalt(anyString());
-        willReturn(true).given(hashingStrategy).areEquals(anyString(), anyString());
-        User anotherUser = new User();
-        anotherUser.setUsername(A_VALID_USERNAME);
-        anotherUser.setPassword(A_VALID_PASSWORD, hashingStrategy);
-        user.setUsername(A_VALID_USERNAME);
-        user.setPassword(A_VALID_PASSWORD, hashingStrategy);
-
-        assertTrue(user.areCredentialsValid(anotherUser.getUsername(), A_VALID_PASSWORD));
+        assertTrue(user.areValidCredentials(anotherUser.getUsername(), A_VALID_PASSWORD));
     }
 
     @Test
     public void givenAUserAndNullCredentials_whenCheckingIfTheCredentialsAreValid_thenReturnsFalse() {
-        assertFalse(user.areCredentialsValid(null, null));
+        assertFalse(user.areValidCredentials(null, null));
     }
 
     @Test
@@ -147,16 +145,14 @@ public class UserTest {
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithInvalidNumberingPlanArea_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException
-        () {
+    public void givenPhoneNumberWithInvalidPlanArea_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
         String phoneNumber = "123 234 5678";
 
         user.setPhoneNumber(phoneNumber);
     }
 
     @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithAlphaNumericalCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException
-        () {
+    public void givenPhoneNumberWithAlphaCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
         String phoneNumber = "1b3 2z4 56a8";
 
         user.setPhoneNumber(phoneNumber);
@@ -176,4 +172,13 @@ public class UserTest {
         user.setPhoneNumber(phoneNumber);
     }
 
+    private User createValidUser() {
+        return new User(A_VALID_USERNAME, A_VALID_PASSWORD, A_VALID_PHONE_NUMBER, A_VALID_EMAIL_ADDRESS,
+                        hashingStrategy) {
+            @Override
+            public Role getRole() {
+                return null;
+            }
+        };
+    }
 }

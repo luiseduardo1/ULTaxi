@@ -11,6 +11,7 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociati
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
 import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
 import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,38 +20,32 @@ public class Driver extends User {
 
     private static final String SOCIAL_INSURANCE_NUMBER_REGEX = "^((\\d{3}[\\s-]?){2}\\d{3})|(\\d{9})$";
 
-    private String name;
+    private String firstName;
     private String lastName;
     private String socialInsuranceNumber;
 
     private TransportRequest transportRequest;
     private Vehicle vehicle;
 
-    public Driver() {
-        this.setRole(Role.DRIVER);
+    public Driver(String username, String password, String phoneNumber, String emailAddress,
+        HashingStrategy hashingStrategy, String firstName, String lastName, String socialInsuranceNumber) {
+        super(username, password, phoneNumber, emailAddress, hashingStrategy);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
-    public Driver(String firstName, String lastName, String socialInsuranceNumber) {
-        this.setName(firstName);
-        this.setLastName(lastName);
-        this.setSocialInsuranceNumber(socialInsuranceNumber);
-        this.setRole(Role.DRIVER);
+    @Override
+    public Role getRole() {
+        return Role.DRIVER;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
     }
 
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getSocialInsuranceNumber() {
@@ -65,15 +60,8 @@ public class Driver extends User {
         this.socialInsuranceNumber = socialInsuranceNumber;
     }
 
-    public void associateVehicle(Vehicle vehicle) {
-        if (this.vehicle != null || vehicle == null) {
-            throw new InvalidVehicleAssociationException("Can't associate this vehicle: it may be because the driver " +
-                                                             "already have a vehicle associated or the given vehicle " +
-                                                             "is invalid.");
-        }
-
-        vehicle.associateDriver(this);
-        this.vehicle = vehicle;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
     public VehicleType getVehicleType() {
@@ -85,8 +73,15 @@ public class Driver extends User {
         return vehicleType;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
+    public void associateVehicle(Vehicle vehicle) {
+        if (this.vehicle != null || vehicle == null) {
+            throw new InvalidVehicleAssociationException("Can't associate this vehicle: it may be because the driver " +
+                                                             "already have a vehicle associated or the given vehicle " +
+                                                             "is invalid.");
+        }
+
+        vehicle.associateDriver(this);
+        this.vehicle = vehicle;
     }
 
     public void dissociateVehicle() {
@@ -103,8 +98,19 @@ public class Driver extends User {
         return transportRequest;
     }
 
-    public void setTransportRequest(TransportRequest transportRequest) {
+    public void assignTransportRequest(TransportRequest transportRequest) {
+        boolean transportRequestAssignationIsValid = (
+            this.transportRequest == null
+            && transportRequest.isAvailable()
+            && (this.vehicle != null
+                && this.vehicle.getType() == transportRequest.getVehicleType()
+                || this.vehicle == null)
+        );
+        if (!transportRequestAssignationIsValid) {
+            throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
+        }
         this.transportRequest = transportRequest;
+        transportRequest.setUnavailable();
     }
 
     private boolean isValidSocialInsuranceNumber(String socialInsuranceNumber) {
@@ -117,17 +123,5 @@ public class Driver extends User {
             return LuhnAlgorithm.checkLuhnAlgorithm(digits);
         }
         return false;
-    }
-
-    public void assignTransportRequest(TransportRequest transportRequest) {
-        boolean transportRequestAssignationIsValid = (this.transportRequest == null
-                && transportRequest.isAvailable()
-                && (this.vehicle != null && this.vehicle.getType() ==
-                transportRequest.getVehicleType() || this.vehicle == null));
-        if (!transportRequestAssignationIsValid) {
-            throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
-        }
-        this.transportRequest = transportRequest;
-        transportRequest.setUnavailable();
     }
 }

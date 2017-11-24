@@ -31,7 +31,7 @@ create_driver() {
     "email": "${_email}",
     "socialInsuranceNumber": "${_social_insurance_number}",
     "phoneNumber": "${_phone_number}",
-    "name": "${_first_name}"
+    "firstName": "${_first_name}"
 }
 EOF
 }

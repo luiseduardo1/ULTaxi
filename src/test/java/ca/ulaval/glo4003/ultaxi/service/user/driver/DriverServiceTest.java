@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -32,6 +33,8 @@ public class DriverServiceTest {
     @Mock
     private Driver driver;
     @Mock
+    private Driver driver2;
+    @Mock
     private DriverDto driverDto;
     @Mock
     private DriverAssembler driverAssembler;
@@ -49,19 +52,25 @@ public class DriverServiceTest {
     @Before
     public void setUp() {
         driverService = new DriverService(userRepository, driverAssembler, driverValidator);
+
+        willReturn(driver).given(driverAssembler).create(driverDto);
+        willReturn(driverDto).given(driverAssembler).create(driver);
+        willReturn(driverDto).given(driverAssembler).create(driver2);
+        willReturn("Macdonald").given(driver).getLastName();
+        willReturn(Role.DRIVER).given(driver).getRole();
+        willReturn("Gargamel").given(driver2).getLastName();
+        willReturn(Role.DRIVER).given(driver2).getRole();
     }
 
     @Test
     public void givenADriverWithValidName_whenAddDriver_thenDriverIsAdded() {
-        willReturn(driver).given(driverAssembler).create(driverDto);
-
         driverService.addDriver(driverDto);
 
         verify(userRepository).save(driver);
     }
 
     @Test
-    public void givenADriver_whenAddDriver__thenDriverValidatorIsCalled() {
+    public void givenADriver_whenAddDriver_thenDriverValidatorIsCalled() {
         driverService.addDriver(driverDto);
 
         verify(driverValidator).checkSocialInsuranceNumberExistence(driverDto);
@@ -82,8 +91,7 @@ public class DriverServiceTest {
     public void
     givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
         willReturn("arg").given(driverSearchParameters).getLastName();
-        willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository)
-            .searchDrivers();
+        willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
 
         List<DriverDto> driverDtos = driverService.searchBy(driverSearchParameters);
 
@@ -92,9 +100,8 @@ public class DriverServiceTest {
 
     public Map<String, User> givenDrivers() {
         Map<String, User> drivers = new HashMap<>();
-        drivers.put("1", new Driver("Ronald", "Macdonald", "972487086"));
-        drivers.put("2", new Driver("Marcel", "Lepic", "348624487"));
-        drivers.put("3", new Driver("Lord", "Gargamel", "215136193"));
+        drivers.put("1", driver);
+        drivers.put("2", driver2);
 
         return drivers;
     }

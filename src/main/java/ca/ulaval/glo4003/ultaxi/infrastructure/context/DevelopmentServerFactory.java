@@ -29,12 +29,12 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.JWTTokenManager;
 import ca.ulaval.glo4003.ultaxi.infrastructure.vehicle.VehicleDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.vehicle.VehicleRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
+import ca.ulaval.glo4003.ultaxi.service.user.ClientService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
-import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
@@ -48,16 +48,16 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final VehicleAssembler vehicleAssembler = new VehicleAssembler();
     private final TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
     private final TokenManager tokenManager = new JWTTokenManager();
-    private final UserAssembler userAssembler = new UserAssembler(this.hashingStrategy);
+    private final ClientAssembler clientAssembler = new ClientAssembler(this.hashingStrategy);
     private final DriverAssembler driverAssembler = new DriverAssembler(this.hashingStrategy);
     private final DriverValidator driverValidator = new DriverValidator(userRepository);
     private final DriverService driverService = new DriverService(userRepository, driverAssembler, driverValidator);
-    private final UserService userService;
+    private final ClientService clientService;
     private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-            userAssembler,
-            tokenManager,
-            tokenRepository);
+                                                                                                      clientAssembler,
+                                                                                                      tokenManager,
+                                                                                                      tokenRepository);
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
                                                                      vehicleAssembler,
@@ -69,9 +69,12 @@ public class DevelopmentServerFactory extends ServerFactory {
         EmailSender emailSender = new JavaMailEmailSender(
             MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
-        userService = new UserService(userRepository, userAssembler, messageQueueProducer, emailSender, tokenManager);
-        transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
-                userRepository, userService);
+        clientService = new ClientService(
+            userRepository, clientAssembler, messageQueueProducer, emailSender, userAuthenticationService
+        );
+        transportRequestService = new TransportRequestService(
+            transportRequestRepository, transportRequestAssembler, userRepository, userAuthenticationService
+        );
         setDevelopmentEnvironmentMockData();
     }
 
@@ -97,7 +100,7 @@ public class DevelopmentServerFactory extends ServerFactory {
 
     @Override
     public ServerFactory withUserResource() {
-        resources.add(new UserResourceImpl(userService));
+        resources.add(new UserResourceImpl(clientService));
         return this;
     }
 

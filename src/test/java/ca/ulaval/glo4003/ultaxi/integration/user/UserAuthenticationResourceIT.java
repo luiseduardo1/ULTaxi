@@ -13,6 +13,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
 
     private static final String A_VALID_PASSWORD = "Macdonald";
     private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
+    private static final String A_VALID_PHONE_NUMBER = "418-629-9876";
     private static final String A_DIFFERENT_PASSWORD = "Nadir";
 
     @Test
@@ -67,6 +68,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
         return createSerializedUser(
             generateRandomWord(),
             A_VALID_PASSWORD,
+            A_VALID_PHONE_NUMBER,
             A_VALID_EMAIL
         );
     }
@@ -75,6 +77,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
         return createSerializedUser(
             generateRandomWord(),
             A_DIFFERENT_PASSWORD,
+            A_VALID_PHONE_NUMBER,
             A_VALID_EMAIL
         );
     }

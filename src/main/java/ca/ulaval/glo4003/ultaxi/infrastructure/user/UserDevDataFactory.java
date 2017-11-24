@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.administrator.Administrator;
+import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import jersey.repackaged.com.google.common.collect.Lists;
@@ -15,10 +16,18 @@ import java.util.function.Function;
 
 public class UserDevDataFactory {
 
-    private final Map<Role, Function<HashingStrategy, List<User>>> userTypesByRoles = new HashMap<>();
     private static final int CLIENT_QUANTITY = 2;
     private static final int ADMINISTRATOR_QUANTITY = 1;
     private static final int DRIVER_QUANTITY = 1;
+    private static final String PHONE_NUMBER = "2342355678";
+    private static final String SOCIAL_INSURANCE_NUMBER = "972487086";
+    private static final String USERNAME_SUFFIX = "Username";
+    private static final String PASSWORD_SUFFIX = "Password";
+    private static final String EMAIL_SUFFIX = "@ultaxi.ca";
+    private static final String FIRST_NAME_SUFFIX = "FirstName";
+    private static final String LAST_NAME_SUFFIX = "LastName";
+
+    private final Map<Role, Function<HashingStrategy, List<User>>> userTypesByRoles = new HashMap<>();
 
     public UserDevDataFactory() {
         userTypesByRoles.put(Role.DRIVER, this::createDrivers);
@@ -29,50 +38,15 @@ public class UserDevDataFactory {
     public List<User> createMockData(HashingStrategy hashingStrategy) throws Exception {
         List<User> users = Lists.newArrayList();
         for (Role role : Role.values()) {
-            if (role != Role.ANONYMOUS) {
-                users.addAll(
-                        createGenericRoleUsers(role, hashingStrategy)
-                );
-            }
+            users.addAll(
+                createGenericRoleUsers(role, hashingStrategy)
+            );
         }
         return users;
     }
 
     private List<User> createGenericRoleUsers(Role role, HashingStrategy hashingStrategy) throws Exception {
         return userTypesByRoles.get(role).apply(hashingStrategy);
-    }
-
-    private List<User> createDrivers(HashingStrategy hashingStrategy) {
-        List<User> drivers = new ArrayList<>();
-        for (int i = 0; i <= DRIVER_QUANTITY; i++) {
-            drivers.add(createDriver(hashingStrategy, i));
-        }
-        return drivers;
-    }
-
-    private User createDriver(HashingStrategy hashingStrategy, int driverNumber) {
-        Driver driver = (Driver) updateBaseAttributes(new Driver(), Role.DRIVER,
-                hashingStrategy, String.valueOf(driverNumber));
-        String lowercaseRole = Role.DRIVER.name().toLowerCase();
-        driver.setPhoneNumber("2342355678");
-        driver.setSocialInsuranceNumber("972487086");
-        driver.setLastName(lowercaseRole + "LastName");
-        driver.setName(lowercaseRole + "Name");
-        //Vehicle vehicle = new Car("blue", "tesft", "test");
-        //driver.associateVehicle(vehicle);
-        return driver;
-    }
-
-    private List<User> createClients(HashingStrategy hashingStrategy) {
-        List<User> users = new ArrayList<>();
-        for (int i = 0; i <= CLIENT_QUANTITY; i++) {
-            users.add(createClient(hashingStrategy, i));
-        }
-        return users;
-    }
-
-    private User createClient(HashingStrategy hashingStrategy, int clientNumber) {
-        return updateBaseAttributes(new User(), Role.CLIENT, hashingStrategy, String.valueOf(clientNumber));
     }
 
     private List<User> createAdministrators(HashingStrategy hashingStrategy) {
@@ -83,17 +57,62 @@ public class UserDevDataFactory {
         return users;
     }
 
-    private User createAdministrator(HashingStrategy hashingStrategy, int clientNumber) {
-        return updateBaseAttributes(new Administrator(), Role.ADMINISTRATOR,
-                hashingStrategy, String.valueOf(clientNumber));
+    private List<User> createClients(HashingStrategy hashingStrategy) {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i <= CLIENT_QUANTITY; i++) {
+            users.add(createClient(hashingStrategy, i));
+        }
+        return users;
     }
 
-    private User updateBaseAttributes(User user, Role role, HashingStrategy hashingStrategy, String indexNumber) {
-        String lowercaseRole = role.name().toLowerCase();
-        user.setRole(role);
-        user.setUsername(lowercaseRole + indexNumber + "Username");
-        user.setPassword(lowercaseRole + indexNumber + "Password", hashingStrategy);
-        user.setEmailAddress(lowercaseRole + indexNumber + "@ultaxi.ca");
-        return user;
+    private List<User> createDrivers(HashingStrategy hashingStrategy) {
+        List<User> drivers = new ArrayList<>();
+        for (int i = 0; i <= DRIVER_QUANTITY; i++) {
+            drivers.add(createDriver(hashingStrategy, i));
+        }
+        return drivers;
+    }
+
+    private User createAdministrator(HashingStrategy hashingStrategy, int administratorNumber) {
+        String administratorPrefix = generateUserPrefixString(Role.ADMINISTRATOR, administratorNumber);
+        Administrator administrator = new Administrator(
+            administratorPrefix + USERNAME_SUFFIX,
+            administratorPrefix + PASSWORD_SUFFIX,
+            PHONE_NUMBER,
+            administratorPrefix + EMAIL_SUFFIX,
+            hashingStrategy
+        );
+        return administrator;
+    }
+
+    private User createClient(HashingStrategy hashingStrategy, int clientNumber) {
+        String clientPrefix = generateUserPrefixString(Role.CLIENT, clientNumber);
+        Client client = new Client(
+            clientPrefix + USERNAME_SUFFIX,
+            clientPrefix + PASSWORD_SUFFIX,
+            PHONE_NUMBER,
+            clientPrefix + EMAIL_SUFFIX,
+            hashingStrategy
+        );
+        return client;
+    }
+
+    private User createDriver(HashingStrategy hashingStrategy, int driverNumber) {
+        String driverPrefix = generateUserPrefixString(Role.DRIVER, driverNumber);
+        Driver driver = new Driver(
+            driverPrefix + USERNAME_SUFFIX,
+            driverPrefix + PASSWORD_SUFFIX,
+            PHONE_NUMBER,
+            driverPrefix + EMAIL_SUFFIX,
+            hashingStrategy,
+            driverPrefix + FIRST_NAME_SUFFIX,
+            driverPrefix + LAST_NAME_SUFFIX,
+            SOCIAL_INSURANCE_NUMBER
+        );
+        return driver;
+    }
+
+    private String generateUserPrefixString(Role role, int index) {
+        return role.name().toLowerCase() + String.valueOf(index);
     }
 }

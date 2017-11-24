@@ -1,14 +1,20 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Van;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
+import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,29 +22,42 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-
 @RunWith(MockitoJUnitRunner.class)
 public class DriverTest {
 
-    private Driver driver;
+    private static final String A_USERNAME = "JeffSmith32";
+    private static final String A_PASSWORD = "mystrongpassword";
+    private static final String A_PHONE_NUMBER = "234-235-5678";
+    private static final String AN_EMAIL_ADDRESS = "jeff.smith.32@ulaval.ca";
+    private static final String A_FIRST_NAME = "Jeff";
+    private static final String A_SECOND_NAME = "Smith";
+    private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "972487086";
+
+
+    private static final String A_HASH = RandomStringUtils.randomAlphabetic(10);
+
+    @Mock
+    private HashingStrategy hashingStrategy;
     @Mock
     private Vehicle vehicle;
     @Mock
     private Van van;
 
+    private Driver driver;
     private TransportRequest transportRequest;
 
     @Before
     public void setUp() {
-        driver = new Driver();
+        willReturn(A_HASH).given(hashingStrategy).hashWithRandomSalt(anyString());
+
+        driver = new Driver(A_USERNAME, A_PASSWORD, A_PHONE_NUMBER, AN_EMAIL_ADDRESS, hashingStrategy, A_FIRST_NAME,
+                            A_SECOND_NAME, A_VALID_SOCIAL_INSURANCE_NUMBER);
         transportRequest = new TransportRequest();
     }
 
     @Test
     public void givenValidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
-        String socialInsuranceNumber = "972487086";
+        String socialInsuranceNumber = A_VALID_SOCIAL_INSURANCE_NUMBER;
 
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
 
@@ -100,8 +119,6 @@ public class DriverTest {
     @Test
     public void
     givenANewDriverUser_whenCreateDriver_thenRoleShouldBeADriver() {
-        User driver = new Driver();
-
         assertEquals(driver.getRole(), Role.DRIVER);
     }
 
@@ -154,7 +171,7 @@ public class DriverTest {
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
     public void givenDriverWithTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
-        driver.setTransportRequest(transportRequest);
+        driver.assignTransportRequest(transportRequest);
         driver.assignTransportRequest(transportRequest);
     }
 

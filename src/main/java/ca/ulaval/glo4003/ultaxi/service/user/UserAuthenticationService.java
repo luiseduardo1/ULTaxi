@@ -5,8 +5,8 @@ import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.AuthenticationDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,34 +14,38 @@ import java.util.List;
 
 public class UserAuthenticationService {
 
-    private static final List<String> AUTHENTICATION_SCHEMES = Collections.unmodifiableList(Arrays.asList("Bearer",
-                                                                                                          "Basic",
-                                                                                                          "Digest"));
+    private static final List<String> AUTHENTICATION_SCHEMES = Collections.unmodifiableList(
+        Arrays.asList("Bearer", "Basic", "Digest")
+    );
     private static long HOUR_IN_MILLISECONDS = 3600000;
     private final TokenManager tokenManager;
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
-    private final UserAssembler userAssembler;
+    private final ClientAssembler clientAssembler;
 
-    public UserAuthenticationService(UserRepository userRepository, UserAssembler userAssembler, TokenManager
+    public UserAuthenticationService(UserRepository userRepository, ClientAssembler clientAssembler, TokenManager
         tokenManager, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
-        this.userAssembler = userAssembler;
+        this.clientAssembler = clientAssembler;
         this.tokenManager = tokenManager;
         this.tokenRepository = tokenRepository;
     }
 
-    public String authenticate(UserDto userDto) {
-        User user = userAssembler.create(userDto);
-        User validUser = userRepository.findByUsername(user.getUsername());
-        if (validUser == null || !validUser.areCredentialsValid(user.getUsername(), userDto.getPassword())) {
+    public String authenticate(AuthenticationDto authenticationDto) {
+        User user = userRepository.findByUsername(authenticationDto.getUsername());
+        if (user == null || !user.areValidCredentials(authenticationDto.getUsername(), authenticationDto.getPassword())) {
             throw new InvalidCredentialsException("Credentials are invalid.");
         }
-        return generateToken(validUser.getUsername());
+        return generateToken(user.getUsername());
     }
 
     public void deauthenticate(String token) {
         tokenRepository.delete(tokenManager.getTokenId(extractToken(token)));
+    }
+
+    public User getUserFromToken(String userToken) {
+        String username = tokenManager.getUsername(extractToken(userToken));
+        return userRepository.findByUsername(username);
     }
 
     private String generateToken(String username) {
@@ -60,5 +64,4 @@ public class UserAuthenticationService {
 
         return token;
     }
-
 }

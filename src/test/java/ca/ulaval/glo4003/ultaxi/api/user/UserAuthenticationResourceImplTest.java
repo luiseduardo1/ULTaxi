@@ -1,9 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
-import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +21,7 @@ public class UserAuthenticationResourceImplTest {
     @Mock
     private UserAuthenticationService userAuthenticationService;
     @Mock
-    private UserDto userDto;
+    private ClientDto clientDto;
 
     private UserAuthenticationResource userAuthenticationResource;
 
@@ -34,8 +32,7 @@ public class UserAuthenticationResourceImplTest {
 
     @Test
     public void givenUserWithValidCredentials_whenAuthenticating_thenReturnsOk() {
-
-        Response response = userAuthenticationResource.authenticateUser(userDto);
+        Response response = userAuthenticationResource.authenticateUser(clientDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
