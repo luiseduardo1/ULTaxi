@@ -1,9 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.willReturn;
-
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.Email;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
@@ -18,6 +14,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.util.Properties;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
 
 @RunWith(MockitoJUnitRunner.class)
 public class JavaMailEmailSenderTest {
