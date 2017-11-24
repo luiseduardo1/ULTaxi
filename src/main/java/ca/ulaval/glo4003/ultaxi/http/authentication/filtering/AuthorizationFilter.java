@@ -99,7 +99,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         }
 
         if (checkTokenExistence(token)) {
-            throw new InexistantTokenException("Not a valid token.");
+            throw new InexistantTokenException("Not an existent token.");
         }
     }
 
