@@ -1,30 +1,43 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.BDDMockito.willReturn;
+
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.BDDMockito.willReturn;
+import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserRepositoryInMemoryTest {
 
     private static final String A_USERNAME = "ronald";
+    private static final String A_NAME = "Ronald";
+    private static final String A_LAST_NAME = "Mcdonald";
+    private static final String A_SOCIAL_INSURANCE_NUMBER = "119796274";
     private static final String A_DIFFERENT_CASED_USERNAME = "rOnAld";
     private static final String ORIGINAL_EMAIL_ADDRESS = "ronald.macdonald@ulaval.ca";
     private static final String UPDATED_EMAIL_ADDRESS = "ro.mac@ulaval.ca";
 
     @Mock
     private User user;
+    @Mock
+    private Driver driver;
+    @Mock
+    private DriverSearchParameters driverSearchParameters;
     private UserRepository userRepository;
 
     @Before
@@ -32,6 +45,11 @@ public class UserRepositoryInMemoryTest {
         userRepository = new UserRepositoryInMemory();
 
         willReturn(A_USERNAME).given(user).getUsername();
+        willReturn(A_USERNAME).given(driver).getUsername();
+        willReturn(A_NAME).given(driver).getName();
+        willReturn(A_LAST_NAME).given(driver).getLastName();
+        willReturn(A_SOCIAL_INSURANCE_NUMBER).given(driver).getSocialInsuranceNumber();
+        willReturn(Role.DRIVER).given(driver).getRole();
     }
 
     @Test
@@ -88,5 +106,70 @@ public class UserRepositoryInMemoryTest {
         User updatedUser = userRepository.findByUsername(user.getUsername());
         assertEquals(user.getUsername(), updatedUser.getUsername());
         assertEquals(sameUserWithAnotherEmailAddress.getEmailAddress(), updatedUser.getEmailAddress());
+    }
+
+    @Test
+    public void
+    givenDriverSearchParametersWithExistingUserNameSet_whenSearchingDrivers_thenReturnsTheCorrespondingDrivers() {
+        willReturn("ona").given(driverSearchParameters).getFirstName();
+        userRepository.save(driver);
+
+        List<Driver> searchResults = userRepository
+            .searchDrivers(driverSearchParameters)
+            .getResults();
+
+        assertEquals(1, searchResults.size());
+        assertEquals(driver, searchResults.get(0));
+    }
+
+    @Test
+    public void
+    givenDriverSearchParametersWithExistingLastNameSet_whenSearchingDrivers_thenReturnsTheCorrespondingDrivers() {
+        willReturn("dOna").given(driverSearchParameters).getLastName();
+        userRepository.save(driver);
+
+        List<Driver> searchResults = userRepository
+            .searchDrivers(driverSearchParameters)
+            .getResults();
+
+        assertEquals(1, searchResults.size());
+        assertEquals(driver, searchResults.get(0));
+    }
+
+    @Test
+    public void
+    givenDriverSearchParametersWithExistingSocialAssuranceNumberSet_whenSearchingDrivers_thenReturnsTheCorrespondingDrivers() {
+        willReturn(A_SOCIAL_INSURANCE_NUMBER).given(driverSearchParameters).getSocialInsuranceNumber();
+        userRepository.save(driver);
+
+        List<Driver> searchResults = userRepository
+            .searchDrivers(driverSearchParameters)
+            .getResults();
+
+        assertEquals(1, searchResults.size());
+        assertEquals(driver, searchResults.get(0));
+    }
+
+    @Test
+    public void givenNonSetDriverSearchParameters_whenSearchingDrivers_thenReturnsAllTheDrivers() {
+        userRepository.save(driver);
+
+        List<Driver> searchResults = userRepository
+            .searchDrivers(driverSearchParameters)
+            .getResults();
+
+        assertEquals(1, searchResults.size());
+        assertEquals(driver, searchResults.get(0));
+    }
+
+    @Test(expected = EmptySearchResultsException.class)
+    public void
+    givenDriverSearchParametersWithNoCorrespondingDrivers_whenSearchingDrivers_thenThrowsEmptySearchResultsException() {
+        willReturn("NONEXISTINGNAME").given(driverSearchParameters).getFirstName();
+        userRepository.save(driver);
+
+        userRepository
+            .searchDrivers(driverSearchParameters)
+            .getResults();
     }
 }
