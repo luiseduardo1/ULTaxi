@@ -8,11 +8,8 @@ public class Geolocation {
     private static final double LATITUDE_MAX = 90.0;
     private static final double LONGITUDE_MIN = -180.0;
     private static final double LONGITUDE_MAX = 180.0;
-    private double latitude;
-    private double longitude;
-
-    public Geolocation() {
-    }
+    private final double latitude;
+    private final double longitude;
 
     public Geolocation(double latitude, double longitude) {
         this.latitude = latitude;

@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.administrator.Administrator;
@@ -54,7 +55,8 @@ public class UserDevDataFactory {
         Driver driver = (Driver) updateBaseAttributes(new Driver(), Role.DRIVER,
                 hashingStrategy, String.valueOf(driverNumber));
         String lowercaseRole = Role.DRIVER.name().toLowerCase();
-        driver.setPhoneNumber("2342355678");
+        PhoneNumber phoneNumber = new PhoneNumber("2342355678");
+        driver.setPhoneNumber(phoneNumber);
         driver.setSocialInsuranceNumber("972487086");
         driver.setLastName(lowercaseRole + "LastName");
         driver.setName(lowercaseRole + "Name");
