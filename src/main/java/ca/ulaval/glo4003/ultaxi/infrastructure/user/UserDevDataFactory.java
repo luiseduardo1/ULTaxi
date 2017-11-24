@@ -17,10 +17,7 @@ public class UserDevDataFactory {
 
     private final Map<Role, Function<HashingStrategy, List<User>>> userTypesByRoles = new HashMap<>();
 
-    private CommonUser commonUser;
-
     public UserDevDataFactory() {
-        commonUser = new CommonUser();
         userTypesByRoles.put(Role.DRIVER, this::createDrivers);
         userTypesByRoles.put(Role.CLIENT, this::createClients);
         userTypesByRoles.put(Role.ADMINISTRATOR, this::createAdministrators);
@@ -62,7 +59,6 @@ public class UserDevDataFactory {
     private List<User> createClients(HashingStrategy hashingStrategy) {
         List<User> users = new ArrayList<>();
         users.add(createClient(hashingStrategy));
-        users.add(createUpdatingClient(hashingStrategy));
         return users;
     }
 
@@ -90,12 +86,4 @@ public class UserDevDataFactory {
         return user;
     }
 
-    private User createUpdatingClient(HashingStrategy hashingStrategy) {
-        User user = new User();
-        user.setRole(Role.CLIENT);
-        user.setUsername(commonUser.getUpdatingClientName());
-        user.setPassword(commonUser.getUpdatingClientPassword(), hashingStrategy);
-        user.setEmailAddress(commonUser.getUpdatingClientEmail());
-        return user;
-    }
 }

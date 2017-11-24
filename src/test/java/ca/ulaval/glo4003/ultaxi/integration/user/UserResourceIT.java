@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.integration.user;
 
-import ca.ulaval.glo4003.ultaxi.infrastructure.user.CommonUser;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import com.google.gson.Gson;
@@ -23,8 +22,6 @@ public class UserResourceIT extends IntegrationTest {
     private static final String AN_EMPTY_PASSWORD = "";
     private static final String A_VALID_USER = createSerializedValidUser();
     private static boolean isUserCreated = false;
-
-    private CommonUser commonUser;
 
     @Before
     public void setUp() {
@@ -66,7 +63,6 @@ public class UserResourceIT extends IntegrationTest {
 
     @Test
     public void givenAlreadyExistingUser_whenUpdateClient_thenUserIsUpdated() {
-        authenticateAs(createSerializedClient());
         String serializedUser = createSerializedValidUser();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
@@ -94,7 +90,6 @@ public class UserResourceIT extends IntegrationTest {
 
     @Test
     public void givenAUserWithAnEmptyPassword_whenUpdatingClient_thenReturnsUnauthorized() {
-        authenticateAs(createSerializedClient());
         String serializedUser = createSerializedUserWithEmptyPassword();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
@@ -104,7 +99,6 @@ public class UserResourceIT extends IntegrationTest {
 
     @Test
     public void givenAUserWithAnInvalidEmail_whenUpdatingClient_thenReturnsBadRequest() {
-        authenticateAs(createSerializedClient());
         String serializedUser = createSerializedUserWithInvalidEmail();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
@@ -127,15 +121,6 @@ public class UserResourceIT extends IntegrationTest {
             AN_INVALID_NAME,
             A_VALID_PASSWORD,
             A_VALID_EMAIL
-        );
-    }
-
-    private String createSerializedClient() {
-        commonUser = new CommonUser();
-        return createSerializedUser(
-                commonUser.getUpdatingClientName(),
-                commonUser.getUpdatingClientPassword(),
-                commonUser.getUpdatingClientEmail()
         );
     }
 
