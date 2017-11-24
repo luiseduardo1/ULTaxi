@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.transfer.user.driver.exception;
 
-
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 
 import javax.ws.rs.core.Response;
