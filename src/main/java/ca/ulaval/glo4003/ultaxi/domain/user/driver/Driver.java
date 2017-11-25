@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
@@ -21,9 +22,8 @@ public class Driver extends User {
     private String name;
     private String lastName;
     private SocialInsuranceNumber socialInsuranceNumber;
-
-    private TransportRequest transportRequest;
     private Vehicle vehicle;
+    private String currentTransportRequestId;
 
     public Driver() {
         this.setRole(Role.DRIVER);
@@ -94,23 +94,24 @@ public class Driver extends User {
         vehicle = null;
     }
 
-    public TransportRequest getTransportRequest() {
-        return transportRequest;
+    public String getCurrentTransportRequestId() {
+        if (this.currentTransportRequestId == null) {
+            throw new DriverHasNoTransportRequestAssignedException("This driver don't have a transport request assigned.");
+        }
+        return this.currentTransportRequestId;
     }
 
-    public void setTransportRequest(TransportRequest transportRequest) {
-        this.transportRequest = transportRequest;
-    }
-
-    public void assignTransportRequest(TransportRequest transportRequest) {
-        boolean transportRequestAssignationIsValid = (this.transportRequest == null
+    public void assignTransportRequestId(TransportRequest transportRequest) {
+        boolean transportRequestAssignationIsValid = (
+            this.currentTransportRequestId == null
                 && transportRequest.isAvailable()
                 && (this.vehicle != null && this.vehicle.getType() ==
                 transportRequest.getVehicleType() || this.vehicle == null));
+
         if (!transportRequestAssignationIsValid) {
             throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
         }
-        this.transportRequest = transportRequest;
+        this.currentTransportRequestId = transportRequest.getId();
         transportRequest.setUnavailable();
     }
 }
