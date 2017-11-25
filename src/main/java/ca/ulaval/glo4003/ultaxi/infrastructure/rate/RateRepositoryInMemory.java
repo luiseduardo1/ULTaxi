@@ -36,11 +36,6 @@ public class RateRepositoryInMemory implements RateRepository {
 
     @Override
     public DistanceRate findDistanceRateByVehicleType(VehicleType vehicleType) {
-        if (!ratesByVehicleType.containsKey(vehicleType)) {
-            throw new NonExistentRateException(
-                    String.format("Rate with vehicle type %s don't exist", vehicleType)
-            );
-        }
         return ratesByVehicleType.get(vehicleType);
     }
 

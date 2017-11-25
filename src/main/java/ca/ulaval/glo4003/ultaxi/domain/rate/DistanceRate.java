@@ -21,6 +21,10 @@ public class DistanceRate extends Rate {
         }
     }
 
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
     public VehicleType getVehicleType() {
         return vehicleType;
     }
