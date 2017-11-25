@@ -8,6 +8,7 @@ import javax.ws.rs.ext.Provider;
 import java.util.logging.Logger;
 
 @Provider
+
 public class InvalidCredentialsExceptionMapper implements ExceptionMapper<InvalidCredentialsException> {
 
     private static final Logger logger = Logger.getLogger(InvalidCredentialsException.class.getName());

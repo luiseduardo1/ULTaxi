@@ -21,6 +21,7 @@ public class DriverAssembler {
         driver.setSocialInsuranceNumber(driverDto.getSocialInsuranceNumber());
         PhoneNumber phoneNumber = new PhoneNumber(driverDto.getPhoneNumber());
         driver.setPhoneNumber(phoneNumber);
+        driver.setEmailAddress(driverDto.getEmailAddress());
         return driver;
     }
 
@@ -32,6 +33,7 @@ public class DriverAssembler {
         driverDto.setLastName(driver.getLastName());
         driverDto.setSocialInsuranceNumber(driver.getSocialInsuranceNumber());
         driverDto.setPhoneNumber(driver.getPhoneNumber().getNumber());
+        driverDto.setEmailAddress(driver.getEmailAddress());
         return driverDto;
     }
 }

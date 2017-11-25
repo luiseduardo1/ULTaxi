@@ -8,6 +8,7 @@ public class DriverDto {
     private String password;
     private String phoneNumber;
     private String socialInsuranceNumber;
+    private String emailAddress;
 
     public String getName() {
         return name;
@@ -57,4 +58,11 @@ public class DriverDto {
         this.socialInsuranceNumber = socialInsuranceNumber;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 }
