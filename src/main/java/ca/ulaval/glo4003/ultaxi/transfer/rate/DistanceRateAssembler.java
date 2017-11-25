@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.transfer.rate;
 
 import ca.ulaval.glo4003.ultaxi.domain.rate.DistanceRate;
+import ca.ulaval.glo4003.ultaxi.domain.rate.RateType;
 
 public class DistanceRateAssembler {
 
@@ -8,6 +9,7 @@ public class DistanceRateAssembler {
         DistanceRate distanceRate = new DistanceRate();
         distanceRate.setRate(distanceRateDto.getRate());
         distanceRate.setVehicleType(distanceRateDto.getVehicleType());
+        distanceRate.setRateType(RateType.DISTANCE);
         return distanceRate;
     }
 

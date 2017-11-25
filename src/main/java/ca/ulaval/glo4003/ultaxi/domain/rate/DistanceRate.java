@@ -13,14 +13,6 @@ public class DistanceRate extends Rate {
         vehicleType = VehicleType.CAR;
     }
 
-    public BigDecimal getRate() {
-        return rate;
-    }
-
-    public void setRate(BigDecimal rate) {
-        this.rate = rate;
-    }
-
     public void setVehicleType(String vehicleType) {
         try {
             this.vehicleType = VehicleType.valueOf(vehicleType.toUpperCase().trim());
