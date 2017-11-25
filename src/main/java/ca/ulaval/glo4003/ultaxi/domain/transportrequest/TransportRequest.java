@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 
@@ -13,7 +14,7 @@ public class TransportRequest {
     private Geolocation startingPosition;
     private String note;
     private VehicleType vehicleType;
-    private TransportRequestStatus transportRequestStatus = TransportRequestStatus.PENDING;
+    private TransportRequestStatus status = TransportRequestStatus.PENDING;
 
     public TransportRequest() {
     }
@@ -73,21 +74,31 @@ public class TransportRequest {
     }
 
     public TransportRequestStatus getTransportRequestStatus() {
-        return this.transportRequestStatus;
+        return this.status;
+    }
+
+    public void updateStatus(TransportRequestStatus newStatus) {
+        if (newStatus == TransportRequestStatus.ARRIVED && this.status != TransportRequestStatus.ACCEPTED) {
+            throw new InvalidTransportRequestStatusException(String.format("The status can't be updated to %s when " +
+                                                                               "the actual status is %s.", newStatus,
+                                                                           status));
+        }
+
+        this.status = newStatus;
     }
 
     public boolean isAvailable() {
-        if (this.transportRequestStatus == TransportRequestStatus.PENDING) {
+        if (this.status == TransportRequestStatus.PENDING) {
             return true;
         }
         return false;
     }
 
     public void setAvailable() {
-        this.transportRequestStatus = TransportRequestStatus.PENDING;
+        this.status = TransportRequestStatus.PENDING;
     }
 
     public void setUnavailable() {
-        this.transportRequestStatus = TransportRequestStatus.STARTED;
+        this.status = TransportRequestStatus.ACCEPTED;
     }
 }

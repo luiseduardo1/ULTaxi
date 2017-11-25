@@ -21,6 +21,7 @@ public class DriverResourceIT extends IntegrationTest {
     private static final String AN_INVALID_SOCIAL_INSURANCE_NUMBER = "9724870865";
     private static final String AN_EXISTING_USERNAME = "driverUsername";
     private static final String AN_INVALID_USERNAME = "invalid@invalid.com";
+    private static final String A_VALID_EMAIL = "driver@valid.com";
     private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "450050687";
     private static final String ANOTHER_VALID_SOCIAL_INSURANCE_NUMBER = "046454286";
     private static final String A_VALID_PHONE_NUMBER = "2342355678";
@@ -132,7 +133,8 @@ public class DriverResourceIT extends IntegrationTest {
             A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER,
             A_VALID_PHONE_NUMBER,
             A_VALID_NAME,
-            A_VALID_LAST_NAME
+            A_VALID_LAST_NAME,
+            A_VALID_EMAIL
         );
     }
 
@@ -143,7 +145,8 @@ public class DriverResourceIT extends IntegrationTest {
             socialInsuranceNumber,
             A_VALID_PHONE_NUMBER,
             A_VALID_NAME,
-            A_VALID_LAST_NAME
+            A_VALID_LAST_NAME,
+            A_VALID_EMAIL
         );
     }
 
@@ -154,7 +157,8 @@ public class DriverResourceIT extends IntegrationTest {
             A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER,
             A_VALID_PHONE_NUMBER,
             A_VALID_NAME,
-            A_VALID_LAST_NAME
+            A_VALID_LAST_NAME,
+            A_VALID_EMAIL
         );
     }
 
@@ -165,7 +169,8 @@ public class DriverResourceIT extends IntegrationTest {
             A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER,
             AN_INVALID_PHONE_NUMBER,
             A_VALID_NAME,
-            A_VALID_LAST_NAME
+            A_VALID_LAST_NAME,
+            A_VALID_EMAIL
         );
     }
 

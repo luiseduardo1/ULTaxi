@@ -29,9 +29,9 @@ public final class ULTaxiMain {
             .build()
             .parse(args);
         try {
-            MessagingTaskQueue messageQueue = createMessagingTaskQueue(options);
-            Thread messagingThread = createMessagingThread(options, messageQueue);
-            server = createServer(options, messageQueue);
+            MessagingTaskQueue messagingTaskQueue = createMessagingTaskQueue(options);
+            Thread messagingThread = createMessagingThread(options, messagingTaskQueue);
+            server = createServer(options, messagingTaskQueue);
 
             messagingThread.start();
             server.start();
@@ -40,14 +40,15 @@ public final class ULTaxiMain {
         }
     }
 
-    private static ULTaxiServer createServer(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
-        ServerFactory serverFactory = new DevelopmentServerFactory(options, messageQueue);
+    private static ULTaxiServer createServer(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) throws
+        Exception {
+        ServerFactory serverFactory = new DevelopmentServerFactory(options, messagingTaskQueue);
         return serverFactory.getServer();
     }
 
-    private static Thread createMessagingThread(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws
+    private static Thread createMessagingThread(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) throws
         Exception {
-        return MessagingThreadFactory.getMessagingThread(messageQueue, options);
+        return MessagingThreadFactory.getMessagingThread(messagingTaskQueue, options);
     }
 
     private static MessagingTaskQueue createMessagingTaskQueue(ULTaxiOptions options) {

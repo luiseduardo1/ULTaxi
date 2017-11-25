@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.exception.UnrecoverableSmsS
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import net.jodah.failsafe.Failsafe;
@@ -63,6 +64,7 @@ public class SendDriverHasArrivedSmsTask implements MessagingTask {
             .ofNullable(transportRequestRepository.findById(transportRequestId))
             .map(transportRequest -> userRepository.findByUsername(transportRequest.getClientUsername()))
             .map(User::getPhoneNumber)
+            .map(PhoneNumber::getNumber)
             .orElseThrow(() -> new UnrecoverableSmsSendingFailureException("No transport request/client could be " +
                                                                                "found."));
         Sms sms = new Sms(destinationPhoneNumber, sourcePhoneNumber, SMS_BODY_CONTENT);

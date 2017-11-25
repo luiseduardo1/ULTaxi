@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.integration;
 
+import static io.restassured.RestAssured.given;
+
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
@@ -17,8 +19,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
-
 public abstract class IntegrationTest {
 
     protected static final String API_ROUTE = "/api";
@@ -27,6 +27,7 @@ public abstract class IntegrationTest {
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
     protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";
     protected static final String RATES_ROUTE = API_ROUTE + "/rates";
+    protected static final String DRIVER_HAS_ARRIVED_NOTIFICATION = TRANSPORT_REQUEST_ROUTE + "/notification/arrived";
     protected static final String ASSIGN_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/assign";
     protected static final String SEARCH_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/search";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
@@ -59,15 +60,15 @@ public abstract class IntegrationTest {
         );
     }
 
-    protected Response authenticatedPost(String path, String body) {
+    protected Response authenticatedPost(String path) {
         return executePostRequest(
-            createAuthenticatedRequestSpecification(path, authenticationToken), body
+            createAuthenticatedRequestSpecification(path, authenticationToken)
         );
     }
 
-    protected Response authenticatedPost(String path) {
+    protected Response authenticatedPost(String path, String body) {
         return executePostRequest(
-                createAuthenticatedRequestSpecification(path, authenticationToken)
+            createAuthenticatedRequestSpecification(path, authenticationToken), body
         );
     }
 
@@ -97,14 +98,15 @@ public abstract class IntegrationTest {
         );
     }
 
-    protected Response unauthenticatedGet(String path) {
-        return unauthenticatedGet(path, new HashMap<>());
-    }
-
-
     protected Response unauthenticatedGet(String path, Map<String, ?> queryParameters) {
         return executeGetRequest(
             createBasicRequestSpecification(path), queryParameters
+        );
+    }
+
+    protected Response unauthenticatedGet(String path) {
+        return executeGetRequest(
+            createBasicRequestSpecification(path), new HashMap<>()
         );
     }
 
@@ -118,9 +120,9 @@ public abstract class IntegrationTest {
     protected String createSerializedGenericRoleUser(Role role) {
         String lowercaseRole = role.name().toLowerCase();
         return createSerializedUser(
-                lowercaseRole + "Username",
-                lowercaseRole + "Password",
-                lowercaseRole + "@ultaxi.ca"
+            lowercaseRole + "Username",
+            lowercaseRole + "Password",
+            lowercaseRole + "@ultaxi.ca"
         );
     }
 
@@ -134,7 +136,7 @@ public abstract class IntegrationTest {
     }
 
     protected String createSerializedDriver(String username, String password,
-        String socialInsuranceNumber, String phoneNumber, String name, String lastName) {
+        String socialInsuranceNumber, String phoneNumber, String name, String lastName, String emailAddress) {
         DriverDto driverDto = new DriverDto();
         driverDto.setUsername(username);
         driverDto.setPassword(password);
@@ -142,6 +144,7 @@ public abstract class IntegrationTest {
         driverDto.setPhoneNumber(phoneNumber);
         driverDto.setName(name);
         driverDto.setLastName(lastName);
+        driverDto.setEmailAddress(emailAddress);
 
         return serializeDto(driverDto);
     }

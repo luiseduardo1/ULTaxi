@@ -28,9 +28,19 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Secured({Role.DRIVER})
     public Response searchAvailableTransportRequests(String driverToken) {
         GenericEntity<List<TransportRequestDto>> availableTransportRequests =
-                new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchBy(driverToken)) {};
+            new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchAvailableTransportRequests(
+                driverToken)
+            ) {
+            };
 
         return Response.ok(availableTransportRequests).build();
+    }
+
+    @Override
+    @Secured({Role.DRIVER})
+    public Response notifyHasArrived(String driverToken) {
+        transportRequestService.notifyDriverHasArrived(driverToken);
+        return Response.ok().build();
     }
 
     @Override
