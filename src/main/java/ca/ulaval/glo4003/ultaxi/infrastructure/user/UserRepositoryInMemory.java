@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
+import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQuery;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQuery;
-import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;

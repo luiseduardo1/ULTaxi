@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
-import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import org.junit.Before;
@@ -11,9 +12,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationResourceImplTest {

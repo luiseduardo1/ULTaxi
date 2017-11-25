@@ -1,9 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.integration.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
@@ -97,7 +95,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAnAuthenticatedDriverWithoutVehicleAssociated_whenSearchTransportRequest_thenReturnsBadRequest(){
+    public void givenAnAuthenticatedDriverWithoutVehicleAssociated_whenSearchTransportRequest_thenReturnsBadRequest() {
         String aDriverWithoutTransportRequest = createSerializedDriverWithoutAssignedTransportRequest();
         authenticateAs(aDriverWithoutTransportRequest);
 
@@ -116,7 +114,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAValidTransportRequestId_whenAssignTransportRequest_thenReturnsIsOk(){
+    public void givenAValidTransportRequestId_whenAssignTransportRequest_thenReturnsIsOk() {
         authenticateAs(Role.DRIVER);
         String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;
 
@@ -136,7 +134,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAnInValidTransportRequestId_whenAssignTransportRequest_thenReturnsBadRequest(){
+    public void givenAnInValidTransportRequestId_whenAssignTransportRequest_thenReturnsBadRequest() {
         authenticateAs(Role.DRIVER);
         String transportRequestId = AN_INVALID_TRANSPORT_REQUEST_ID;
 
@@ -146,7 +144,7 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAnAuthenticatedClient_whenAssignTransportRequest_thenReturnsForbidden(){
+    public void givenAnAuthenticatedClient_whenAssignTransportRequest_thenReturnsForbidden() {
         authenticateAs(Role.CLIENT);
         String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;
 
