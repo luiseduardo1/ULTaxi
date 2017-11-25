@@ -14,6 +14,8 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQu
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
+
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
@@ -26,6 +28,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +59,8 @@ public class TransportRequestServiceTest {
     @Mock
     private Driver driver;
     @Mock
+    private Vehicle vehicle;
+    @Mock
     private User user;
 
     private TransportRequestService transportRequestService;
@@ -66,6 +71,7 @@ public class TransportRequestServiceTest {
                                                               userRepository, userService);
         willReturn(driver).given(userService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(user).given(userService).getUserFromToken(A_VALID_TOKEN);
+        willReturn(vehicle).given(driver).getVehicle();
         willReturn(CAR_VEHICULE_TYPE).given(driver).getVehicleType();
     }
 
@@ -100,6 +106,15 @@ public class TransportRequestServiceTest {
             (A_VALID_DRIVER_TOKEN);
 
         assertEquals(2, transportRequestDtos.size());
+    }
+
+    @Test
+    public void givenADriverWithNoVehicle_whenSearching_thenReturnEmptyList(){
+        willReturn(null).given(driver).getVehicle();
+
+        List<TransportRequestDto> transportRequestDtos = transportRequestService.searchBy(A_VALID_DRIVER_TOKEN);
+
+        assertEquals(transportRequestDtos, Collections.emptyList());
     }
 
     private Map<String, TransportRequest> givenTransportRequests() {

@@ -124,7 +124,7 @@ public class DevelopmentServerFactory extends ServerFactory {
     @Override
     public ServerFactory withAuthenticationFilters() {
         requestFilters.add(new AuthenticationFilter(tokenManager));
-        requestFilters.add(new AuthorizationFilter(userRepository, tokenManager));
+        requestFilters.add(new AuthorizationFilter(userRepository, tokenManager, tokenRepository));
         return this;
     }
 
