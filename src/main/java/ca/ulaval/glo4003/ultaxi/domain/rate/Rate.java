@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.domain.rate;
 
 
+import ca.ulaval.glo4003.ultaxi.domain.rate.exception.InvalidRateException;
+
 import java.math.BigDecimal;
 
 public abstract class Rate {
@@ -13,6 +15,9 @@ public abstract class Rate {
     }
 
     public void setRate(BigDecimal rate) {
+        if (!(rate.compareTo(BigDecimal.ZERO) > 0)){
+            throw new InvalidRateException("Rate must be greater than zero");
+        }
         this.rate = rate;
     }
 
