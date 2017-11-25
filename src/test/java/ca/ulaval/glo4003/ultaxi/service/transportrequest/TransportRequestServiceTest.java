@@ -3,9 +3,9 @@ package ca.ulaval.glo4003.ultaxi.service.transportrequest;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.any;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
@@ -21,7 +21,6 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
-
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
@@ -127,14 +126,16 @@ public class TransportRequestServiceTest {
     }
 
     @Test
-    public void givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenTransportRequestStatusIsModified() {
+    public void
+    givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenTransportRequestStatusIsModified() {
         transportRequestService.notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
 
         verify(transportRequest).updateStatus(TransportRequestStatus.ARRIVED);
     }
 
     @Test
-    public void givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenMessagingTaskProducerIsCalled() {
+    public void givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenMessagingTaskProducerIsCalled
+        () {
         transportRequestService.notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
 
         verify(messagingTaskProducer).send(any(MessagingTask.class));

@@ -40,7 +40,8 @@ public final class ULTaxiMain {
         }
     }
 
-    private static ULTaxiServer createServer(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) throws Exception {
+    private static ULTaxiServer createServer(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) throws
+        Exception {
         ServerFactory serverFactory = new DevelopmentServerFactory(options, messagingTaskQueue);
         return serverFactory.getServer();
     }

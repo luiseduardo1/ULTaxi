@@ -3,14 +3,11 @@ package ca.ulaval.glo4003.ultaxi.domain.user;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class User {
 

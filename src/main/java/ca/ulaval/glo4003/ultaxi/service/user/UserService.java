@@ -18,12 +18,10 @@ import java.util.logging.Logger;
 
 public class UserService {
 
-    private final Logger logger = Logger.getLogger(UserService.class.getName());
-
     private static final List<String> AUTHENTICATION_SCHEMES = Collections.unmodifiableList(Arrays.asList("Bearer",
-            "Basic",
-            "Digest"));
-
+                                                                                                          "Basic",
+                                                                                                          "Digest"));
+    private final Logger logger = Logger.getLogger(UserService.class.getName());
     private final UserRepository userRepository;
     private final UserAssembler userAssembler;
     private final MessagingTaskProducer messagingTaskProducer;
@@ -31,8 +29,8 @@ public class UserService {
     private final TokenManager tokenManager;
 
     public UserService(UserRepository userRepository, UserAssembler userAssembler,
-                       MessagingTaskProducer messagingTaskProducer, EmailSender emailSender,
-                       TokenManager tokenManager) {
+        MessagingTaskProducer messagingTaskProducer, EmailSender emailSender,
+        TokenManager tokenManager) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
         this.messagingTaskProducer = messagingTaskProducer;
@@ -47,7 +45,7 @@ public class UserService {
         userRepository.save(user);
 
         MessagingTask messagingTask = new SendRegistrationEmailTask(user.getEmailAddress(), user.getUsername(),
-                emailSender);
+                                                                    emailSender);
         messagingTaskProducer.send(messagingTask);
     }
 

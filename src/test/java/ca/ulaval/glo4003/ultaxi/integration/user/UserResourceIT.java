@@ -23,6 +23,16 @@ public class UserResourceIT extends IntegrationTest {
     private static final String A_VALID_USER = createSerializedValidUser();
     private static boolean isUserCreated = false;
 
+    private static String createSerializedValidUser() {
+        UserDto user = new UserDto();
+        user.setUsername(RandomStringUtils.randomAlphabetic(20));
+        user.setPassword(A_VALID_PASSWORD);
+        user.setEmail(A_VALID_EMAIL);
+        Gson gson = new Gson();
+
+        return gson.toJson(user);
+    }
+
     @Before
     public void setUp() {
         if (!isUserCreated) {
@@ -104,16 +114,6 @@ public class UserResourceIT extends IntegrationTest {
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
-    }
-
-    private static String createSerializedValidUser() {
-        UserDto user = new UserDto();
-        user.setUsername(RandomStringUtils.randomAlphabetic(20));
-        user.setPassword(A_VALID_PASSWORD);
-        user.setEmail(A_VALID_EMAIL);
-        Gson gson = new Gson();
-
-        return gson.toJson(user);
     }
 
     private String createSerializedUserWithInvalidName() {

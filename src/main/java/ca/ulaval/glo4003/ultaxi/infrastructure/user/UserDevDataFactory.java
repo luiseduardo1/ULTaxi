@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.administrator.Administrator;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -29,7 +30,7 @@ public class UserDevDataFactory {
         for (Role role : Role.values()) {
             if (role != Role.ANONYMOUS) {
                 users.addAll(
-                        createGenericRoleUsers(role, hashingStrategy)
+                    createGenericRoleUsers(role, hashingStrategy)
                 );
             }
         }
@@ -48,11 +49,12 @@ public class UserDevDataFactory {
 
     private User createDriver(HashingStrategy hashingStrategy) {
         Driver driver = (Driver) updateBaseAttributes(new Driver(), Role.DRIVER,
-                hashingStrategy);
+                                                      hashingStrategy);
         String lowercaseRole = Role.DRIVER.name().toLowerCase();
+        SocialInsuranceNumber socialInsuranceNumber = new SocialInsuranceNumber("972487086");
+        driver.setSocialInsuranceNumber(socialInsuranceNumber);
         PhoneNumber phoneNumber = new PhoneNumber("2342355678");
         driver.setPhoneNumber(phoneNumber);
-        driver.setSocialInsuranceNumber("972487086");
         driver.setLastName(lowercaseRole + "LastName");
         driver.setName(lowercaseRole + "Name");
         return driver;
@@ -76,7 +78,7 @@ public class UserDevDataFactory {
 
     private User createAdministrator(HashingStrategy hashingStrategy) {
         return updateBaseAttributes(new Administrator(), Role.ADMINISTRATOR,
-                hashingStrategy);
+                                    hashingStrategy);
     }
 
     private User updateBaseAttributes(User user, Role role, HashingStrategy hashingStrategy) {

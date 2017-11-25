@@ -1,9 +1,11 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest;
 
+import static org.junit.Assert.assertEquals;
+
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
-import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +13,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
 
 public class TransportRequestSearchQueryBuilderInMemoryTest {
 

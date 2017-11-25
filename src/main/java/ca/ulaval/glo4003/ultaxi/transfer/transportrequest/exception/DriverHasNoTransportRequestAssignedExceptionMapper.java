@@ -8,7 +8,8 @@ import javax.ws.rs.ext.Provider;
 import java.util.logging.Logger;
 
 @Provider
-public class DriverHasNoTransportRequestAssignedExceptionMapper implements ExceptionMapper<DriverHasNoTransportRequestAssignedException> {
+public class DriverHasNoTransportRequestAssignedExceptionMapper implements
+    ExceptionMapper<DriverHasNoTransportRequestAssignedException> {
 
     private static final Logger logger = Logger.getLogger(DriverHasNoTransportRequestAssignedException.class.getName());
 
