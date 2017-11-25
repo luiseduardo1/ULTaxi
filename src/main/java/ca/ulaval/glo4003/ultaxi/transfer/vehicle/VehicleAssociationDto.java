@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.ultaxi.transfer.vehicle;
 
 public class VehicleAssociationDto {
 
-    public String registrationNumber;
-    public String username;
+    private String registrationNumber;
+    private String username;
 
     public String getRegistrationNumber() {
         return registrationNumber;

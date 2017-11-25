@@ -39,12 +39,12 @@ public class VehicleRepositoryInMemory implements VehicleRepository {
     }
 
     @Override
-    public void put(Vehicle vehicle) {
+    public void update(Vehicle vehicle) {
         String registrationNumber = vehicle.getRegistrationNumber();
         if (findByRegistrationNumber(registrationNumber) == null) {
             throw new NonExistentVehicleException(
                 String.format("Vehicle with the registration number %s don't" +
-                    " exists.", registrationNumber)
+                                  " exists.", registrationNumber)
             );
         }
         vehicles.put(registrationNumber, vehicle);

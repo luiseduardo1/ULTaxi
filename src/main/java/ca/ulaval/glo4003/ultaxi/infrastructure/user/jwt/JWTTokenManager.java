@@ -24,7 +24,6 @@ public class JWTTokenManager implements TokenManager {
 
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
-
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 

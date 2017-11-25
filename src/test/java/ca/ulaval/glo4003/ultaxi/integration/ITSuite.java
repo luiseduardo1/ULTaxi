@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.integration;
 
 import ca.ulaval.glo4003.ULTaxiMain;
+import ca.ulaval.glo4003.ultaxi.integration.rate.RateResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.transportrequest.TransportRequestResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.user.UserAuthenticationResourceIT;
 import ca.ulaval.glo4003.ultaxi.integration.user.UserResourceIT;
@@ -18,11 +19,12 @@ import org.junit.runners.Suite;
     UserResourceIT.class,
     TransportRequestResourceIT.class,
     VehicleResourceIT.class,
-    DriverResourceIT.class
+    DriverResourceIT.class,
+    RateResourceIT.class
 })
 public class ITSuite {
 
-    private static final String[] ARGUMENTS = {"--development"};
+    private static final String[] ARGUMENTS = {"--server-port=8080"};
 
     @BeforeClass
     public static void setUpBaseServer() throws Exception {

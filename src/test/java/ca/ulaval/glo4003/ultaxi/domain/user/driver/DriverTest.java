@@ -1,108 +1,46 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
+import ca.ulaval.glo4003.ultaxi.domain.user.User;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.Van;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverTest {
 
     private Driver driver;
+    @Mock
+    private Vehicle vehicle;
+    @Mock
+    private Van van;
+
+    private TransportRequest transportRequest;
 
     @Before
     public void setUp() {
         driver = new Driver();
+        transportRequest = new TransportRequest();
     }
 
     @Test
-    public void givenOnlyNumbersPhoneNumber_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "2342355678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithParenthesis_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "(234)2355678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithDashes_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "234-235-5678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithSpaces_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "234 235 5678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithDots_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "234.235.5678";
-
-        driver.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(driver.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithInvalidCentralOffice_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "314 159 2653";
-
-        driver.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithInvalidNumberingPlanArea_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException
-        () {
-        String phoneNumber = "123 234 5678";
-
-        driver.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithAlphaNumericalCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException
-        () {
-        String phoneNumber = "1b3 2z4 56a8";
-
-        driver.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithSpecialCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "1!3 2?4 56!8";
-
-        driver.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberTooLong_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "234 235 56784";
-
-        driver.setPhoneNumber(phoneNumber);
-    }
-
-    @Test
-    public void givenValidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
-        String socialInsuranceNumber = "972487086";
+    public void givenValidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenSocialInsuranceNumberIsAssigned() {
+        String number = "972487086";
+        SocialInsuranceNumber socialInsuranceNumber = new SocialInsuranceNumber(number);
 
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
 
@@ -111,54 +49,74 @@ public class DriverTest {
 
     @Test
     public void
-    givenValidSocialInsuranceNumberWithDashes_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
-        String socialInsuranceNumber = "972-487-086";
+    givenANewDriverUser_whenCreateDriver_thenRoleShouldBeADriver() {
+        User driver = new Driver();
 
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-
-        Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
-    }
-
-    @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void
-    givenSocialInsuranceNumberWithTooManyDigits_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-        String socialInsuranceNumber = "9724870865";
-
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
+        assertEquals(driver.getRole(), Role.DRIVER);
     }
 
     @Test
-    public void
-    givenValidSocialInsuranceNumberWithEmptySpace_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
-        String socialInsuranceNumber = "972 487 086";
+    public void givenADriverWithNoVehicleAssociated_whenAssociatingVehicle_thenVehicleIsAssociated() {
+        driver.associateVehicle(vehicle);
 
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-
-        Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
+        verify(vehicle).associateDriver(driver);
     }
 
-    @Test(expected = InvalidSocialInsuranceNumberException.class)
+    @Test(expected = InvalidVehicleAssociationException.class)
     public void
-    givenInvalidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-        String socialInsuranceNumber = "234154346";
+    givenADriverWithAVehicleAssociated_whenAssociatingVehicle_thenThrowsInvalidVehicleAssociationException() {
+        driver.associateVehicle(vehicle);
 
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
+        driver.associateVehicle(vehicle);
     }
 
-    @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void
-    givenSocialInsuranceNumberWithSpecialCharacters_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-        String socialInsuranceNumber = "1!3 2?4 56!8";
-
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
+    @Test(expected = InvalidVehicleAssociationException.class)
+    public void givenNullVehicle_whenAssociatingVehicle_thenThrowsInvalidVehicleAssociationException() {
+        driver.associateVehicle(null);
     }
 
-    @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void
-    givenValidSocialInsuranceNumberWithDots_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-        String socialInsuranceNumber = "972.487.086";
+    @Test
+    public void givenADriverWithAVehicleAssociated_whenDissociatingVehicle_thenVehicleIsDissociated() {
+        driver.associateVehicle(vehicle);
 
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
+        driver.dissociateVehicle();
+
+        verify(vehicle).dissociateDriver();
     }
 
+    @Test(expected = InvalidVehicleDissociationException.class)
+    public void givenADriverWithNoVehicleAssociated_whenDissociatingVehicle_thenThrowsInvalidAssociationException() {
+        driver.dissociateVehicle();
+    }
+
+    @Test(expected = DriverHasNoTransportRequestAssignedException.class)
+    public void givenADriverWithNoTransportRequestAssigned_whenGetCurrentTransportRequestId_thenThrowsException() {
+        driver.getCurrentTransportRequestId();
+    }
+
+    @Test
+    public void givenValidTransportRequest_whenAssignTransportRequest_thenNoExceptionIsThrown() {
+        driver.associateVehicle(vehicle);
+
+        driver.assignTransportRequestId(transportRequest);
+    }
+
+    @Test(expected = InvalidTransportRequestAssignationException.class)
+    public void givenUnavailableTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
+        transportRequest.setUnavailable();
+        driver.assignTransportRequestId(transportRequest);
+    }
+
+    @Test(expected = InvalidTransportRequestAssignationException.class)
+    public void givenDriverWithTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
+        driver.assignTransportRequestId(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
+    }
+
+    @Test(expected = InvalidTransportRequestAssignationException.class)
+    public void givenInvalidDriverVehicleType_whenAssignTransportRequestId_thenExceptionIsThrown() {
+        transportRequest.setVehicleType("car");
+        driver.associateVehicle(van);
+        driver.assignTransportRequestId(transportRequest);
+    }
 }

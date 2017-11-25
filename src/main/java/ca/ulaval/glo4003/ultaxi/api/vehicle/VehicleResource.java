@@ -26,9 +26,7 @@ public interface VehicleResource {
     Response associateVehicle(VehicleAssociationDto vehicleAssociationDto);
 
     @POST
-    @Path("/disassociate")
-    @Consumes(MediaType.APPLICATION_JSON)
-    Response dissociateVehicle(VehicleAssociationDto vehicleAssociationDto);
-
-
+    @Path("/dissociate")
+    @Consumes(MediaType.WILDCARD)
+    Response dissociateVehicle(String username);
 }

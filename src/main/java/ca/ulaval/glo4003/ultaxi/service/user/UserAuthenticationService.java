@@ -44,11 +44,6 @@ public class UserAuthenticationService {
         tokenRepository.delete(tokenManager.getTokenId(extractToken(token)));
     }
 
-    public User authenticateFromToken(String token) {
-        String username = tokenManager.getUsername(extractToken(token));
-        return userRepository.findByUsername(username);
-    }
-
     private String generateToken(String username) {
         String token = tokenManager.createToken(username, HOUR_IN_MILLISECONDS);
         tokenRepository.save(tokenManager.getTokenId(token), token);

@@ -1,21 +1,22 @@
 package ca.ulaval.glo4003.ultaxi.domain.user;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyString;
+
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.anyString;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserTest {
@@ -27,8 +28,10 @@ public class UserTest {
     private static final String AN_INVALID_NAME = "      \t";
     private static final String AN_INVALID_PASSWORD = "    \t";
     private static final String A_HASH = RandomStringUtils.randomAlphabetic(10);
+
     @Mock
     private HashingStrategy hashingStrategy;
+
     private User user;
 
     @Before
@@ -93,4 +96,15 @@ public class UserTest {
     public void givenAUserAndNullCredentials_whenCheckingIfTheCredentialsAreValid_thenReturnsFalse() {
         assertFalse(user.areCredentialsValid(null, null));
     }
+
+    @Test
+    public void givenAValidPhoneNumber_whenSetPhoneNumber_thenPhoneNumberIsAssigned() {
+        String number = "2342355678";
+        PhoneNumber phoneNumber = new PhoneNumber(number);
+
+        user.setPhoneNumber(phoneNumber);
+
+        Assert.assertEquals(user.getPhoneNumber(), phoneNumber);
+    }
+
 }

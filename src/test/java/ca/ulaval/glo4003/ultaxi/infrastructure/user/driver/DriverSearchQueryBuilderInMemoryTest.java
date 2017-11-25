@@ -2,10 +2,11 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.user.driver;
 
 import static org.junit.Assert.assertEquals;
 
+import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +26,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
     @Test
     public void givenSomeDriversNoFilter_whenFindingAll_thenReturnsAllTheDrivers() {
-        List<Driver> foundDrivers = driverSearchQueryBuilder.findAll();
+        List<Driver> foundDrivers = driverSearchQueryBuilder.build().execute().getResults();
 
         assertEquals(UNFILTERED_NUMBER_OF_DRIVERS, foundDrivers.size());
     }
@@ -34,19 +35,35 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenFilterWithNoCorrespondingDriver_whenFindingAll_thenThrowsEmptySearchResultsException() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withFirstName("beetlejuice");
 
-        searchDriver.findAll();
+        searchDriver.build().execute();
+    }
+
+    @Test
+    public void givenFilterWithCapitalLetters_whenFindingAll_thenReturnsCorrectDriver() {
+        DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withLastName("MaC");
+
+        List<Driver> foundDrivers = searchDriver.build().execute().getResults();
+        Driver foundDriver = foundDrivers.get(0);
+
+        Driver expectedDriver = (Driver) aDriver();
+        assertEquals(1, foundDrivers.size());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber()
+            .getNumber());
+        assertEquals(expectedDriver.getName(), foundDriver.getName());
+        assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
 
     @Test
     public void givenSomeDriversAndAFirstNameFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withFirstName("onal");
 
-        List<Driver> foundDrivers = searchDriver.findAll();
+        List<Driver> foundDrivers = searchDriver.build().execute().getResults();
         Driver foundDriver = foundDrivers.get(0);
 
         Driver expectedDriver = (Driver) aDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber()
+            .getNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
@@ -55,12 +72,13 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenSomeDriversAndALastNameFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withLastName("rgam");
 
-        List<Driver> foundDrivers = searchDriver.findAll();
+        List<Driver> foundDrivers = searchDriver.build().execute().getResults();
         Driver foundDriver = foundDrivers.get(0);
 
         Driver expectedDriver = (Driver) aThirdDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber()
+            .getNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
@@ -69,12 +87,13 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenSomeDriversAndASocialInsuranceNumberFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withSocialInsuranceNumber("348624487");
 
-        List<Driver> foundDrivers = searchDriver.findAll();
+        List<Driver> foundDrivers = searchDriver.build().execute().getResults();
         Driver foundDriver = foundDrivers.get(0);
 
         Driver expectedDriver = (Driver) anotherDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber(), foundDriver.getSocialInsuranceNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber()
+            .getNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
@@ -89,14 +108,14 @@ public class DriverSearchQueryBuilderInMemoryTest {
     }
 
     private User aDriver() {
-        return new Driver("Ronald", "Macdonald", "972487086");
+        return new Driver("Ronald", "Macdonald", new SocialInsuranceNumber("972487086"));
     }
 
     private User anotherDriver() {
-        return new Driver("Marcel", "Lepic", "348624487");
+        return new Driver("Marcel", "Lepic", new SocialInsuranceNumber("348624487"));
     }
 
     private User aThirdDriver() {
-        return new Driver("Lord", "Gargamel", "215136193");
+        return new Driver("Lord", "Gargamel", new SocialInsuranceNumber("215136193"));
     }
 }

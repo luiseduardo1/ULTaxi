@@ -16,10 +16,10 @@ public abstract class ServerFactory {
     protected final Set<ContainerRequestFilter> requestFilters = new HashSet<>();
     protected HashingStrategy hashingStrategy = new BcryptHashing();
     protected ULTaxiOptions options;
-    protected MessagingTaskProducer messageQueueProducer;
+    protected MessagingTaskProducer messagingTaskProducer;
 
-    public ServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) {
-        this.messageQueueProducer = new MessagingTaskProducerImpl(messageQueue);
+    public ServerFactory(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) {
+        this.messagingTaskProducer = new MessagingTaskProducerImpl(messagingTaskQueue);
         this.options = options;
     }
 
@@ -35,6 +35,8 @@ public abstract class ServerFactory {
 
     protected abstract ServerFactory withVehicleResource();
 
+    protected abstract ServerFactory withRateResource();
+
     public ULTaxiServer getServer() throws Exception {
         return this
             .withAuthenticationFilters()
@@ -43,6 +45,7 @@ public abstract class ServerFactory {
             .withDriverResource()
             .withTransportRequestResource()
             .withUserAuthenticationResource()
+            .withRateResource()
             .createServer();
     }
 

@@ -20,8 +20,8 @@ public interface UserResource {
     Response createUser(UserDto userDto);
 
     @PUT
-    @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Role.ADMINISTRATOR, Role.CLIENT, Role.DRIVER})
-    Response updateUser(@HeaderParam(value = "Authorization") String userToken, UserDto userDto);
+    @Secured(Role.CLIENT)
+    Response updateClient(@HeaderParam(value = "Authorization") String clientToken, UserDto userDto);
+
 }

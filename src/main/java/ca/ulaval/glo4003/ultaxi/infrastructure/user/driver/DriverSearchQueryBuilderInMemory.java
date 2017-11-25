@@ -1,13 +1,13 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user.driver;
 
+import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
+import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQuery;
+import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -24,26 +24,8 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
     }
 
     @Override
-    public List<Driver> findAll() {
-        Stream<Driver> drivers = users
-            .values()
-            .stream()
-            .filter(user -> user.getRole() == Role.DRIVER)
-            .map(user -> (Driver) user);
-        return throwIfEmptySearchResults(
-            predicates
-                .stream()
-                .reduce(drivers, Stream::filter, (x, y) -> y)
-                .collect(Collectors.toList())
-        );
-    }
-
-    private List<Driver> throwIfEmptySearchResults(List<Driver> searchResults) {
-        if (searchResults == null || searchResults.isEmpty()) {
-            throw new EmptySearchResultsException("No search results.");
-        }
-
-        return searchResults;
+    public DriverSearchQuery build() {
+        return new DriverSearchQueryInMemory(users, predicates);
     }
 
     @Override
@@ -58,7 +40,8 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
 
     @Override
     public DriverSearchQueryBuilder withSocialInsuranceNumber(String socialInsuranceNumber) {
-        return withNonNull(driver -> driver.getSocialInsuranceNumber().equals(socialInsuranceNumber.trim()),
+        return withNonNull(driver -> (driver.getSocialInsuranceNumber().getNumber()).equals(socialInsuranceNumber
+                                                                                                .trim()),
                            socialInsuranceNumber);
     }
 
@@ -71,6 +54,32 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
     }
 
     private boolean isSubsetOf(String value, String subset) {
-        return value.contains(subset.toLowerCase().trim());
+        return value != null && value.toLowerCase().trim().contains(subset.toLowerCase().trim());
+    }
+
+    private class DriverSearchQueryInMemory implements DriverSearchQuery {
+
+        private final Set<Predicate<Driver>> predicates;
+        private final Map<String, User> users;
+
+        private DriverSearchQueryInMemory(Map<String, User> users, Set<Predicate<Driver>> predicates) {
+            this.users = users;
+            this.predicates = predicates;
+        }
+
+        @Override
+        public SearchResults<Driver> execute() {
+            Stream<Driver> drivers = users
+                .values()
+                .stream()
+                .filter(user -> Role.DRIVER == user.getRole())
+                .map(user -> (Driver) user);
+            return new SearchResults<>(
+                predicates
+                    .stream()
+                    .reduce(drivers, Stream::filter, (x, y) -> y)
+                    .collect(Collectors.toList())
+            );
+        }
     }
 }

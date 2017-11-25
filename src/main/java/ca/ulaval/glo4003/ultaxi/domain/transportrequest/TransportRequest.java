@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 
@@ -8,12 +9,12 @@ import java.util.UUID;
 
 public class TransportRequest {
 
-    private final String id = UUID.randomUUID().toString();
+    private String id = UUID.randomUUID().toString();
     private String clientUsername;
     private Geolocation startingPosition;
     private String note;
     private VehicleType vehicleType;
-    private TransportRequestStatus transportRequestStatus = TransportRequestStatus.PENDING;
+    private TransportRequestStatus status = TransportRequestStatus.PENDING;
 
     public TransportRequest() {
     }
@@ -45,6 +46,10 @@ public class TransportRequest {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getNote() {
         return note;
     }
@@ -69,11 +74,31 @@ public class TransportRequest {
     }
 
     public TransportRequestStatus getTransportRequestStatus() {
-        return this.transportRequestStatus;
+        return this.status;
     }
 
-    public void setTransportRequestStatus(TransportRequestStatus transportRequestStatus) {
-        this.transportRequestStatus = transportRequestStatus;
+    public void updateStatus(TransportRequestStatus newStatus) {
+        if (newStatus == TransportRequestStatus.ARRIVED && this.status != TransportRequestStatus.ACCEPTED) {
+            throw new InvalidTransportRequestStatusException(String.format("The status can't be updated to %s when " +
+                                                                               "the actual status is %s.", newStatus,
+                                                                           status));
+        }
+
+        this.status = newStatus;
     }
 
+    public boolean isAvailable() {
+        if (this.status == TransportRequestStatus.PENDING) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setAvailable() {
+        this.status = TransportRequestStatus.PENDING;
+    }
+
+    public void setUnavailable() {
+        this.status = TransportRequestStatus.ACCEPTED;
+    }
 }

@@ -1,11 +1,14 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
+import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQuery;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
+import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,27 +28,33 @@ public class UserRepositoryInMemory implements UserRepository {
 
     @Override
     public void save(User user) {
-        String name = user.getUsername();
-        if (users.containsKey(name)) {
+        String username = user.getUsername();
+        if (users.containsKey(username)) {
             throw new UserAlreadyExistsException(
-                String.format("User with userName %s already exists.", name)
+                String.format("User with userName %s already exists.", username)
             );
         }
-        users.put(name, user);
+        users.put(username, user);
     }
 
     @Override
-    public void put(User user) {
-        String name = user.getUsername();
-        if (!users.containsKey(name)) {
+    public void update(User user) {
+        String username = user.getUsername();
+        if (!users.containsKey(username)) {
             throw new NonExistentUserException(String.format("User with userName %s don't exist",
-                name));
+                                                             username));
         }
-        users.put(name, user);
+        users.put(username, user);
     }
 
     @Override
-    public DriverSearchQueryBuilder searchDrivers() {
-        return new DriverSearchQueryBuilderInMemory(users);
+    public SearchResults<Driver> searchDrivers(DriverSearchParameters driverSearchParameters) {
+        DriverSearchQuery query = new DriverSearchQueryBuilderInMemory(users)
+            .withFirstName(driverSearchParameters.getFirstName())
+            .withLastName(driverSearchParameters.getLastName())
+            .withSocialInsuranceNumber(driverSearchParameters.getSocialInsuranceNumber())
+            .build();
+
+        return query.execute();
     }
 }

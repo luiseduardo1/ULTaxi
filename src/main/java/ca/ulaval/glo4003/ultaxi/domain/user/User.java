@@ -13,6 +13,7 @@ public class User {
 
     private String username;
     private String password;
+    private PhoneNumber phoneNumber;
     private Role role;
     private String emailAddress;
     private HashingStrategy hashingStrategy;
@@ -61,7 +62,7 @@ public class User {
     public void setEmailAddress(String emailAddress) {
         if (!isValidEmailAddress(emailAddress)) {
             throw new InvalidEmailAddressException(
-                    String.format("%s is not a valid email address", emailAddress)
+                String.format("%s is not a valid email address", emailAddress)
             );
         }
         this.emailAddress = emailAddress;
@@ -83,6 +84,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public PhoneNumber getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(PhoneNumber phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public boolean areCredentialsValid(String username, String plainTextPassword) {
