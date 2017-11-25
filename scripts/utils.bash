@@ -28,7 +28,7 @@ create_driver() {
     "lastName": "${_last_name}",
     "username": "${_username}",
     "password": "${_password}",
-    "email": "${_email}",
+    "emailAddress": "${_email}",
     "socialInsuranceNumber": "${_social_insurance_number}",
     "phoneNumber": "${_phone_number}",
     "name": "${_first_name}"
