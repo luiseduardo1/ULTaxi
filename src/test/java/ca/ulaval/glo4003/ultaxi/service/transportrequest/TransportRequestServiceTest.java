@@ -19,6 +19,8 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
+
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
@@ -64,6 +66,8 @@ public class TransportRequestServiceTest {
     @Mock
     private Driver driver;
     @Mock
+    private Vehicle vehicle;
+    @Mock
     private User user;
 
     private TransportRequestService transportRequestService;
@@ -77,6 +81,7 @@ public class TransportRequestServiceTest {
         willReturn(user).given(userService).getUserFromToken(A_VALID_TOKEN);
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();
         willReturn(user).given(userRepository).findByUsername(A_USERNAME);
+        willReturn(vehicle).given(driver).getVehicle();
         willReturn(CAR_VEHICULE_TYPE).given(driver).getVehicleType();
         willReturn(A_TRANSPORT_REQUEST_ID).given(driver).getCurrentTransportRequestId();
         willReturn(transportRequest).given(transportRequestRepository).findById(A_TRANSPORT_REQUEST_ID);

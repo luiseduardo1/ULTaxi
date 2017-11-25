@@ -10,11 +10,11 @@ import java.util.List;
 public class TransportRequestDevDataFactory {
 
     public List<TransportRequest> createMockData() {
-        List<TransportRequest> transportRequests = Lists.newArrayList();
 
         Geolocation startingPosition = new Geolocation(38.1223, 43.2332);
         TransportRequest transportRequest = new TransportRequest("Johny", startingPosition, "A dev transport request", VehicleType.LIMOUSINE);
         transportRequest.setId("1");
+        List<TransportRequest> transportRequests = Lists.newArrayList();
         transportRequests.add(transportRequest);
 
         return transportRequests;
