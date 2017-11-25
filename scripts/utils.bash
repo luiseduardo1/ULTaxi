@@ -10,7 +10,7 @@ create_user() {
 {
     "username": "${_username}",
     "password": "${_password}",
-    "emailAddress": "${_email}"
+    "email": "${_email}"
 }
 EOF
 }
