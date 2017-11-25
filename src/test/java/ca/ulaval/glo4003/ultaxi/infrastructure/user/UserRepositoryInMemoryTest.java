@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.willReturn;
 
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -38,6 +39,9 @@ public class UserRepositoryInMemoryTest {
     private Driver driver;
     @Mock
     private DriverSearchParameters driverSearchParameters;
+    @Mock
+    private SocialInsuranceNumber socialInsuranceNumber;
+
     private UserRepository userRepository;
 
     @Before
@@ -48,7 +52,8 @@ public class UserRepositoryInMemoryTest {
         willReturn(A_USERNAME).given(driver).getUsername();
         willReturn(A_NAME).given(driver).getName();
         willReturn(A_LAST_NAME).given(driver).getLastName();
-        willReturn(A_SOCIAL_INSURANCE_NUMBER).given(driver).getSocialInsuranceNumber();
+        willReturn(socialInsuranceNumber).given(driver).getSocialInsuranceNumber();
+        willReturn(A_SOCIAL_INSURANCE_NUMBER).given(socialInsuranceNumber).getNumber();
         willReturn(Role.DRIVER).given(driver).getRole();
     }
 

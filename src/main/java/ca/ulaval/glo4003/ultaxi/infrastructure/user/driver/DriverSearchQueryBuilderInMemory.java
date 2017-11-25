@@ -23,6 +23,40 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
         this.users = users;
     }
 
+    @Override
+    public DriverSearchQuery build() {
+        return new DriverSearchQueryInMemory(users, predicates);
+    }
+
+    @Override
+    public DriverSearchQueryBuilder withFirstName(String firstName) {
+        return withNonNull(driver -> isSubsetOf(driver.getName(), firstName), firstName);
+    }
+
+    @Override
+    public DriverSearchQueryBuilder withLastName(String lastName) {
+        return withNonNull(driver -> isSubsetOf(driver.getLastName(), lastName), lastName);
+    }
+
+    @Override
+    public DriverSearchQueryBuilder withSocialInsuranceNumber(String socialInsuranceNumber) {
+        return withNonNull(driver -> (driver.getSocialInsuranceNumber().getNumber()).equals(socialInsuranceNumber
+                                                                                                .trim()),
+                           socialInsuranceNumber);
+    }
+
+    private DriverSearchQueryBuilder withNonNull(Predicate<Driver> predicate, String value) {
+        if (value != null) {
+            predicates.add(predicate);
+        }
+
+        return this;
+    }
+
+    private boolean isSubsetOf(String value, String subset) {
+        return value != null && value.toLowerCase().trim().contains(subset.toLowerCase().trim());
+    }
+
     private class DriverSearchQueryInMemory implements DriverSearchQuery {
 
         private final Set<Predicate<Driver>> predicates;
@@ -47,38 +81,5 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
                     .collect(Collectors.toList())
             );
         }
-    }
-
-    @Override
-    public DriverSearchQuery build() {
-        return new DriverSearchQueryInMemory(users, predicates);
-    }
-
-    @Override
-    public DriverSearchQueryBuilder withFirstName(String firstName) {
-        return withNonNull(driver -> isSubsetOf(driver.getName(), firstName), firstName);
-    }
-
-    @Override
-    public DriverSearchQueryBuilder withLastName(String lastName) {
-        return withNonNull(driver -> isSubsetOf(driver.getLastName(), lastName), lastName);
-    }
-
-    @Override
-    public DriverSearchQueryBuilder withSocialInsuranceNumber(String socialInsuranceNumber) {
-        return withNonNull(driver -> driver.getSocialInsuranceNumber().equals(socialInsuranceNumber.trim()),
-                           socialInsuranceNumber);
-    }
-
-    private DriverSearchQueryBuilder withNonNull(Predicate<Driver> predicate, String value) {
-        if (value != null) {
-            predicates.add(predicate);
-        }
-
-        return this;
-    }
-
-    private boolean isSubsetOf(String value, String subset) {
-        return value != null && value.toLowerCase().trim().contains(subset.toLowerCase().trim());
     }
 }

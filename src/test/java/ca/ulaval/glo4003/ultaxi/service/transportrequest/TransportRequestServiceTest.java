@@ -3,9 +3,9 @@ package ca.ulaval.glo4003.ultaxi.service.transportrequest;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.any;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
@@ -16,11 +16,11 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
-
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
@@ -41,6 +41,7 @@ public class TransportRequestServiceTest {
 
     private static final String A_USERNAME = "Username";
     private static final String A_VALID_TOKEN = "Valid token";
+    private static final String A_VALID_PHONE_NUMBER = "4354322323";
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
     private static final VehicleType CAR_VEHICULE_TYPE = VehicleType.CAR;
     private static final String A_TRANSPORT_REQUEST_ID = "Transport request Id";
@@ -69,6 +70,8 @@ public class TransportRequestServiceTest {
     private Vehicle vehicle;
     @Mock
     private User user;
+    @Mock
+    private PhoneNumber phoneNumber;
 
     private TransportRequestService transportRequestService;
 
@@ -82,6 +85,8 @@ public class TransportRequestServiceTest {
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();
         willReturn(user).given(userRepository).findByUsername(A_USERNAME);
         willReturn(vehicle).given(driver).getVehicle();
+        willReturn(phoneNumber).given(user).getPhoneNumber();
+        willReturn(A_VALID_PHONE_NUMBER).given(phoneNumber).getNumber();
         willReturn(CAR_VEHICULE_TYPE).given(driver).getVehicleType();
         willReturn(A_TRANSPORT_REQUEST_ID).given(driver).getCurrentTransportRequestId();
         willReturn(transportRequest).given(transportRequestRepository).findById(A_TRANSPORT_REQUEST_ID);
@@ -121,14 +126,16 @@ public class TransportRequestServiceTest {
     }
 
     @Test
-    public void givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenTransportRequestStatusIsModified() {
+    public void
+    givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenTransportRequestStatusIsModified() {
         transportRequestService.notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
 
         verify(transportRequest).updateStatus(TransportRequestStatus.ARRIVED);
     }
 
     @Test
-    public void givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenMessagingTaskProducerIsCalled() {
+    public void givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenMessagingTaskProducerIsCalled
+        () {
         transportRequestService.notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
 
         verify(messagingTaskProducer).send(any(MessagingTask.class));
