@@ -8,8 +8,8 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
-import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
+import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
@@ -23,8 +23,8 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilt
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingConfigurationReaderFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.SmsSenderStub;
 import ca.ulaval.glo4003.ultaxi.infrastructure.rate.RateRepositoryInMemory;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.TwilioSmsSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
@@ -47,6 +47,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 
 import java.util.List;
+import java.util.Random;
 
 public class DevelopmentServerFactory extends ServerFactory {
 
@@ -80,9 +81,7 @@ public class DevelopmentServerFactory extends ServerFactory {
             MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
 
-        SmsSender smsSender = new TwilioSmsSender(
-            MessagingConfigurationReaderFactory.getSmsSenderConfigurationFileReader(options)
-        );
+        SmsSender smsSender = new SmsSenderStub(new Random());
 
         userService = new UserService(userRepository, userAssembler, messagingTaskProducer, emailSender, tokenManager);
         transportRequestService = new TransportRequestService(

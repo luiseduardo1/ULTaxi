@@ -22,14 +22,6 @@ public class ULTaxiOptions {
         "PROPERTIES"
     );
 
-    @Parameter(names = "--sms-configuration",
-        arity = 2,
-        description = "the configuration of the SMS server")
-    private MessagingConfigurationOptions smsConfiguration = new MessagingConfigurationOptions(
-        "sms-sender-configuration.properties",
-        "PROPERTIES"
-    );
-
     @Parameter(names = {"-h", "--help"},
         description = "display this message",
         help = true)
@@ -40,16 +32,8 @@ public class ULTaxiOptions {
         return Paths.get(emailConfiguration.filePath);
     }
 
-    public Path getSmsSenderConfigurationFilePath() {
-        return Paths.get(smsConfiguration.filePath);
-    }
-
     public MessagingConfigurationFileType getEmailSenderConfigurationFileType() {
         return toMessagingConfigurationFileType(emailConfiguration.fileType);
-    }
-
-    public MessagingConfigurationFileType getSmsSenderConfigurationFileType() {
-        return toMessagingConfigurationFileType(smsConfiguration.fileType);
     }
 
     private MessagingConfigurationFileType toMessagingConfigurationFileType(String type) {
