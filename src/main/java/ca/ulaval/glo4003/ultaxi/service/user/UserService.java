@@ -54,8 +54,9 @@ public class UserService {
     public void updateClient(UserDto userDto, String userToken) {
         User user = getUserFromToken(userToken);
         userDto.setUsername(user.getUsername());
-        logger.info(String.format("Updating a user with infos: %s", userDto));
+        logger.info(String.format("Updating a client with infos: %s.", userDto));
         user = userAssembler.create(userDto);
+        user.setRole(Role.CLIENT);
         userRepository.update(user);
     }
 
@@ -74,4 +75,5 @@ public class UserService {
 
         return token;
     }
+
 }

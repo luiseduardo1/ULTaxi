@@ -25,12 +25,10 @@ public class VehicleResourceIT extends IntegrationTest {
     private static final String A_NON_EXISTENT_REGISTRATION_NUMBER = "NONEXISTENTVEHICLEREGISTRATIONNUMBER";
     private static final String VEHICLES_ASSOCIATION_ROUTE = String.format("%s/associate", VEHICLES_ROUTE);
     private static final String VEHICLES_DISSOCIATION_ROUTE = String.format("%s/dissociate", VEHICLES_ROUTE);
-    private static final String A_ADMINISTRATOR = "1";
-    private static final String A_CLIENT = "1";
 
     @Before
     public void setUp() {
-        authenticateAs(Role.ADMINISTRATOR, A_ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR);
     }
 
     @Test
@@ -44,7 +42,7 @@ public class VehicleResourceIT extends IntegrationTest {
 
     @Test
     public void givenNonAdministratorAuthenticatedUser_whenCreateVehicle_thenReturnsForbidden() {
-        authenticateAs(Role.CLIENT, A_CLIENT);
+        authenticateAs(Role.CLIENT);
         String serializedVehicle = createSerializedValidVehicle();
 
         Response response = authenticatedPost(VEHICLES_ROUTE, serializedVehicle);

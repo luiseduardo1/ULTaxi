@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.integration.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import com.google.gson.Gson;
@@ -20,7 +19,6 @@ public class UserResourceIT extends IntegrationTest {
     private static final String AN_INVALID_NAME = "ronald.macdonald@ulaval.ca";
     private static final String AN_INVALID_EMAIL = "invalid.email.gmail.com";
     private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
-    private static final String SECOND_CLIENT = "2";
     private static final String AN_EMPTY_PASSWORD = "";
     private static final String A_VALID_USER = createSerializedValidUser();
     private static boolean isUserCreated = false;
@@ -32,6 +30,7 @@ public class UserResourceIT extends IntegrationTest {
             isUserCreated = true;
         }
         authenticateAs(A_VALID_USER);
+
     }
 
     @Test
@@ -64,7 +63,6 @@ public class UserResourceIT extends IntegrationTest {
 
     @Test
     public void givenAlreadyExistingUser_whenUpdateClient_thenUserIsUpdated() {
-        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedValidUser();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
@@ -92,7 +90,6 @@ public class UserResourceIT extends IntegrationTest {
 
     @Test
     public void givenAUserWithAnEmptyPassword_whenUpdatingClient_thenReturnsUnauthorized() {
-        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedUserWithEmptyPassword();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
@@ -102,7 +99,6 @@ public class UserResourceIT extends IntegrationTest {
 
     @Test
     public void givenAUserWithAnInvalidEmail_whenUpdatingClient_thenReturnsBadRequest() {
-        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedUserWithInvalidEmail();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);

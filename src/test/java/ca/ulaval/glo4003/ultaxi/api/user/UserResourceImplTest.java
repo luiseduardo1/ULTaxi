@@ -44,7 +44,7 @@ public class UserResourceImplTest {
     }
 
     @Test
-    public void givenAnAuthenticatedUser_updateClient_thenReturnsOK() {
+    public void givenAnAuthenticatedClient_whenUpdateClient_thenReturnsOK() {
         Response response = userResource.updateClient(A_VALID_TOKEN, userDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());

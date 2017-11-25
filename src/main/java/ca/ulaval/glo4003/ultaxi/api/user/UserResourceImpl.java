@@ -22,9 +22,9 @@ public class UserResourceImpl implements UserResource {
     }
 
     @Override
-    @Secured(Role.CLIENT)
-    public Response updateClient(String userToken, UserDto userDto) {
-        userService.updateClient(userDto, userToken);
+    @Secured({Role.CLIENT})
+    public Response updateClient(String clientToken, UserDto userDto) {
+        userService.updateClient(userDto, clientToken);
         return Response.ok().build();
     }
 }

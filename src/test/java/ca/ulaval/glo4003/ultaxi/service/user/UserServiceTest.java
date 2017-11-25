@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.service.user;
 
-
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
@@ -71,9 +70,10 @@ public class UserServiceTest {
     }
 
     @Test
-    public void givenAUserUpdate_whenUpdateClient_thenUserIsUpdated() {
+    public void givenAClientUpdate_whenUpdateClient_thenClientIsUpdated() {
         when(userService.getUserFromToken(A_VALID_TOKEN)).thenReturn(user);
         willReturn(user).given(userAssembler).create(userDto);
+
         userService.updateClient(userDto, A_VALID_TOKEN);
 
         verify(userRepository).update(user);
@@ -91,4 +91,5 @@ public class UserServiceTest {
         userService.getUserFromToken(A_VALID_TOKEN);
         verify(userRepository).findByUsername(A_VALID_USERNAME);
     }
+
 }
