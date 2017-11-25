@@ -17,6 +17,12 @@ public class RateResourceImpl implements RateResource {
     }
 
     @Override
+    public Response createDistanceRate(DistanceRateDto distanceRateDto) {
+        rateService.addDistanceRate(distanceRateDto);
+        return Response.ok().build();
+    }
+
+    @Override
     public Response updateDistanceRate(DistanceRateDto distanceRateDto) {
         rateService.updateDistanceRate(distanceRateDto);
         return Response.ok().build();
