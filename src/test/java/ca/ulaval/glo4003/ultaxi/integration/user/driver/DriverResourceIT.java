@@ -28,11 +28,10 @@ public class DriverResourceIT extends IntegrationTest {
     private static final String A_VALID_NAME = "Freddy";
     private static final String A_VALID_LAST_NAME = "Mercury";
     private static final String A_SEARCH_PARAMETER = "first-name";
-    private static final String A_ADMINISTRATOR = "1";
 
     @Test
     public void givenAuthenticatedAdmin_whenCreatingADriver_thenReturnsOk() {
-        authenticateAs(Role.ADMINISTRATOR, A_ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR);
 
         Response response = authenticatedPost(DRIVERS_ROUTE, createSerializedValidDriver());
 
@@ -41,7 +40,7 @@ public class DriverResourceIT extends IntegrationTest {
 
     @Test
     public void givenDriverWithInvalidSocialInsuranceNumber_whenCreateDriver_thenReturnsBadRequest() {
-        authenticateAs(Role.ADMINISTRATOR, A_ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR);
 
         Response response = authenticatedPost(DRIVERS_ROUTE, createSerializedDriverWithInvalidSocialInsuranceNumber());
 
@@ -50,7 +49,7 @@ public class DriverResourceIT extends IntegrationTest {
 
     @Test
     public void givenValidSearchQueryWithNoAssociatedDriver_whenSearching_thenReturnsNotFound() {
-        authenticateAs(Role.ADMINISTRATOR, A_ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR);
 
         Map<String, String> queryParameters = new HashMap<>();
         queryParameters.put("last-name", UUID.randomUUID().toString());
@@ -62,7 +61,7 @@ public class DriverResourceIT extends IntegrationTest {
 
     @Test
     public void givenADriverWithAlreadyExistingSocialInsuranceNumber_whenCreatingDriver_thenReturnsBadRequest() {
-        authenticateAs(Role.ADMINISTRATOR, A_ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR);
 
         Response response = authenticatedPost(DRIVERS_ROUTE, createSerializedDriverWithExistingSocialInsuranceNumber());
 
@@ -71,7 +70,7 @@ public class DriverResourceIT extends IntegrationTest {
 
     @Test
     public void givenDriverWithInvalidUsername_whenCreateDriver_thenReturnsBadRequest() {
-        authenticateAs(Role.ADMINISTRATOR, A_ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR);
 
         Response response = authenticatedPost(DRIVERS_ROUTE, createSerializedDriverWithInvalidUsername());
 
@@ -80,7 +79,7 @@ public class DriverResourceIT extends IntegrationTest {
 
     @Test
     public void givenDriverWithInvalidPhoneNumber_whenCreateDriver_thenReturnsBadRequest() {
-        authenticateAs(Role.ADMINISTRATOR, A_ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR);
 
         Response response = authenticatedPost(DRIVERS_ROUTE, createSerializedDriverWithInvalidPhoneNumber());
 
@@ -89,7 +88,7 @@ public class DriverResourceIT extends IntegrationTest {
 
     @Test
     public void givenAuthenticatedAdmin_whenSearchingForADriver_thenReturnsOk() {
-        authenticateAs(Role.ADMINISTRATOR, A_ADMINISTRATOR);
+        authenticateAs(Role.ADMINISTRATOR);
         authenticatedPost(DRIVERS_ROUTE, createSerializedDriver(ANOTHER_VALID_SOCIAL_INSURANCE_NUMBER));
 
         Map<String, String> queryParameters = new HashMap<>();
