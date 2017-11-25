@@ -15,11 +15,11 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    /*UserAuthenticationResourceIT.class,
+    UserAuthenticationResourceIT.class,
     UserResourceIT.class,
     TransportRequestResourceIT.class,
     VehicleResourceIT.class,
-    DriverResourceIT.class,*/
+    DriverResourceIT.class,
     RateResourceIT.class
 })
 public class ITSuite {
