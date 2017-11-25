@@ -5,6 +5,7 @@ public class UserDto {
     private String username;
     private String password;
     private String email;
+    private String phoneNumber;
 
     public String getUsername() {
         return username;
@@ -28,5 +29,13 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
