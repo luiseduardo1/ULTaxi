@@ -8,11 +8,6 @@ import java.math.BigDecimal;
 public class DistanceRate extends Rate {
     private VehicleType vehicleType;
 
-    public DistanceRate() {
-        rate = BigDecimal.ONE;
-        vehicleType = VehicleType.CAR;
-    }
-
     public void setVehicleType(String vehicleType) {
         try {
             this.vehicleType = VehicleType.valueOf(vehicleType.toUpperCase().trim());

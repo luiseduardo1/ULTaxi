@@ -18,6 +18,7 @@ public class RateResourceIT extends IntegrationTest{
     private static final BigDecimal AN_INVALID_RATE = BigDecimal.ZERO;
     private static final BigDecimal A_VALID_RATE = BigDecimal.TEN;
     private static final String A_VALID_VEHICLE_TYPE = VehicleType.CAR.name();
+    private static final String A_SECOND_VALID_VEHICLE_TYPE = VehicleType.VAN.name();
 
     @Before
     public void setUp() {
@@ -25,24 +26,47 @@ public class RateResourceIT extends IntegrationTest{
     }
 
     @Test
-    public void givenUnauthenticatedUser_whenCreateDistanceRate_thenReturnsUnauthorized() {
-        String serializedDistanceRate = createSerializedValidDistanceRate();
-
+    public void givenAuthenticatedAdmin_whenCreateDistanceRate_thenReturnsOk() {
+        String serializedDistanceRate = createSerializedValidDistanceRate(A_VALID_VEHICLE_TYPE);
         Response response = authenticatedPost(RATES_ROUTE, serializedDistanceRate);
 
-        assertStatusCode(response, Status.UNAUTHORIZED);
+        assertStatusCode(response, Status.OK);
     }
 
-    private String createSerializedValidDistanceRate() {
+    @Test
+    public void givenDistanceRateWithInvalidRate_whenCreateRate_thenReturnsBadRequest() {
+        String serializedDistanceRate = createSerializedDistanceWithInvalidRate(A_SECOND_VALID_VEHICLE_TYPE);
+        Response response = authenticatedPost(RATES_ROUTE, serializedDistanceRate);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenAlreadyExistingDistanceRate_whenUpdateRate_thenReturnsOk() {
+        String serializedDistanceRate = createSerializedValidDistanceRate(A_VALID_VEHICLE_TYPE);
+        Response response = authenticatedPut(RATES_ROUTE, serializedDistanceRate);
+
+        assertStatusCode(response, Status.OK);
+    }
+
+    @Test
+    public void givenAlreadyExistingDistanceRateWithInvalidRate_whenUpdateRate_thenReturnsBadRequest() {
+        String serializedDistanceRate = createSerializedDistanceWithInvalidRate(A_SECOND_VALID_VEHICLE_TYPE);
+        Response response = authenticatedPut(RATES_ROUTE, serializedDistanceRate);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    private String createSerializedValidDistanceRate(String vehicleType) {
         return createSerializedDistanceRate(
-                A_VALID_VEHICLE_TYPE,
+                vehicleType,
                 A_VALID_RATE
         );
     }
 
-    private String createSerializedDistanceWithInvalidRate() {
+    private String createSerializedDistanceWithInvalidRate(String vehicleType) {
         return createSerializedDistanceRate(
-                A_VALID_VEHICLE_TYPE,
+                vehicleType,
                 AN_INVALID_RATE
         );
     }
