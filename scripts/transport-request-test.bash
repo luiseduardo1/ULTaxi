@@ -7,7 +7,11 @@
 
 transport_request_test_suite() {
     execute_logged_as "${default_user}" authenticated_client_transport_request_tests
-    execute_logged_as "${driver}" authenticated_driver_transport_request_tests
+
+    local -r _driver="$(create_user_for_authentication "${driver_username}" \
+                                                       "${password}" \
+                                                       "${email}")"
+    execute_logged_as "${_driver}" authenticated_driver_transport_request_tests
 }
 
 authenticated_client_transport_request_tests() {
