@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.ultaxi.domain.geolocation;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationException;
 
+import java.util.function.Predicate;
+
 public class Geolocation {
 
     private static final double LATITUDE_MIN = -90.0;
@@ -11,41 +13,33 @@ public class Geolocation {
     private double latitude;
     private double longitude;
 
-    public Geolocation() {
-    }
-
     public Geolocation(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude = validateLatitude(latitude);
+        this.longitude = validateLongitude(longitude);
     }
 
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-        if (!isLatitudeValid()) {
-            throw new InvalidGeolocationException("The latitude of the geolocation is not valid");
-        }
-    }
-
     public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-        if (!isLongitudeValid()) {
-            throw new InvalidGeolocationException("The longitude of the geolocation is not valid");
+    private double validateLongitude(double longitude) {
+        return validateCoordinate(longitude, longitudeToValidate -> longitudeToValidate < LONGITUDE_MIN || longitudeToValidate > LONGITUDE_MAX);
+    }
+
+    private double validateLatitude(double latitude) {
+        return validateCoordinate(latitude, latitudeToValidate -> latitudeToValidate < LATITUDE_MIN || latitudeToValidate > LATITUDE_MAX);
+    }
+
+    private double validateCoordinate(double coordinate, Predicate<Double> coordinatePredicate) {
+        if (coordinatePredicate.test(coordinate)) {
+            throw new InvalidGeolocationException("Invalid geolocation coordinate.");
         }
+        return coordinate;
     }
 
-    public boolean isLatitudeValid() {
-        return latitude >= LATITUDE_MIN && latitude <= LATITUDE_MAX;
-    }
 
-    public boolean isLongitudeValid() {
-        return longitude >= LONGITUDE_MIN && longitude <= LONGITUDE_MAX;
-    }
 }
