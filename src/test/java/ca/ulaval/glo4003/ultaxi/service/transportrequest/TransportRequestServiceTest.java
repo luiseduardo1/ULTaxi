@@ -16,6 +16,7 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -41,6 +42,7 @@ public class TransportRequestServiceTest {
 
     private static final String A_USERNAME = "Username";
     private static final String A_VALID_TOKEN = "Valid token";
+    private static final String A_VALID_PHONE_NUMBER = "4354322323";
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
     private static final VehicleType CAR_VEHICULE_TYPE = VehicleType.CAR;
     private static final String A_TRANSPORT_REQUEST_ID = "Transport request Id";
@@ -69,6 +71,8 @@ public class TransportRequestServiceTest {
     private Vehicle vehicle;
     @Mock
     private User user;
+    @Mock
+    private PhoneNumber phoneNumber;
 
     private TransportRequestService transportRequestService;
 
@@ -82,6 +86,8 @@ public class TransportRequestServiceTest {
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();
         willReturn(user).given(userRepository).findByUsername(A_USERNAME);
         willReturn(vehicle).given(driver).getVehicle();
+        willReturn(phoneNumber).given(user).getPhoneNumber();
+        willReturn(A_VALID_PHONE_NUMBER).given(phoneNumber).getNumber();
         willReturn(CAR_VEHICULE_TYPE).given(driver).getVehicleType();
         willReturn(A_TRANSPORT_REQUEST_ID).given(driver).getCurrentTransportRequestId();
         willReturn(transportRequest).given(transportRequestRepository).findById(A_TRANSPORT_REQUEST_ID);

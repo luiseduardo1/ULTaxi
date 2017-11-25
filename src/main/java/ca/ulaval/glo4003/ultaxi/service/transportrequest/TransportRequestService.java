@@ -76,7 +76,7 @@ public class TransportRequestService {
         transportRequestRepository.update(transportRequest);
 
         User user = userRepository.findByUsername(transportRequest.getClientUsername());
-        MessagingTask messagingTask = new SendDriverHasArrivedSmsTask(user.getPhoneNumber(),
+        MessagingTask messagingTask = new SendDriverHasArrivedSmsTask(user.getPhoneNumber().getNumber(),
                                                                       smsSender,
                                                                       transportRequest.getId(),
                                                                       transportRequestRepository,

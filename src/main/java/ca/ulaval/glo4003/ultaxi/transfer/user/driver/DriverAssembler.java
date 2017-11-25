@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.transfer.user.driver;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
@@ -17,8 +18,9 @@ public class DriverAssembler {
         driver.setPassword(driverDto.getPassword(), hashingStrategy);
         driver.setName(driverDto.getName());
         driver.setLastName(driverDto.getLastName());
-        driver.setPhoneNumber(driverDto.getPhoneNumber());
         driver.setSocialInsuranceNumber(driverDto.getSocialInsuranceNumber());
+        PhoneNumber phoneNumber = new PhoneNumber(driverDto.getPhoneNumber());
+        driver.setPhoneNumber(phoneNumber);
         driver.setEmailAddress(driverDto.getEmailAddress());
         return driver;
     }
@@ -29,8 +31,8 @@ public class DriverAssembler {
         driverDto.setPassword(driver.getPassword());
         driverDto.setName(driver.getName());
         driverDto.setLastName(driver.getLastName());
-        driverDto.setPhoneNumber(driver.getPhoneNumber());
         driverDto.setSocialInsuranceNumber(driver.getSocialInsuranceNumber());
+        driverDto.setPhoneNumber(driver.getPhoneNumber().getNumber());
         driverDto.setEmailAddress(driver.getEmailAddress());
         return driverDto;
     }
