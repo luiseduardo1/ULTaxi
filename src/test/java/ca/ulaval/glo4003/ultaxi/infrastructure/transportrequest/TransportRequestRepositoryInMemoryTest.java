@@ -28,7 +28,7 @@ public class TransportRequestRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenTransportRequest_whenSave_ThenReturnTransporRequestInMemory() {
+    public void givenTransportRequest_whenSave_thenReturnTransporRequestInMemory() {
         transporRequestRepository.save(transportRequest);
 
         TransportRequest foundTransportRequest = transporRequestRepository.findById(transportRequest.getId());

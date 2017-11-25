@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
+import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
@@ -20,6 +21,7 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilt
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingConfigurationReaderFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.TwilioSmsSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
@@ -53,6 +55,7 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final DriverValidator driverValidator = new DriverValidator(userRepository);
     private final DriverService driverService = new DriverService(userRepository, driverAssembler, driverValidator);
     private final UserService userService;
+    private final TransportRequestService transportRequestService;
     private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
             userAssembler,
@@ -62,16 +65,28 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
                                                                      vehicleAssembler,
                                                                      userRepository);
-    private final TransportRequestService transportRequestService;
 
-    public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messageQueue) throws Exception {
-        super(options, messageQueue);
+    public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) throws Exception {
+        super(options, messagingTaskQueue);
         EmailSender emailSender = new JavaMailEmailSender(
             MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
-        userService = new UserService(userRepository, userAssembler, messageQueueProducer, emailSender, tokenManager);
-        transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
-                userRepository, userService);
+
+        SmsSender smsSender = new TwilioSmsSender(
+            MessagingConfigurationReaderFactory.getSmsSenderConfigurationFileReader(options)
+        );
+
+        userService = new UserService(userRepository, userAssembler, messagingTaskProducer, emailSender, tokenManager);
+        transportRequestService = new TransportRequestService(
+            transportRequestRepository,
+            transportRequestAssembler,
+            userRepository,
+            userService,
+            messagingTaskProducer,
+            smsSender
+        );
+
+
         setDevelopmentEnvironmentMockData();
     }
 
