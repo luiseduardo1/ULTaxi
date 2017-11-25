@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.integration;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
@@ -12,6 +13,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.ws.rs.core.Response.Status;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ public abstract class IntegrationTest {
     protected static final String DRIVERS_ROUTE = API_ROUTE + "/drivers";
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
     protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";
+    protected static final String RATES_ROUTE = API_ROUTE + "/rates";
     protected static final String ASSIGN_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/assign";
     protected static final String SEARCH_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/search";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
@@ -163,6 +166,15 @@ public abstract class IntegrationTest {
         transportRequestDto.setStartingPositionLongitude(longitude);
 
         return serializeDto(transportRequestDto);
+    }
+
+    protected String createSerializedDistanceRate(String vehicleType,
+                                                  BigDecimal rate) {
+        DistanceRateDto distanceRateDto = new DistanceRateDto();
+        distanceRateDto.setVehicleType(vehicleType);
+        distanceRateDto.setRate(rate);
+
+        return serializeDto(distanceRateDto);
     }
 
     protected String serializeDto(Object dto) {
