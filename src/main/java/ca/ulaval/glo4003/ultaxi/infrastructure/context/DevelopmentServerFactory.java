@@ -58,9 +58,9 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final TransportRequestService transportRequestService;
     private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-            userAssembler,
-            tokenManager,
-            tokenRepository);
+                                                                                                      userAssembler,
+                                                                                                      tokenManager,
+                                                                                                      tokenRepository);
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
                                                                      vehicleAssembler,

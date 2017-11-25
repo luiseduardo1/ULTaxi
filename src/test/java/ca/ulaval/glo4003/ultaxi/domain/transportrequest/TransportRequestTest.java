@@ -39,7 +39,7 @@ public class TransportRequestTest {
     }
 
     @Test
-    public void givenATransportRequest_whenCreated_thenTransportRequestIsAvailable(){
+    public void givenATransportRequest_whenCreated_thenTransportRequestIsAvailable() {
         TransportRequest aNewTransportRequest = new TransportRequest();
 
         assertEquals(true, aNewTransportRequest.isAvailable());

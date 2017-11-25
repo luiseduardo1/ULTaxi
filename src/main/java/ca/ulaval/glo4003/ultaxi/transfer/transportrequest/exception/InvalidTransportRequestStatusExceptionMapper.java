@@ -9,7 +9,8 @@ import javax.ws.rs.ext.Provider;
 import java.util.logging.Logger;
 
 @Provider
-public class InvalidTransportRequestStatusExceptionMapper implements ExceptionMapper<InvalidTransportRequestStatusException> {
+public class InvalidTransportRequestStatusExceptionMapper implements
+    ExceptionMapper<InvalidTransportRequestStatusException> {
 
     private static final Logger logger = Logger.getLogger(InvalidTransportRequestStatusException.class.getName());
 

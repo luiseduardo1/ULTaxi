@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.transfer.user.driver;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 

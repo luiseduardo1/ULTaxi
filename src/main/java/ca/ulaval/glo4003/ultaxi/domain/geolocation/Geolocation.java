@@ -27,11 +27,13 @@ public class Geolocation {
     }
 
     private double validateLongitude(double longitude) {
-        return validateCoordinate(longitude, longitudeToValidate -> longitudeToValidate < LONGITUDE_MIN || longitudeToValidate > LONGITUDE_MAX);
+        return validateCoordinate(longitude, longitudeToValidate -> longitudeToValidate < LONGITUDE_MIN ||
+            longitudeToValidate > LONGITUDE_MAX);
     }
 
     private double validateLatitude(double latitude) {
-        return validateCoordinate(latitude, latitudeToValidate -> latitudeToValidate < LATITUDE_MIN || latitudeToValidate > LATITUDE_MAX);
+        return validateCoordinate(latitude, latitudeToValidate -> latitudeToValidate < LATITUDE_MIN ||
+            latitudeToValidate > LATITUDE_MAX);
     }
 
     private double validateCoordinate(double coordinate, Predicate<Double> coordinatePredicate) {

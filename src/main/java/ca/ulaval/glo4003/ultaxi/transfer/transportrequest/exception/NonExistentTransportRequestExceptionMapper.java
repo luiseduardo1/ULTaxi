@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 @Provider
 public class NonExistentTransportRequestExceptionMapper
-        implements ExceptionMapper<NonExistentTransportRequestException> {
+    implements ExceptionMapper<NonExistentTransportRequestException> {
 
     private static final Logger logger = Logger.getLogger(NonExistentTransportRequestException.class.getName());
 

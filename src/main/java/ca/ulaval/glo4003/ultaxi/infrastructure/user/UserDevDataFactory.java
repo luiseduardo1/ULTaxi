@@ -30,7 +30,7 @@ public class UserDevDataFactory {
         for (Role role : Role.values()) {
             if (role != Role.ANONYMOUS) {
                 users.addAll(
-                        createGenericRoleUsers(role, hashingStrategy)
+                    createGenericRoleUsers(role, hashingStrategy)
                 );
             }
         }
@@ -49,7 +49,7 @@ public class UserDevDataFactory {
 
     private User createDriver(HashingStrategy hashingStrategy) {
         Driver driver = (Driver) updateBaseAttributes(new Driver(), Role.DRIVER,
-                hashingStrategy);
+                                                      hashingStrategy);
         String lowercaseRole = Role.DRIVER.name().toLowerCase();
         SocialInsuranceNumber socialInsuranceNumber = new SocialInsuranceNumber("972487086");
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
@@ -78,7 +78,7 @@ public class UserDevDataFactory {
 
     private User createAdministrator(HashingStrategy hashingStrategy) {
         return updateBaseAttributes(new Administrator(), Role.ADMINISTRATOR,
-                hashingStrategy);
+                                    hashingStrategy);
     }
 
     private User updateBaseAttributes(User user, Role role, HashingStrategy hashingStrategy) {

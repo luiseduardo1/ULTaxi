@@ -1,18 +1,18 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user.driver;
 
+import static org.junit.Assert.assertEquals;
+
+import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
-import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
 
 public class DriverSearchQueryBuilderInMemoryTest {
 
@@ -47,7 +47,8 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = (Driver) aDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber().getNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber()
+            .getNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
@@ -61,7 +62,8 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = (Driver) aDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber().getNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber()
+            .getNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
@@ -75,7 +77,8 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = (Driver) aThirdDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber().getNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber()
+            .getNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }
@@ -89,7 +92,8 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = (Driver) anotherDriver();
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber().getNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), foundDriver.getSocialInsuranceNumber()
+            .getNumber());
         assertEquals(expectedDriver.getName(), foundDriver.getName());
         assertEquals(expectedDriver.getLastName(), foundDriver.getLastName());
     }

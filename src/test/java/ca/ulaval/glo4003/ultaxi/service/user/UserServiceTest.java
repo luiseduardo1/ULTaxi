@@ -1,5 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.service.user;
 
+import static org.mockito.BDDMockito.verify;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
@@ -13,11 +18,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.mockito.BDDMockito.verify;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -80,13 +80,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void givenAUserToken_whenGetUserFromToken_thenDelegateToTokenManager(){
+    public void givenAUserToken_whenGetUserFromToken_thenDelegateToTokenManager() {
         userService.getUserFromToken(A_VALID_TOKEN);
         verify(tokenManager).getUsername(A_VALID_TOKEN);
     }
 
     @Test
-    public void givenAUserToken_whenGetUserFromToken_thenDelegateToUserRepository(){
+    public void givenAUserToken_whenGetUserFromToken_thenDelegateToUserRepository() {
         willReturn(A_VALID_USERNAME).given(tokenManager).getUsername(A_VALID_TOKEN);
         userService.getUserFromToken(A_VALID_TOKEN);
         verify(userRepository).findByUsername(A_VALID_USERNAME);

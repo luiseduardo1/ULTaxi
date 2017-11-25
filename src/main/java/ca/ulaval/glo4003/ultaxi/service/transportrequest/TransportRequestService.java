@@ -53,12 +53,12 @@ public class TransportRequestService {
         }
 
         return this.transportRequestRepository
-                .searchTransportRequests()
-                .withVehicleType(driver.getVehicleType().name())
-                .findAll()
-                .stream()
-                .map(transportRequestAssembler::create)
-                .collect(Collectors.toList());
+            .searchTransportRequests()
+            .withVehicleType(driver.getVehicleType().name())
+            .findAll()
+            .stream()
+            .map(transportRequestAssembler::create)
+            .collect(Collectors.toList());
     }
 
     public void assignTransportRequest(String driverToken, String transportRequestId) {

@@ -38,7 +38,8 @@ public class SocialInsuranceNumberTest {
 
     @Test(expected = InvalidSocialInsuranceNumberException.class)
     public void
-    givenInvalidSocialInsuranceNumber_whenCreateSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
+    givenInvalidSocialInsuranceNumber_whenCreateSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException
+        () {
         String socialInsuranceNumber = "234154346";
 
         new SocialInsuranceNumber(socialInsuranceNumber);

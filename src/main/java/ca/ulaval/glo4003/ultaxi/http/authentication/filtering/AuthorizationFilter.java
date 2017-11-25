@@ -38,7 +38,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     private ResourceInfo resourceInfo;
 
     public AuthorizationFilter(UserRepository userRepository, TokenManager tokenManager,
-                               TokenRepository tokenRepository) {
+        TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.tokenManager = tokenManager;
         this.tokenRepository = tokenRepository;

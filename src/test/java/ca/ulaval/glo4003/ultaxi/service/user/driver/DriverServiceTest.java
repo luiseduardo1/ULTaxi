@@ -30,6 +30,7 @@ import java.util.Map;
 @RunWith(MockitoJUnitRunner.class)
 public class DriverServiceTest {
 
+    private static final Driver A_DRIVER = new Driver("Lord", "Gargamel", new SocialInsuranceNumber("215136193"));
     @Mock
     private Driver driver;
     @Mock
@@ -44,10 +45,7 @@ public class DriverServiceTest {
     private DriverSearchParameters driverSearchParameters;
     @Mock
     private SearchResults<Driver> driverSearchResults;
-
     private DriverService driverService;
-
-    private static final Driver A_DRIVER = new Driver("Lord", "Gargamel", new SocialInsuranceNumber("215136193"));
 
     @Before
     public void setUp() {

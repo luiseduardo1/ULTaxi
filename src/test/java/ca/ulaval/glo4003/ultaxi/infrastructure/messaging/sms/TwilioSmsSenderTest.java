@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms;
 
+import static org.mockito.BDDMockito.willReturn;
+
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.Sms;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.exception.UnrecoverableSmsSendingFailureException;
@@ -10,8 +12,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Properties;
-
-import static org.mockito.BDDMockito.willReturn;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TwilioSmsSenderTest {

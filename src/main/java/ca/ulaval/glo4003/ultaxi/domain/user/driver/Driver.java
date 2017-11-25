@@ -6,19 +6,13 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTranspo
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
-import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
-import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Driver extends User {
-    
+
     private String name;
     private String lastName;
     private SocialInsuranceNumber socialInsuranceNumber;
@@ -96,7 +90,8 @@ public class Driver extends User {
 
     public String getCurrentTransportRequestId() {
         if (this.currentTransportRequestId == null) {
-            throw new DriverHasNoTransportRequestAssignedException("This driver don't have a transport request assigned.");
+            throw new DriverHasNoTransportRequestAssignedException("This driver don't have a transport request " +
+                                                                       "assigned.");
         }
         return this.currentTransportRequestId;
     }
