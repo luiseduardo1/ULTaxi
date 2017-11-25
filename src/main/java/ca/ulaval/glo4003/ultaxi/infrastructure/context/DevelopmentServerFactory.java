@@ -21,7 +21,7 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilt
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingConfigurationReaderFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.TwilioSmsSender;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.SmsSenderStub;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
@@ -42,6 +42,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 
 import java.util.List;
+import java.util.Random;
 
 public class DevelopmentServerFactory extends ServerFactory {
 
@@ -58,9 +59,9 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final TransportRequestService transportRequestService;
     private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-            userAssembler,
-            tokenManager,
-            tokenRepository);
+                                                                                                      userAssembler,
+                                                                                                      tokenManager,
+                                                                                                      tokenRepository);
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
                                                                      vehicleAssembler,
@@ -72,9 +73,7 @@ public class DevelopmentServerFactory extends ServerFactory {
             MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
 
-        SmsSender smsSender = new TwilioSmsSender(
-            MessagingConfigurationReaderFactory.getSmsSenderConfigurationFileReader(options)
-        );
+        SmsSender smsSender = new SmsSenderStub(new Random());
 
         userService = new UserService(userRepository, userAssembler, messagingTaskProducer, emailSender, tokenManager);
         transportRequestService = new TransportRequestService(
