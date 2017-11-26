@@ -1,0 +1,190 @@
+{
+  "id": "7f225750-cd50-ef0a-4530-64b56ba50a6c",
+  "name": "ULTaxi (Development)",
+  "values": [
+    {
+      "enabled": true,
+      "key": "base_url",
+      "type": "text",
+      "value": "http://localhost"
+    },
+    {
+      "enabled": true,
+      "key": "server_port",
+      "type": "text",
+      "value": "8080"
+    },
+    {
+      "enabled": true,
+      "key": "client_username",
+      "type": "text",
+      "value": "\"johnSmith\""
+    },
+    {
+      "enabled": true,
+      "key": "client_email",
+      "type": "text",
+      "value": "\"luiseduardo.obando@gmail.com\""
+    },
+    {
+      "enabled": true,
+      "key": "client_password",
+      "type": "text",
+      "value": "\"johnSmithPassword\""
+    },
+    {
+      "enabled": true,
+      "key": "administrator_username",
+      "type": "text",
+      "value": "\"administratorUsername\""
+    },
+    {
+      "enabled": true,
+      "key": "administrator_password",
+      "type": "text",
+      "value": "\"administratorPassword\""
+    },
+    {
+      "enabled": true,
+      "key": "administrator_email",
+      "type": "text",
+      "value": "\"administrator@ultaxi.ca\""
+    },
+    {
+      "enabled": true,
+      "key": "driver_username",
+      "type": "text",
+      "value": "\"janeDoe\""
+    },
+    {
+      "enabled": true,
+      "key": "driver_password",
+      "type": "text",
+      "value": "\"janeDoePassword\""
+    },
+    {
+      "enabled": true,
+      "key": "driver_email",
+      "type": "text",
+      "value": "\"janeDoeULTaxi@gmail.com\""
+    },
+    {
+      "enabled": true,
+      "key": "driver_social_insurance_number",
+      "type": "text",
+      "value": "\"972487789\""
+    },
+    {
+      "enabled": true,
+      "key": "driver_phone_number",
+      "type": "text",
+      "value": "\"4182355678\""
+    },
+    {
+      "enabled": true,
+      "key": "driver_first_name",
+      "type": "text",
+      "value": "\"Jane\""
+    },
+    {
+      "enabled": true,
+      "key": "driver_last_name",
+      "type": "text",
+      "value": "\"Doe\""
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_type",
+      "type": "text",
+      "value": "\"Car\""
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_color",
+      "type": "text",
+      "value": "\"#272727\""
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_model",
+      "type": "text",
+      "value": "\"Prius\""
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_registration_number",
+      "type": "text",
+      "value": "\"OLOGN\""
+    },
+    {
+      "enabled": true,
+      "key": "starting_position_latitude",
+      "type": "text",
+      "value": "12.4534"
+    },
+    {
+      "enabled": true,
+      "key": "starting_position_longitude",
+      "type": "text",
+      "value": "13.4534"
+    },
+    {
+      "enabled": true,
+      "key": "transport_request_note",
+      "type": "text",
+      "value": "\"A note\""
+    },
+    {
+      "enabled": true,
+      "key": "transport_request_vehicle_type",
+      "type": "text",
+      "value": "\"Car\""
+    },
+    {
+      "enabled": true,
+      "key": "first_name_searched",
+      "type": "text",
+      "value": "Jane"
+    },
+    {
+      "enabled": true,
+      "key": "last_name_searched",
+      "type": "text",
+      "value": "Doe"
+    },
+    {
+      "enabled": true,
+      "key": "social_insurance_number_searched",
+      "type": "text",
+      "value": "972487789"
+    },
+    {
+      "enabled": true,
+      "key": "driver_to_dissociate",
+      "type": "text",
+      "value": "janeDoe"
+    },
+    {
+      "enabled": true,
+      "key": "transport_request_id",
+      "type": "text",
+      "value": "90cc6b9f-9f77-4b99-9e52-575d12e8f452"
+    },
+    {
+      "enabled": true,
+      "key": "client_phone_number",
+      "type": "text",
+      "value": "\"4563234545\""
+    },
+    {
+      "enabled": true,
+      "key": "administrator_phone_number",
+      "type": "text",
+      "value": "\"4172344545\""
+    }
+  ],
+  "timestamp": 1511585332108,
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2017-11-25T04:51:11.166Z",
+  "_postman_exported_using": "Postman/5.3.2"
+}

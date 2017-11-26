@@ -2,7 +2,7 @@
 
 declare -xr is_utils_file_loaded=true
 
-create_user() {
+create_user_for_authentication() {
     local -r _username="${1}"
     local -r _password="${2}"
     local -r _email="${3}"
@@ -11,6 +11,21 @@ create_user() {
     "username": "${_username}",
     "password": "${_password}",
     "email": "${_email}"
+}
+EOF
+}
+
+create_user() {
+    local -r _username="${1}"
+    local -r _password="${2}"
+    local -r _email="${3}"
+    local -r _phone_number="${4}"
+    cat << EOF
+{
+    "username": "${_username}",
+    "password": "${_password}",
+    "email": "${_email}",
+    "phoneNumber": "${_phone_number}"
 }
 EOF
 }

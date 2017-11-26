@@ -35,8 +35,9 @@ it_should_update_user_informations() {
     local -r _authentication_header="${1}"
 
     decorate_test_name "As an authenticated user, I should be able to update my informations."
-    update_user_route "${_authentication_header}" "$(create_user "${updated_username}" \
-                                                                 "${password}" \
-                                                                 "${email}")"
+    update_user_route "${_authentication_header}" \
+                      "$(create_user_for_authentication "${updated_username}" \
+                                                        "${password}" \
+                                                        "${email}")"
     handle_test_result "${?}"
 }
