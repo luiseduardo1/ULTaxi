@@ -1,190 +1,202 @@
 {
-  "id": "7f225750-cd50-ef0a-4530-64b56ba50a6c",
+  "id": "d2e7855c-e2a4-c5c6-ce97-e8c7c0ff01ff",
   "name": "ULTaxi (Development)",
   "values": [
     {
       "enabled": true,
       "key": "base_url",
-      "type": "text",
-      "value": "http://localhost"
+      "value": "http://localhost",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "server_port",
-      "type": "text",
-      "value": "8080"
+      "value": "8080",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "client_username",
-      "type": "text",
-      "value": "\"johnSmith\""
+      "value": "\"johnSmith\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "client_email",
-      "type": "text",
-      "value": "\"luiseduardo.obando@gmail.com\""
+      "value": "\"luiseduardo.obando@gmail.com\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "client_password",
-      "type": "text",
-      "value": "\"johnSmithPassword\""
+      "value": "\"johnSmithPassword\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "administrator_username",
-      "type": "text",
-      "value": "\"administratorUsername\""
+      "value": "\"administratorUsername\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "administrator_password",
-      "type": "text",
-      "value": "\"administratorPassword\""
+      "value": "\"administratorPassword\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "administrator_email",
-      "type": "text",
-      "value": "\"administrator@ultaxi.ca\""
+      "value": "\"administrator@ultaxi.ca\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "driver_username",
-      "type": "text",
-      "value": "\"janeDoe\""
+      "value": "\"janeDoe\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "driver_password",
-      "type": "text",
-      "value": "\"janeDoePassword\""
+      "value": "\"janeDoePassword\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "driver_email",
-      "type": "text",
-      "value": "\"janeDoeULTaxi@gmail.com\""
+      "value": "\"janeDoeULTaxi@gmail.com\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "driver_social_insurance_number",
-      "type": "text",
-      "value": "\"972487789\""
+      "value": "\"972487789\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "driver_phone_number",
-      "type": "text",
-      "value": "\"4182355678\""
+      "value": "\"4182355678\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "driver_first_name",
-      "type": "text",
-      "value": "\"Jane\""
+      "value": "\"Jane\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "driver_last_name",
-      "type": "text",
-      "value": "\"Doe\""
+      "value": "\"Doe\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "vehicle_type",
-      "type": "text",
-      "value": "\"Car\""
+      "value": "\"Car\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "vehicle_color",
-      "type": "text",
-      "value": "\"#272727\""
+      "value": "\"#272727\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "vehicle_model",
-      "type": "text",
-      "value": "\"Prius\""
+      "value": "\"Prius\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "vehicle_registration_number",
-      "type": "text",
-      "value": "\"OLOGN\""
+      "value": "\"OLOGN\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "starting_position_latitude",
-      "type": "text",
-      "value": "12.4534"
+      "value": "12.4534",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "starting_position_longitude",
-      "type": "text",
-      "value": "13.4534"
+      "value": "13.4534",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "transport_request_note",
-      "type": "text",
-      "value": "\"A note\""
+      "value": "\"A note\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "transport_request_vehicle_type",
-      "type": "text",
-      "value": "\"Car\""
+      "value": "\"Car\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "first_name_searched",
-      "type": "text",
-      "value": "Jane"
+      "value": "Jane",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "last_name_searched",
-      "type": "text",
-      "value": "Doe"
+      "value": "Doe",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "social_insurance_number_searched",
-      "type": "text",
-      "value": "972487789"
+      "value": "972487789",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "driver_to_dissociate",
-      "type": "text",
-      "value": "janeDoe"
+      "value": "janeDoe",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "transport_request_id",
-      "type": "text",
-      "value": "90cc6b9f-9f77-4b99-9e52-575d12e8f452"
+      "value": "0ae02c24-5755-4363-945d-c67eeb42230a",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "client_phone_number",
-      "type": "text",
-      "value": "\"4563234545\""
+      "value": "\"4563234545\"",
+      "type": "text"
     },
     {
       "enabled": true,
       "key": "administrator_phone_number",
-      "type": "text",
-      "value": "\"4172344545\""
+      "value": "\"4172344545\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_rate",
+      "value": "12.2",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "another_vehicle_rate",
+      "value": "22.1",
+      "type": "text"
     }
   ],
-  "timestamp": 1511585332108,
+  "timestamp": 1512061913316,
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2017-11-25T04:51:11.166Z",
+  "_postman_exported_at": "2017-11-30T17:12:28.153Z",
   "_postman_exported_using": "Postman/5.3.2"
 }
