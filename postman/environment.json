@@ -1,0 +1,202 @@
+{
+  "id": "d2e7855c-e2a4-c5c6-ce97-e8c7c0ff01ff",
+  "name": "ULTaxi (Development)",
+  "values": [
+    {
+      "enabled": true,
+      "key": "base_url",
+      "value": "http://localhost",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "server_port",
+      "value": "8080",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "client_username",
+      "value": "\"johnSmith\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "client_email",
+      "value": "\"luiseduardo.obando@gmail.com\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "client_password",
+      "value": "\"johnSmithPassword\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "administrator_username",
+      "value": "\"administratorUsername\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "administrator_password",
+      "value": "\"administratorPassword\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "administrator_email",
+      "value": "\"administrator@ultaxi.ca\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "driver_username",
+      "value": "\"janeDoe\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "driver_password",
+      "value": "\"janeDoePassword\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "driver_email",
+      "value": "\"janeDoeULTaxi@gmail.com\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "driver_social_insurance_number",
+      "value": "\"972487789\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "driver_phone_number",
+      "value": "\"4182355678\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "driver_first_name",
+      "value": "\"Jane\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "driver_last_name",
+      "value": "\"Doe\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_type",
+      "value": "\"Car\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_color",
+      "value": "\"#272727\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_model",
+      "value": "\"Prius\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_registration_number",
+      "value": "\"OLOGN\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "starting_position_latitude",
+      "value": "12.4534",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "starting_position_longitude",
+      "value": "13.4534",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "transport_request_note",
+      "value": "\"A note\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "transport_request_vehicle_type",
+      "value": "\"Car\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "first_name_searched",
+      "value": "Jane",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "last_name_searched",
+      "value": "Doe",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "social_insurance_number_searched",
+      "value": "972487789",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "driver_to_dissociate",
+      "value": "janeDoe",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "transport_request_id",
+      "value": "0ae02c24-5755-4363-945d-c67eeb42230a",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "client_phone_number",
+      "value": "\"4563234545\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "administrator_phone_number",
+      "value": "\"4172344545\"",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_rate",
+      "value": "12.2",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "another_vehicle_rate",
+      "value": "22.1",
+      "type": "text"
+    }
+  ],
+  "timestamp": 1512061913316,
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2017-11-30T17:12:28.153Z",
+  "_postman_exported_using": "Postman/5.3.2"
+}

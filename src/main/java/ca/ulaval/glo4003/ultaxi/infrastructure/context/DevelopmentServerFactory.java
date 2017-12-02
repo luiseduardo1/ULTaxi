@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.context;
 
+import ca.ulaval.glo4003.ultaxi.api.rate.RateResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.transportrequest.TransportRequestResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.client.ClientResourceImpl;
@@ -8,6 +9,7 @@ import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
+import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
@@ -21,7 +23,8 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilt
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingConfigurationReaderFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
-import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.TwilioSmsSender;
+import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.SmsSenderStub;
+import ca.ulaval.glo4003.ultaxi.infrastructure.rate.RateRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.TokenRepositoryInMemory;
@@ -30,11 +33,13 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.user.UserRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.JWTTokenManager;
 import ca.ulaval.glo4003.ultaxi.infrastructure.vehicle.VehicleDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.vehicle.VehicleRepositoryInMemory;
+import ca.ulaval.glo4003.ultaxi.service.rate.RateService;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.service.user.client.ClientService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
@@ -42,6 +47,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 
 import java.util.List;
+import java.util.Random;
 
 public class DevelopmentServerFactory extends ServerFactory {
 
@@ -49,14 +55,15 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final TransportRequestRepository transportRequestRepository = new TransportRequestRepositoryInMemory();
     private final VehicleAssembler vehicleAssembler = new VehicleAssembler();
     private final TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
+    private final DistanceRateAssembler distanceRateAssembler = new DistanceRateAssembler();
     private final TokenManager tokenManager = new JWTTokenManager();
     private final ClientAssembler clientAssembler = new ClientAssembler(this.hashingStrategy);
     private final DriverAssembler driverAssembler = new DriverAssembler(this.hashingStrategy);
     private final DriverValidator driverValidator = new DriverValidator(userRepository);
     private final DriverService driverService = new DriverService(userRepository, driverAssembler, driverValidator);
     private final ClientService clientService;
-    private final TransportRequestService transportRequestService;
     private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
+    private final RateRepository rateRepository = new RateRepositoryInMemory();
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
                                                                                                       clientAssembler,
                                                                                                       tokenManager,
@@ -65,17 +72,17 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
                                                                      vehicleAssembler,
                                                                      userRepository);
+    private final TransportRequestService transportRequestService;
+    private final RateService rateService = new RateService(rateRepository, distanceRateAssembler);
 
     public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) throws Exception {
         super(options, messagingTaskQueue);
         EmailSender emailSender = new JavaMailEmailSender(
             MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
+        SmsSender smsSender = new SmsSenderStub(new Random());
         clientService = new ClientService(
             userRepository, clientAssembler, messagingTaskProducer, emailSender, userAuthenticationService
-        );
-        SmsSender smsSender = new TwilioSmsSender(
-            MessagingConfigurationReaderFactory.getSmsSenderConfigurationFileReader(options)
         );
         transportRequestService = new TransportRequestService(
             transportRequestRepository,
@@ -137,6 +144,12 @@ public class DevelopmentServerFactory extends ServerFactory {
     @Override
     protected ServerFactory withVehicleResource() {
         resources.add(new VehicleResourceImpl(vehicleService));
+        return this;
+    }
+
+    @Override
+    protected ServerFactory withRateResource() {
+        resources.add(new RateResourceImpl(rateService));
         return this;
     }
 }

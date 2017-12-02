@@ -27,8 +27,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
     private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "130692544";
     private static final String A_VALID_PHONE_NUMBER = "2342355679";
     private static final String A_USERNAME = "Karlee";
-    private static final String A_VALID_EMAIL = "Karlee@mail.com";
-    private static final String A_VALID_NAME = "Karl";
+    private static final String A_VALID_EMAIL_ADDRESS = "Karlee@mail.com";
+    private static final String A_VALID_FIRST_NAME = "Karl";
     private static final String A_VALID_LAST_NAME = "Max";
 
     @Before
@@ -161,11 +161,11 @@ public class TransportRequestResourceIT extends IntegrationTest {
         return createSerializedDriver(
             A_USERNAME,
             A_VALID_PASSWORD,
-            A_VALID_SOCIAL_INSURANCE_NUMBER,
             A_VALID_PHONE_NUMBER,
-            A_VALID_NAME,
+            A_VALID_EMAIL_ADDRESS,
+            A_VALID_FIRST_NAME,
             A_VALID_LAST_NAME,
-            A_VALID_EMAIL
+            A_VALID_SOCIAL_INSURANCE_NUMBER
         );
     }
 
