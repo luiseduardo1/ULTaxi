@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.transfer.user.client;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
@@ -15,7 +16,7 @@ public class ClientAssembler {
         return new Client(
             clientDto.getUsername(),
             clientDto.getPassword(),
-            clientDto.getPhoneNumber(),
+            new PhoneNumber(clientDto.getPhoneNumber()),
             clientDto.getEmailAddress(),
             hashingStrategy
         );
@@ -25,7 +26,7 @@ public class ClientAssembler {
         ClientDto clientDto = new ClientDto();
         clientDto.setUsername(client.getUsername());
         clientDto.setPassword(client.getPassword());
-        clientDto.setPhoneNumber(client.getPhoneNumber());
+        clientDto.setPhoneNumber(client.getPhoneNumber().getNumber());
         clientDto.setEmailAddress(client.getEmailAddress());
         return clientDto;
     }

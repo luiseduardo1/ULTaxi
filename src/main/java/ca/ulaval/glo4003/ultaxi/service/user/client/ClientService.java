@@ -23,8 +23,8 @@ public class ClientService {
     private final UserAuthenticationService userAuthenticationService;
 
     public ClientService(UserRepository userRepository, ClientAssembler clientAssembler,
-        MessagingTaskProducer messagingTaskProducer, EmailSender emailSender, UserAuthenticationService
-        userAuthenticationService) {
+        MessagingTaskProducer messagingTaskProducer, EmailSender emailSender,
+        UserAuthenticationService userAuthenticationService) {
         this.userRepository = userRepository;
         this.clientAssembler = clientAssembler;
         this.messagingTaskProducer = messagingTaskProducer;

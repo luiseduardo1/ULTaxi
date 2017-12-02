@@ -8,7 +8,6 @@ import static org.mockito.Matchers.anyString;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -24,11 +23,11 @@ public class UserTest {
 
     private static final String A_VALID_USERNAME = "Ronald Macdonald";
     private static final String A_VALID_PASSWORD = "mysupersecret";
-    private static final String A_VALID_PHONE_NUMBER = "234-235-5678";
     private static final String A_VALID_EMAIL_ADDRESS = "ronald.macdonald@ulaval.ca";
     private static final String AN_INVALID_NAME = "      \t";
     private static final String AN_INVALID_PASSWORD = "    \t";
     private static final String AN_INVALID_EMAIL_ADDRESS = "ronald.macdonald@.ulaval.ca";
+    private static final String A_VALID_PHONE_NUMBER = "234-235-5678";
     private static final String A_HASH = RandomStringUtils.randomAlphabetic(10);
 
     @Mock
@@ -36,6 +35,7 @@ public class UserTest {
 
     private User user;
     private User anotherUser;
+    private PhoneNumber phoneNumber = new PhoneNumber(A_VALID_PHONE_NUMBER);
 
     @Before
     public void setUp() {
@@ -97,87 +97,14 @@ public class UserTest {
     }
 
     @Test
-    public void givenOnlyNumbersPhoneNumber_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "2342355678";
-
+    public void givenAValidPhoneNumber_whenSetPhoneNumber_thenPhoneNumberIsAssigned() {
         user.setPhoneNumber(phoneNumber);
 
         Assert.assertEquals(user.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithParenthesis_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "(234)2355678";
-
-        user.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(user.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithDashes_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "234-235-5678";
-
-        user.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(user.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithSpaces_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "234 235 5678";
-
-        user.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(user.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test
-    public void givenPhoneNumberWithDots_whenSetPhoneNumber_thenAcceptPhoneNumber() {
-        String phoneNumber = "234.235.5678";
-
-        user.setPhoneNumber(phoneNumber);
-
-        Assert.assertEquals(user.getPhoneNumber(), phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithInvalidCentralOffice_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "314 159 2653";
-
-        user.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithInvalidPlanArea_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "123 234 5678";
-
-        user.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithAlphaCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "1b3 2z4 56a8";
-
-        user.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberWithSpecialCharacters_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "1!3 2?4 56!8";
-
-        user.setPhoneNumber(phoneNumber);
-    }
-
-    @Test(expected = InvalidPhoneNumberException.class)
-    public void givenPhoneNumberTooLong_whenSetPhoneNumber_thenThrowsInvalidPhoneNumberException() {
-        String phoneNumber = "234 235 56784";
-
-        user.setPhoneNumber(phoneNumber);
     }
 
     private User createValidUser() {
-        return new User(A_VALID_USERNAME, A_VALID_PASSWORD, A_VALID_PHONE_NUMBER, A_VALID_EMAIL_ADDRESS,
+        return new User(A_VALID_USERNAME, A_VALID_PASSWORD, phoneNumber, A_VALID_EMAIL_ADDRESS,
                         hashingStrategy) {
             @Override
             public Role getRole() {

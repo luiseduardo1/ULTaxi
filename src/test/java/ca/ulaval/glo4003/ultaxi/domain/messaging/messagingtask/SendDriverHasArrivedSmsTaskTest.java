@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.exception.UnrecoverableSmsSendingFailureException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import org.junit.Before;
@@ -36,6 +37,8 @@ public class SendDriverHasArrivedSmsTaskTest {
     private SmsSender smsSender;
     @Mock
     private User user;
+    @Mock
+    private PhoneNumber phoneNumber;
 
     private SendDriverHasArrivedSmsTask sendDriverHasArrivedSmsTask;
 
@@ -47,7 +50,8 @@ public class SendDriverHasArrivedSmsTaskTest {
         willReturn(transportRequest).given(transportRequestRepository).findById(A_TRANSPORT_REQUEST_ID);
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();
         willReturn(user).given(userRepository).findByUsername(anyString());
-        willReturn(VALID_DESTINATION_PHONE_NUMBER).given(user).getPhoneNumber();
+        willReturn(phoneNumber).given(user).getPhoneNumber();
+        willReturn(VALID_DESTINATION_PHONE_NUMBER).given(phoneNumber).getNumber();
     }
 
     @Test

@@ -3,26 +3,21 @@ package ca.ulaval.glo4003.ultaxi.domain.user;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidEmailAddressException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidHashingStrategyException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPasswordException;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidPhoneNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public abstract class User {
 
-    private static final String PHONE_REGEX = "^\\(?([2-9][0-9]{2})\\)?[-. ]?([2-9](?!11)[0-9]{2})[-. ]?([0-9]{4})$";
-
     private String username;
     private String password;
-    private String phoneNumber;
+    private PhoneNumber phoneNumber;
     private String emailAddress;
     private HashingStrategy hashingStrategy;
 
-    public User(String username, String password, String phoneNumber, String emailAddress, HashingStrategy
+    public User(String username, String password, PhoneNumber phoneNumber, String emailAddress, HashingStrategy
         hashingStrategy) {
         setUsername(username);
         setPassword(password, hashingStrategy);
@@ -61,15 +56,11 @@ public abstract class User {
         this.password = hashingStrategy.hashWithRandomSalt(password);
     }
 
-    public String getPhoneNumber() {
+    public PhoneNumber getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        if (!isValidPhoneNumber(phoneNumber)) {
-            throw new InvalidPhoneNumberException("User has an invalid phone number.");
-        }
-
+    public void setPhoneNumber(PhoneNumber phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -99,12 +90,6 @@ public abstract class User {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
-    }
-
-    private boolean isValidPhoneNumber(String phoneNumber) {
-        Pattern pattern = Pattern.compile(PHONE_REGEX);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        return matcher.matches();
     }
 
     private boolean isValidEmailAddress(String emailAddress) {

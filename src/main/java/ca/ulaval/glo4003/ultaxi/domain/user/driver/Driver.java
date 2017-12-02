@@ -1,34 +1,29 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.driver;
 
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
-import ca.ulaval.glo4003.ultaxi.utils.LuhnAlgorithm;
-import ca.ulaval.glo4003.ultaxi.utils.StringUtil;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Driver extends User {
 
-    private static final String SOCIAL_INSURANCE_NUMBER_REGEX = "^((\\d{3}[\\s-]?){2}\\d{3})|(\\d{9})$";
-
     private String firstName;
     private String lastName;
-    private String socialInsuranceNumber;
-
-    private TransportRequest transportRequest;
+    private SocialInsuranceNumber socialInsuranceNumber;
     private Vehicle vehicle;
+    private String currentTransportRequestId;
 
-    public Driver(String username, String password, String phoneNumber, String emailAddress,
-        HashingStrategy hashingStrategy, String firstName, String lastName, String socialInsuranceNumber) {
+    public Driver(String username, String password, PhoneNumber phoneNumber, String emailAddress,
+        HashingStrategy hashingStrategy, String firstName, String lastName,
+        SocialInsuranceNumber socialInsuranceNumber) {
         super(username, password, phoneNumber, emailAddress, hashingStrategy);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,15 +43,11 @@ public class Driver extends User {
         return lastName;
     }
 
-    public String getSocialInsuranceNumber() {
+    public SocialInsuranceNumber getSocialInsuranceNumber() {
         return socialInsuranceNumber;
     }
 
-    public void setSocialInsuranceNumber(String socialInsuranceNumber) {
-        if (!isValidSocialInsuranceNumber(socialInsuranceNumber)) {
-            throw new InvalidSocialInsuranceNumberException("Driver has an invalid socialInsuranceNumber format.");
-        }
-
+    public void setSocialInsuranceNumber(SocialInsuranceNumber socialInsuranceNumber) {
         this.socialInsuranceNumber = socialInsuranceNumber;
     }
 
@@ -94,34 +85,25 @@ public class Driver extends User {
         vehicle = null;
     }
 
-    public TransportRequest getTransportRequest() {
-        return transportRequest;
+    public String getCurrentTransportRequestId() {
+        if (this.currentTransportRequestId == null) {
+            throw new DriverHasNoTransportRequestAssignedException("This driver don't have a transport request " +
+                                                                       "assigned.");
+        }
+        return this.currentTransportRequestId;
     }
 
-    public void assignTransportRequest(TransportRequest transportRequest) {
+    public void assignTransportRequestId(TransportRequest transportRequest) {
         boolean transportRequestAssignationIsValid = (
-            this.transportRequest == null
+            this.currentTransportRequestId == null
                 && transportRequest.isAvailable()
-                && (this.vehicle != null
-                && this.vehicle.getType() == transportRequest.getVehicleType()
-                || this.vehicle == null)
-        );
+                && (this.vehicle != null && this.vehicle.getType() ==
+                transportRequest.getVehicleType() || this.vehicle == null));
+
         if (!transportRequestAssignationIsValid) {
             throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
         }
-        this.transportRequest = transportRequest;
+        this.currentTransportRequestId = transportRequest.getId();
         transportRequest.setUnavailable();
-    }
-
-    private boolean isValidSocialInsuranceNumber(String socialInsuranceNumber) {
-        Pattern pattern = Pattern.compile(SOCIAL_INSURANCE_NUMBER_REGEX);
-        Matcher matcher = pattern.matcher(socialInsuranceNumber);
-
-        if (matcher.matches()) {
-            String socialInsuranceNumberWithNonDigit = StringUtil.replaceNonDigitWithEmptySpace(socialInsuranceNumber);
-            int[] digits = StringUtil.convertStringToIntegerArray(socialInsuranceNumberWithNonDigit);
-            return LuhnAlgorithm.checkLuhnAlgorithm(digits);
-        }
-        return false;
     }
 }

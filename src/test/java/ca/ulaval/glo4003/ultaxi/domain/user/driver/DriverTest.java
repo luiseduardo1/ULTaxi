@@ -6,9 +6,11 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidSocialInsuranceNumberException;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Van;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
@@ -45,75 +47,23 @@ public class DriverTest {
 
     private Driver driver;
     private TransportRequest transportRequest;
-
+    private PhoneNumber phoneNumber = new PhoneNumber(A_PHONE_NUMBER);
+    private SocialInsuranceNumber socialInsuranceNumber = new SocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
+    
     @Before
     public void setUp() {
         willReturn(A_HASH).given(hashingStrategy).hashWithRandomSalt(anyString());
 
-        driver = new Driver(A_USERNAME, A_PASSWORD, A_PHONE_NUMBER, AN_EMAIL_ADDRESS, hashingStrategy, A_FIRST_NAME,
-                            A_SECOND_NAME, A_VALID_SOCIAL_INSURANCE_NUMBER);
+        driver = new Driver(A_USERNAME, A_PASSWORD, phoneNumber, AN_EMAIL_ADDRESS, hashingStrategy, A_FIRST_NAME,
+                            A_SECOND_NAME, socialInsuranceNumber);
         transportRequest = new TransportRequest();
     }
 
     @Test
-    public void givenValidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
-        String socialInsuranceNumber = A_VALID_SOCIAL_INSURANCE_NUMBER;
-
+    public void givenValidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenSocialInsuranceNumberIsAssigned() {
         driver.setSocialInsuranceNumber(socialInsuranceNumber);
 
         Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
-    }
-
-    @Test
-    public void
-    givenValidSocialInsuranceNumberWithDashes_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
-        String socialInsuranceNumber = "972-487-086";
-
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-
-        Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
-    }
-
-    @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void
-    givenSocialInsuranceNumberWithTooManyDigits_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-        String socialInsuranceNumber = "9724870865";
-
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-    }
-
-    @Test
-    public void
-    givenValidSocialInsuranceNumberWithEmptySpace_whenSetSocialInsuranceNumber_thenAcceptSocialInsuranceNumber() {
-        String socialInsuranceNumber = "972 487 086";
-
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-
-        Assert.assertEquals(driver.getSocialInsuranceNumber(), socialInsuranceNumber);
-    }
-
-    @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void
-    givenInvalidSocialInsuranceNumber_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-        String socialInsuranceNumber = "234154346";
-
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-    }
-
-    @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void
-    givenSocialInsuranceNumberWithSpecialCharacters_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-        String socialInsuranceNumber = "1!3 2?4 56!8";
-
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-    }
-
-    @Test(expected = InvalidSocialInsuranceNumberException.class)
-    public void
-    givenValidSocialInsuranceNumberWithDots_whenSetSocialInsuranceNumber_thenThrowsInvalidSocialInsuranceNumberException() {
-        String socialInsuranceNumber = "972.487.086";
-
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
     }
 
     @Test
@@ -156,29 +106,34 @@ public class DriverTest {
         driver.dissociateVehicle();
     }
 
+    @Test(expected = DriverHasNoTransportRequestAssignedException.class)
+    public void givenADriverWithNoTransportRequestAssigned_whenGetCurrentTransportRequestId_thenThrowsException() {
+        driver.getCurrentTransportRequestId();
+    }
+
     @Test
     public void givenValidTransportRequest_whenAssignTransportRequest_thenNoExceptionIsThrown() {
         driver.associateVehicle(vehicle);
 
-        driver.assignTransportRequest(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
     }
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
     public void givenUnavailableTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
         transportRequest.setUnavailable();
-        driver.assignTransportRequest(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
     }
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
     public void givenDriverWithTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
-        driver.assignTransportRequest(transportRequest);
-        driver.assignTransportRequest(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
     }
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
-    public void givenInvalidDriverVehicleType_whenAssignTransportRequest_thenExceptionIsThrown() {
+    public void givenInvalidDriverVehicleType_whenAssignTransportRequestId_thenExceptionIsThrown() {
         transportRequest.setVehicleType("car");
         driver.associateVehicle(van);
-        driver.assignTransportRequest(transportRequest);
+        driver.assignTransportRequestId(transportRequest);
     }
 }

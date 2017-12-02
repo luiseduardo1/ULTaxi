@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user;
 
+import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.administrator.Administrator;
 import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
@@ -16,9 +18,6 @@ import java.util.function.Function;
 
 public class UserDevDataFactory {
 
-    private static final int CLIENT_QUANTITY = 2;
-    private static final int ADMINISTRATOR_QUANTITY = 1;
-    private static final int DRIVER_QUANTITY = 1;
     private static final String PHONE_NUMBER = "2342355678";
     private static final String SOCIAL_INSURANCE_NUMBER = "972487086";
     private static final String USERNAME_SUFFIX = "Username";
@@ -50,69 +49,67 @@ public class UserDevDataFactory {
     }
 
     private List<User> createAdministrators(HashingStrategy hashingStrategy) {
-        List<User> users = new ArrayList<>();
-        for (int i = 0; i <= ADMINISTRATOR_QUANTITY; i++) {
-            users.add(createAdministrator(hashingStrategy, i));
-        }
-        return users;
+        List<User> administrators = new ArrayList<>();
+        administrators.add(createAdministrator(hashingStrategy));
+        return administrators;
     }
 
-    private List<User> createClients(HashingStrategy hashingStrategy) {
-        List<User> users = new ArrayList<>();
-        for (int i = 0; i <= CLIENT_QUANTITY; i++) {
-            users.add(createClient(hashingStrategy, i));
-        }
-        return users;
-    }
-
-    private List<User> createDrivers(HashingStrategy hashingStrategy) {
-        List<User> drivers = new ArrayList<>();
-        for (int i = 0; i <= DRIVER_QUANTITY; i++) {
-            drivers.add(createDriver(hashingStrategy, i));
-        }
-        return drivers;
-    }
-
-    private User createAdministrator(HashingStrategy hashingStrategy, int administratorNumber) {
-        String administratorPrefix = generateUserPrefixString(Role.ADMINISTRATOR, administratorNumber);
+    private Administrator createAdministrator(HashingStrategy hashingStrategy) {
+        PhoneNumber phoneNumber = new PhoneNumber(PHONE_NUMBER);
+        String administratorPrefix = generateUserPrefixString(Role.ADMINISTRATOR);
         Administrator administrator = new Administrator(
             administratorPrefix + USERNAME_SUFFIX,
             administratorPrefix + PASSWORD_SUFFIX,
-            PHONE_NUMBER,
+            phoneNumber,
             administratorPrefix + EMAIL_SUFFIX,
             hashingStrategy
         );
         return administrator;
     }
 
-    private User createClient(HashingStrategy hashingStrategy, int clientNumber) {
-        String clientPrefix = generateUserPrefixString(Role.CLIENT, clientNumber);
+    private List<User> createDrivers(HashingStrategy hashingStrategy) {
+        List<User> drivers = new ArrayList<>();
+        drivers.add(createDriver(hashingStrategy));
+        return drivers;
+    }
+
+    private Driver createDriver(HashingStrategy hashingStrategy) {
+        PhoneNumber phoneNumber = new PhoneNumber(PHONE_NUMBER);
+        SocialInsuranceNumber socialInsuranceNumber = new SocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER);
+        String driverPrefix = generateUserPrefixString(Role.DRIVER);
+        Driver driver = new Driver(
+            driverPrefix + USERNAME_SUFFIX,
+            driverPrefix + PASSWORD_SUFFIX,
+            phoneNumber,
+            driverPrefix + EMAIL_SUFFIX,
+            hashingStrategy,
+            driverPrefix + FIRST_NAME_SUFFIX,
+            driverPrefix + LAST_NAME_SUFFIX,
+            socialInsuranceNumber
+        );
+        return driver;
+    }
+
+    private List<User> createClients(HashingStrategy hashingStrategy) {
+        List<User> clients = new ArrayList<>();
+        clients.add(createClient(hashingStrategy));
+        return clients;
+    }
+
+    private Client createClient(HashingStrategy hashingStrategy) {
+        PhoneNumber phoneNumber = new PhoneNumber(PHONE_NUMBER);
+        String clientPrefix = generateUserPrefixString(Role.CLIENT);
         Client client = new Client(
             clientPrefix + USERNAME_SUFFIX,
             clientPrefix + PASSWORD_SUFFIX,
-            PHONE_NUMBER,
+            phoneNumber,
             clientPrefix + EMAIL_SUFFIX,
             hashingStrategy
         );
         return client;
     }
 
-    private User createDriver(HashingStrategy hashingStrategy, int driverNumber) {
-        String driverPrefix = generateUserPrefixString(Role.DRIVER, driverNumber);
-        Driver driver = new Driver(
-            driverPrefix + USERNAME_SUFFIX,
-            driverPrefix + PASSWORD_SUFFIX,
-            PHONE_NUMBER,
-            driverPrefix + EMAIL_SUFFIX,
-            hashingStrategy,
-            driverPrefix + FIRST_NAME_SUFFIX,
-            driverPrefix + LAST_NAME_SUFFIX,
-            SOCIAL_INSURANCE_NUMBER
-        );
-        return driver;
-    }
-
-    private String generateUserPrefixString(Role role, int index) {
-        return role.name().toLowerCase() + String.valueOf(index);
+    private String generateUserPrefixString(Role role) {
+        return role.name().toLowerCase();
     }
 }

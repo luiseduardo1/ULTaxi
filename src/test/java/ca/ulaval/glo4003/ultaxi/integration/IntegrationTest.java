@@ -25,6 +25,7 @@ public abstract class IntegrationTest {
     protected static final String DRIVERS_ROUTE = API_ROUTE + "/drivers";
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
     protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";
+    protected static final String DRIVER_HAS_ARRIVED_NOTIFICATION = TRANSPORT_REQUEST_ROUTE + "/notification/arrived";
     protected static final String ASSIGN_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/assign";
     protected static final String SEARCH_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/search";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
@@ -36,9 +37,9 @@ public abstract class IntegrationTest {
 
     private String authenticationToken = "";
 
-    protected Response authenticateAs(Role role, String index) {
+    protected Response authenticateAs(Role role) {
         return authenticateAs(
-            createSerializedGenericRoleCredentials(role, index)
+            createSerializedGenericRoleCredentials(role)
         );
     }
 
@@ -54,6 +55,12 @@ public abstract class IntegrationTest {
     protected Response signout() {
         return executePostRequest(
             createAuthenticatedRequestSpecification(SIGNOUT_ROUTE, authenticationToken)
+        );
+    }
+
+    protected Response authenticatedPost(String path) {
+        return executePostRequest(
+            createAuthenticatedRequestSpecification(path, authenticationToken)
         );
     }
 
@@ -89,14 +96,15 @@ public abstract class IntegrationTest {
         );
     }
 
-    protected Response unauthenticatedGet(String path) {
-        return unauthenticatedGet(path, new HashMap<>());
-    }
-
-
     protected Response unauthenticatedGet(String path, Map<String, ?> queryParameters) {
         return executeGetRequest(
             createBasicRequestSpecification(path), queryParameters
+        );
+    }
+
+    protected Response unauthenticatedGet(String path) {
+        return executeGetRequest(
+            createBasicRequestSpecification(path), new HashMap<>()
         );
     }
 
@@ -107,11 +115,11 @@ public abstract class IntegrationTest {
             .statusCode(status.getStatusCode());
     }
 
-    protected String createSerializedGenericRoleCredentials(Role role, String index) {
+    protected String createSerializedGenericRoleCredentials(Role role) {
         String lowercaseRole = role.name().toLowerCase();
         return createSerializedCredentials(
-            lowercaseRole + index + "Username",
-            lowercaseRole + index + "Password"
+            lowercaseRole + "Username",
+            lowercaseRole + "Password"
         );
     }
 

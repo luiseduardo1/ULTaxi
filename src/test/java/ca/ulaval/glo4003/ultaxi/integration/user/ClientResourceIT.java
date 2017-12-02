@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.integration.user;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.integration.IntegrationTest;
 import io.restassured.response.Response;
 import org.junit.Before;
@@ -62,7 +61,6 @@ public class ClientResourceIT extends IntegrationTest {
 
     @Test
     public void givenAlreadyExistingUser_whenUpdateClient_thenUserIsUpdated() {
-        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedValidUser();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
@@ -90,7 +88,6 @@ public class ClientResourceIT extends IntegrationTest {
 
     @Test
     public void givenAUserWithAnEmptyPassword_whenUpdatingClient_thenReturnsUnauthorized() {
-        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedUserWithEmptyPassword();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);
@@ -100,7 +97,6 @@ public class ClientResourceIT extends IntegrationTest {
 
     @Test
     public void givenAUserWithAnInvalidEmail_whenUpdatingClient_thenReturnsBadRequest() {
-        authenticateAs(Role.CLIENT, SECOND_CLIENT);
         String serializedUser = createSerializedUserWithInvalidEmail();
 
         Response response = authenticatedPut(USERS_ROUTE, serializedUser);

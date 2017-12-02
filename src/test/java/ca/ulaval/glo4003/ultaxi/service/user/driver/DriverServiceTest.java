@@ -3,20 +3,21 @@ package ca.ulaval.glo4003.ultaxi.service.user.driver;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
+import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
+import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverValidator;
-import ca.ulaval.glo4003.ultaxi.domain.user.exception.EmptySearchResultsException;
-import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
+import com.beust.jcommander.internal.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,10 +44,9 @@ public class DriverServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private DriverSearchQueryBuilder driverSearchQueryBuilder;
-    @Mock
     private DriverSearchParameters driverSearchParameters;
-
+    @Mock
+    private SearchResults<Driver> driverSearchResults;
     private DriverService driverService;
 
     @Before
@@ -78,11 +78,7 @@ public class DriverServiceTest {
 
     @Test(expected = EmptySearchResultsException.class)
     public void givenValidSearchQueryWithNoDriversAssociated_whenSearching_thenThrowsEmptySearchResultsException() {
-        willReturn(driverSearchQueryBuilder).given(userRepository).searchDrivers();
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withFirstName(anyString());
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withLastName(anyString());
-        willReturn(driverSearchQueryBuilder).given(driverSearchQueryBuilder).withSocialInsuranceNumber(anyString());
-        willThrow(new EmptySearchResultsException("No results found.")).given(driverSearchQueryBuilder).findAll();
+        willThrow(new EmptySearchResultsException("No results found.")).given(userRepository).searchDrivers(any());
 
         driverService.searchBy(driverSearchParameters);
     }
@@ -91,7 +87,8 @@ public class DriverServiceTest {
     public void
     givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
         willReturn("arg").given(driverSearchParameters).getLastName();
-        willReturn(new DriverSearchQueryBuilderInMemory(givenDrivers())).given(userRepository).searchDrivers();
+        willReturn(driverSearchResults).given(userRepository).searchDrivers(any());
+        willReturn(Lists.newArrayList(driver)).given(driverSearchResults).getResults();
 
         List<DriverDto> driverDtos = driverService.searchBy(driverSearchParameters);
 
