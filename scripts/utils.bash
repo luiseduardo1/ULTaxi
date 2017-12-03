@@ -10,7 +10,7 @@ create_user_for_authentication() {
 {
     "username": "${_username}",
     "password": "${_password}",
-    "email": "${_email}"
+    "emailAddress": "${_email}"
 }
 EOF
 }
@@ -24,7 +24,7 @@ create_user() {
 {
     "username": "${_username}",
     "password": "${_password}",
-    "email": "${_email}",
+    "emailAddress": "${_email}",
     "phoneNumber": "${_phone_number}"
 }
 EOF

@@ -22,7 +22,7 @@ it_should_create_a_user_account() {
     handle_test_result "${?}"
 }
 
-authenticated_user_user_tests() {
+authenticated_user_tests() {
     display_test_suite_name "${FUNCNAME[0]}"
     display_preconditions 'Caller should be logged as a user.'
     display_postconditions 'User should be logged out.'
