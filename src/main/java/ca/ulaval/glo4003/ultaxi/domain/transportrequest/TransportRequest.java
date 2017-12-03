@@ -79,9 +79,9 @@ public class TransportRequest {
 
     public void updateStatus(TransportRequestStatus newStatus) {
         if (newStatus == TransportRequestStatus.ARRIVED && this.status != TransportRequestStatus.ACCEPTED) {
-            throw new InvalidTransportRequestStatusException(String.format("The status can't be updated to %s when " +
-                                                                               "the actual status is %s.", newStatus,
-                                                                           status));
+            throw new InvalidTransportRequestStatusException(
+                String.format("The status can't be updated to %s when the current status is %s.", newStatus, status)
+            );
         }
 
         this.status = newStatus;
