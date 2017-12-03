@@ -78,7 +78,7 @@ public class TransportRequestServiceTest {
     @Before
     public void setUp() throws Exception {
         transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
-                                                              userRepository, userAuthenticationService, 
+                                                              userRepository, userAuthenticationService,
                                                               messagingTaskProducer, smsSender);
         willReturn(driver).given(userAuthenticationService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(user).given(userAuthenticationService).getUserFromToken(A_VALID_TOKEN);

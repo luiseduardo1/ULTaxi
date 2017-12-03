@@ -3,10 +3,9 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.user.driver;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-
 import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -76,8 +75,8 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = driver;
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), 
-            foundDriver.getSocialInsuranceNumber().getNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(),
+                     foundDriver.getSocialInsuranceNumber().getNumber());
     }
 
     @Test
@@ -89,8 +88,8 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = driver2;
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), 
-            foundDriver.getSocialInsuranceNumber().getNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(),
+                     foundDriver.getSocialInsuranceNumber().getNumber());
     }
 
     @Test
@@ -102,8 +101,8 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = driver3;
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), 
-            foundDriver.getSocialInsuranceNumber().getNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(),
+                     foundDriver.getSocialInsuranceNumber().getNumber());
     }
 
     @Test
@@ -116,8 +115,8 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
         Driver expectedDriver = driver;
         assertEquals(1, foundDrivers.size());
-        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(), 
-            foundDriver.getSocialInsuranceNumber().getNumber());
+        assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(),
+                     foundDriver.getSocialInsuranceNumber().getNumber());
     }
 
     private Map<String, User> givenDrivers() {

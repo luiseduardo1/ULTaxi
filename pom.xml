@@ -209,7 +209,8 @@
                     <stopUnresponsiveDaemonThreads>true</stopUnresponsiveDaemonThreads>
                     <arguments>
                         <argument>--server-port=8080</argument>
-                        <argument>--email-configuration="emailSenderConfiguration.properties"</argument>
+                        <argument>--email-configuration="emailSenderConfiguration.properties"
+                        </argument>
                         <argument>"properties"</argument>
                     </arguments>
                 </configuration>

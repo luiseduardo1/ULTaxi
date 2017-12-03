@@ -49,7 +49,7 @@ public class DriverTest {
     private TransportRequest transportRequest;
     private PhoneNumber phoneNumber = new PhoneNumber(A_PHONE_NUMBER);
     private SocialInsuranceNumber socialInsuranceNumber = new SocialInsuranceNumber(A_VALID_SOCIAL_INSURANCE_NUMBER);
-    
+
     @Before
     public void setUp() {
         willReturn(A_HASH).given(hashingStrategy).hashWithRandomSalt(anyString());

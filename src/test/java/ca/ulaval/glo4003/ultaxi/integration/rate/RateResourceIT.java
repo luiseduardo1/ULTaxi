@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response.Status;
 import java.math.BigDecimal;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RateResourceIT extends IntegrationTest{
+public class RateResourceIT extends IntegrationTest {
 
     private static final BigDecimal AN_INVALID_RATE = BigDecimal.ZERO;
     private static final BigDecimal A_VALID_RATE = BigDecimal.TEN;
@@ -59,15 +59,15 @@ public class RateResourceIT extends IntegrationTest{
 
     private String createSerializedValidDistanceRate(String vehicleType) {
         return createSerializedDistanceRate(
-                vehicleType,
-                A_VALID_RATE
+            vehicleType,
+            A_VALID_RATE
         );
     }
 
     private String createSerializedDistanceWithInvalidRate(String vehicleType) {
         return createSerializedDistanceRate(
-                vehicleType,
-                AN_INVALID_RATE
+            vehicleType,
+            AN_INVALID_RATE
         );
     }
 }

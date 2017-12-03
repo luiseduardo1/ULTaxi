@@ -14,7 +14,7 @@ public class DriverAssembler {
     }
 
     public Driver create(DriverDto driverDto) {
-        
+
         return new Driver(
             driverDto.getUsername(),
             driverDto.getPassword(),

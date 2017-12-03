@@ -21,6 +21,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserRepositoryInMemoryTest {
 

@@ -10,9 +10,8 @@ import java.util.logging.Logger;
 public class RateService {
 
     private final Logger logger = Logger.getLogger(RateService.class.getName());
-
-    private RateRepository rateRepository;
     private final DistanceRateAssembler distanceRateAssembler;
+    private RateRepository rateRepository;
 
     public RateService(RateRepository rateRepository, DistanceRateAssembler distanceRateAssembler) {
         this.rateRepository = rateRepository;

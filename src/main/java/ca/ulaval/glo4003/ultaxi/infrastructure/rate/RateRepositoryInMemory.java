@@ -43,7 +43,7 @@ public class RateRepositoryInMemory implements RateRepository {
         DistanceRate distanceRate = (DistanceRate) rate;
         if (ratesByVehicleType.containsKey(distanceRate.getVehicleType())) {
             throw new RateAlreadyExistsException(
-                    String.format("Rate for vehicle type %s already exists.", distanceRate.getVehicleType())
+                String.format("Rate for vehicle type %s already exists.", distanceRate.getVehicleType())
             );
         }
         ratesByVehicleType.put(distanceRate.getVehicleType(), distanceRate);
@@ -53,7 +53,7 @@ public class RateRepositoryInMemory implements RateRepository {
         DistanceRate distanceRate = (DistanceRate) rate;
         if (!ratesByVehicleType.containsKey(distanceRate.getVehicleType())) {
             throw new NonExistentRateException(
-                    String.format("Rate with vehicle type %s don't exist", distanceRate.getVehicleType())
+                String.format("Rate with vehicle type %s don't exist", distanceRate.getVehicleType())
             );
         }
         ratesByVehicleType.replace(distanceRate.getVehicleType(), distanceRate);

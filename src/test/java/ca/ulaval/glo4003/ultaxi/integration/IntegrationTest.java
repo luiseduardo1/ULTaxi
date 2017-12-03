@@ -182,7 +182,7 @@ public abstract class IntegrationTest {
     }
 
     protected String createSerializedDistanceRate(String vehicleType,
-                                                  BigDecimal rate) {
+        BigDecimal rate) {
         DistanceRateDto distanceRateDto = new DistanceRateDto();
         distanceRateDto.setVehicleType(vehicleType);
         distanceRateDto.setRate(rate);
