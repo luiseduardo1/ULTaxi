@@ -19,7 +19,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
     @Test
     public void givenUser_whenAuthenticate_thenUserIsAuthenticated() {
         String serializedUser = createSerializedValidUser();
-        unauthenticatedPost(USERS_ROUTE, serializedUser);
+        unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
         Response response = authenticateAs(serializedUser);
 
@@ -38,7 +38,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
     @Test
     public void givenCredentialsWithWrongPassword_whenAuthenticate_thenReturnsForbidden() {
         String serializedUser = createSerializedValidUser();
-        unauthenticatedPost(USERS_ROUTE, serializedUser);
+        unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
         String serializedUserWithWrongPassword = createSerializedUserWithWrongPassword();
         Response response = authenticateAs(serializedUserWithWrongPassword);
@@ -49,7 +49,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
     @Test
     public void givenAuthenticatedUser_whenSignOut_thenUserIsSignedOut() {
         String serializedUser = createSerializedValidUser();
-        unauthenticatedPost(USERS_ROUTE, serializedUser);
+        unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
         authenticateAs(serializedUser);
 
         Response response = signout();

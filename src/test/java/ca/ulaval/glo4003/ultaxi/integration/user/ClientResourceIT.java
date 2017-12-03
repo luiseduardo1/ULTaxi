@@ -25,7 +25,7 @@ public class ClientResourceIT extends IntegrationTest {
     @Before
     public void setUp() {
         if (!isUserCreated) {
-            unauthenticatedPost(USERS_ROUTE, aValidUser);
+            unauthenticatedPost(CLIENTS_ROUTE, aValidUser);
             isUserCreated = true;
         }
         authenticateAs(aValidUser);
@@ -35,7 +35,7 @@ public class ClientResourceIT extends IntegrationTest {
     public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
         String serializedUser = createSerializedValidUser();
 
-        Response response = unauthenticatedPost(USERS_ROUTE, serializedUser);
+        Response response = unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.OK);
     }
@@ -43,9 +43,9 @@ public class ClientResourceIT extends IntegrationTest {
     @Test
     public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
         String serializedUser = createSerializedValidUser();
-        unauthenticatedPost(USERS_ROUTE, serializedUser);
+        unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
-        Response response = unauthenticatedPost(USERS_ROUTE, serializedUser);
+        Response response = unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
@@ -54,7 +54,7 @@ public class ClientResourceIT extends IntegrationTest {
     public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
         String serializedUser = createSerializedUserWithInvalidName();
 
-        Response response = unauthenticatedPost(USERS_ROUTE, serializedUser);
+        Response response = unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
@@ -63,7 +63,7 @@ public class ClientResourceIT extends IntegrationTest {
     public void givenAlreadyExistingUser_whenUpdateClient_thenUserIsUpdated() {
         String serializedUser = createSerializedValidUser();
 
-        Response response = authenticatedPut(USERS_ROUTE, serializedUser);
+        Response response = authenticatedPut(CLIENTS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.OK);
     }
@@ -72,7 +72,7 @@ public class ClientResourceIT extends IntegrationTest {
     public void givenAnUnauthenticatedUser_whenUpdateClient_thenReturnsUnauthorized() {
         String serializedUser = createSerializedValidUser();
 
-        Response response = unauthenticatedPut(USERS_ROUTE, serializedUser);
+        Response response = unauthenticatedPut(CLIENTS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.UNAUTHORIZED);
     }
@@ -81,7 +81,7 @@ public class ClientResourceIT extends IntegrationTest {
     public void givenAUserWithAnEmptyPassword_whenCreatingUser_thenReturnsBadRequest() {
         String serializedUser = createSerializedUserWithEmptyPassword();
 
-        Response response = unauthenticatedPost(USERS_ROUTE, serializedUser);
+        Response response = unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
@@ -90,7 +90,7 @@ public class ClientResourceIT extends IntegrationTest {
     public void givenAUserWithAnEmptyPassword_whenUpdatingClient_thenReturnsUnauthorized() {
         String serializedUser = createSerializedUserWithEmptyPassword();
 
-        Response response = authenticatedPut(USERS_ROUTE, serializedUser);
+        Response response = authenticatedPut(CLIENTS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
@@ -99,7 +99,7 @@ public class ClientResourceIT extends IntegrationTest {
     public void givenAUserWithAnInvalidEmail_whenUpdatingClient_thenReturnsBadRequest() {
         String serializedUser = createSerializedUserWithInvalidEmail();
 
-        Response response = authenticatedPut(USERS_ROUTE, serializedUser);
+        Response response = authenticatedPut(CLIENTS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
