@@ -10,21 +10,19 @@ declare -xr json_accept_header="Accept: application/json"
 declare -xr plain_text_content_type_header="Content-Type: text/plain"
 declare -xr curl_configuration_file=".curlrc"
 
-declare -xr default_user="$(create_user_for_authentication "clientUsername" \
-                                                           "clientPassword" \
-                                                           "client@ultaxi.ca")"
-declare -xr default_driver="$(create_user_for_authentication "driverUsername" \
-                                                             "driverPassword" \
-                                                             "driver@ultaxi.ca")"
+declare -xr default_user="$(create_authentication_credentials "clientUsername" \
+                                                           "clientPassword")"
+declare -xr default_driver="$(create_authentication_credentials "driverUsername" \
+                                                             "driverPassword")"
 
-declare -xr username="john_smith"
-declare -xr updated_username="john_smith_2"
+declare -xr client_username="john_smith"
+declare -xr client_updated_username="john_smith_2"
 declare -xr password="hunter2"
-declare -x email="$(cat "email.txt")"
+declare -x email_address="$(cat "email.txt")"
 declare -xr phone_number="2342355678"
-declare -xr user="$(create_user "${username}" \
+declare -xr client="$(create_client "${client_username}" \
                                          "${password}" \
-                                         "${email}" \
+                                         "${email_address}" \
                                          "${phone_number}")"
 
 declare -xr driver_username="jane_doe"
@@ -33,7 +31,7 @@ declare -xr driver_first_name="Jane"
 declare -xr social_insurance_number="046454286"
 declare -xr driver="$(create_driver "${driver_username}" \
                                     "${password}" \
-                                    "${email}" \
+                                    "${email_address}" \
                                     "${social_insurance_number}" \
                                     "${phone_number}" \
                                     "${driver_last_name}" \
@@ -41,10 +39,8 @@ declare -xr driver="$(create_driver "${driver_username}" \
 
 declare -xr administrator_username="administratorUsername"
 declare -xr administrator_password="administratorPassword"
-declare -xr administrator_email="administrator@ultaxi.ca"
-declare -xr administrator="$(create_user_for_authentication "${administrator_username}" \
-                                                            "${administrator_password}" \
-                                                            "${administrator_email}")"
+declare -xr administrator="$(create_authentication_credentials "${administrator_username}" \
+                                                            "${administrator_password}")"
 
 declare -xr car_vehicle_type="CAR"
 declare -xr vehicle_color="Metallic Blue"
@@ -63,5 +59,5 @@ declare -xr note="Note"
 declare -xr transport_request="$(create_transport_request ${latitude_starting_position} \
                                                           ${longitude_starting_position} \
                                                           "${car_vehicle_type}" \
-                                                          "${username}" \
+                                                          "${client_username}" \
                                                           "${note}")"

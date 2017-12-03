@@ -2,20 +2,18 @@
 
 declare -xr is_utils_file_loaded=true
 
-create_user_for_authentication() {
+create_authentication_credentials() {
     local -r _username="${1}"
     local -r _password="${2}"
-    local -r _email="${3}"
     cat << EOF
 {
     "username": "${_username}",
-    "password": "${_password}",
-    "emailAddress": "${_email}"
+    "password": "${_password}"
 }
 EOF
 }
 
-create_user() {
+create_client() {
     local -r _username="${1}"
     local -r _password="${2}"
     local -r _email="${3}"
