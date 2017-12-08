@@ -9,7 +9,6 @@ import static org.mockito.Mockito.verify;
 import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverValidator;
@@ -23,12 +22,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverServiceTest {
+
+    public static final String A_LAST_NAME = "Macdonald";
+    public static final String ANOTHER_LAST_NAME = "Gargamel";
 
     @Mock
     private Driver driver;
@@ -55,9 +55,9 @@ public class DriverServiceTest {
         willReturn(driver).given(driverAssembler).create(driverDto);
         willReturn(driverDto).given(driverAssembler).create(driver);
         willReturn(driverDto).given(driverAssembler).create(driver2);
-        willReturn("Macdonald").given(driver).getLastName();
+        willReturn(A_LAST_NAME).given(driver).getLastName();
         willReturn(Role.DRIVER).given(driver).getRole();
-        willReturn("Gargamel").given(driver2).getLastName();
+        willReturn(ANOTHER_LAST_NAME).given(driver2).getLastName();
         willReturn(Role.DRIVER).given(driver2).getRole();
     }
 
@@ -92,13 +92,5 @@ public class DriverServiceTest {
         List<DriverDto> driverDtos = driverService.searchBy(driverSearchParameters);
 
         assertEquals(1, driverDtos.size());
-    }
-
-    public Map<String, User> givenDrivers() {
-        Map<String, User> drivers = new HashMap<>();
-        drivers.put("1", driver);
-        drivers.put("2", driver2);
-
-        return drivers;
     }
 }

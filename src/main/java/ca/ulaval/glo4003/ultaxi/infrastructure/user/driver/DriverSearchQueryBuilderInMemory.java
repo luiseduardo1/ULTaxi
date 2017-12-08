@@ -40,9 +40,10 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
 
     @Override
     public DriverSearchQueryBuilder withSocialInsuranceNumber(String socialInsuranceNumber) {
-        return withNonNull(driver -> (driver.getSocialInsuranceNumber().getNumber()).equals(socialInsuranceNumber
-                                                                                                .trim()),
-                           socialInsuranceNumber);
+        return withNonNull(
+            driver -> (driver.getSocialInsuranceNumber().getNumber()).equals(socialInsuranceNumber.trim()),
+            socialInsuranceNumber
+        );
     }
 
     private DriverSearchQueryBuilder withNonNull(Predicate<Driver> predicate, String value) {

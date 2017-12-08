@@ -47,7 +47,7 @@ public class UserAuthenticationServiceTest {
     private UserAuthenticationService userAuthenticationService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.userAuthenticationDto = new ClientDto();
         userAuthenticationDto.setUsername(A_USERNAME);
         userAuthenticationDto.setPassword(A_PASSWORD);
