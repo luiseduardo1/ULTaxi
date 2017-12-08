@@ -13,6 +13,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 
 import java.util.List;
@@ -65,6 +66,17 @@ public class TransportRequestService {
         Driver driver = (Driver) userService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository.findById(transportRequestId);
         driver.assignTransportRequestId(transportRequest);
+        userRepository.update(driver);
+        transportRequestRepository.update(transportRequest);
+    }
+
+    public void completeTransportRequest(String driverToken, TransportRequestCompleteDto transportRequestCompleteDto) {
+        Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        TransportRequest transportRequest = transportRequestRepository
+                .findById(transportRequestCompleteDto.getTransportRequestId());
+        transportRequest.complete(driver);
+        
+
         userRepository.update(driver);
         transportRequestRepository.update(transportRequest);
     }

@@ -76,7 +76,7 @@ public class TransportRequestServiceTest {
     private TransportRequestService transportRequestService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
                                                               userRepository, userService, messagingTaskProducer,
                                                               smsSender);
@@ -100,6 +100,15 @@ public class TransportRequestServiceTest {
 
         verify(transportRequestRepository).save(transportRequest);
     }
+
+    /*@Test
+    public void givenAValidTransportRequest_whenCompleteRequest_thenRequestIs() {
+        willReturn(transportRequest).given(transportRequestAssembler).create(transportRequestDto);
+
+        transportRequestService.sendRequest(transportRequestDto, A_VALID_TOKEN);
+
+        verify(transportRequestRepository).save(transportRequest);
+    }*/
 
     @Test(expected = EmptySearchResultsException.class)
     public void givenAValidSearchQueryWithNoTransportRequestAssociated_whenSearching_thenThrowsException() {

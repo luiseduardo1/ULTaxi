@@ -1,7 +1,9 @@
 package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestCompletionException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 
@@ -80,8 +82,8 @@ public class TransportRequest {
     public void updateStatus(TransportRequestStatus newStatus) {
         if (newStatus == TransportRequestStatus.ARRIVED && this.status != TransportRequestStatus.ACCEPTED) {
             throw new InvalidTransportRequestStatusException(String.format("The status can't be updated to %s when " +
-                                                                               "the actual status is %s.", newStatus,
-                                                                           status));
+                            "the actual status is %s.", newStatus,
+                    status));
         }
 
         this.status = newStatus;
@@ -100,5 +102,15 @@ public class TransportRequest {
 
     public void setUnavailable() {
         this.status = TransportRequestStatus.ACCEPTED;
+    }
+
+    public void complete(Driver driver) {
+        if (driver.getCurrentTransportRequestId() != this.id) {
+            throw new InvalidTransportRequestCompletionException(
+                    "The transport request you are trying to complete is not assigned to the driver");
+        }
+
+        this.status = TransportRequestStatus.COMPLETED;
+        driver.unassignTransportRequestId();
     }
 }

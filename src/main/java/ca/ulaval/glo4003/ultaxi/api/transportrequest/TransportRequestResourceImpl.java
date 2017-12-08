@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 
 import javax.ws.rs.core.GenericEntity;
@@ -28,10 +29,9 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Secured({Role.DRIVER})
     public Response searchAvailableTransportRequests(String driverToken) {
         GenericEntity<List<TransportRequestDto>> availableTransportRequests =
-            new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchAvailableTransportRequests(
-                driverToken)
-            ) {
-            };
+                new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchAvailableTransportRequests(
+                        driverToken)
+                ) {};
 
         return Response.ok(availableTransportRequests).build();
     }
@@ -49,4 +49,13 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
         transportRequestService.assignTransportRequest(driverToken, transportRequestId);
         return Response.ok().build();
     }
+
+    @Override
+    @Secured({Role.DRIVER})
+    public Response completeTransportRequest(String driverToken,
+                                             TransportRequestCompleteDto transportRequestCompleteDto) {
+        transportRequestService.completeTransportRequest(driverToken, transportRequestCompleteDto);
+        return Response.ok().build();
+    }
+
 }

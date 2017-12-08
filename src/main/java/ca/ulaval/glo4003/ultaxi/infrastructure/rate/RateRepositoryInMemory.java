@@ -22,14 +22,14 @@ public class RateRepositoryInMemory implements RateRepository {
 
     @Override
     public void save(Rate rate) {
-        if(rate.getRateType().equals(RateType.DISTANCE)) {
+        if (rate.getRateType().equals(RateType.DISTANCE)) {
             saveInDistance(rate);
         }
     }
 
     @Override
     public void update(Rate rate) {
-        if(rate.getRateType().equals(RateType.DISTANCE)) {
+        if (rate.getRateType().equals(RateType.DISTANCE)) {
             updateInDistance(rate);
         }
     }
