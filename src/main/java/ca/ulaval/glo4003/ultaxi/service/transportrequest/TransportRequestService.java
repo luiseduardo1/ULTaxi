@@ -7,8 +7,10 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.ClientAlreadyHasAnActiveTransportRequestException;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
@@ -40,9 +42,14 @@ public class TransportRequestService {
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) {
-        User user = userAuthenticationService.getUserFromToken(clientToken);
+        Client client = (Client) userAuthenticationService.getUserFromToken(clientToken);
+        if(client.hasAnActiveTransportRequest()) {
+            throw new ClientAlreadyHasAnActiveTransportRequestException(
+                String.format("Client %s already has an active transport request.", client.getUsername())
+            );
+        }
         TransportRequest transportRequest = transportRequestAssembler.create(transportRequestDto);
-        transportRequest.setClientUsername(user.getUsername());
+        transportRequest.setClientUsername(client.getUsername());
         transportRequestRepository.save(transportRequest);
         return transportRequest.getId();
     }
