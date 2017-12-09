@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.transfer.rate;
 
 import ca.ulaval.glo4003.ultaxi.domain.rate.DistanceRate;
-import ca.ulaval.glo4003.ultaxi.domain.rate.RateType;
 
 public class DistanceRateAssembler {
 

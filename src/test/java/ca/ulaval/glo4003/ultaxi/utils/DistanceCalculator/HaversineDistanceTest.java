@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.ultaxi.utils.DistanceCalculator;
 
-import static org.junit.Assert.assertTrue;
-
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.utils.distanceCalculator.HaversineDistance;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class HaversineDistanceTest {
 

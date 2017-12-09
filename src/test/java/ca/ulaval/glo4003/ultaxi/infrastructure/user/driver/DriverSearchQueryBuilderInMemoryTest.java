@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.user.driver;
 
-import static org.junit.Assert.assertEquals;
-
 import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
@@ -13,6 +11,8 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class DriverSearchQueryBuilderInMemoryTest {
 

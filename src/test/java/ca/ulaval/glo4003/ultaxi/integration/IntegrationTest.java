@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.integration;
 
-import static io.restassured.RestAssured.given;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
@@ -18,6 +16,8 @@ import javax.ws.rs.core.Response.Status;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+
+import static io.restassured.RestAssured.given;
 
 public abstract class IntegrationTest {
 

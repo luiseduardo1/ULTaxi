@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.domain.rate;
 
 import ca.ulaval.glo4003.ultaxi.domain.rate.exception.InvalidRateException;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import org.junit.Before;
 import org.junit.Test;

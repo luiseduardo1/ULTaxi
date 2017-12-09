@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.anyInt;
-
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.Sms;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.exception.SmsSendingFailureException;
@@ -13,6 +10,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Random;
+
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyInt;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SmsSenderStubTest {
