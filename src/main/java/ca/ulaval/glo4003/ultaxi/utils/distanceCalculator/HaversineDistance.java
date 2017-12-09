@@ -7,7 +7,7 @@ public class HaversineDistance implements DistanceCalculatorStrategy {
     //  Taken from https://github.com/jasonwinn/haversine/blob/master/Haversine.java (accessed on Thu dev 9 13:03:22 EDT 2017)
     //  Haversine formula
     @Override
-    public Double getDistance(double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
+    public Double calculDistance(double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
 
         double dLat = Math.toRadians((endLatitude - startLatitude));
         double dLong = Math.toRadians((endLongitude - startLongitude));

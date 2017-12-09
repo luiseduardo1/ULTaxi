@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountDto;
 
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
@@ -54,8 +55,10 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Secured({Role.DRIVER})
     public Response completeTransportRequest(String driverToken,
                                              TransportRequestCompleteDto transportRequestCompleteDto) {
-        transportRequestService.completeTransportRequest(driverToken, transportRequestCompleteDto);
-        return Response.ok().build();
+        TransportRequestTotalAmountDto transportRequestTotalAmountDto = transportRequestService
+                .completeTransportRequest(
+                driverToken, transportRequestCompleteDto);
+        return Response.ok().entity(transportRequestTotalAmountDto).build();
     }
 
 }

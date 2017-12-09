@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.ultaxi.transfer.transportrequest;
 
 public class TransportRequestCompleteDto {
 
-    private double startingPositionLatitude;
-    private double startingPositionLongitude;
+    private double endingPositionLatitude;
+    private double endingPositionLongitude;
     private String transportRequestId;
 
     public String getTransportRequestId() {
@@ -14,20 +14,20 @@ public class TransportRequestCompleteDto {
         this.transportRequestId = transportRequestId;
     }
 
-    public double getStartingPositionLongitude() {
-        return startingPositionLongitude;
+    public double getEndingPositionLongitude() {
+        return endingPositionLongitude;
     }
 
-    public void setStartingPositionLongitude(double startingPositionLongitude) {
-        this.startingPositionLongitude = startingPositionLongitude;
+    public void setEndingPPositionLongitude(double startingPositionLongitude) {
+        this.endingPositionLongitude = startingPositionLongitude;
     }
 
-    public double getStartingPositionLatitude() {
-        return startingPositionLatitude;
+    public double getEndingPositionLatitude() {
+        return endingPositionLatitude;
     }
 
-    public void setStartingPositionLatitude(double startingPositionLatitude) {
-        this.startingPositionLatitude = startingPositionLatitude;
+    public void setEndingPPositionLatitude(double startingPositionLatitude) {
+        this.endingPositionLatitude = startingPositionLatitude;
     }
 
 }

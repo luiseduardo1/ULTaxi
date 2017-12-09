@@ -1,12 +1,16 @@
 package ca.ulaval.glo4003.ultaxi.domain.rate;
 
+import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 
-import java.math.BigDecimal;
-
 public class DistanceRate extends Rate {
     private VehicleType vehicleType;
+    private static final RateType RATE_TYPE = RateType.DISTANCE;
+
+    public DistanceRate() {
+        super(RATE_TYPE);
+    }
 
     public void setVehicleType(String vehicleType) {
         try {
@@ -23,4 +27,6 @@ public class DistanceRate extends Rate {
     public VehicleType getVehicleType() {
         return vehicleType;
     }
+
+
 }

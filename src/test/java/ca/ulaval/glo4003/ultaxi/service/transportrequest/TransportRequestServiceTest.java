@@ -26,6 +26,8 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequest
 import ca.ulaval.glo4003.ultaxi.service.user.UserService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
+import ca.ulaval.glo4003.ultaxi.utils.distanceCalculator.DistanceCalculatorStrategy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,6 +57,10 @@ public class TransportRequestServiceTest {
     @Mock
     private TransportRequestAssembler transportRequestAssembler;
     @Mock
+    private TransportRequestTotalAmountAssembler transportRequestTotalAmountAssembler;
+    @Mock
+    private DistanceCalculatorStrategy distanceCalculatorStrategy;
+    @Mock
     private TransportRequestSearchQueryBuilder transportRequestSearchQueryBuilder;
     @Mock
     private UserRepository userRepository;
@@ -79,7 +85,7 @@ public class TransportRequestServiceTest {
     public void setUp() {
         transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
                                                               userRepository, userService, messagingTaskProducer,
-                                                              smsSender);
+                                                              smsSender, transportRequestTotalAmountAssembler, distanceCalculatorStrategy);
         willReturn(driver).given(userService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(user).given(userService).getUserFromToken(A_VALID_TOKEN);
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();

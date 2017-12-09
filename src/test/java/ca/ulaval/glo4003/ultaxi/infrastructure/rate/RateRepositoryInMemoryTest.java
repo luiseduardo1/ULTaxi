@@ -32,7 +32,7 @@ public class RateRepositoryInMemoryTest {
 
     @Before
     public void setUp() {
-        willReturn(A_RATE).given(distanceRate).getRate();
+        willReturn(A_RATE).given(distanceRate).getValue();
         willReturn(A_RATE_TYPE).given(distanceRate).getRateType();
         willReturn(A_VEHICLE_TYPE).given(distanceRate).getVehicleType();
         rateRepository = new RateRepositoryInMemory();
@@ -73,7 +73,6 @@ public class RateRepositoryInMemoryTest {
     @Test
     public void givenExistingDistanceRate_whenUpdate_thenDistanceRateHasUpdatedParameters() {
         distanceRate.setRate(A_RATE);
-        distanceRate.setRateType(A_RATE_TYPE);
         distanceRate.setVehicleType(A_VEHICLE_TYPE);
         DistanceRate differentDistanceRate = distanceRate;
         differentDistanceRate.setRate(BigDecimal.ONE);
@@ -83,6 +82,6 @@ public class RateRepositoryInMemoryTest {
 
         DistanceRate updatedDistanceRate = rateRepository.findDistanceRateByVehicleType(distanceRate.getVehicleType());
         assertEquals(distanceRate.getVehicleType(), differentDistanceRate.getVehicleType());
-        assertEquals(differentDistanceRate.getRate(), updatedDistanceRate.getRate());
+        assertEquals(differentDistanceRate.getValue(), updatedDistanceRate.getValue());
     }
 }

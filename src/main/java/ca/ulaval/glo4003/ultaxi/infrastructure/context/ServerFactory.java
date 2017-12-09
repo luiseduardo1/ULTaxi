@@ -17,7 +17,6 @@ public abstract class ServerFactory {
     protected final Set<Object> resources = new HashSet<>();
     protected final Set<ContainerRequestFilter> requestFilters = new HashSet<>();
     protected HashingStrategy hashingStrategy = new BcryptHashing();
-    protected DistanceCalculatorStrategy distanceCalculatorStrategy = new HaversineDistance();
     protected ULTaxiOptions options;
     protected MessagingTaskProducer messagingTaskProducer;
 

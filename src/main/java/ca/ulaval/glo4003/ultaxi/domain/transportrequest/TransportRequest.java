@@ -1,12 +1,16 @@
 package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.money.Money;
+import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestCompletionException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ultaxi.utils.distanceCalculator.DistanceCalculatorStrategy;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class TransportRequest {
@@ -17,6 +21,7 @@ public class TransportRequest {
     private String note;
     private VehicleType vehicleType;
     private TransportRequestStatus status = TransportRequestStatus.PENDING;
+    private Money totalAmount;
 
     public TransportRequest() {
     }
@@ -75,6 +80,10 @@ public class TransportRequest {
         }
     }
 
+    public Money getTotalAmount() {
+        return this.totalAmount;
+    }
+
     public TransportRequestStatus getTransportRequestStatus() {
         return this.status;
     }
@@ -113,4 +122,18 @@ public class TransportRequest {
         this.status = TransportRequestStatus.COMPLETED;
         driver.unassignTransportRequestId();
     }
+
+    public Money calculateTotalAmount(Rate rate, Geolocation endingPosition,
+                                      DistanceCalculatorStrategy distanceCalculatorStrategy) {
+        Double distance = calculateDistance(endingPosition, distanceCalculatorStrategy);
+        this.totalAmount = new Money(BigDecimal.valueOf(distance).multiply(rate.getValue()));
+        return this.totalAmount;
+    }
+
+    private Double calculateDistance(Geolocation endingPosition,
+                                     DistanceCalculatorStrategy distanceCalculatorStrategy) {
+        return distanceCalculatorStrategy.calculDistance(startingPosition.getLatitude(), startingPosition
+                .getLongitude(), endingPosition.getLatitude(), endingPosition.getLongitude());
+    }
+
 }
