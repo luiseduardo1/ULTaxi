@@ -95,7 +95,6 @@ public class TransportRequestService {
         Geolocation endingPosition = new Geolocation(transportRequestCompleteDto.getEndingPositionLatitude(),
                 transportRequestCompleteDto.getEndingPositionLongitude());
         Rate rate = RateFactory.getRate(transportRequest.getStartingPosition(), endingPosition);
-
         transportRequest.calculateTotalAmount(rate, endingPosition, distanceCalculatorStrategy);
 
         userRepository.update(driver);
