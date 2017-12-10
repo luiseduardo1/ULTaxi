@@ -1,12 +1,11 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.rate;
 
-import ca.ulaval.glo4003.ultaxi.domain.rate.DistanceRate;
-import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
 import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.rate.RateType;
 import ca.ulaval.glo4003.ultaxi.domain.rate.exception.NonExistentRateException;
 import ca.ulaval.glo4003.ultaxi.domain.rate.exception.RateAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,49 +13,48 @@ import java.util.Map;
 public class RateRepositoryInMemory implements RateRepository {
 
     private final Map<RateType, Object> rates = new HashMap<>();
-    private final Map<VehicleType, DistanceRate> ratesByVehicleType = new HashMap<>();
+    private final Map<VehicleType, RatePersistenceDto> ratesByVehicleType = new HashMap<VehicleType, RatePersistenceDto>();
 
     public RateRepositoryInMemory() {
         rates.put(RateType.DISTANCE, ratesByVehicleType);
     }
 
     @Override
-    public void save(Rate rate) {
+    public void save(RatePersistenceDto rate) {
         if (rate.getRateType().equals(RateType.DISTANCE)) {
             saveInDistance(rate);
         }
     }
 
     @Override
-    public void update(Rate rate) {
+    public void update(RatePersistenceDto rate) {
         if (rate.getRateType().equals(RateType.DISTANCE)) {
             updateInDistance(rate);
         }
     }
 
     @Override
-    public DistanceRate findDistanceRateByVehicleType(VehicleType vehicleType) {
+    public RatePersistenceDto findDistanceRateByVehicleType(VehicleType vehicleType) {
         return ratesByVehicleType.get(vehicleType);
     }
 
-    private void saveInDistance(Rate rate) {
-        DistanceRate distanceRate = (DistanceRate) rate;
-        if (ratesByVehicleType.containsKey(distanceRate.getVehicleType())) {
+
+    private void saveInDistance(RatePersistenceDto rate) {
+        if (ratesByVehicleType.containsKey(rate.getVehicleType())) {
             throw new RateAlreadyExistsException(
-                String.format("Rate for vehicle type %s already exists.", distanceRate.getVehicleType())
+                String.format("Rate for vehicle type %s already exists.", rate.getVehicleType())
             );
         }
-        ratesByVehicleType.put(distanceRate.getVehicleType(), distanceRate);
+        ratesByVehicleType.put(rate.getVehicleType(), rate);
     }
 
-    private void updateInDistance(Rate rate) {
-        DistanceRate distanceRate = (DistanceRate) rate;
-        if (!ratesByVehicleType.containsKey(distanceRate.getVehicleType())) {
+    private void updateInDistance(RatePersistenceDto rate) {
+        if (!ratesByVehicleType.containsKey(rate.getVehicleType())) {
             throw new NonExistentRateException(
-                String.format("Rate with vehicle type %s don't exist", distanceRate.getVehicleType())
+                String.format("Rate with vehicle type %s don't exist", rate.getVehicleType())
             );
         }
-        ratesByVehicleType.replace(distanceRate.getVehicleType(), distanceRate);
+        ratesByVehicleType.replace(rate.getVehicleType(), rate);
     }
 
 }

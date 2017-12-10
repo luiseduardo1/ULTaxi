@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.ultaxi.domain.rate.RateType;
 import ca.ulaval.glo4003.ultaxi.domain.rate.exception.NonExistentRateException;
 import ca.ulaval.glo4003.ultaxi.domain.rate.exception.RateAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ public class RateRepositoryInMemoryTest {
     private static final VehicleType A_VEHICLE_TYPE = VehicleType.CAR;
 
     @Mock
-    DistanceRate distanceRate;
+    RatePersistenceDto distanceRate;
 
     private RateRepository rateRepository;
 
@@ -41,14 +42,14 @@ public class RateRepositoryInMemoryTest {
     @Test
     public void givenDistanceRate_whenSave_thenUserHasSameParameters() {
         rateRepository.save(distanceRate);
-        DistanceRate savedRate = rateRepository.findDistanceRateByVehicleType(distanceRate.getVehicleType());
+        RatePersistenceDto savedRate = rateRepository.findDistanceRateByVehicleType(distanceRate.getVehicleType());
 
         assertEquals(distanceRate, savedRate);
     }
 
     @Test
     public void givenNonExistentDistanceRate_whenFindingRateByVehiculeType_thenReturnsNull() {
-        DistanceRate savedRate = rateRepository.findDistanceRateByVehicleType(distanceRate.getVehicleType());
+        RatePersistenceDto savedRate = rateRepository.findDistanceRateByVehicleType(distanceRate.getVehicleType());
 
         assertNull(savedRate);
     }
@@ -75,13 +76,13 @@ public class RateRepositoryInMemoryTest {
         distanceRate.setRate(A_RATE);
         distanceRate.setRateType(A_RATE_TYPE);
         distanceRate.setVehicleType(A_VEHICLE_TYPE);
-        DistanceRate differentDistanceRate = distanceRate;
+        RatePersistenceDto differentDistanceRate = distanceRate;
         differentDistanceRate.setRate(BigDecimal.ONE);
 
         rateRepository.save(distanceRate);
         rateRepository.update(differentDistanceRate);
 
-        DistanceRate updatedDistanceRate = rateRepository.findDistanceRateByVehicleType(distanceRate.getVehicleType());
+        RatePersistenceDto updatedDistanceRate = rateRepository.findDistanceRateByVehicleType(distanceRate.getVehicleType());
         assertEquals(distanceRate.getVehicleType(), differentDistanceRate.getVehicleType());
         assertEquals(differentDistanceRate.getRate(), updatedDistanceRate.getRate());
     }

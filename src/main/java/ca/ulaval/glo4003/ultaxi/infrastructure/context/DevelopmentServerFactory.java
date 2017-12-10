@@ -40,6 +40,7 @@ import ca.ulaval.glo4003.ultaxi.service.user.client.ClientService;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
@@ -56,6 +57,7 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final VehicleAssembler vehicleAssembler = new VehicleAssembler();
     private final TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
     private final DistanceRateAssembler distanceRateAssembler = new DistanceRateAssembler();
+    private final RatePersistenceAssembler ratePersistenceAssembler = new RatePersistenceAssembler();
     private final TokenManager tokenManager = new JWTTokenManager();
     private final ClientAssembler clientAssembler = new ClientAssembler(this.hashingStrategy);
     private final DriverAssembler driverAssembler = new DriverAssembler(this.hashingStrategy);
@@ -73,7 +75,8 @@ public class DevelopmentServerFactory extends ServerFactory {
                                                                      vehicleAssembler,
                                                                      userRepository);
     private final TransportRequestService transportRequestService;
-    private final RateService rateService = new RateService(rateRepository, distanceRateAssembler);
+    private final RateService rateService = new RateService(rateRepository, distanceRateAssembler,
+                                                                            ratePersistenceAssembler);
 
     public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) throws Exception {
         super(options, messagingTaskQueue);
