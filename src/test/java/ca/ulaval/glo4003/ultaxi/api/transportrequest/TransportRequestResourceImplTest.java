@@ -113,5 +113,4 @@ public class TransportRequestResourceImplTest {
 
         verify(transportRequestService).assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
     }
-
 }

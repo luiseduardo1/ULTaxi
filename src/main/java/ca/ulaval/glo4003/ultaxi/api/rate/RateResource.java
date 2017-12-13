@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.ultaxi.api.rate;
 
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateDto;
 
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;

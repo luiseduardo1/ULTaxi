@@ -7,11 +7,12 @@ import static org.mockito.Mockito.verify;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.AuthenticationDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +22,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationServiceTest {
 
-    private static final String A_NAME = "Ronald";
+    private static final String A_USERNAME = "Ronald";
     private static final String A_PASSWORD = "Beaubrun";
     private static final String A_TOKEN = "Ronald Mcdonald";
     private static final String AN_UNPARSED_TOKEN = "Bearer Ronald Mcdonald";
@@ -34,42 +35,42 @@ public class UserAuthenticationServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private User anotherUser;
+    private Client anotherUser;
     @Mock
-    private User user;
+    private Client user;
     @Mock
-    private UserDto nonExistentUser;
+    private ClientDto nonExistentUser;
     @Mock
-    private UserAssembler userAssembler;
+    private ClientAssembler clientAssembler;
 
-    private UserDto userToAuthenticate;
+    private AuthenticationDto userAuthenticationDto;
     private UserAuthenticationService userAuthenticationService;
 
     @Before
-    public void setUp() throws Exception {
-        this.userToAuthenticate = new UserDto();
-        userToAuthenticate.setUsername(A_NAME);
-        userToAuthenticate.setPassword(A_PASSWORD);
-        willReturn(user).given(userRepository).findByUsername(A_NAME.trim().toLowerCase());
-        willReturn(anotherUser).given(userAssembler).create(any(UserDto.class));
-        userAuthenticationService = new UserAuthenticationService(userRepository, userAssembler, tokenManager,
+    public void setUp() {
+        this.userAuthenticationDto = new ClientDto();
+        userAuthenticationDto.setUsername(A_USERNAME);
+        userAuthenticationDto.setPassword(A_PASSWORD);
+        willReturn(user).given(userRepository).findByUsername(A_USERNAME);
+        willReturn(anotherUser).given(clientAssembler).create(any(ClientDto.class));
+        userAuthenticationService = new UserAuthenticationService(userRepository, clientAssembler, tokenManager,
                                                                   tokenRepository);
     }
 
     @Test
     public void givenAUserToAuthenticate_whenAuthenticatingUser_thenUserIsAuthenticated() {
-        willReturn(A_NAME.trim().toLowerCase()).given(anotherUser).getUsername();
-        willReturn(true).given(user).areCredentialsValid(anyString(), anyString());
+        willReturn(A_USERNAME.trim().toLowerCase()).given(anotherUser).getUsername();
+        willReturn(true).given(user).areValidCredentials(anyString(), anyString());
 
-        userAuthenticationService.authenticate(userToAuthenticate);
+        userAuthenticationService.authenticate(userAuthenticationDto);
     }
 
     @Test(expected = InvalidCredentialsException.class)
     public void givenAnInvalidUserToAuthenticate_whenAuthenticatingUser_thenExceptionIsThrown() {
-        willReturn(A_NAME.trim().toLowerCase()).given(anotherUser).getUsername();
-        willReturn(false).given(user).areCredentialsValid(anyString(), anyString());
+        willReturn(A_USERNAME.trim().toLowerCase()).given(anotherUser).getUsername();
+        willReturn(false).given(user).areValidCredentials(anyString(), anyString());
 
-        userAuthenticationService.authenticate(userToAuthenticate);
+        userAuthenticationService.authenticate(userAuthenticationDto);
     }
 
     @Test(expected = InvalidCredentialsException.class)
@@ -86,4 +87,19 @@ public class UserAuthenticationServiceTest {
         verify(tokenRepository).delete(AN_ID);
     }
 
+    @Test
+    public void givenAUserToken_whenGetUserFromToken_thenDelegateToTokenManager() {
+        userAuthenticationService.getUserFromToken(A_TOKEN);
+
+        verify(tokenManager).getUsername(A_TOKEN);
+    }
+
+    @Test
+    public void givenAUserToken_whenGetUserFromToken_thenDelegateToUserRepository() {
+        willReturn(A_USERNAME).given(tokenManager).getUsername(A_TOKEN);
+
+        userAuthenticationService.getUserFromToken(A_TOKEN);
+
+        verify(userRepository).findByUsername(A_USERNAME);
+    }
 }

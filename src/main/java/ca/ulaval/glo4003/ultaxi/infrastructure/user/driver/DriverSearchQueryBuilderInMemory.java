@@ -30,7 +30,7 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
 
     @Override
     public DriverSearchQueryBuilder withFirstName(String firstName) {
-        return withNonNull(driver -> isSubsetOf(driver.getName(), firstName), firstName);
+        return withNonNull(driver -> isSubsetOf(driver.getFirstName(), firstName), firstName);
     }
 
     @Override
@@ -40,9 +40,10 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
 
     @Override
     public DriverSearchQueryBuilder withSocialInsuranceNumber(String socialInsuranceNumber) {
-        return withNonNull(driver -> (driver.getSocialInsuranceNumber().getNumber()).equals(socialInsuranceNumber
-                                                                                                .trim()),
-                           socialInsuranceNumber);
+        return withNonNull(
+            driver -> (driver.getSocialInsuranceNumber().getNumber()).equals(socialInsuranceNumber.trim()),
+            socialInsuranceNumber
+        );
     }
 
     private DriverSearchQueryBuilder withNonNull(Predicate<Driver> predicate, String value) {

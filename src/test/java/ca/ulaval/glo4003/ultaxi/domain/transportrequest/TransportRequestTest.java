@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeExcep
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class TransportRequestTest {
 
     private static final String AN_INVALID_VEHICLE_TYPE = "Invalid";

@@ -6,7 +6,6 @@ import static org.mockito.Matchers.any;
 
 import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
-import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.SocialInsuranceNumberAlreadyExistException;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
@@ -19,7 +18,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class DriverValidatorTest {
 
@@ -29,6 +27,9 @@ public class DriverValidatorTest {
     private UserRepository userRepository;
     @Mock
     private SearchResults<Driver> searchResults;
+    @Mock
+    private Driver driver;
+
     private DriverDto driverDto;
     private DriverValidator driverValidator;
 
@@ -66,8 +67,7 @@ public class DriverValidatorTest {
 
     private List<Driver> givenDrivers() {
         List<Driver> drivers = new ArrayList<>();
-        drivers.add(new Driver("Ronald", "Macdonald", new SocialInsuranceNumber("972487086")));
+        drivers.add(driver);
         return drivers;
     }
-
 }

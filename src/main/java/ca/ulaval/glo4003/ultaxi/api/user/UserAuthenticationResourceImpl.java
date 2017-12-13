@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.AuthenticationDto;
 
 import javax.ws.rs.core.Response;
 
@@ -14,8 +14,8 @@ public class UserAuthenticationResourceImpl implements UserAuthenticationResourc
     }
 
     @Override
-    public Response authenticateUser(UserDto userDto) {
-        String token = userAuthenticationService.authenticate(userDto);
+    public Response authenticateUser(AuthenticationDto authenticationDto) {
+        String token = userAuthenticationService.authenticate(authenticationDto);
         return Response.ok().entity(token).build();
     }
 

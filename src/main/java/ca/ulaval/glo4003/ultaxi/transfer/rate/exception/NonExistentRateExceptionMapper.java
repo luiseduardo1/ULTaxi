@@ -15,8 +15,8 @@ public class NonExistentRateExceptionMapper implements ExceptionMapper<NonExiste
     @Override
     public Response toResponse(NonExistentRateException exception) {
         return Response
-                .status(Response.Status.BAD_REQUEST)
-                .entity(exception.getMessage())
-                .build();
+            .status(Response.Status.BAD_REQUEST)
+            .entity(exception.getMessage())
+            .build();
     }
 }

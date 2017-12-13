@@ -11,7 +11,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
-import ca.ulaval.glo4003.ultaxi.service.user.UserService;
+import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 
@@ -23,23 +23,24 @@ public class TransportRequestService {
     private final TransportRequestRepository transportRequestRepository;
     private final TransportRequestAssembler transportRequestAssembler;
     private final UserRepository userRepository;
-    private final UserService userService;
+    private final UserAuthenticationService userAuthenticationService;
     private final MessagingTaskProducer messagingTaskProducer;
     private final SmsSender smsSender;
 
-    public TransportRequestService(TransportRequestRepository transportRequestRepository, TransportRequestAssembler
-        transportRequestAssembler, UserRepository userRepository, UserService userService,
+    public TransportRequestService(TransportRequestRepository transportRequestRepository,
+        TransportRequestAssembler transportRequestAssembler, UserRepository userRepository,
+        UserAuthenticationService userAuthenticationService,
         MessagingTaskProducer messagingTaskProducer, SmsSender smsSender) {
         this.transportRequestRepository = transportRequestRepository;
         this.transportRequestAssembler = transportRequestAssembler;
         this.userRepository = userRepository;
-        this.userService = userService;
+        this.userAuthenticationService = userAuthenticationService;
         this.messagingTaskProducer = messagingTaskProducer;
         this.smsSender = smsSender;
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) {
-        User user = userService.getUserFromToken(clientToken);
+        User user = userAuthenticationService.getUserFromToken(clientToken);
         TransportRequest transportRequest = transportRequestAssembler.create(transportRequestDto);
         transportRequest.setClientUsername(user.getUsername());
         transportRequestRepository.save(transportRequest);
@@ -47,7 +48,7 @@ public class TransportRequestService {
     }
 
     public List<TransportRequestDto> searchAvailableTransportRequests(String driverToken) {
-        Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         if (driver.getVehicleType() == null) {
             throw new NonExistentVehicleException("There is no vehicle associated to this driver.");
         }
@@ -62,7 +63,7 @@ public class TransportRequestService {
     }
 
     public void assignTransportRequest(String driverToken, String transportRequestId) {
-        Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository.findById(transportRequestId);
         driver.assignTransportRequestId(transportRequest);
         userRepository.update(driver);
@@ -70,7 +71,7 @@ public class TransportRequestService {
     }
 
     public void notifyDriverHasArrived(String driverToken) {
-        Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository.findById(driver.getCurrentTransportRequestId());
         transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
         transportRequestRepository.update(transportRequest);

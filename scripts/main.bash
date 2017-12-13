@@ -8,7 +8,7 @@
 
 source "drivers-test.bash"
 source "transport-request-test.bash"
-source "users-test.bash"
+source "clients-test.bash"
 source "vehicles-test.bash"
 
 handle_server_state() {
@@ -42,7 +42,7 @@ main() {
 
 execute_tests() {
     driver_test_suite
-    user_test_suite
+    client_test_suite
     vehicle_test_suite
     transport_request_test_suite
 }

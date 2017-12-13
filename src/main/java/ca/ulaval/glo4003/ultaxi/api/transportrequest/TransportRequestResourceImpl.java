@@ -29,8 +29,7 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     public Response searchAvailableTransportRequests(String driverToken) {
         GenericEntity<List<TransportRequestDto>> availableTransportRequests =
             new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchAvailableTransportRequests(
-                driverToken)
-            ) {
+                driverToken)) {
             };
 
         return Response.ok(availableTransportRequests).build();

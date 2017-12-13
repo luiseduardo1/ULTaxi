@@ -15,19 +15,19 @@ import java.util.UUID;
 @RunWith(MockitoJUnitRunner.class)
 public class DriverResourceIT extends IntegrationTest {
 
-    private static final String A_VALID_PASSWORD = "hunter2";
-    private static final String AN_EXISTING_SOCIAL_INSURANCE_NUMBER = "972487086";
-    private static final String A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER = "293235040";
-    private static final String AN_INVALID_SOCIAL_INSURANCE_NUMBER = "9724870865";
     private static final String AN_EXISTING_USERNAME = "driverUsername";
-    private static final String AN_INVALID_USERNAME = "invalid@invalid.com";
-    private static final String A_VALID_EMAIL = "driver@valid.com";
+    private static final String A_VALID_PASSWORD = "hunter2";
+    private static final String A_VALID_PHONE_NUMBER = "2342355678";
+    private static final String A_VALID_EMAIL_ADDRESS = "validEmail@ultaxi.ca";
+    private static final String A_VALID_FIRST_NAME = "Freddy";
+    private static final String A_VALID_LAST_NAME = "Mercury";
     private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "450050687";
     private static final String ANOTHER_VALID_SOCIAL_INSURANCE_NUMBER = "046454286";
-    private static final String A_VALID_PHONE_NUMBER = "2342355678";
+    private static final String A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER = "293235040";
+    private static final String AN_EXISTING_SOCIAL_INSURANCE_NUMBER = "972487086";
+    private static final String AN_INVALID_SOCIAL_INSURANCE_NUMBER = "9724870865";
+    private static final String AN_INVALID_USERNAME = "invalid@invalid.com";
     private static final String AN_INVALID_PHONE_NUMBER = "3141592653";
-    private static final String A_VALID_NAME = "Freddy";
-    private static final String A_VALID_LAST_NAME = "Mercury";
     private static final String A_SEARCH_PARAMETER = "first-name";
 
     @Test
@@ -112,7 +112,7 @@ public class DriverResourceIT extends IntegrationTest {
     public void givenUnauthenticatedUser_whenSearchingForDrivers_thenReturnsUnauthorized() {
         Response response = unauthenticatedGet(
             DRIVERS_ROUTE,
-            createSearchQueryParameter(A_SEARCH_PARAMETER, A_VALID_NAME)
+            createSearchQueryParameter(A_SEARCH_PARAMETER, A_VALID_FIRST_NAME)
         );
 
         assertStatusCode(response, Status.UNAUTHORIZED);
@@ -126,27 +126,15 @@ public class DriverResourceIT extends IntegrationTest {
         return createSerializedDriver(AN_EXISTING_SOCIAL_INSURANCE_NUMBER);
     }
 
-    private String createSerializedExistingDriver() {
-        return createSerializedDriver(
-            AN_EXISTING_USERNAME,
-            A_VALID_PASSWORD,
-            A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER,
-            A_VALID_PHONE_NUMBER,
-            A_VALID_NAME,
-            A_VALID_LAST_NAME,
-            A_VALID_EMAIL
-        );
-    }
-
     private String createSerializedDriver(String socialInsuranceNumber) {
         return createSerializedDriver(
             generateRandomWord(),
             A_VALID_PASSWORD,
-            socialInsuranceNumber,
             A_VALID_PHONE_NUMBER,
-            A_VALID_NAME,
+            A_VALID_EMAIL_ADDRESS,
+            A_VALID_FIRST_NAME,
             A_VALID_LAST_NAME,
-            A_VALID_EMAIL
+            socialInsuranceNumber
         );
     }
 
@@ -154,11 +142,11 @@ public class DriverResourceIT extends IntegrationTest {
         return createSerializedDriver(
             AN_INVALID_USERNAME,
             A_VALID_PASSWORD,
-            A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER,
             A_VALID_PHONE_NUMBER,
-            A_VALID_NAME,
+            A_VALID_EMAIL_ADDRESS,
+            A_VALID_FIRST_NAME,
             A_VALID_LAST_NAME,
-            A_VALID_EMAIL
+            A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER
         );
     }
 
@@ -166,11 +154,11 @@ public class DriverResourceIT extends IntegrationTest {
         return createSerializedDriver(
             generateRandomWord(),
             A_VALID_PASSWORD,
-            A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER,
             AN_INVALID_PHONE_NUMBER,
-            A_VALID_NAME,
+            A_VALID_EMAIL_ADDRESS,
+            A_VALID_FIRST_NAME,
             A_VALID_LAST_NAME,
-            A_VALID_EMAIL
+            A_THIRD_VALID_SOCIAL_INSURANCE_NUMBER
         );
     }
 

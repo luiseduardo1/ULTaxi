@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.domain.rate;
 
 import ca.ulaval.glo4003.ultaxi.domain.rate.exception.InvalidRateException;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +23,7 @@ public class DistanceRateTest {
         distanceRate = new DistanceRate();
     }
 
-    @Test (expected = InvalidRateException.class)
+    @Test(expected = InvalidRateException.class)
     public void givenRateLessThanZero_whenAssigningRate_shouldThrowException() {
         distanceRate.setRate(A_INVALID_RATE);
     }
@@ -34,8 +33,8 @@ public class DistanceRateTest {
         distanceRate.setRate(A_VALID_RATE);
     }
 
-    @Test (expected = InvalidVehicleTypeException.class)
-    public void givenInvalidVehiculeType_whenAssigningVehicleType_shouldThrowException() {
+    @Test(expected = InvalidVehicleTypeException.class)
+    public void givenInvalidVehicleType_whenAssigningVehicleType_shouldThrowException() {
         distanceRate.setVehicleType(A_INVALID_VEHICLE_TYPE);
     }
 }
