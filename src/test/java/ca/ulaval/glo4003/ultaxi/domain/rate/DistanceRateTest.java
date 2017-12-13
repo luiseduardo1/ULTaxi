@@ -34,7 +34,7 @@ public class DistanceRateTest {
     }
 
     @Test(expected = InvalidVehicleTypeException.class)
-    public void givenInvalidVehiculeType_whenAssigningVehicleType_shouldThrowException() {
+    public void givenInvalidVehicleType_whenAssigningVehicleType_shouldThrowException() {
         distanceRate.setVehicleType(A_INVALID_VEHICLE_TYPE);
     }
 }
