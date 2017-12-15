@@ -4,8 +4,10 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.ClientAlreadyH
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 import java.util.logging.Logger;
 
+@Provider
 public class ClientAlreadyHasAnActiveTransportRequestExceptionMapper implements
     ExceptionMapper<ClientAlreadyHasAnActiveTransportRequestException> {
 

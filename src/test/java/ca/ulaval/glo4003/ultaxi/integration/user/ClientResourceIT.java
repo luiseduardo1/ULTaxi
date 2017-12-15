@@ -18,22 +18,21 @@ public class ClientResourceIT extends IntegrationTest {
     private static final String AN_INVALID_NAME = "ronald.macdonald@ulaval.ca";
     private static final String AN_INVALID_EMAIL = "invalid.email.gmail.com";
     private static final String AN_EMPTY_PASSWORD = "";
-    private static final String SECOND_CLIENT = "2";
-    private final String aValidUser = createSerializedValidUser();
+    private final String aValidClient = createSerializedValidClient();
     private boolean isUserCreated = false;
 
     @Before
     public void setUp() {
         if (!isUserCreated) {
-            unauthenticatedPost(CLIENTS_ROUTE, aValidUser);
+            unauthenticatedPost(CLIENTS_ROUTE, aValidClient);
             isUserCreated = true;
         }
-        authenticateAs(aValidUser);
+        authenticateAs(aValidClient);
     }
 
     @Test
-    public void givenUserWithValidName_whenCreateUser_thenUserIsCreated() {
-        String serializedUser = createSerializedValidUser();
+    public void givenClientWithValidName_whenCreateClient_thenClientIsCreated() {
+        String serializedUser = createSerializedValidClient();
 
         Response response = unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
@@ -41,8 +40,8 @@ public class ClientResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAlreadyExistingUser_whenCreateUser_thenReturnsBadRequest() {
-        String serializedUser = createSerializedValidUser();
+    public void givenAlreadyExistingClient_whenCreateClient_thenReturnsBadRequest() {
+        String serializedUser = createSerializedValidClient();
         unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
         Response response = unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
@@ -51,8 +50,8 @@ public class ClientResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenUserWithInvalidName_whenCreateUser_thenReturnsBadRequest() {
-        String serializedUser = createSerializedUserWithInvalidName();
+    public void givenClientWithInvalidName_whenCreateClient_thenReturnsBadRequest() {
+        String serializedUser = createSerializedClientWithInvalidName();
 
         Response response = unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
@@ -60,8 +59,8 @@ public class ClientResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAlreadyExistingUser_whenUpdateClient_thenUserIsUpdated() {
-        String serializedUser = createSerializedValidUser();
+    public void givenAlreadyExistingClient_whenUpdateClient_thenClientIsUpdated() {
+        String serializedUser = createSerializedValidClient();
 
         Response response = authenticatedPut(CLIENTS_ROUTE, serializedUser);
 
@@ -69,8 +68,8 @@ public class ClientResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAnUnauthenticatedUser_whenUpdateClient_thenReturnsUnauthorized() {
-        String serializedUser = createSerializedValidUser();
+    public void givenAnUnauthenticatedClient_whenUpdateClient_thenReturnsUnauthorized() {
+        String serializedUser = createSerializedValidClient();
 
         Response response = unauthenticatedPut(CLIENTS_ROUTE, serializedUser);
 
@@ -78,8 +77,8 @@ public class ClientResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAUserWithAnEmptyPassword_whenCreatingUser_thenReturnsBadRequest() {
-        String serializedUser = createSerializedUserWithEmptyPassword();
+    public void givenAClientWithAnEmptyPassword_whenCreatingClient_thenReturnsBadRequest() {
+        String serializedUser = createSerializedClientWithEmptyPassword();
 
         Response response = unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
@@ -87,8 +86,8 @@ public class ClientResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAUserWithAnEmptyPassword_whenUpdatingClient_thenReturnsUnauthorized() {
-        String serializedUser = createSerializedUserWithEmptyPassword();
+    public void givenAClientWithAnEmptyPassword_whenUpdatingClient_thenReturnsUnauthorized() {
+        String serializedUser = createSerializedClientWithEmptyPassword();
 
         Response response = authenticatedPut(CLIENTS_ROUTE, serializedUser);
 
@@ -96,16 +95,16 @@ public class ClientResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAUserWithAnInvalidEmail_whenUpdatingClient_thenReturnsBadRequest() {
-        String serializedUser = createSerializedUserWithInvalidEmail();
+    public void givenAClientWithAnInvalidEmail_whenUpdatingClient_thenReturnsBadRequest() {
+        String serializedUser = createSerializedClientWithInvalidEmail();
 
         Response response = authenticatedPut(CLIENTS_ROUTE, serializedUser);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
 
-    private String createSerializedValidUser() {
-        return createSerializedUser(
+    private String createSerializedValidClient() {
+        return createSerializedClient(
             generateRandomWord(),
             A_VALID_PASSWORD,
             A_VALID_PHONE_NUMBER,
@@ -113,8 +112,8 @@ public class ClientResourceIT extends IntegrationTest {
         );
     }
 
-    private String createSerializedUserWithInvalidName() {
-        return createSerializedUser(
+    private String createSerializedClientWithInvalidName() {
+        return createSerializedClient(
             AN_INVALID_NAME,
             A_VALID_PASSWORD,
             A_VALID_PHONE_NUMBER,
@@ -122,8 +121,8 @@ public class ClientResourceIT extends IntegrationTest {
         );
     }
 
-    private String createSerializedUserWithInvalidEmail() {
-        return createSerializedUser(
+    private String createSerializedClientWithInvalidEmail() {
+        return createSerializedClient(
             generateRandomWord(),
             A_VALID_PASSWORD,
             A_VALID_PHONE_NUMBER,
@@ -131,8 +130,8 @@ public class ClientResourceIT extends IntegrationTest {
         );
     }
 
-    private String createSerializedUserWithEmptyPassword() {
-        return createSerializedUser(
+    private String createSerializedClientWithEmptyPassword() {
+        return createSerializedClient(
             generateRandomWord(),
             AN_EMPTY_PASSWORD,
             A_VALID_PHONE_NUMBER,

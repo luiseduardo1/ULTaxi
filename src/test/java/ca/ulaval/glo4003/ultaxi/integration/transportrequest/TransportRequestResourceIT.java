@@ -46,6 +46,16 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     @Test
+    public void givenAClientWithAnActiveTransportRequest_whenSendRequest_thenReturnsBadRequest() {
+        authenticateAs(Role.CLIENT);
+        String serializedTransportRequest = createSerializedValidTransportRequest();
+
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
     public void givenATransportRequestWithInvalidLatitude_whenSendRequest_thenReturnsBadRequest() {
         authenticateAs(Role.CLIENT);
         String serializedTransportRequest = createSerializedTransportRequestWithInvalidLatitude();
