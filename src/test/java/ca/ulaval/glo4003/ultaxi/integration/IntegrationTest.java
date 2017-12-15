@@ -32,7 +32,7 @@ public abstract class IntegrationTest {
     protected static final String RATES_ROUTE = API_ROUTE + "/rates";
     protected static final String DRIVER_HAS_ARRIVED_NOTIFICATION = TRANSPORT_REQUEST_ROUTE + "/notification/arrived";
     protected static final String ASSIGN_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/assign";
-    protected static final String COMPLETE_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/complete";
+    protected static final String COMPLETE_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/completed";
     protected static final String SEARCH_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/search";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
     protected static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
