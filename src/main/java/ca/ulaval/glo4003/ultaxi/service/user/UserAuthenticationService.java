@@ -17,7 +17,7 @@ public class UserAuthenticationService {
     private static final List<String> AUTHENTICATION_SCHEMES = Collections.unmodifiableList(
         Arrays.asList("Bearer", "Basic", "Digest")
     );
-    private static long HOUR_IN_MILLISECONDS = 3600000;
+    private static final long HOUR_IN_MILLISECONDS = 3600000;
     private final TokenManager tokenManager;
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;

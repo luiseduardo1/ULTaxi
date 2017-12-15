@@ -6,9 +6,9 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociat
 
 public abstract class Vehicle {
 
-    protected String color;
-    protected String model;
-    protected String registrationNumber;
+    protected final String color;
+    protected final String model;
+    protected final String registrationNumber;
 
     private Driver driver = null;
 
