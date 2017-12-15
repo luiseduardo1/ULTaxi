@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.utils.distancecalculator;
 
-public class HaversineDistance implements DistanceCalculatorStrategy {
+public class HaversineDistance implements CalculateDistanceStrategy {
 
     private static final int EARTH_RADIUS = 6371;
 

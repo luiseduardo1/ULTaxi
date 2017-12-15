@@ -47,7 +47,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
-import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.CalculateDistanceStrategy;
 import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.HaversineDistance;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 
@@ -62,7 +62,7 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
     private final TransportRequestTotalAmountAssembler
             transportRequestTotalAmountAssembler = new TransportRequestTotalAmountAssembler();
-    private DistanceCalculatorStrategy distanceCalculatorStrategy = new HaversineDistance();
+    private CalculateDistanceStrategy distanceCalculatorStrategy = new HaversineDistance();
     private final DistanceRateAssembler distanceRateAssembler = new DistanceRateAssembler();
     private final TokenManager tokenManager = new JWTTokenManager();
     private final ClientAssembler clientAssembler = new ClientAssembler(this.hashingStrategy);

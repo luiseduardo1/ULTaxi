@@ -187,8 +187,8 @@ public abstract class IntegrationTest {
     protected String createSerializedCompleteTransportRequest(double latitude,
                                                       double longitude) {
         TransportRequestCompleteDto transportRequestCompleteDto = new TransportRequestCompleteDto();
-        transportRequestCompleteDto.setEndingPPositionLatitude(latitude);
-        transportRequestCompleteDto.setEndingPPositionLongitude(longitude);
+        transportRequestCompleteDto.setEndingPositionLatitude(latitude);
+        transportRequestCompleteDto.setEndingPositionLongitude(longitude);
 
         return serializeDto(transportRequestCompleteDto);
     }

@@ -1,21 +1,16 @@
 package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
-import ca.ulaval.glo4003.ultaxi.domain.money.Money;
 import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
-import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestCompletionException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
-import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.willReturn;

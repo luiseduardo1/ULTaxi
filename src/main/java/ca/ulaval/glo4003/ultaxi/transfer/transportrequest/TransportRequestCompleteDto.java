@@ -9,7 +9,7 @@ public class TransportRequestCompleteDto {
         return endingPositionLongitude;
     }
 
-    public void setEndingPPositionLongitude(double startingPositionLongitude) {
+    public void setEndingPositionLongitude(double startingPositionLongitude) {
         this.endingPositionLongitude = startingPositionLongitude;
     }
 
@@ -17,7 +17,7 @@ public class TransportRequestCompleteDto {
         return endingPositionLatitude;
     }
 
-    public void setEndingPPositionLatitude(double startingPositionLatitude) {
+    public void setEndingPositionLatitude(double startingPositionLatitude) {
         this.endingPositionLatitude = startingPositionLatitude;
     }
 

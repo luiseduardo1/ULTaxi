@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.ultaxi.domain.rate;
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.money.Money;
 import ca.ulaval.glo4003.ultaxi.domain.rate.exception.InvalidRateException;
-import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.CalculateDistanceStrategy;
 import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.HaversineDistance;
 
 import java.math.BigDecimal;
@@ -13,7 +13,7 @@ public abstract class Rate {
     protected BigDecimal rate;
     private RateType rateType;
 
-    private DistanceCalculatorStrategy distanceCalculatorStrategy;
+    private CalculateDistanceStrategy distanceCalculatorStrategy;
 
     public Rate(RateType rateType) {
         this.rateType = rateType;

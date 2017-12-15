@@ -3,15 +3,12 @@ package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.money.Money;
 import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
-import ca.ulaval.glo4003.ultaxi.domain.rate.RateFactory;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestCompletionException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
-import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 public class TransportRequest {

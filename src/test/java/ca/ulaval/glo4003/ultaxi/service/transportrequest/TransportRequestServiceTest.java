@@ -22,7 +22,6 @@ import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssemb
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
-import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
