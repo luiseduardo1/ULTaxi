@@ -1,10 +1,12 @@
 package ca.ulaval.glo4003.ultaxi.domain.vehicle;
 
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehiclePersistenceDto;
+
 public interface VehicleRepository {
 
-    Vehicle findByRegistrationNumber(String registrationNumber);
+    VehiclePersistenceDto findByRegistrationNumber(String registrationNumber);
 
-    void save(Vehicle vehicle);
+    void save(VehiclePersistenceDto vehicle);
 
-    void update(Vehicle vehicle);
+    void update(VehiclePersistenceDto vehicle);
 }

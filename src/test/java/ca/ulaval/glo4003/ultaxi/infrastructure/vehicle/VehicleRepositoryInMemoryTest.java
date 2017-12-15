@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.VehicleAlreadyExistsException;
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehiclePersistenceDto;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class VehicleRepositoryInMemoryTest {
     private static final String A_REGISTRATION_NUMBER = "T31337";
 
     @Mock
-    private Vehicle vehicle;
+    private VehiclePersistenceDto vehicle;
     private VehicleRepository vehicleRepository;
 
     @Before
@@ -35,14 +36,14 @@ public class VehicleRepositoryInMemoryTest {
     public void givenExistingRegistrationNumber_whenFindByRegistrationNumber_thenReturnsCorrespondingVehicle() {
         vehicleRepository.save(vehicle);
 
-        Vehicle returnedVehicle = vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
+        VehiclePersistenceDto returnedVehicle = vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
 
         assertEquals(A_REGISTRATION_NUMBER, returnedVehicle.getRegistrationNumber());
     }
 
     @Test
     public void givenNonExistingRegistrationNumber_whenFindByRegistrationNumber_thenReturnsNull() {
-        Vehicle returnedVehicle = vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
+        VehiclePersistenceDto returnedVehicle = vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
 
         assertNull(returnedVehicle);
     }
@@ -50,7 +51,7 @@ public class VehicleRepositoryInMemoryTest {
     @Test
     public void givenVehicle_whenSave_thenSavesVehicle() {
         vehicleRepository.save(vehicle);
-        Vehicle savedVehicle = vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
+        VehiclePersistenceDto savedVehicle = vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
 
         assertEquals(vehicle, savedVehicle);
     }

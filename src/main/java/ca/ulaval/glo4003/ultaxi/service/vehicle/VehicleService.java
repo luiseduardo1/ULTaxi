@@ -11,6 +11,8 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociat
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehiclePersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehiclePersistenceDto;
 
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -22,20 +24,24 @@ public class VehicleService {
     private final VehicleRepository vehicleRepository;
     private final VehicleAssembler vehicleAssembler;
     private final UserRepository userRepository;
+    private final VehiclePersistenceAssembler vehiclePersistenceAssembler;
 
 
     public VehicleService(VehicleRepository vehicleRepository,
-        VehicleAssembler vehicleAssembler,
-        UserRepository userRepository) {
+                          VehicleAssembler vehicleAssembler,
+                          UserRepository userRepository,
+                          VehiclePersistenceAssembler vehiclePersistenceAssembler) {
         this.vehicleRepository = vehicleRepository;
         this.vehicleAssembler = vehicleAssembler;
         this.userRepository = userRepository;
+        this.vehiclePersistenceAssembler = vehiclePersistenceAssembler;
     }
 
     public void addVehicle(VehicleDto vehicleDto) {
         logger.info(String.format("Add new vehicle %s", vehicleDto));
         Vehicle vehicle = vehicleAssembler.create(vehicleDto);
-        vehicleRepository.save(vehicle);
+        VehiclePersistenceDto vehiclePersistenceDto = vehiclePersistenceAssembler.create(vehicle);
+        vehicleRepository.save(vehiclePersistenceDto);
     }
 
     public void associateVehicle(VehicleAssociationDto vehicleAssociationDto) {
@@ -49,13 +55,15 @@ public class VehicleService {
             vehicleAssociationDto.getRegistrationNumber()
         ));
         Driver driver = (Driver) userRepository.findByUsername(vehicleAssociationDto.getUsername());
-        Vehicle vehicle = vehicleRepository.findByRegistrationNumber(vehicleAssociationDto.getRegistrationNumber());
+        VehiclePersistenceDto vehiclePersistenceDto
+            = vehicleRepository.findByRegistrationNumber(vehicleAssociationDto.getRegistrationNumber());
 
-        validateAssociationEntities(vehicle, driver);
+        validateAssociationEntities(vehiclePersistenceDto, driver);
+        Vehicle vehicle = vehiclePersistenceAssembler.create(vehiclePersistenceDto);
         driver.associateVehicle(vehicle);
-
+        VehiclePersistenceDto updatedVehicle = vehiclePersistenceAssembler.create(vehicle);
         userRepository.update(driver);
-        vehicleRepository.update(vehicle);
+        vehicleRepository.update(updatedVehicle);
     }
 
     public void dissociateVehicle(String username) {
@@ -63,7 +71,7 @@ public class VehicleService {
             .ofNullable(username)
             .map(userRepository::findByUsername)
             .orElseThrow(() -> new InvalidVehicleDissociationException("Can't dissociate: the given username is " +
-                                                                           "invalid."));
+                "invalid."));
         if (user.getRole() != Role.DRIVER) {
             throw new InvalidVehicleDissociationException("Can't dissociate: The given user is not a driver.");
         }
@@ -73,14 +81,15 @@ public class VehicleService {
         Vehicle vehicle = driver.getVehicle();
         driver.dissociateVehicle();
 
+        VehiclePersistenceDto updatedVehicle = vehiclePersistenceAssembler.create(vehicle);
         userRepository.update(user);
-        vehicleRepository.update(vehicle);
+        vehicleRepository.update(updatedVehicle);
     }
 
-    private void validateAssociationEntities(Vehicle vehicle, User user) {
+    private void validateAssociationEntities(VehiclePersistenceDto vehicle, User user) {
         if (user == null || vehicle == null || user.getRole() != Role.DRIVER) {
             throw new InvalidVehicleAssociationException("Can't associate this vehicle with the given driver. Verify " +
-                                                             "that the driver and the vehicle exist.");
+                "that the driver and the vehicle exist.");
         }
     }
 }

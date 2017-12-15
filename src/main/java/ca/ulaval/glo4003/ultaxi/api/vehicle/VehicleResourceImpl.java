@@ -28,6 +28,7 @@ public class VehicleResourceImpl implements VehicleResource {
     public Response associateVehicle(VehicleAssociationDto vehicleAssociationDto) {
         vehicleService.associateVehicle(vehicleAssociationDto);
         return Response.ok().build();
+
     }
 
     @Override

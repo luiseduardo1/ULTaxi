@@ -45,6 +45,8 @@ import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssemb
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehiclePersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehiclePersistenceDto;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 
 import java.util.List;
@@ -55,6 +57,7 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final UserRepository userRepository = new UserRepositoryInMemory();
     private final TransportRequestRepository transportRequestRepository = new TransportRequestRepositoryInMemory();
     private final VehicleAssembler vehicleAssembler = new VehicleAssembler();
+    private final VehiclePersistenceAssembler vehiclePersistenceAssembler = new VehiclePersistenceAssembler();
     private final TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
     private final DistanceRateAssembler distanceRateAssembler = new DistanceRateAssembler();
     private final RatePersistenceAssembler ratePersistenceAssembler = new RatePersistenceAssembler();
@@ -73,7 +76,8 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
                                                                      vehicleAssembler,
-                                                                     userRepository);
+                                                                     userRepository,
+                                                                     vehiclePersistenceAssembler);
     private final TransportRequestService transportRequestService;
     private final RateService rateService = new RateService(rateRepository, distanceRateAssembler,
                                                                             ratePersistenceAssembler);
@@ -105,7 +109,7 @@ public class DevelopmentServerFactory extends ServerFactory {
         users.forEach(userRepository::save);
 
         VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();
-        List<Vehicle> vehicles = vehicleDevDataFactory.createMockData();
+        List<VehiclePersistenceDto> vehicles = vehicleDevDataFactory.createMockData();
         vehicles.forEach(vehicleRepository::save);
 
         TransportRequestDevDataFactory transportRequestDevDataFactory = new TransportRequestDevDataFactory();
