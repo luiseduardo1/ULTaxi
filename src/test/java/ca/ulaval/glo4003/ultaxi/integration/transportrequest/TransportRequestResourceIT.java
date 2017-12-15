@@ -31,6 +31,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
     private static final String A_VALID_FIRST_NAME = "Karl";
     private static final String A_VALID_LAST_NAME = "Max";
 
+    private final String aDriverWithoutTransportRequest = createSerializedDriverWithoutAssignedTransportRequest();
+
     @Before
     public void setUp() {
     }
@@ -77,12 +79,18 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenADriverWithNoTransportRequestAssigned_whenNotifyHasArrived_thenReturnsBadRequest() {
-        String aDriverWithoutTransportRequest = createSerializedDriverWithoutAssignedTransportRequest();
-        authenticateAs(Role.ADMINISTRATOR);
-        authenticatedPost(DRIVERS_ROUTE, aDriverWithoutTransportRequest);
-        authenticateAs(aDriverWithoutTransportRequest);
+        authenticateAsDriverWithoutTransportRequestAssigned();
 
         Response response = authenticatedPost(DRIVER_HAS_ARRIVED_NOTIFICATION);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenADriverWithNoTransportRequestAssigned_whenNotifyRideHasStarted_thenReturnsBadRequest() {
+        authenticateAsDriverWithoutTransportRequestAssigned();
+
+        Response response = authenticatedPost(RIDE_HAS_STARTED_NOTIFICATION);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
@@ -203,5 +211,11 @@ public class TransportRequestResourceIT extends IntegrationTest {
             A_VALID_LATITUDE,
             A_VALID_LONGITUDE
         );
+    }
+
+    private void authenticateAsDriverWithoutTransportRequestAssigned() {
+        authenticateAs(Role.ADMINISTRATOR);
+        authenticatedPost(DRIVERS_ROUTE, aDriverWithoutTransportRequest);
+        authenticateAs(aDriverWithoutTransportRequest);
     }
 }
