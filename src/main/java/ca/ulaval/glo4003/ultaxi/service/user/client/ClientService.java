@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.SendRegistrationEmailTask;
+import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
@@ -50,12 +51,12 @@ public class ClientService {
     }
 
     public void updateClient(ClientDto clientDto, String userToken) {
-        clientAssembler
-        Client client = (Client) userAuthenticationService.getUserFromToken(userToken);
-        clientDto.setUsername(client.getUsername());
+        UserPersistenceDto userPersistenceDto =
+            userAuthenticationService.getUserFromToken(userToken);
+        clientDto.setUsername(userPersistenceDto.getUsername());
         logger.info(String.format("Updating a client with infos: %s", clientDto));
-        client = clientAssembler.create(clientDto);
-        UserPersistenceDto userPersistenceDto = userPersistenceAssembler.create(client);
-        userRepository.update(userPersistenceDto);
+        Client client = clientAssembler.create(clientDto);
+        UserPersistenceDto updatedClient = userPersistenceAssembler.create(client);
+        userRepository.update(updatedClient);
     }
 }

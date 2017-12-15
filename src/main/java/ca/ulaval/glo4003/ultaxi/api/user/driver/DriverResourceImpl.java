@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.ultaxi.api.user.driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 
@@ -31,8 +32,8 @@ public class DriverResourceImpl implements DriverResource {
         DriverSearchParameters searchParameters =
             new DriverSearchParameters(socialInsuranceNumber, firstName, lastName);
 
-        GenericEntity<List<DriverDto>> drivers =
-            new GenericEntity<List<DriverDto>>(driverService.searchBy(searchParameters)) {
+        GenericEntity<List<UserPersistenceDto>> drivers =
+            new GenericEntity<List<UserPersistenceDto>>(driverService.searchBy(searchParameters)) {
             };
         return Response.ok(drivers).build();
     }

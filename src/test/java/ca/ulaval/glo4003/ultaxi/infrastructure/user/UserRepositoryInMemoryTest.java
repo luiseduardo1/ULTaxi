@@ -13,6 +13,8 @@ import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,13 +36,15 @@ public class UserRepositoryInMemoryTest {
     private static final String UPDATED_EMAIL_ADDRESS = "ro.mac@ulaval.ca";
 
     @Mock
-    private User user;
+    private UserPersistenceDto user;
     @Mock
-    private Driver driver;
+    private UserPersistenceDto driver;
     @Mock
     private DriverSearchParameters driverSearchParameters;
     @Mock
     private SocialInsuranceNumber socialInsuranceNumber;
+    @Mock
+    private UserPersistenceAssembler userPersistenceAssembler;
 
     private UserRepository userRepository;
 
@@ -60,14 +64,14 @@ public class UserRepositoryInMemoryTest {
     @Test
     public void givenUser_whenSave_thenUserHasSameParameters() {
         userRepository.save(user);
-        User savedUser = userRepository.findByUsername(user.getUsername());
+        UserPersistenceDto savedUser = userRepository.findByUsername(user.getUsername());
 
         assertEquals(user, savedUser);
     }
 
     @Test
     public void givenNonExistingUser_whenFindByUsername_thenReturnsNull() {
-        User returnedUser = userRepository.findByUsername(user.getUsername());
+        UserPersistenceDto returnedUser = userRepository.findByUsername(user.getUsername());
 
         assertNull(returnedUser);
     }
@@ -76,7 +80,7 @@ public class UserRepositoryInMemoryTest {
     public void givenUserWithDifferentNameCasing_whenFindByUsername_thenReturnsTheUser() {
         userRepository.save(user);
 
-        User savedUser = userRepository.findByUsername(A_DIFFERENT_CASED_USERNAME);
+        UserPersistenceDto savedUser = userRepository.findByUsername(A_DIFFERENT_CASED_USERNAME);
 
         assertNotNull(savedUser);
     }
@@ -102,13 +106,13 @@ public class UserRepositoryInMemoryTest {
     public void givenExistingUser_whenUpdate_thenUserHasUpdatedParameters() {
         user.setUsername(A_USERNAME);
         user.setEmailAddress(ORIGINAL_EMAIL_ADDRESS);
-        User sameUserWithAnotherEmailAddress = user;
+        UserPersistenceDto sameUserWithAnotherEmailAddress = user;
         sameUserWithAnotherEmailAddress.setEmailAddress(UPDATED_EMAIL_ADDRESS);
 
         userRepository.save(user);
         userRepository.update(sameUserWithAnotherEmailAddress);
 
-        User updatedUser = userRepository.findByUsername(user.getUsername());
+        UserPersistenceDto updatedUser = userRepository.findByUsername(user.getUsername());
         assertEquals(user.getUsername(), updatedUser.getUsername());
         assertEquals(sameUserWithAnotherEmailAddress.getEmailAddress(), updatedUser.getEmailAddress());
     }
@@ -119,7 +123,7 @@ public class UserRepositoryInMemoryTest {
         willReturn("ona").given(driverSearchParameters).getFirstName();
         userRepository.save(driver);
 
-        List<Driver> searchResults = userRepository
+        List<UserPersistenceDto> searchResults = userRepository
             .searchDrivers(driverSearchParameters)
             .getResults();
 
@@ -133,7 +137,7 @@ public class UserRepositoryInMemoryTest {
         willReturn("dOna").given(driverSearchParameters).getLastName();
         userRepository.save(driver);
 
-        List<Driver> searchResults = userRepository
+        List<UserPersistenceDto> searchResults = userRepository
             .searchDrivers(driverSearchParameters)
             .getResults();
 
@@ -147,7 +151,7 @@ public class UserRepositoryInMemoryTest {
         willReturn(A_SOCIAL_INSURANCE_NUMBER).given(driverSearchParameters).getSocialInsuranceNumber();
         userRepository.save(driver);
 
-        List<Driver> searchResults = userRepository
+        List<UserPersistenceDto> searchResults = userRepository
             .searchDrivers(driverSearchParameters)
             .getResults();
 
@@ -159,7 +163,7 @@ public class UserRepositoryInMemoryTest {
     public void givenNonSetDriverSearchParameters_whenSearchingDrivers_thenReturnsAllTheDrivers() {
         userRepository.save(driver);
 
-        List<Driver> searchResults = userRepository
+        List<UserPersistenceDto> searchResults = userRepository
             .searchDrivers(driverSearchParameters)
             .getResults();
 

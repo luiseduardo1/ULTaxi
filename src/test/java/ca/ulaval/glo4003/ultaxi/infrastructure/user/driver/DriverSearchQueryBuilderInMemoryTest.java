@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,11 +27,11 @@ public class DriverSearchQueryBuilderInMemoryTest {
     private static final String A_SOCIAL_INSURANCE_NUMBER = "348624487";
 
     @Mock
-    private Driver driver;
+    private UserPersistenceDto driver;
     @Mock
-    private Driver driver2;
+    private UserPersistenceDto driver2;
     @Mock
-    private Driver driver3;
+    private UserPersistenceDto driver3;
 
     private DriverSearchQueryBuilder driverSearchQueryBuilder;
 
@@ -54,7 +55,7 @@ public class DriverSearchQueryBuilderInMemoryTest {
 
     @Test
     public void givenNoFilter_whenFindingAll_thenReturnsAllTheDrivers() {
-        List<Driver> foundDrivers = driverSearchQueryBuilder.build().execute().getResults();
+        List<UserPersistenceDto> foundDrivers = driverSearchQueryBuilder.build().execute().getResults();
 
         assertEquals(TOTAL_NUMBER_OF_DRIVERS, foundDrivers.size());
     }
@@ -70,10 +71,10 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenFilterWithCapitalLetters_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withLastName("MaC");
 
-        List<Driver> foundDrivers = searchDriver.build().execute().getResults();
-        Driver foundDriver = foundDrivers.get(0);
+        List<UserPersistenceDto> foundDrivers = searchDriver.build().execute().getResults();
+        UserPersistenceDto foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = driver;
+        UserPersistenceDto expectedDriver = driver;
         assertEquals(1, foundDrivers.size());
         assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(),
                      foundDriver.getSocialInsuranceNumber().getNumber());
@@ -83,10 +84,10 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenAFirstNameFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withFirstName("onal");
 
-        List<Driver> foundDrivers = searchDriver.build().execute().getResults();
-        Driver foundDriver = foundDrivers.get(0);
+        List<UserPersistenceDto> foundDrivers = searchDriver.build().execute().getResults();
+        UserPersistenceDto foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = driver2;
+        UserPersistenceDto expectedDriver = driver2;
         assertEquals(1, foundDrivers.size());
         assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(),
                      foundDriver.getSocialInsuranceNumber().getNumber());
@@ -96,10 +97,10 @@ public class DriverSearchQueryBuilderInMemoryTest {
     public void givenALastNameFilter_whenFindingAll_thenReturnsTheRightDriver() {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withLastName("rgam");
 
-        List<Driver> foundDrivers = searchDriver.build().execute().getResults();
-        Driver foundDriver = foundDrivers.get(0);
+        List<UserPersistenceDto> foundDrivers = searchDriver.build().execute().getResults();
+        UserPersistenceDto foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = driver3;
+        UserPersistenceDto expectedDriver = driver3;
         assertEquals(1, foundDrivers.size());
         assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(),
                      foundDriver.getSocialInsuranceNumber().getNumber());
@@ -110,17 +111,17 @@ public class DriverSearchQueryBuilderInMemoryTest {
         DriverSearchQueryBuilder searchDriver = driverSearchQueryBuilder.withSocialInsuranceNumber(
             A_SOCIAL_INSURANCE_NUMBER);
 
-        List<Driver> foundDrivers = searchDriver.build().execute().getResults();
-        Driver foundDriver = foundDrivers.get(0);
+        List<UserPersistenceDto> foundDrivers = searchDriver.build().execute().getResults();
+        UserPersistenceDto foundDriver = foundDrivers.get(0);
 
-        Driver expectedDriver = driver;
+        UserPersistenceDto expectedDriver = driver;
         assertEquals(1, foundDrivers.size());
         assertEquals(expectedDriver.getSocialInsuranceNumber().getNumber(),
                      foundDriver.getSocialInsuranceNumber().getNumber());
     }
 
-    private Map<String, User> givenDrivers() {
-        Map<String, User> drivers = new HashMap<>();
+    private Map<String, UserPersistenceDto> givenDrivers() {
+        Map<String, UserPersistenceDto> drivers = new HashMap<>();
         drivers.put("1", driver);
         drivers.put("2", driver2);
         drivers.put("3", driver3);

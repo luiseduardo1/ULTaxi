@@ -11,6 +11,8 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
@@ -45,17 +47,21 @@ public class VehicleServiceTest {
     private UserRepository userRepository;
     @Mock
     private VehicleAssociationDto vehicleAssociationDto;
+    @Mock
+    private UserPersistenceAssembler userPersistenceAssembler;
+    @Mock
+    private UserPersistenceDto userPersistenceDto;
 
     private VehicleService vehicleService;
 
     @Before
     public void setUp() throws Exception {
         vehicleService = new VehicleService(vehicleRepository, vehicleAssembler, userRepository,
-            vehiclePersistenceAssembler);
+            vehiclePersistenceAssembler, userPersistenceAssembler);
         willReturn(vehiclePersistenceDto).given(vehicleRepository).findByRegistrationNumber(anyString());
         willReturn(vehicle).given(vehiclePersistenceAssembler).create(vehiclePersistenceDto);
         willReturn(vehiclePersistenceDto).given(vehiclePersistenceAssembler).create(vehicle);
-        willReturn(driver).given(userRepository).findByUsername(anyString());
+        willReturn(userPersistenceDto).given(userRepository).findByUsername(anyString());
         willReturn(Role.DRIVER).given(driver).getRole();
     }
 

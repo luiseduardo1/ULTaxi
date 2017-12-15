@@ -66,7 +66,8 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final ClientAssembler clientAssembler = new ClientAssembler(this.hashingStrategy);
     private final DriverAssembler driverAssembler = new DriverAssembler(this.hashingStrategy);
     private final DriverValidator driverValidator = new DriverValidator(userRepository);
-    private final DriverService driverService = new DriverService(userRepository, driverAssembler, driverValidator);
+    private final DriverService driverService = new DriverService(userRepository, driverAssembler, driverValidator,
+        userPersistenceAssembler);
     private final ClientService clientService;
     private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private final RateRepository rateRepository = new RateRepositoryInMemory();
@@ -100,7 +101,8 @@ public class DevelopmentServerFactory extends ServerFactory {
             userRepository,
             userAuthenticationService,
             messagingTaskProducer,
-            smsSender
+            smsSender,
+            userPersistenceAssembler
         );
 
         setDevelopmentEnvironmentMockData();

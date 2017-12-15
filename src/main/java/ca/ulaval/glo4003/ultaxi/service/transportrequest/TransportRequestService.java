@@ -45,7 +45,7 @@ public class TransportRequestService {
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) {
-        User user = userAuthenticationService.getUserFromToken(clientToken);
+        UserPersistenceDto user = userAuthenticationService.getUserFromToken(clientToken);
         TransportRequest transportRequest = transportRequestAssembler.create(transportRequestDto);
         transportRequest.setClientUsername(user.getUsername());
         transportRequestRepository.save(transportRequest);
@@ -53,7 +53,8 @@ public class TransportRequestService {
     }
 
     public List<TransportRequestDto> searchAvailableTransportRequests(String driverToken) {
-        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
+        UserPersistenceDto userPersistenceDto = userAuthenticationService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userPersistenceAssembler.create(userPersistenceDto);
         if (driver.getVehicleType() == null) {
             throw new NonExistentVehicleException("There is no vehicle associated to this driver.");
         }
@@ -68,16 +69,18 @@ public class TransportRequestService {
     }
 
     public void assignTransportRequest(String driverToken, String transportRequestId) {
-        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
+        UserPersistenceDto userPersistenceDto = userAuthenticationService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userPersistenceAssembler.create(userPersistenceDto);
         TransportRequest transportRequest = transportRequestRepository.findById(transportRequestId);
         driver.assignTransportRequestId(transportRequest);
-        UserPersistenceDto userPersistenceDto = userPersistenceAssembler.create(driver);
-        userRepository.update(userPersistenceDto);
+        UserPersistenceDto userPersistenceDtoAssigned = userPersistenceAssembler.create(driver);
+        userRepository.update(userPersistenceDtoAssigned);
         transportRequestRepository.update(transportRequest);
     }
 
     public void notifyDriverHasArrived(String driverToken) {
-        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
+        UserPersistenceDto userPersistenceDto = userAuthenticationService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userPersistenceAssembler.create(userPersistenceDto);
         TransportRequest transportRequest = transportRequestRepository.findById(driver.getCurrentTransportRequestId());
         transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
         transportRequestRepository.update(transportRequest);

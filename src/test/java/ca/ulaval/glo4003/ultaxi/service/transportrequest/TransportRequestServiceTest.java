@@ -26,6 +26,7 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequest
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceAssembler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,6 +73,8 @@ public class TransportRequestServiceTest {
     private User user;
     @Mock
     private PhoneNumber phoneNumber;
+    @Mock
+    private UserPersistenceAssembler userPersistenceAssembler;
 
     private TransportRequestService transportRequestService;
 
@@ -79,7 +82,7 @@ public class TransportRequestServiceTest {
     public void setUp() throws Exception {
         transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
                                                               userRepository, userAuthenticationService,
-                                                              messagingTaskProducer, smsSender);
+                                                              messagingTaskProducer, smsSender, userPersistenceAssembler);
         willReturn(driver).given(userAuthenticationService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(user).given(userAuthenticationService).getUserFromToken(A_VALID_TOKEN);
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();
