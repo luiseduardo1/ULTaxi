@@ -160,21 +160,15 @@ public class TransportRequestResourceIT extends IntegrationTest {
     @Test
     public void givenAValidTransportRequestId_whenCompleteTransportRequest_thenReturnsIsOk() {
         authenticateAs(Role.DRIVER);
+        String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;
+        authenticatedPost(ASSIGN_TRANSPORT_REQUEST_ROUTE, transportRequestId);
+
+        authenticateAs(Role.DRIVER);
         String serializedCompleteTransportRequest = createSerializedValidCompleteTransportRequest();
 
         Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompleteTransportRequest);
 
         assertStatusCode(response, Status.OK);
-    }
-
-    @Test
-    public void givenAnInValidTransportRequestId_whenCompleteTransportRequest_thenReturnsBadRequest() {
-        authenticateAs(Role.DRIVER);
-        String serializedCompleteTransportRequest = createSerializedInvalidCompleteTransportRequest();
-
-        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompleteTransportRequest);
-
-        assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     @Test
@@ -220,15 +214,6 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     private String createSerializedValidCompleteTransportRequest() {
         return createSerializedCompleteTransportRequest(
-                A_VALID_TRANSPORT_REQUEST_ID,
-                A_VALID_LATITUDE,
-                A_VALID_LONGITUDE
-        );
-    }
-
-    private String createSerializedInvalidCompleteTransportRequest() {
-        return createSerializedCompleteTransportRequest(
-                AN_INVALID_TRANSPORT_REQUEST_ID,
                 A_VALID_LATITUDE,
                 A_VALID_LONGITUDE
         );

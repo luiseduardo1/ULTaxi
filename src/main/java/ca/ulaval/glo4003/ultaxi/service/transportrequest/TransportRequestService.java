@@ -89,7 +89,7 @@ public class TransportRequestService {
             String driverToken, TransportRequestCompleteDto transportRequestCompleteDto) {
         Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository
-                .findById(transportRequestCompleteDto.getTransportRequestId());
+                .findById(driver.getCurrentTransportRequestId());
 
         transportRequest.complete(driver,new Geolocation(transportRequestCompleteDto.getEndingPositionLatitude(),
                 transportRequestCompleteDto.getEndingPositionLongitude()));

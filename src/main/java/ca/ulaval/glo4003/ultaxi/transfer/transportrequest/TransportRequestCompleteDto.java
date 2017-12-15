@@ -4,15 +4,6 @@ public class TransportRequestCompleteDto {
 
     private double endingPositionLatitude;
     private double endingPositionLongitude;
-    private String transportRequestId;
-
-    public String getTransportRequestId() {
-        return transportRequestId;
-    }
-
-    public void setTransportRequestId(String transportRequestId) {
-        this.transportRequestId = transportRequestId;
-    }
 
     public double getEndingPositionLongitude() {
         return endingPositionLongitude;
