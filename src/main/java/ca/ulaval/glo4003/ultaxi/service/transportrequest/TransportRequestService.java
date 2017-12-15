@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsExcept
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.ClientAlreadyHasAnActiveTransportRequestException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
@@ -50,7 +51,8 @@ public class TransportRequestService {
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) throws
-        InvalidGeolocationException, InvalidVehicleTypeException, InvalidTokenException {
+        InvalidGeolocationException, InvalidVehicleTypeException, InvalidTokenException,
+        ClientAlreadyHasAnActiveTransportRequestException {
         Client client = (Client) userAuthenticationService.getUserFromToken(clientToken);
         TransportRequest transportRequest = transportRequestAssembler.create(transportRequestDto);
         transportRequest.setClientUsername(client.getUsername());

@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.exception.InvalidGeolocationException;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.ClientAlreadyHasAnActiveTransportRequestException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
@@ -30,7 +31,8 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Override
     @Secured({Role.CLIENT})
     public Response sendTransportRequest(String clientToken, TransportRequestDto transportRequestDto) throws
-        InvalidGeolocationException, InvalidVehicleTypeException, InvalidTokenException {
+        InvalidGeolocationException, InvalidVehicleTypeException, InvalidTokenException,
+        ClientAlreadyHasAnActiveTransportRequestException {
         String transportRequestId = transportRequestService.sendRequest(transportRequestDto, clientToken);
         return Response.status(Response.Status.CREATED).entity(transportRequestId).build();
     }
