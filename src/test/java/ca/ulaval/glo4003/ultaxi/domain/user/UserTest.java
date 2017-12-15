@@ -48,17 +48,17 @@ public class UserTest {
 
     @Test(expected = InvalidUsernameException.class)
     public void givenUserWithNullName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setUsername(null);
+        createUserWithUsername(null);
     }
 
     @Test(expected = InvalidUsernameException.class)
     public void givenUserWithEmptyName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setUsername(AN_INVALID_NAME);
+        createUserWithUsername(AN_INVALID_NAME);
     }
 
     @Test(expected = InvalidUsernameException.class)
     public void givenUserWithEmailAddressAsName_whenAssigningName_thenThrowsInvalidUserNameException() {
-        user.setUsername(A_VALID_EMAIL_ADDRESS);
+        createUserWithUsername(A_VALID_EMAIL_ADDRESS);
     }
 
     @Test(expected = InvalidEmailAddressException.class)
@@ -83,7 +83,7 @@ public class UserTest {
 
     @Test
     public void givenUserWithValidName_whenAssigningName_thenNameIsAssigned() {
-        user.setUsername(A_VALID_USERNAME);
+        createUserWithUsername(A_VALID_USERNAME);
     }
 
     @Test
@@ -104,8 +104,11 @@ public class UserTest {
     }
 
     private User createValidUser() {
-        return new User(A_VALID_USERNAME, A_VALID_PASSWORD, phoneNumber, A_VALID_EMAIL_ADDRESS,
-                        hashingStrategy) {
+        return createUserWithUsername(A_VALID_USERNAME);
+    }
+
+    private User createUserWithUsername(String username) {
+        return new User(username, A_VALID_PASSWORD, phoneNumber, A_VALID_EMAIL_ADDRESS, hashingStrategy) {
             @Override
             public Role getRole() {
                 return null;
