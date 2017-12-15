@@ -43,7 +43,7 @@ public interface TransportRequestResource {
                                     String transportRequestId);
 
     @POST
-    @Path("/completed")
+    @Path("/notification/completed")
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Role.DRIVER})
     Response completeTransportRequest(@HeaderParam(value = "Authorization") String driverToken,
