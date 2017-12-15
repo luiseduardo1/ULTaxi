@@ -5,6 +5,8 @@ import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.HaversineDistance;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertTrue;
 
 public class HaversineDistanceTest {
@@ -13,8 +15,7 @@ public class HaversineDistanceTest {
 
     private static final Geolocation A_VALID_STARTING_GEOLOCATION= new Geolocation(46.776635, -71.270671);
     private static final Geolocation A_VALID_ENDING_GEOLOCATION = new Geolocation(46.8083722, -71.2196447);
-    private static final double A_VALID_MIN_KM = 4;
-    private static final double A_VALID_MAX_KM = 6;
+    private static final double A_INVALID_DISTANCE = 0;
 
     @Before
     public void setUp(){
@@ -27,6 +28,6 @@ public class HaversineDistanceTest {
                 A_VALID_STARTING_GEOLOCATION.getLongitude(), A_VALID_ENDING_GEOLOCATION.getLatitude(),
                 A_VALID_ENDING_GEOLOCATION.getLongitude());
 
-        assertTrue(A_VALID_MIN_KM < distance && A_VALID_MAX_KM > distance);
+        assertTrue(A_INVALID_DISTANCE < distance);
     }
 }

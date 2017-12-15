@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.SendDriverHasArri
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
 import ca.ulaval.glo4003.ultaxi.domain.rate.RateFactory;
+import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
@@ -15,11 +16,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
-import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountDto;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.*;
 import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
 
 import java.util.List;
@@ -34,14 +31,14 @@ public class TransportRequestService {
     private final UserAuthenticationService userAuthenticationService;
     private final MessagingTaskProducer messagingTaskProducer;
     private final SmsSender smsSender;
-    private final DistanceCalculatorStrategy distanceCalculatorStrategy;
+    private final RateRepository rateRepository;
 
     public TransportRequestService(TransportRequestRepository transportRequestRepository, TransportRequestAssembler
             transportRequestAssembler, UserRepository userRepository,
                                    UserAuthenticationService userAuthenticationService,
                                    MessagingTaskProducer messagingTaskProducer, SmsSender smsSender,
                                    TransportRequestTotalAmountAssembler transportRequestTotalAmountAssembler,
-                                   DistanceCalculatorStrategy distanceCalculatorStrategy) {
+                                   RateRepository rateRepository) {
         this.transportRequestRepository = transportRequestRepository;
         this.transportRequestAssembler = transportRequestAssembler;
         this.userRepository = userRepository;
@@ -49,7 +46,7 @@ public class TransportRequestService {
         this.messagingTaskProducer = messagingTaskProducer;
         this.smsSender = smsSender;
         this.transportRequestTotalAmountAssembler = transportRequestTotalAmountAssembler;
-        this.distanceCalculatorStrategy = distanceCalculatorStrategy;
+        this.rateRepository = rateRepository;
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) {
@@ -67,12 +64,12 @@ public class TransportRequestService {
         }
 
         return this.transportRequestRepository
-            .searchTransportRequests()
-            .withVehicleType(driver.getVehicleType().name())
-            .findAll()
-            .stream()
-            .map(transportRequestAssembler::create)
-            .collect(Collectors.toList());
+                .searchTransportRequests()
+                .withVehicleType(driver.getVehicleType().name())
+                .findAll()
+                .stream()
+                .map(transportRequestAssembler::create)
+                .collect(Collectors.toList());
     }
 
     public void assignTransportRequest(String driverToken, String transportRequestId) {
@@ -91,12 +88,11 @@ public class TransportRequestService {
         TransportRequest transportRequest = transportRequestRepository
                 .findById(transportRequestCompleteDto.getTransportRequestId());
 
-        transportRequest.complete(driver);
+        transportRequest.complete(driver,new Geolocation(transportRequestCompleteDto.getEndingPositionLatitude(),
+                transportRequestCompleteDto.getEndingPositionLongitude()));
 
-        Geolocation endingPosition = new Geolocation(transportRequestCompleteDto.getEndingPositionLatitude(),
-                transportRequestCompleteDto.getEndingPositionLongitude());
-        Rate rate = RateFactory.getRate(transportRequest.getStartingPosition(), endingPosition);
-        transportRequest.calculateTotalAmount(rate, endingPosition, distanceCalculatorStrategy);
+        Rate rate = RateFactory.getRate(transportRequest, rateRepository);
+        transportRequest.calculateTotalAmount(rate);
 
         userRepository.update(driver);
         transportRequestRepository.update(transportRequest);

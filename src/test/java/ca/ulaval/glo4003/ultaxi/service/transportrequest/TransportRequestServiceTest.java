@@ -4,6 +4,7 @@ import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
+import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
@@ -18,6 +19,7 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
 import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
@@ -47,6 +49,8 @@ public class TransportRequestServiceTest {
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
     private static final VehicleType CAR_VEHICULE_TYPE = VehicleType.CAR;
     private static final String A_TRANSPORT_REQUEST_ID = "Transport request Id";
+    private static final Double A_VALID_ENDING_LATITUDE= 46.8083722;
+    private static final Double A_VALID_ENDING_LONGITUDE = -71.2196447;
 
     @Mock
     private TransportRequest transportRequest;
@@ -57,9 +61,11 @@ public class TransportRequestServiceTest {
     @Mock
     private TransportRequestAssembler transportRequestAssembler;
     @Mock
+    private TransportRequestCompleteDto transportRequestCompleteDto;
+    @Mock
     private TransportRequestTotalAmountAssembler transportRequestTotalAmountAssembler;
     @Mock
-    private DistanceCalculatorStrategy distanceCalculatorStrategy;
+    private RateRepository rateRepository;
     @Mock
     private TransportRequestSearchQueryBuilder transportRequestSearchQueryBuilder;
     @Mock
@@ -78,6 +84,8 @@ public class TransportRequestServiceTest {
     private User user;
     @Mock
     private PhoneNumber phoneNumber;
+    @Mock
+    private Geolocation endingPosition;
 
     private TransportRequestService transportRequestService;
 
@@ -85,7 +93,7 @@ public class TransportRequestServiceTest {
     public void setUp() {
         transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
                                                               userRepository, userAuthenticationService, messagingTaskProducer,
-                                                              smsSender, transportRequestTotalAmountAssembler, distanceCalculatorStrategy);
+                                                              smsSender, transportRequestTotalAmountAssembler, rateRepository);
         willReturn(driver).given(userAuthenticationService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(user).given(userAuthenticationService).getUserFromToken(A_VALID_TOKEN);
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();
@@ -157,4 +165,5 @@ public class TransportRequestServiceTest {
             .CAR));
         return transportRequests;
     }
+
 }

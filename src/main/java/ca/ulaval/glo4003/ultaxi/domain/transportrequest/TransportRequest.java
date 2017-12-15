@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.money.Money;
 import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
+import ca.ulaval.glo4003.ultaxi.domain.rate.RateFactory;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestCompletionException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -18,6 +19,7 @@ public class TransportRequest {
     private String id = UUID.randomUUID().toString();
     private String clientUsername;
     private Geolocation startingPosition;
+    private Geolocation endingPosition;
     private String note;
     private VehicleType vehicleType;
     private TransportRequestStatus status = TransportRequestStatus.PENDING;
@@ -47,6 +49,14 @@ public class TransportRequest {
 
     public void setStartingPosition(Geolocation startingPosition) {
         this.startingPosition = startingPosition;
+    }
+
+    public Geolocation getEndingPosition() {
+        return endingPosition;
+    }
+
+    public void setEndingPosition(Geolocation endingPosition) {
+        this.endingPosition = endingPosition;
     }
 
     public String getId() {
@@ -113,27 +123,20 @@ public class TransportRequest {
         this.status = TransportRequestStatus.ACCEPTED;
     }
 
-    public void complete(Driver driver) {
+    public void complete(Driver driver, Geolocation endingPosition) {
         if (driver.getCurrentTransportRequestId() != this.id) {
             throw new InvalidTransportRequestCompletionException(
                     "The transport request you are trying to complete is not assigned to the driver");
         }
-
+        this.endingPosition = endingPosition;
         this.status = TransportRequestStatus.COMPLETED;
         driver.unassignTransportRequestId();
     }
 
-    public Money calculateTotalAmount(Rate rate, Geolocation endingPosition,
-                                      DistanceCalculatorStrategy distanceCalculatorStrategy) {
-        Double distance = calculateDistance(endingPosition, distanceCalculatorStrategy);
-        this.totalAmount = new Money(BigDecimal.valueOf(distance).multiply(rate.getValue()));
-        return this.totalAmount;
+    public void calculateTotalAmount(Rate rate) {
+        this.totalAmount = rate.calculateTotalAmount(this.startingPosition, this.endingPosition);
     }
 
-    private Double calculateDistance(Geolocation endingPosition,
-                                     DistanceCalculatorStrategy distanceCalculatorStrategy) {
-        return distanceCalculatorStrategy.calculDistance(startingPosition.getLatitude(), startingPosition
-                .getLongitude(), endingPosition.getLatitude(), endingPosition.getLongitude());
-    }
+
 
 }

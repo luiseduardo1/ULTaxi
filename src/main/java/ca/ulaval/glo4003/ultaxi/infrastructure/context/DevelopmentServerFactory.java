@@ -98,7 +98,7 @@ public class DevelopmentServerFactory extends ServerFactory {
                 messagingTaskProducer,
                 smsSender,
                 transportRequestTotalAmountAssembler,
-                distanceCalculatorStrategy
+                rateRepository
         );
 
 

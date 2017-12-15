@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.domain.rate;
 
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
 
 public class DistanceRate extends Rate {
 
