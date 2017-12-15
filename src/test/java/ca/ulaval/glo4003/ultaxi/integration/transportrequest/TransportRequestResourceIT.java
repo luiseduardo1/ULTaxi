@@ -157,6 +157,46 @@ public class TransportRequestResourceIT extends IntegrationTest {
         assertStatusCode(response, Status.FORBIDDEN);
     }
 
+    @Test
+    public void givenAValidTransportRequestId_whenCompleteTransportRequest_thenReturnsIsOk() {
+        authenticateAs(Role.DRIVER);
+        String serializedCompleteTransportRequest = createSerializedValidCompleteTransportRequest();
+
+        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompleteTransportRequest);
+
+        assertStatusCode(response, Status.OK);
+    }
+
+    @Test
+    public void givenAnInValidTransportRequestId_whenCompleteTransportRequest_thenReturnsBadRequest() {
+        authenticateAs(Role.DRIVER);
+        String serializedCompleteTransportRequest = createSerializedInvalidCompleteTransportRequest();
+
+        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompleteTransportRequest);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenAnAuthenticatedClient_whenCompleteTransportRequest_thenReturnsForbidden() {
+        authenticateAs(Role.CLIENT);
+        String serializedCompleteTransportRequest = createSerializedValidCompleteTransportRequest();
+
+        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompleteTransportRequest);
+
+        assertStatusCode(response, Status.FORBIDDEN);
+    }
+
+    @Test
+    public void givenAnUnauthenticatedDriver_whenCompleteTransportRequest_thenReturnsUnauthorized() {
+        authenticateAs(Role.DRIVER);
+        String serializedCompleteTransportRequest = createSerializedValidCompleteTransportRequest();
+
+        Response response = unauthenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompleteTransportRequest);
+
+        assertStatusCode(response, Status.UNAUTHORIZED);
+    }
+
     private String createSerializedDriverWithoutAssignedTransportRequest() {
         return createSerializedDriver(
             A_USERNAME,
@@ -175,6 +215,22 @@ public class TransportRequestResourceIT extends IntegrationTest {
             A_VALID_NOTE,
             A_VALID_LATITUDE,
             A_VALID_LONGITUDE
+        );
+    }
+
+    private String createSerializedValidCompleteTransportRequest() {
+        return createSerializedCompleteTransportRequest(
+                A_VALID_TRANSPORT_REQUEST_ID,
+                A_VALID_LATITUDE,
+                A_VALID_LONGITUDE
+        );
+    }
+
+    private String createSerializedInvalidCompleteTransportRequest() {
+        return createSerializedCompleteTransportRequest(
+                AN_INVALID_TRANSPORT_REQUEST_ID,
+                A_VALID_LATITUDE,
+                A_VALID_LONGITUDE
         );
     }
 

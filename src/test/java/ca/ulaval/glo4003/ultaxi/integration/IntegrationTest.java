@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.integration;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateDto;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.AuthenticationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
@@ -31,6 +32,7 @@ public abstract class IntegrationTest {
     protected static final String RATES_ROUTE = API_ROUTE + "/rates";
     protected static final String DRIVER_HAS_ARRIVED_NOTIFICATION = TRANSPORT_REQUEST_ROUTE + "/notification/arrived";
     protected static final String ASSIGN_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/assign";
+    protected static final String COMPLETE_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/complete";
     protected static final String SEARCH_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/search";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
     protected static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
@@ -180,6 +182,16 @@ public abstract class IntegrationTest {
         transportRequestDto.setStartingPositionLongitude(longitude);
 
         return serializeDto(transportRequestDto);
+    }
+
+    protected String createSerializedCompleteTransportRequest(String transportRequestId, double latitude,
+                                                      double longitude) {
+        TransportRequestCompleteDto transportRequestCompleteDto = new TransportRequestCompleteDto();
+        transportRequestCompleteDto.setTransportRequestId(transportRequestId);
+        transportRequestCompleteDto.setEndingPPositionLatitude(latitude);
+        transportRequestCompleteDto.setEndingPPositionLongitude(longitude);
+
+        return serializeDto(transportRequestCompleteDto);
     }
 
     protected String createSerializedDistanceRate(String vehicleType,

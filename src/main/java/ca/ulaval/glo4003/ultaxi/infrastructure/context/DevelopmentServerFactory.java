@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
+import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
 import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
@@ -24,6 +25,7 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilte
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingConfigurationReaderFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.SmsSenderStub;
+import ca.ulaval.glo4003.ultaxi.infrastructure.rate.RateDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.rate.RateRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
@@ -117,6 +119,10 @@ public class DevelopmentServerFactory extends ServerFactory {
         TransportRequestDevDataFactory transportRequestDevDataFactory = new TransportRequestDevDataFactory();
         List<TransportRequest> transportRequests = transportRequestDevDataFactory.createMockData();
         transportRequests.forEach(transportRequestRepository::save);
+
+        RateDevDataFactory rateDevDataFactory = new RateDevDataFactory();
+        List<Rate> rates = rateDevDataFactory.createMockData();
+        rates.forEach(rateRepository::save);
     }
 
     @Override
