@@ -44,7 +44,7 @@ public class UserDevDataFactory {
         return users;
     }
 
-    private List<User> createGenericRoleUsers(Role role, HashingStrategy hashingStrategy) throws Exception {
+    private List<User> createGenericRoleUsers(Role role, HashingStrategy hashingStrategy) {
         return userTypesByRoles.get(role).apply(hashingStrategy);
     }
 
