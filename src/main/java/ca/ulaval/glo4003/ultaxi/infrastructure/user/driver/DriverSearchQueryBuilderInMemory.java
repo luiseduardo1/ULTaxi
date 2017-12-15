@@ -4,8 +4,7 @@ import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQuery;
 import ca.ulaval.glo4003.ultaxi.domain.search.driver.DriverSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
-import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -16,10 +15,10 @@ import java.util.stream.Stream;
 
 public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilder {
 
-    private final Map<String, User> users;
-    private final Set<Predicate<Driver>> predicates = new HashSet<>();
+    private final Map<String, UserPersistenceDto> users;
+    private final Set<Predicate<UserPersistenceDto>> predicates = new HashSet<>();
 
-    public DriverSearchQueryBuilderInMemory(Map<String, User> users) {
+    public DriverSearchQueryBuilderInMemory(Map<String, UserPersistenceDto> users) {
         this.users = users;
     }
 
@@ -46,7 +45,7 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
         );
     }
 
-    private DriverSearchQueryBuilder withNonNull(Predicate<Driver> predicate, String value) {
+    private DriverSearchQueryBuilder withNonNull(Predicate<UserPersistenceDto> predicate, String value) {
         if (value != null) {
             predicates.add(predicate);
         }
@@ -60,21 +59,20 @@ public class DriverSearchQueryBuilderInMemory implements DriverSearchQueryBuilde
 
     private class DriverSearchQueryInMemory implements DriverSearchQuery {
 
-        private final Set<Predicate<Driver>> predicates;
-        private final Map<String, User> users;
+        private final Set<Predicate<UserPersistenceDto>> predicates;
+        private final Map<String, UserPersistenceDto> users;
 
-        private DriverSearchQueryInMemory(Map<String, User> users, Set<Predicate<Driver>> predicates) {
+        private DriverSearchQueryInMemory(Map<String, UserPersistenceDto> users, Set<Predicate<UserPersistenceDto>> predicates) {
             this.users = users;
             this.predicates = predicates;
         }
 
         @Override
-        public SearchResults<Driver> execute() {
-            Stream<Driver> drivers = users
+        public SearchResults<UserPersistenceDto> execute() {
+            Stream<UserPersistenceDto> drivers = users
                 .values()
                 .stream()
-                .filter(user -> Role.DRIVER == user.getRole())
-                .map(user -> (Driver) user);
+                .filter(user -> Role.DRIVER == user.getRole());
             return new SearchResults<>(
                 predicates
                     .stream()

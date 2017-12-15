@@ -54,7 +54,7 @@ public class UserAuthenticationServiceTest {
         willReturn(user).given(userRepository).findByUsername(A_USERNAME);
         willReturn(anotherUser).given(clientAssembler).create(any(ClientDto.class));
         userAuthenticationService = new UserAuthenticationService(userRepository, clientAssembler, tokenManager,
-                                                                  tokenRepository);
+                                                                  tokenRepository, userPersistenceAssembler);
     }
 
     @Test

@@ -14,10 +14,8 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenManager;
 import ca.ulaval.glo4003.ultaxi.domain.user.TokenRepository;
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverValidator;
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthenticationFilter;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilter;
@@ -42,6 +40,8 @@ import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
@@ -55,6 +55,7 @@ import java.util.Random;
 public class DevelopmentServerFactory extends ServerFactory {
 
     private final UserRepository userRepository = new UserRepositoryInMemory();
+    private final UserPersistenceAssembler userPersistenceAssembler = new UserPersistenceAssembler();
     private final TransportRequestRepository transportRequestRepository = new TransportRequestRepositoryInMemory();
     private final VehicleAssembler vehicleAssembler = new VehicleAssembler();
     private final VehiclePersistenceAssembler vehiclePersistenceAssembler = new VehiclePersistenceAssembler();
@@ -72,12 +73,13 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
                                                                                                       clientAssembler,
                                                                                                       tokenManager,
-                                                                                                      tokenRepository);
+                                                                                                      tokenRepository, userPersistenceAssembler);
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
                                                                      vehicleAssembler,
                                                                      userRepository,
-                                                                     vehiclePersistenceAssembler);
+                                                                     vehiclePersistenceAssembler,
+                                                                     userPersistenceAssembler);
     private final TransportRequestService transportRequestService;
     private final RateService rateService = new RateService(rateRepository, distanceRateAssembler,
                                                                             ratePersistenceAssembler);
@@ -89,7 +91,8 @@ public class DevelopmentServerFactory extends ServerFactory {
         );
         SmsSender smsSender = new SmsSenderStub(new Random());
         clientService = new ClientService(
-            userRepository, clientAssembler, messagingTaskProducer, emailSender, userAuthenticationService
+            userRepository, clientAssembler, messagingTaskProducer, emailSender, userAuthenticationService,
+            userPersistenceAssembler
         );
         transportRequestService = new TransportRequestService(
             transportRequestRepository,
@@ -105,7 +108,7 @@ public class DevelopmentServerFactory extends ServerFactory {
 
     private void setDevelopmentEnvironmentMockData() throws Exception {
         UserDevDataFactory userDevDataFactory = new UserDevDataFactory();
-        List<User> users = userDevDataFactory.createMockData(new BcryptHashing());
+        List<UserPersistenceDto> users = userDevDataFactory.createMockData(new BcryptHashing());
         users.forEach(userRepository::save);
 
         VehicleDevDataFactory vehicleDevDataFactory = new VehicleDevDataFactory();

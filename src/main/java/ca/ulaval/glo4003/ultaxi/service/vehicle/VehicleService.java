@@ -8,6 +8,8 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
@@ -25,16 +27,19 @@ public class VehicleService {
     private final VehicleAssembler vehicleAssembler;
     private final UserRepository userRepository;
     private final VehiclePersistenceAssembler vehiclePersistenceAssembler;
+    private final UserPersistenceAssembler userPersistenceAssembler;
 
 
     public VehicleService(VehicleRepository vehicleRepository,
                           VehicleAssembler vehicleAssembler,
                           UserRepository userRepository,
-                          VehiclePersistenceAssembler vehiclePersistenceAssembler) {
+                          VehiclePersistenceAssembler vehiclePersistenceAssembler,
+                          UserPersistenceAssembler userPersistenceAssembler) {
         this.vehicleRepository = vehicleRepository;
         this.vehicleAssembler = vehicleAssembler;
         this.userRepository = userRepository;
         this.vehiclePersistenceAssembler = vehiclePersistenceAssembler;
+        this.userPersistenceAssembler = userPersistenceAssembler;
     }
 
     public void addVehicle(VehicleDto vehicleDto) {
@@ -54,20 +59,23 @@ public class VehicleService {
             vehicleAssociationDto.getUsername(),
             vehicleAssociationDto.getRegistrationNumber()
         ));
-        Driver driver = (Driver) userRepository.findByUsername(vehicleAssociationDto.getUsername());
+
+        UserPersistenceDto userPersistenceDto =
+            userRepository.findByUsername(vehicleAssociationDto.getUsername());
         VehiclePersistenceDto vehiclePersistenceDto
             = vehicleRepository.findByRegistrationNumber(vehicleAssociationDto.getRegistrationNumber());
-
+        Driver driver = (Driver) userPersistenceAssembler.create(userPersistenceDto);
         validateAssociationEntities(vehiclePersistenceDto, driver);
         Vehicle vehicle = vehiclePersistenceAssembler.create(vehiclePersistenceDto);
         driver.associateVehicle(vehicle);
         VehiclePersistenceDto updatedVehicle = vehiclePersistenceAssembler.create(vehicle);
-        userRepository.update(driver);
+        UserPersistenceDto updatedUser = userPersistenceAssembler.create(driver);
+        userRepository.update(updatedUser);
         vehicleRepository.update(updatedVehicle);
     }
 
     public void dissociateVehicle(String username) {
-        User user = Optional
+        UserPersistenceDto user = Optional
             .ofNullable(username)
             .map(userRepository::findByUsername)
             .orElseThrow(() -> new InvalidVehicleDissociationException("Can't dissociate: the given username is " +
@@ -77,12 +85,14 @@ public class VehicleService {
         }
 
         logger.info(String.format("Dissociating user %s and his vehicle.", username));
-        Driver driver = (Driver) user;
-        Vehicle vehicle = driver.getVehicle();
+        UserPersistenceDto userPersistenceDto = user;
+        Vehicle vehicle = userPersistenceDto.getVehicle();
+        Driver driver = (Driver) userPersistenceAssembler.create(userPersistenceDto);
         driver.dissociateVehicle();
 
         VehiclePersistenceDto updatedVehicle = vehiclePersistenceAssembler.create(vehicle);
-        userRepository.update(user);
+        UserPersistenceDto updatedUser = userPersistenceAssembler.create(driver);
+        userRepository.update(updatedUser);
         vehicleRepository.update(updatedVehicle);
     }
 

@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.driver.DriverSearchQueryBuilderInMemory;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 
 import java.util.HashMap;
@@ -15,10 +16,10 @@ import java.util.Map;
 
 public class UserRepositoryInMemory implements UserRepository {
 
-    private final Map<String, User> users = new HashMap<>();
+    private final Map<String, UserPersistenceDto> users = new HashMap<>();
 
     @Override
-    public User findByUsername(String username) {
+    public UserPersistenceDto findByUsername(String username) {
         String searchedUsername = "";
         if (username != null) {
             searchedUsername = username;
@@ -27,7 +28,7 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     @Override
-    public void save(User user) {
+    public void save(UserPersistenceDto user) {
         String username = user.getUsername();
         if (users.containsKey(username)) {
             throw new UserAlreadyExistsException(
@@ -38,7 +39,7 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     @Override
-    public void update(User user) {
+    public void update(UserPersistenceDto user) {
         String username = user.getUsername();
         if (!users.containsKey(username)) {
             throw new NonExistentUserException(String.format("User with userName %s don't exist",
@@ -48,7 +49,7 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     @Override
-    public SearchResults<Driver> searchDrivers(DriverSearchParameters driverSearchParameters) {
+    public SearchResults<UserPersistenceDto> searchDrivers(DriverSearchParameters driverSearchParameters) {
         DriverSearchQuery query = new DriverSearchQueryBuilderInMemory(users)
             .withFirstName(driverSearchParameters.getFirstName())
             .withLastName(driverSearchParameters.getLastName())

@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
 import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 
@@ -63,7 +64,7 @@ public class SendDriverHasArrivedSmsTask implements MessagingTask {
         String destinationPhoneNumber = Optional
             .ofNullable(transportRequestRepository.findById(transportRequestId))
             .map(transportRequest -> userRepository.findByUsername(transportRequest.getClientUsername()))
-            .map(User::getPhoneNumber)
+            .map(UserPersistenceDto::getPhoneNumber)
             .map(PhoneNumber::getNumber)
             .orElseThrow(() -> new UnrecoverableSmsSendingFailureException("No transport request/client could be " +
                                                                                "found."));

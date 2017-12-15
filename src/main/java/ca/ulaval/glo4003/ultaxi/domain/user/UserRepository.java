@@ -2,15 +2,16 @@ package ca.ulaval.glo4003.ultaxi.domain.user;
 
 import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 
 public interface UserRepository {
 
-    User findByUsername(String username);
+    UserPersistenceDto findByUsername(String username);
 
-    void save(User user);
+    void save(UserPersistenceDto user);
 
-    void update(User user);
+    void update(UserPersistenceDto user);
 
-    SearchResults<Driver> searchDrivers(DriverSearchParameters driverSearchParameters);
+    SearchResults<UserPersistenceDto> searchDrivers(DriverSearchParameters driverSearchParameters);
 }

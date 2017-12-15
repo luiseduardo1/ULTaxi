@@ -6,6 +6,8 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidCredentialsException;
 import ca.ulaval.glo4003.ultaxi.transfer.user.AuthenticationDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 
 import java.util.Arrays;
@@ -22,17 +24,20 @@ public class UserAuthenticationService {
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
     private final ClientAssembler clientAssembler;
+    private final UserPersistenceAssembler userPersistenceAssembler;
 
     public UserAuthenticationService(UserRepository userRepository, ClientAssembler clientAssembler, TokenManager
-        tokenManager, TokenRepository tokenRepository) {
+        tokenManager, TokenRepository tokenRepository, UserPersistenceAssembler userPersistenceAssembler) {
         this.userRepository = userRepository;
         this.clientAssembler = clientAssembler;
         this.tokenManager = tokenManager;
         this.tokenRepository = tokenRepository;
+        this.userPersistenceAssembler = userPersistenceAssembler;
     }
 
     public String authenticate(AuthenticationDto authenticationDto) {
-        User user = userRepository.findByUsername(authenticationDto.getUsername());
+        UserPersistenceDto userPersistenceDto = userRepository.findByUsername(authenticationDto.getUsername());
+        User user = userPersistenceAssembler.create(userPersistenceDto);//TODO fou pt la merde
         if (user == null ||
             !user.areValidCredentials(authenticationDto.getUsername(), authenticationDto.getPassword())) {
             throw new InvalidCredentialsException("Credentials are invalid.");
@@ -44,7 +49,7 @@ public class UserAuthenticationService {
         tokenRepository.delete(tokenManager.getTokenId(extractToken(token)));
     }
 
-    public User getUserFromToken(String userToken) {
+    public UserPersistenceDto getUserFromToken(String userToken) {
         String username = tokenManager.getUsername(extractToken(userToken));
         return userRepository.findByUsername(username);
     }

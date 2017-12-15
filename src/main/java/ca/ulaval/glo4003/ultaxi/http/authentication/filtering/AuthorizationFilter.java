@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUserRoleException;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.InvalidUsernameException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.exception.InexistantTokenException;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
@@ -88,7 +89,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
     private void checkPermissions(List<Role> allowedRoles, String token) {
         String username = tokenManager.getUsername(token);
-        User user = userRepository.findByUsername(username);
+        UserPersistenceDto user = userRepository.findByUsername(username);
         if (user == null) {
             throw new InvalidUsernameException("Username is invalid.");
         }

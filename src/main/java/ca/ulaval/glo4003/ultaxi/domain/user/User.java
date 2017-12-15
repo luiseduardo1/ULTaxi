@@ -56,6 +56,14 @@ public abstract class User {
         this.password = hashingStrategy.hashWithRandomSalt(password);
     }
 
+    public HashingStrategy getHashingStrategy() {
+        return hashingStrategy;
+    }
+
+    public void setHashingStrategy(HashingStrategy hashingStrategy) {
+        this.hashingStrategy = hashingStrategy;
+    }
+
     public PhoneNumber getPhoneNumber() {
         return phoneNumber;
     }

@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.administrator.Administrator;
 import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import jersey.repackaged.com.google.common.collect.Lists;
 
@@ -26,7 +27,7 @@ public class UserDevDataFactory {
     private static final String FIRST_NAME_SUFFIX = "FirstName";
     private static final String LAST_NAME_SUFFIX = "LastName";
 
-    private final Map<Role, Function<HashingStrategy, List<User>>> userTypesByRoles = new HashMap<>();
+    private final Map<Role, Function<HashingStrategy, List<UserPersistenceDto>>> userTypesByRoles = new HashMap<>();
 
     public UserDevDataFactory() {
         userTypesByRoles.put(Role.DRIVER, this::createDrivers);
@@ -34,8 +35,8 @@ public class UserDevDataFactory {
         userTypesByRoles.put(Role.ADMINISTRATOR, this::createAdministrators);
     }
 
-    public List<User> createMockData(HashingStrategy hashingStrategy) throws Exception {
-        List<User> users = Lists.newArrayList();
+    public List<UserPersistenceDto> createMockData(HashingStrategy hashingStrategy) throws Exception {
+        List<UserPersistenceDto> users = Lists.newArrayList();
         for (Role role : Role.values()) {
             users.addAll(
                 createGenericRoleUsers(role, hashingStrategy)
@@ -44,20 +45,20 @@ public class UserDevDataFactory {
         return users;
     }
 
-    private List<User> createGenericRoleUsers(Role role, HashingStrategy hashingStrategy) throws Exception {
+    private List<UserPersistenceDto> createGenericRoleUsers(Role role, HashingStrategy hashingStrategy) throws Exception {
         return userTypesByRoles.get(role).apply(hashingStrategy);
     }
 
-    private List<User> createAdministrators(HashingStrategy hashingStrategy) {
-        List<User> administrators = new ArrayList<>();
+    private List<UserPersistenceDto> createAdministrators(HashingStrategy hashingStrategy) {
+        List<UserPersistenceDto> administrators = new ArrayList<>();
         administrators.add(createAdministrator(hashingStrategy));
         return administrators;
     }
 
-    private Administrator createAdministrator(HashingStrategy hashingStrategy) {
+    private UserPersistenceDto createAdministrator(HashingStrategy hashingStrategy) {
         PhoneNumber phoneNumber = new PhoneNumber(PHONE_NUMBER);
         String administratorPrefix = generateUserPrefixString(Role.ADMINISTRATOR);
-        Administrator administrator = new Administrator(
+        UserPersistenceDto administrator = new UserPersistenceDto(
             administratorPrefix + USERNAME_SUFFIX,
             administratorPrefix + PASSWORD_SUFFIX,
             phoneNumber,
@@ -67,17 +68,17 @@ public class UserDevDataFactory {
         return administrator;
     }
 
-    private List<User> createDrivers(HashingStrategy hashingStrategy) {
-        List<User> drivers = new ArrayList<>();
+    private List<UserPersistenceDto> createDrivers(HashingStrategy hashingStrategy) {
+        List<UserPersistenceDto> drivers = new ArrayList<>();
         drivers.add(createDriver(hashingStrategy));
         return drivers;
     }
 
-    private Driver createDriver(HashingStrategy hashingStrategy) {
+    private UserPersistenceDto createDriver(HashingStrategy hashingStrategy) {
         PhoneNumber phoneNumber = new PhoneNumber(PHONE_NUMBER);
         SocialInsuranceNumber socialInsuranceNumber = new SocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER);
         String driverPrefix = generateUserPrefixString(Role.DRIVER);
-        Driver driver = new Driver(
+        UserPersistenceDto driver = new UserPersistenceDto(
             driverPrefix + USERNAME_SUFFIX,
             driverPrefix + PASSWORD_SUFFIX,
             phoneNumber,
@@ -90,16 +91,16 @@ public class UserDevDataFactory {
         return driver;
     }
 
-    private List<User> createClients(HashingStrategy hashingStrategy) {
-        List<User> clients = new ArrayList<>();
+    private List<UserPersistenceDto> createClients(HashingStrategy hashingStrategy) {
+        List<UserPersistenceDto> clients = new ArrayList<>();
         clients.add(createClient(hashingStrategy));
         return clients;
     }
 
-    private Client createClient(HashingStrategy hashingStrategy) {
+    private UserPersistenceDto createClient(HashingStrategy hashingStrategy) {
         PhoneNumber phoneNumber = new PhoneNumber(PHONE_NUMBER);
         String clientPrefix = generateUserPrefixString(Role.CLIENT);
-        Client client = new Client(
+        UserPersistenceDto client = new UserPersistenceDto(
             clientPrefix + USERNAME_SUFFIX,
             clientPrefix + PASSWORD_SUFFIX,
             phoneNumber,

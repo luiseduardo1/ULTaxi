@@ -14,6 +14,8 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleExcep
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.UserPersistenceDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,17 +28,20 @@ public class TransportRequestService {
     private final UserAuthenticationService userAuthenticationService;
     private final MessagingTaskProducer messagingTaskProducer;
     private final SmsSender smsSender;
+    private final UserPersistenceAssembler userPersistenceAssembler;
 
     public TransportRequestService(TransportRequestRepository transportRequestRepository,
-        TransportRequestAssembler transportRequestAssembler, UserRepository userRepository,
-        UserAuthenticationService userAuthenticationService,
-        MessagingTaskProducer messagingTaskProducer, SmsSender smsSender) {
+                                   TransportRequestAssembler transportRequestAssembler, UserRepository userRepository,
+                                   UserAuthenticationService userAuthenticationService,
+                                   MessagingTaskProducer messagingTaskProducer, SmsSender smsSender,
+                                   UserPersistenceAssembler userPersistenceAssembler) {
         this.transportRequestRepository = transportRequestRepository;
         this.transportRequestAssembler = transportRequestAssembler;
         this.userRepository = userRepository;
         this.userAuthenticationService = userAuthenticationService;
         this.messagingTaskProducer = messagingTaskProducer;
         this.smsSender = smsSender;
+        this.userPersistenceAssembler = userPersistenceAssembler;
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) {
@@ -66,7 +71,8 @@ public class TransportRequestService {
         Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository.findById(transportRequestId);
         driver.assignTransportRequestId(transportRequest);
-        userRepository.update(driver);
+        UserPersistenceDto userPersistenceDto = userPersistenceAssembler.create(driver);
+        userRepository.update(userPersistenceDto);
         transportRequestRepository.update(transportRequest);
     }
 
@@ -76,7 +82,7 @@ public class TransportRequestService {
         transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
         transportRequestRepository.update(transportRequest);
 
-        User user = userRepository.findByUsername(transportRequest.getClientUsername());
+        UserPersistenceDto user = userRepository.findByUsername(transportRequest.getClientUsername());
         MessagingTask messagingTask = new SendDriverHasArrivedSmsTask(user.getPhoneNumber().getNumber(),
                                                                       smsSender,
                                                                       transportRequest.getId(),
