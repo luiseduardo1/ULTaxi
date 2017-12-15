@@ -13,13 +13,15 @@ public class ClientAssembler {
     }
 
     public Client create(ClientDto clientDto) {
-        return new Client(
+        Client client = new Client(
             clientDto.getUsername(),
             clientDto.getPassword(),
             new PhoneNumber(clientDto.getPhoneNumber()),
             clientDto.getEmailAddress(),
             hashingStrategy
         );
+        client.assignTransportRequestId(clientDto.getCurrentTransportRequestId());
+        return client;
     }
 
     public ClientDto create(Client client) {
@@ -28,6 +30,7 @@ public class ClientAssembler {
         clientDto.setPassword(client.getPassword());
         clientDto.setPhoneNumber(client.getPhoneNumber().getNumber());
         clientDto.setEmailAddress(client.getEmailAddress());
+        clientDto.setCurrentTransportRequestId(client.getCurrentTransportRequestId());
         return clientDto;
     }
 }

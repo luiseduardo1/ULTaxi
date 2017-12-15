@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.domain.user.client;
 
-import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.ClientAlreadyHasAnActiveTransportRequestException;
 import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
@@ -20,11 +20,21 @@ public class Client extends User {
         return Role.CLIENT;
     }
 
-    public void assignTransportRequestId(TransportRequest transportRequest) {
-        if (this.currentTransportRequestId != null) {
+    public String getCurrentTransportRequestId() {
+        return currentTransportRequestId;
+    }
 
+    public void assignTransportRequestId(String transportRequestId) {
+        if (this.currentTransportRequestId != null) {
+            throw new ClientAlreadyHasAnActiveTransportRequestException(
+                String.format("Client %s already has an active transport request.", username)
+            );
         }
-        this.currentTransportRequestId = transportRequest.getId();
+        this.currentTransportRequestId = transportRequestId;
+    }
+
+    public void notifyCurrentTransportRequestIsCompleted() {
+        currentTransportRequestId = null;
     }
 
     public boolean hasAnActiveTransportRequest() {
