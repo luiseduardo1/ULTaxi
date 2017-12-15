@@ -10,7 +10,7 @@ public class SmsSenderStub implements SmsSender {
 
     private static final int FAILURE_RANGE_HIGHER_BOUND = 1;
     private static final int HIGHEST_NUMBER_GENERATABLE = 20;
-    private Random random;
+    private final Random random;
 
     public SmsSenderStub(Random random) {
         this.random = random;
