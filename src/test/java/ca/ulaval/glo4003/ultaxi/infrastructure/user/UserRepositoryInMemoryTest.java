@@ -100,7 +100,6 @@ public class UserRepositoryInMemoryTest {
 
     @Test
     public void givenExistingUser_whenUpdate_thenUserHasUpdatedParameters() {
-        user.setUsername(A_USERNAME);
         user.setEmailAddress(ORIGINAL_EMAIL_ADDRESS);
         User sameUserWithAnotherEmailAddress = user;
         sameUserWithAnotherEmailAddress.setEmailAddress(UPDATED_EMAIL_ADDRESS);
