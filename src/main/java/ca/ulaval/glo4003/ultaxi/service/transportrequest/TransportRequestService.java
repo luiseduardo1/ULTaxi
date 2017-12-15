@@ -73,7 +73,7 @@ public class TransportRequestService {
     public void notifyDriverHasArrived(String driverToken) {
         Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository.findById(driver.getCurrentTransportRequestId());
-        transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
+        transportRequest.setToArrived();
         transportRequestRepository.update(transportRequest);
 
         User user = userRepository.findByUsername(transportRequest.getClientUsername());
@@ -85,4 +85,10 @@ public class TransportRequestService {
         messagingTaskProducer.send(messagingTask);
     }
 
+    public void notifyRideHasStarted(String driverToken) {
+        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
+        TransportRequest transportRequest = transportRequestRepository.findById(driver.getCurrentTransportRequestId());
+        transportRequest.setToStarted();
+        transportRequestRepository.update(transportRequest);
+    }
 }

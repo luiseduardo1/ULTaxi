@@ -37,6 +37,13 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
     @Override
     @Secured({Role.DRIVER})
+    public Response assignTransportRequest(String driverToken, String transportRequestId) {
+        transportRequestService.assignTransportRequest(driverToken, transportRequestId);
+        return Response.ok().build();
+    }
+
+    @Override
+    @Secured({Role.DRIVER})
     public Response notifyHasArrived(String driverToken) {
         transportRequestService.notifyDriverHasArrived(driverToken);
         return Response.ok().build();
@@ -44,8 +51,8 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
     @Override
     @Secured({Role.DRIVER})
-    public Response assignTransportRequest(String driverToken, String transportRequestId) {
-        transportRequestService.assignTransportRequest(driverToken, transportRequestId);
+    public Response notifyHasStarted(String driverToken) {
+        transportRequestService.notifyRideHasStarted(driverToken);
         return Response.ok().build();
     }
 }
