@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.utils.distanceCalculator;
+package ca.ulaval.glo4003.ultaxi.utils.distancecalculator;
 
 public class HaversineDistance implements DistanceCalculatorStrategy {
 
@@ -9,13 +9,13 @@ public class HaversineDistance implements DistanceCalculatorStrategy {
     @Override
     public Double calculDistance(double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
 
-        double dLat = Math.toRadians((endLatitude - startLatitude));
-        double dLong = Math.toRadians((endLongitude - startLongitude));
+        double distanceLat = Math.toRadians((endLatitude - startLatitude));
+        double distanceLong = Math.toRadians((endLongitude - startLongitude));
 
         startLatitude = Math.toRadians(startLatitude);
         endLatitude = Math.toRadians(endLatitude);
 
-        double a = haversin(dLat) + Math.cos(startLatitude) * Math.cos(endLatitude) * haversin(dLong);
+        double a = haversin(distanceLat) + Math.cos(startLatitude) * Math.cos(endLatitude) * haversin(distanceLong);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return EARTH_RADIUS * c;

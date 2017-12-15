@@ -27,8 +27,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
     private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "130692544";
     private static final String A_VALID_PHONE_NUMBER = "2342355679";
     private static final String A_USERNAME = "Karlee";
-    private static final String A_VALID_EMAIL = "Karlee@mail.com";
-    private static final String A_VALID_NAME = "Karl";
+    private static final String A_VALID_EMAIL_ADDRESS = "Karlee@mail.com";
+    private static final String A_VALID_FIRST_NAME = "Karl";
     private static final String A_VALID_LAST_NAME = "Max";
 
     @Before
@@ -78,6 +78,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
     @Test
     public void givenADriverWithNoTransportRequestAssigned_whenNotifyHasArrived_thenReturnsBadRequest() {
         String aDriverWithoutTransportRequest = createSerializedDriverWithoutAssignedTransportRequest();
+        authenticateAs(Role.ADMINISTRATOR);
+        authenticatedPost(DRIVERS_ROUTE, aDriverWithoutTransportRequest);
         authenticateAs(aDriverWithoutTransportRequest);
 
         Response response = authenticatedPost(DRIVER_HAS_ARRIVED_NOTIFICATION);
@@ -97,6 +99,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
     @Test
     public void givenAnAuthenticatedDriverWithoutVehicleAssociated_whenSearchTransportRequest_thenReturnsBadRequest() {
         String aDriverWithoutTransportRequest = createSerializedDriverWithoutAssignedTransportRequest();
+        authenticateAs(Role.ADMINISTRATOR);
+        authenticatedPost(DRIVERS_ROUTE, aDriverWithoutTransportRequest);
         authenticateAs(aDriverWithoutTransportRequest);
 
         Response response = authenticatedGet(SEARCH_TRANSPORT_REQUEST_ROUTE);
@@ -154,18 +158,15 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     private String createSerializedDriverWithoutAssignedTransportRequest() {
-        authenticateAs(Role.ADMINISTRATOR);
-        authenticatedPost(DRIVERS_ROUTE, createSerializedDriver(
+        return createSerializedDriver(
             A_USERNAME,
             A_VALID_PASSWORD,
-            A_VALID_SOCIAL_INSURANCE_NUMBER,
             A_VALID_PHONE_NUMBER,
-            A_VALID_NAME,
+            A_VALID_EMAIL_ADDRESS,
+            A_VALID_FIRST_NAME,
             A_VALID_LAST_NAME,
-            A_VALID_EMAIL
-        ));
-
-        return createSerializedUser(A_USERNAME, A_VALID_PASSWORD, A_VALID_EMAIL);
+            A_VALID_SOCIAL_INSURANCE_NUMBER
+        );
     }
 
     private String createSerializedValidTransportRequest() {

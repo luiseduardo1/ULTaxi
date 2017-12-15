@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTranspo
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
-import ca.ulaval.glo4003.ultaxi.utils.distanceCalculator.DistanceCalculatorStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -90,9 +90,9 @@ public class TransportRequest {
 
     public void updateStatus(TransportRequestStatus newStatus) {
         if (newStatus == TransportRequestStatus.ARRIVED && this.status != TransportRequestStatus.ACCEPTED) {
-            throw new InvalidTransportRequestStatusException(String.format("The status can't be updated to %s when " +
-                            "the actual status is %s.", newStatus,
-                    status));
+            throw new InvalidTransportRequestStatusException(
+                String.format("The status can't be updated to %s when the current status is %s.", newStatus, status)
+            );
         }
 
         this.status = newStatus;

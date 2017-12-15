@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.rate;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.BDDMockito.willReturn;
+
 import ca.ulaval.glo4003.ultaxi.domain.rate.DistanceRate;
 import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.rate.RateType;
@@ -13,10 +17,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.BDDMockito.willReturn;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RateRepositoryInMemoryTest {

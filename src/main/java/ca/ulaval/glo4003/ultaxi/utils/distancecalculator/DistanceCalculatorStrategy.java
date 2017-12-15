@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.ultaxi.utils.distanceCalculator;
+package ca.ulaval.glo4003.ultaxi.utils.distancecalculator;
 
 public interface DistanceCalculatorStrategy {
 

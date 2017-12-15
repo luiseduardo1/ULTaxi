@@ -14,13 +14,13 @@ import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
-import ca.ulaval.glo4003.ultaxi.service.user.UserService;
+import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountDto;
-import ca.ulaval.glo4003.ultaxi.utils.distanceCalculator.DistanceCalculatorStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,20 +31,21 @@ public class TransportRequestService {
     private final TransportRequestAssembler transportRequestAssembler;
     private final TransportRequestTotalAmountAssembler transportRequestTotalAmountAssembler;
     private final UserRepository userRepository;
-    private final UserService userService;
+    private final UserAuthenticationService userAuthenticationService;
     private final MessagingTaskProducer messagingTaskProducer;
     private final SmsSender smsSender;
     private final DistanceCalculatorStrategy distanceCalculatorStrategy;
 
     public TransportRequestService(TransportRequestRepository transportRequestRepository, TransportRequestAssembler
-            transportRequestAssembler, UserRepository userRepository, UserService userService,
+            transportRequestAssembler, UserRepository userRepository,
+                                   UserAuthenticationService userAuthenticationService,
                                    MessagingTaskProducer messagingTaskProducer, SmsSender smsSender,
                                    TransportRequestTotalAmountAssembler transportRequestTotalAmountAssembler,
                                    DistanceCalculatorStrategy distanceCalculatorStrategy) {
         this.transportRequestRepository = transportRequestRepository;
         this.transportRequestAssembler = transportRequestAssembler;
         this.userRepository = userRepository;
-        this.userService = userService;
+        this.userAuthenticationService = userAuthenticationService;
         this.messagingTaskProducer = messagingTaskProducer;
         this.smsSender = smsSender;
         this.transportRequestTotalAmountAssembler = transportRequestTotalAmountAssembler;
@@ -52,7 +53,7 @@ public class TransportRequestService {
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) {
-        User user = userService.getUserFromToken(clientToken);
+        User user = userAuthenticationService.getUserFromToken(clientToken);
         TransportRequest transportRequest = transportRequestAssembler.create(transportRequestDto);
         transportRequest.setClientUsername(user.getUsername());
         transportRequestRepository.save(transportRequest);
@@ -60,22 +61,22 @@ public class TransportRequestService {
     }
 
     public List<TransportRequestDto> searchAvailableTransportRequests(String driverToken) {
-        Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         if (driver.getVehicleType() == null) {
             throw new NonExistentVehicleException("There is no vehicle associated to this driver.");
         }
 
         return this.transportRequestRepository
-                .searchTransportRequests()
-                .withVehicleType(driver.getVehicleType().name())
-                .findAll()
-                .stream()
-                .map(transportRequestAssembler::create)
-                .collect(Collectors.toList());
+            .searchTransportRequests()
+            .withVehicleType(driver.getVehicleType().name())
+            .findAll()
+            .stream()
+            .map(transportRequestAssembler::create)
+            .collect(Collectors.toList());
     }
 
     public void assignTransportRequest(String driverToken, String transportRequestId) {
-        Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository.findById(transportRequestId);
 
         driver.assignTransportRequestId(transportRequest);
@@ -86,7 +87,7 @@ public class TransportRequestService {
 
     public TransportRequestTotalAmountDto completeTransportRequest(
             String driverToken, TransportRequestCompleteDto transportRequestCompleteDto) {
-        Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository
                 .findById(transportRequestCompleteDto.getTransportRequestId());
 
@@ -104,7 +105,7 @@ public class TransportRequestService {
     }
 
     public void notifyDriverHasArrived(String driverToken) {
-        Driver driver = (Driver) userService.getUserFromToken(driverToken);
+        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository.findById(driver.getCurrentTransportRequestId());
         transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
         transportRequestRepository.update(transportRequest);

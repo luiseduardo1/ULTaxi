@@ -16,11 +16,11 @@ import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
-import ca.ulaval.glo4003.ultaxi.service.user.UserService;
+import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
-import ca.ulaval.glo4003.ultaxi.utils.distanceCalculator.DistanceCalculatorStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,7 +65,7 @@ public class TransportRequestServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private UserService userService;
+    private UserAuthenticationService userAuthenticationService;
     @Mock
     private MessagingTaskProducer messagingTaskProducer;
     @Mock
@@ -84,10 +84,10 @@ public class TransportRequestServiceTest {
     @Before
     public void setUp() {
         transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
-                                                              userRepository, userService, messagingTaskProducer,
+                                                              userRepository, userAuthenticationService, messagingTaskProducer,
                                                               smsSender, transportRequestTotalAmountAssembler, distanceCalculatorStrategy);
-        willReturn(driver).given(userService).getUserFromToken(A_VALID_DRIVER_TOKEN);
-        willReturn(user).given(userService).getUserFromToken(A_VALID_TOKEN);
+        willReturn(driver).given(userAuthenticationService).getUserFromToken(A_VALID_DRIVER_TOKEN);
+        willReturn(user).given(userAuthenticationService).getUserFromToken(A_VALID_TOKEN);
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();
         willReturn(user).given(userRepository).findByUsername(A_USERNAME);
         willReturn(vehicle).given(driver).getVehicle();
@@ -106,15 +106,6 @@ public class TransportRequestServiceTest {
 
         verify(transportRequestRepository).save(transportRequest);
     }
-
-    /*@Test
-    public void givenAValidTransportRequest_whenCompleteRequest_thenRequestIs() {
-        willReturn(transportRequest).given(transportRequestAssembler).create(transportRequestDto);
-
-        transportRequestService.sendRequest(transportRequestDto, A_VALID_TOKEN);
-
-        verify(transportRequestRepository).save(transportRequest);
-    }*/
 
     @Test(expected = EmptySearchResultsException.class)
     public void givenAValidSearchQueryWithNoTransportRequestAssociated_whenSearching_thenThrowsException() {

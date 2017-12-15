@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.ultaxi.infrastructure.context;
 import ca.ulaval.glo4003.ultaxi.api.rate.RateResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.transportrequest.TransportRequestResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.UserAuthenticationResourceImpl;
-import ca.ulaval.glo4003.ultaxi.api.user.UserResourceImpl;
+import ca.ulaval.glo4003.ultaxi.api.user.client.ClientResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.user.driver.DriverResourceImpl;
 import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
@@ -36,17 +36,17 @@ import ca.ulaval.glo4003.ultaxi.infrastructure.vehicle.VehicleRepositoryInMemory
 import ca.ulaval.glo4003.ultaxi.service.rate.RateService;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
-import ca.ulaval.glo4003.ultaxi.service.user.UserService;
+import ca.ulaval.glo4003.ultaxi.service.user.client.ClientService;
 import ca.ulaval.glo4003.ultaxi.service.user.driver.DriverService;
 import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
-import ca.ulaval.glo4003.ultaxi.utils.distanceCalculator.DistanceCalculatorStrategy;
-import ca.ulaval.glo4003.ultaxi.utils.distanceCalculator.HaversineDistance;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.DistanceCalculatorStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.HaversineDistance;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 
 import java.util.List;
@@ -63,21 +63,21 @@ public class DevelopmentServerFactory extends ServerFactory {
     private DistanceCalculatorStrategy distanceCalculatorStrategy = new HaversineDistance();
     private final DistanceRateAssembler distanceRateAssembler = new DistanceRateAssembler();
     private final TokenManager tokenManager = new JWTTokenManager();
-    private final UserAssembler userAssembler = new UserAssembler(this.hashingStrategy);
+    private final ClientAssembler clientAssembler = new ClientAssembler(this.hashingStrategy);
     private final DriverAssembler driverAssembler = new DriverAssembler(this.hashingStrategy);
     private final DriverValidator driverValidator = new DriverValidator(userRepository);
     private final DriverService driverService = new DriverService(userRepository, driverAssembler, driverValidator);
-    private final UserService userService;
+    private final ClientService clientService;
     private final TokenRepository tokenRepository = new TokenRepositoryInMemory();
     private final RateRepository rateRepository = new RateRepositoryInMemory();
     private final UserAuthenticationService userAuthenticationService = new UserAuthenticationService(userRepository,
-            userAssembler,
-            tokenManager,
-            tokenRepository);
+                                                                                                      clientAssembler,
+                                                                                                      tokenManager,
+                                                                                                      tokenRepository);
     private final VehicleRepository vehicleRepository = new VehicleRepositoryInMemory(this.hashingStrategy);
     private final VehicleService vehicleService = new VehicleService(vehicleRepository,
-            vehicleAssembler,
-            userRepository);
+                                                                     vehicleAssembler,
+                                                                     userRepository);
     private final TransportRequestService transportRequestService;
     private final RateService rateService = new RateService(rateRepository, distanceRateAssembler);
 
@@ -86,15 +86,15 @@ public class DevelopmentServerFactory extends ServerFactory {
         EmailSender emailSender = new JavaMailEmailSender(
                 MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
-
         SmsSender smsSender = new SmsSenderStub(new Random());
-
-        userService = new UserService(userRepository, userAssembler, messagingTaskProducer, emailSender, tokenManager);
+        clientService = new ClientService(
+            userRepository, clientAssembler, messagingTaskProducer, emailSender, userAuthenticationService
+        );
         transportRequestService = new TransportRequestService(
                 transportRequestRepository,
                 transportRequestAssembler,
                 userRepository,
-                userService,
+                userAuthenticationService,
                 messagingTaskProducer,
                 smsSender,
                 transportRequestTotalAmountAssembler,
@@ -127,7 +127,7 @@ public class DevelopmentServerFactory extends ServerFactory {
 
     @Override
     public ServerFactory withUserResource() {
-        resources.add(new UserResourceImpl(userService));
+        resources.add(new ClientResourceImpl(clientService));
         return this;
     }
 

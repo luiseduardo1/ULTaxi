@@ -30,9 +30,9 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
     @Secured({Role.DRIVER})
     public Response searchAvailableTransportRequests(String driverToken) {
         GenericEntity<List<TransportRequestDto>> availableTransportRequests =
-                new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchAvailableTransportRequests(
-                        driverToken)
-                ) {};
+            new GenericEntity<List<TransportRequestDto>>(transportRequestService.searchAvailableTransportRequests(
+                driverToken)) {
+            };
 
         return Response.ok(availableTransportRequests).build();
     }

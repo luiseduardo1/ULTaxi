@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
 import static java.util.stream.Collectors.toList;
 
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverValidator;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
@@ -29,8 +29,8 @@ public class DriverService {
     public void addDriver(DriverDto driverDto) {
         logger.info(String.format("Add new driver %s", driverDto));
         driverValidator.checkSocialInsuranceNumberExistence(driverDto);
-        User user = driverAssembler.create(driverDto);
-        userRepository.save(user);
+        Driver driver = driverAssembler.create(driverDto);
+        userRepository.save(driver);
     }
 
     public List<DriverDto> searchBy(DriverSearchParameters driverSearchParameters) {

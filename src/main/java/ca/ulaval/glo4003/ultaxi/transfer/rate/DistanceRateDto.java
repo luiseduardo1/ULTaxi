@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.ultaxi.transfer.rate;
 import java.math.BigDecimal;
 
 public class DistanceRateDto {
+
     private BigDecimal rate;
     private String vehicleType;
 

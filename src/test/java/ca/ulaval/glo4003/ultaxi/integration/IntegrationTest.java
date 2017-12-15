@@ -3,7 +3,8 @@ package ca.ulaval.glo4003.ultaxi.integration;
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.AuthenticationDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ public abstract class IntegrationTest {
 
     protected static final String API_ROUTE = "/api";
     protected static final String USERS_ROUTE = API_ROUTE + "/users";
+    protected static final String CLIENTS_ROUTE = API_ROUTE + "/clients";
     protected static final String DRIVERS_ROUTE = API_ROUTE + "/drivers";
     protected static final String VEHICLES_ROUTE = API_ROUTE + "/vehicles";
     protected static final String TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests";
@@ -41,12 +43,14 @@ public abstract class IntegrationTest {
 
     protected Response authenticateAs(Role role) {
         return authenticateAs(
-            createSerializedGenericRoleUser(role)
+            createSerializedGenericRoleCredentials(role)
         );
     }
 
     protected Response authenticateAs(String serializedUser) {
-        signout();
+        if (authenticationToken != "") {
+            signout();
+        }
         Response response = executePostRequest(
             createBasicRequestSpecification(SIGNIN_ROUTE), serializedUser
         );
@@ -117,40 +121,47 @@ public abstract class IntegrationTest {
             .statusCode(status.getStatusCode());
     }
 
-    protected String createSerializedGenericRoleUser(Role role) {
+    protected String createSerializedGenericRoleCredentials(Role role) {
         String lowercaseRole = role.name().toLowerCase();
-        return createSerializedUser(
+        return createSerializedCredentials(
             lowercaseRole + "Username",
-            lowercaseRole + "Password",
-            lowercaseRole + "@ultaxi.ca"
+            lowercaseRole + "Password"
         );
     }
 
-    protected String createSerializedUser(String username, String password, String email) {
-        UserDto userDto = new UserDto();
-        userDto.setUsername(username);
-        userDto.setPassword(password);
-        userDto.setEmail(email);
+    protected String createSerializedCredentials(String username, String password) {
+        AuthenticationDto authenticationDto = new AuthenticationDto();
+        authenticationDto.setUsername(username);
+        authenticationDto.setPassword(password);
 
-        return serializeDto(userDto);
+        return serializeDto(authenticationDto);
     }
 
-    protected String createSerializedDriver(String username, String password,
-        String socialInsuranceNumber, String phoneNumber, String name, String lastName, String emailAddress) {
+    protected String createSerializedUser(String username, String password, String phoneNumber, String email) {
+        ClientDto clientDto = new ClientDto();
+        clientDto.setUsername(username);
+        clientDto.setPassword(password);
+        clientDto.setPhoneNumber(phoneNumber);
+        clientDto.setEmailAddress(email);
+
+        return serializeDto(clientDto);
+    }
+
+    protected String createSerializedDriver(String username, String password, String phoneNumber, String emailAddress,
+        String firstName, String lastName, String socialInsuranceNumber) {
         DriverDto driverDto = new DriverDto();
         driverDto.setUsername(username);
         driverDto.setPassword(password);
-        driverDto.setSocialInsuranceNumber(socialInsuranceNumber);
         driverDto.setPhoneNumber(phoneNumber);
-        driverDto.setName(name);
-        driverDto.setLastName(lastName);
         driverDto.setEmailAddress(emailAddress);
+        driverDto.setFirstName(firstName);
+        driverDto.setLastName(lastName);
+        driverDto.setSocialInsuranceNumber(socialInsuranceNumber);
 
         return serializeDto(driverDto);
     }
 
-    protected String createSerializedVehicle(String type, String color, String model,
-        String registrationNumber) {
+    protected String createSerializedVehicle(String type, String color, String model, String registrationNumber) {
         VehicleDto vehicleDto = new VehicleDto();
         vehicleDto.setType(type);
         vehicleDto.setColor(color);
@@ -160,8 +171,8 @@ public abstract class IntegrationTest {
         return serializeDto(vehicleDto);
     }
 
-    protected String createSerializedTransportRequest(String vehicleType, String note,
-        double latitude, double longitude) {
+    protected String createSerializedTransportRequest(String vehicleType, String note, double latitude,
+        double longitude) {
         TransportRequestDto transportRequestDto = new TransportRequestDto();
         transportRequestDto.setVehicleType(vehicleType);
         transportRequestDto.setNote(note);
@@ -172,7 +183,7 @@ public abstract class IntegrationTest {
     }
 
     protected String createSerializedDistanceRate(String vehicleType,
-                                                  BigDecimal rate) {
+        BigDecimal rate) {
         DistanceRateDto distanceRateDto = new DistanceRateDto();
         distanceRateDto.setVehicleType(vehicleType);
         distanceRateDto.setRate(rate);
@@ -205,8 +216,7 @@ public abstract class IntegrationTest {
             .post();
     }
 
-    private Response executePostRequest(RequestSpecification requestSpecification,
-        String body) {
+    private Response executePostRequest(RequestSpecification requestSpecification, String body) {
         return requestSpecification
             .body(body)
             .when()
@@ -220,16 +230,14 @@ public abstract class IntegrationTest {
             .put();
     }
 
-    private Response executeGetRequest(RequestSpecification requestSpecification,
-        Map<String, ?> queryParameters) {
+    private Response executeGetRequest(RequestSpecification requestSpecification, Map<String, ?> queryParameters) {
         return requestSpecification
             .queryParams(queryParameters)
             .when()
             .get();
     }
 
-    private RequestSpecification createAuthenticatedRequestSpecification(String path,
-        String authorizationToken) {
+    private RequestSpecification createAuthenticatedRequestSpecification(String path, String authorizationToken) {
         return createBasicRequestSpecification(path)
             .header("Authorization", authorizationToken);
     }

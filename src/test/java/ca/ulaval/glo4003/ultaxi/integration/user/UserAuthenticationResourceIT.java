@@ -13,12 +13,13 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
 
     private static final String A_VALID_PASSWORD = "Macdonald";
     private static final String A_VALID_EMAIL = "valid.email.test@gmail.com";
+    private static final String A_VALID_PHONE_NUMBER = "418-629-9876";
     private static final String A_DIFFERENT_PASSWORD = "Nadir";
 
     @Test
     public void givenUser_whenAuthenticate_thenUserIsAuthenticated() {
         String serializedUser = createSerializedValidUser();
-        unauthenticatedPost(USERS_ROUTE, serializedUser);
+        unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
         Response response = authenticateAs(serializedUser);
 
@@ -37,7 +38,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
     @Test
     public void givenCredentialsWithWrongPassword_whenAuthenticate_thenReturnsForbidden() {
         String serializedUser = createSerializedValidUser();
-        unauthenticatedPost(USERS_ROUTE, serializedUser);
+        unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
 
         String serializedUserWithWrongPassword = createSerializedUserWithWrongPassword();
         Response response = authenticateAs(serializedUserWithWrongPassword);
@@ -48,7 +49,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
     @Test
     public void givenAuthenticatedUser_whenSignOut_thenUserIsSignedOut() {
         String serializedUser = createSerializedValidUser();
-        unauthenticatedPost(USERS_ROUTE, serializedUser);
+        unauthenticatedPost(CLIENTS_ROUTE, serializedUser);
         authenticateAs(serializedUser);
 
         Response response = signout();
@@ -67,6 +68,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
         return createSerializedUser(
             generateRandomWord(),
             A_VALID_PASSWORD,
+            A_VALID_PHONE_NUMBER,
             A_VALID_EMAIL
         );
     }
@@ -75,6 +77,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
         return createSerializedUser(
             generateRandomWord(),
             A_DIFFERENT_PASSWORD,
+            A_VALID_PHONE_NUMBER,
             A_VALID_EMAIL
         );
     }

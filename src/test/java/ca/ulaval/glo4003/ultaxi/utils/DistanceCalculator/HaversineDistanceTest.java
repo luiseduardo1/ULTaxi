@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.utils.DistanceCalculator;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
-import ca.ulaval.glo4003.ultaxi.utils.distanceCalculator.HaversineDistance;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.HaversineDistance;
 import org.junit.Before;
 import org.junit.Test;
 

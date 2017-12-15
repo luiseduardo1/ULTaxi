@@ -1,5 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.service.rate;
 
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.verify;
+
 import ca.ulaval.glo4003.ultaxi.domain.rate.DistanceRate;
 import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
@@ -12,9 +15,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
-
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RateServiceTest {

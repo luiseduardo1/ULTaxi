@@ -9,14 +9,27 @@ import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-public class User {
+public abstract class User {
 
     private String username;
     private String password;
     private PhoneNumber phoneNumber;
-    private Role role;
     private String emailAddress;
     private HashingStrategy hashingStrategy;
+
+    public User(String username, String password, PhoneNumber phoneNumber, String emailAddress, HashingStrategy
+        hashingStrategy) {
+        setUsername(username);
+        setPassword(password, hashingStrategy);
+        setPhoneNumber(phoneNumber);
+        setEmailAddress(emailAddress);
+    }
+
+    public abstract Role getRole();
+
+    public String getUsername() {
+        return username;
+    }
 
     public String getPassword() {
         return password;
@@ -34,11 +47,35 @@ public class User {
         this.password = hashingStrategy.hashWithRandomSalt(password);
     }
 
-    public String getUsername() {
-        return username;
+    public PhoneNumber getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setUsername(String username) {
+    public void setPhoneNumber(PhoneNumber phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        if (!isValidEmailAddress(emailAddress)) {
+            throw new InvalidEmailAddressException(
+                String.format("%s is not a valid email address", emailAddress)
+            );
+        }
+        this.emailAddress = emailAddress;
+    }
+
+    public boolean areValidCredentials(String username, String plainTextPassword) {
+        return username != null
+            && plainTextPassword != null
+            && username.toLowerCase().trim().equals(this.username)
+            && hashingStrategy.areEquals(plainTextPassword, password);
+    }
+
+    private void setUsername(String username) {
         if (!isUsernameValid(username)) {
             throw new InvalidUsernameException(
                 String.format("%s is not a valid name.", username)
@@ -55,19 +92,6 @@ public class User {
         return value == null || value.trim().isEmpty();
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        if (!isValidEmailAddress(emailAddress)) {
-            throw new InvalidEmailAddressException(
-                String.format("%s is not a valid email address", emailAddress)
-            );
-        }
-        this.emailAddress = emailAddress;
-    }
-
     private boolean isValidEmailAddress(String emailAddress) {
         try {
             InternetAddress email = new InternetAddress(emailAddress);
@@ -76,28 +100,5 @@ public class User {
             return false;
         }
         return true;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public PhoneNumber getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(PhoneNumber phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public boolean areCredentialsValid(String username, String plainTextPassword) {
-        return username != null
-            && plainTextPassword != null
-            && username.equals(this.username)
-            && hashingStrategy.areEquals(plainTextPassword, password);
     }
 }
