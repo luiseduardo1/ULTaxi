@@ -90,15 +90,22 @@ public class TransportRequestServiceTest {
         willReturn(CAR_VEHICULE_TYPE).given(driver).getVehicleType();
         willReturn(A_TRANSPORT_REQUEST_ID).given(driver).getCurrentTransportRequestId();
         willReturn(transportRequest).given(transportRequestRepository).findById(A_TRANSPORT_REQUEST_ID);
+        willReturn(transportRequest).given(transportRequestAssembler).create(transportRequestDto);
+
     }
 
     @Test
     public void givenAValidTransportRequest_whenSendRequest_thenRequestIsAdded() {
-        willReturn(transportRequest).given(transportRequestAssembler).create(transportRequestDto);
-
         transportRequestService.sendRequest(transportRequestDto, A_VALID_TOKEN);
 
         verify(transportRequestRepository).save(transportRequest);
+    }
+
+    @Test
+    public void givenAValidTransportRequest_whenSendRequest_thenClientIsUpdated() {
+        transportRequestService.sendRequest(transportRequestDto, A_VALID_TOKEN);
+
+        verify(userRepository).update(any());
     }
 
     @Test(expected = EmptySearchResultsException.class)
