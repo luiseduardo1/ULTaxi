@@ -4,10 +4,14 @@ import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
+import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleAssociationException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociationException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
+import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.VehicleAlreadyExistsException;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
@@ -32,17 +36,17 @@ public class VehicleService {
         this.userRepository = userRepository;
     }
 
-    public void addVehicle(VehicleDto vehicleDto) {
+    public void addVehicle(VehicleDto vehicleDto) throws InvalidVehicleTypeException, VehicleAlreadyExistsException {
         logger.info(String.format("Add new vehicle %s", vehicleDto));
         Vehicle vehicle = vehicleAssembler.create(vehicleDto);
         vehicleRepository.save(vehicle);
     }
 
-    public void associateVehicle(VehicleAssociationDto vehicleAssociationDto) {
+    public void associateVehicle(VehicleAssociationDto vehicleAssociationDto) throws NonExistentUserException,
+        InvalidVehicleAssociationException, NonExistentVehicleException {
         if (vehicleAssociationDto == null) {
             throw new InvalidVehicleAssociationException("The given vehicle association is null.");
         }
-
         logger.info(String.format(
             "Vehicle association for driver %s and vehicle %s",
             vehicleAssociationDto.getUsername(),
@@ -50,15 +54,15 @@ public class VehicleService {
         ));
         Driver driver = (Driver) userRepository.findByUsername(vehicleAssociationDto.getUsername());
         Vehicle vehicle = vehicleRepository.findByRegistrationNumber(vehicleAssociationDto.getRegistrationNumber());
-
         validateAssociationEntities(vehicle, driver);
         driver.associateVehicle(vehicle);
-
         userRepository.update(driver);
         vehicleRepository.update(vehicle);
+
     }
 
-    public void dissociateVehicle(String username) {
+    public void dissociateVehicle(String username) throws NonExistentUserException,
+        InvalidVehicleDissociationException, NonExistentVehicleException {
         User user = Optional
             .ofNullable(username)
             .map(userRepository::findByUsername)
@@ -67,14 +71,13 @@ public class VehicleService {
         if (user.getRole() != Role.DRIVER) {
             throw new InvalidVehicleDissociationException("Can't dissociate: The given user is not a driver.");
         }
-
         logger.info(String.format("Dissociating user %s and his vehicle.", username));
         Driver driver = (Driver) user;
         Vehicle vehicle = driver.getVehicle();
         driver.dissociateVehicle();
-
         userRepository.update(user);
         vehicleRepository.update(vehicle);
+
     }
 
     private void validateAssociationEntities(Vehicle vehicle, User user) {
