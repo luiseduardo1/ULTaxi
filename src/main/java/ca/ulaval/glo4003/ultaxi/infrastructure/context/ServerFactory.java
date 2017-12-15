@@ -37,7 +37,7 @@ public abstract class ServerFactory {
 
     protected abstract ServerFactory withRateResource();
 
-    public ULTaxiServer getServer() throws Exception {
+    public ULTaxiServer getServer() {
         return this
             .withAuthenticationFilters()
             .withVehicleResource()
