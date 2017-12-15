@@ -32,12 +32,4 @@ public class Client extends User {
         }
         this.currentTransportRequestId = transportRequestId;
     }
-
-    public void notifyCurrentTransportRequestIsCompleted() {
-        currentTransportRequestId = null;
-    }
-
-    public boolean hasAnActiveTransportRequest() {
-        return this.currentTransportRequestId != null;
-    }
 }
