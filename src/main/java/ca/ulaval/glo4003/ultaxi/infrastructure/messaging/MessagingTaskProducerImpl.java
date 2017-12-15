@@ -19,7 +19,7 @@ public class MessagingTaskProducerImpl implements MessagingTaskProducer {
         try {
             this.messagingTaskQueue.enqueue(messagingTask);
         } catch (InterruptedException exception) {
-            logger.info(String.format("Not able to enqueue the messagingTask"));
+            logger.info("Not able to enqueue the messagingTask");
         }
     }
 }
