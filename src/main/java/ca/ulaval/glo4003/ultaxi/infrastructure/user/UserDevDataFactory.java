@@ -34,7 +34,7 @@ public class UserDevDataFactory {
         userTypesByRoles.put(Role.ADMINISTRATOR, this::createAdministrators);
     }
 
-    public List<User> createMockData(HashingStrategy hashingStrategy) throws Exception {
+    public List<User> createMockData(HashingStrategy hashingStrategy) {
         List<User> users = Lists.newArrayList();
         for (Role role : Role.values()) {
             users.addAll(
@@ -44,7 +44,7 @@ public class UserDevDataFactory {
         return users;
     }
 
-    private List<User> createGenericRoleUsers(Role role, HashingStrategy hashingStrategy) throws Exception {
+    private List<User> createGenericRoleUsers(Role role, HashingStrategy hashingStrategy) {
         return userTypesByRoles.get(role).apply(hashingStrategy);
     }
 

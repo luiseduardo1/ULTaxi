@@ -17,9 +17,9 @@ public class SendRegistrationEmailTask implements MessagingTask {
     private static final String EMAIL_SIGNATURE = "Ronald Macdonald from ULTaxi";
     private static final int DELAY_SECONDS_BETWEEN_RETRY_ATTEMPT = 60;
 
-    private EmailSender emailSender;
-    private String sendTo;
-    private String recipientUsername;
+    private final EmailSender emailSender;
+    private final String sendTo;
+    private final String recipientUsername;
     private RetryPolicy retryPolicy;
 
     public SendRegistrationEmailTask(String sendTo, String recipientUsername, EmailSender emailSender) {

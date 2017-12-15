@@ -17,6 +17,7 @@ public class TransportRequestAssembler {
 
     public TransportRequestDto create(TransportRequest transportRequest) {
         TransportRequestDto transportRequestDto = new TransportRequestDto();
+        transportRequestDto.setId(transportRequest.getId());
         transportRequestDto.setStartingPositionLatitude(transportRequest.getStartingPosition().getLatitude());
         transportRequestDto.setStartingPositionLongitude(transportRequest.getStartingPosition().getLongitude());
         transportRequestDto.setNote(transportRequest.getNote());
