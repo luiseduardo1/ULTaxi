@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverSearchParameters;
 
 public class DriverValidator {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public DriverValidator(UserRepository userRepository) {
         this.userRepository = userRepository;

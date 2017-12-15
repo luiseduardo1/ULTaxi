@@ -21,7 +21,7 @@ import java.util.List;
 
 public class TransportRequestResourceImpl implements TransportRequestResource {
 
-    private TransportRequestService transportRequestService;
+    private final TransportRequestService transportRequestService;
 
     public TransportRequestResourceImpl(TransportRequestService transportRequestService) {
         this.transportRequestService = transportRequestService;

@@ -46,8 +46,7 @@ public final class ULTaxiMain {
         return serverFactory.getServer();
     }
 
-    private static Thread createMessagingThread(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) throws
-        Exception {
+    private static Thread createMessagingThread(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) {
         return MessagingThreadFactory.getMessagingThread(messagingTaskQueue, options);
     }
 

@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 
 public class UserAuthenticationResourceImpl implements UserAuthenticationResource {
 
-    private UserAuthenticationService userAuthenticationService;
+    private final UserAuthenticationService userAuthenticationService;
 
     public UserAuthenticationResourceImpl(UserAuthenticationService userAuthenticationService) {
         this.userAuthenticationService = userAuthenticationService;

@@ -15,7 +15,7 @@ public class RateService {
 
     private final Logger logger = Logger.getLogger(RateService.class.getName());
     private final DistanceRateAssembler distanceRateAssembler;
-    private RateRepository rateRepository;
+    private final RateRepository rateRepository;
 
     public RateService(RateRepository rateRepository, DistanceRateAssembler distanceRateAssembler) {
         this.rateRepository = rateRepository;
