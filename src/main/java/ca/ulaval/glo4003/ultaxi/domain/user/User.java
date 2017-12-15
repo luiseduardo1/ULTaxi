@@ -31,15 +31,6 @@ public abstract class User {
         return username;
     }
 
-    public void setUsername(String username) {
-        if (!isUsernameValid(username)) {
-            throw new InvalidUsernameException(
-                String.format("%s is not a valid name.", username)
-            );
-        }
-        this.username = username.toLowerCase().trim();
-    }
-
     public String getPassword() {
         return password;
     }
@@ -82,6 +73,15 @@ public abstract class User {
             && plainTextPassword != null
             && username.toLowerCase().trim().equals(this.username)
             && hashingStrategy.areEquals(plainTextPassword, password);
+    }
+
+    private void setUsername(String username) {
+        if (!isUsernameValid(username)) {
+            throw new InvalidUsernameException(
+                String.format("%s is not a valid name.", username)
+            );
+        }
+        this.username = username.toLowerCase().trim();
     }
 
     private boolean isUsernameValid(String name) {

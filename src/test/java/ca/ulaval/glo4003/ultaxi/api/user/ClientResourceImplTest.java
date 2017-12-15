@@ -33,14 +33,14 @@ public class ClientResourceImplTest {
     }
 
     @Test
-    public void givenUserWithValidName_whenCreateUser_thenReturnsOk() {
+    public void givenClientWithValidName_whenCreateClient_thenReturnsOk() {
         Response response = clientResource.createClient(clientDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
-    public void givenANewCreatedUser_whenRegistering_thenDelegateToUserService() {
+    public void givenANewCreatedClient_whenRegistering_thenDelegateToClientService() {
         clientResource.createClient(clientDto);
         verify(clientService).addClient(clientDto);
     }
@@ -53,7 +53,7 @@ public class ClientResourceImplTest {
     }
 
     @Test
-    public void givenAUserResource_whenUpdatingClient_thenDelegateToUserService() {
+    public void givenAClientResource_whenUpdatingClient_thenDelegateToClientService() {
         clientResource.updateClient(A_VALID_TOKEN, clientDto);
 
         verify(clientService).updateClient(clientDto, A_VALID_TOKEN);
