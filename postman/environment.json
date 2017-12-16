@@ -120,13 +120,13 @@
       "enabled": true,
       "key": "starting_position_latitude",
       "type": "text",
-      "value": "12.4534"
+      "value": "46.776635"
     },
     {
       "enabled": true,
       "key": "starting_position_longitude",
       "type": "text",
-      "value": "13.4534"
+      "value": "71.270671"
     },
     {
       "enabled": true,
@@ -168,7 +168,7 @@
       "enabled": true,
       "key": "transport_request_id",
       "type": "text",
-      "value": "905a6c45-4b8d-4dc4-abf5-c4b7e2ebb671"
+      "value": "9c8fa165-c8bf-42a8-ab97-63c8cded3cb7"
     },
     {
       "enabled": true,
@@ -186,17 +186,35 @@
       "enabled": true,
       "key": "vehicle_rate",
       "type": "text",
-      "value": "12.2"
+      "value": "11.0"
     },
     {
       "enabled": true,
       "key": "another_vehicle_rate",
       "type": "text",
-      "value": "22.1"
+      "value": "10.0"
+    },
+    {
+      "enabled": true,
+      "key": "ending_position_latitude",
+      "type": "text",
+      "value": "46.8083722"
+    },
+    {
+      "enabled": true,
+      "key": "ending_position_longitude",
+      "type": "text",
+      "value": "-71.2196447"
+    },
+    {
+      "enabled": true,
+      "key": "wrong_transport_request_id",
+      "type": "text",
+      "value": "1fdf41da-4449-4b3e-9f0d-340ac90afddb"
     }
   ],
-  "timestamp": 1513374110455,
+  "timestamp": 1513389901908,
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2017-12-15T23:50:29.655Z",
+  "_postman_exported_at": "2017-12-16T02:10:36.771Z",
   "_postman_exported_using": "Postman/5.3.2"
 }
