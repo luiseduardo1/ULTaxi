@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.rate;
 
-import ca.ulaval.glo4003.ultaxi.domain.rate.DistanceRate;
-import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
-import ca.ulaval.glo4003.ultaxi.domain.rate.RateFactory;
+import ca.ulaval.glo4003.ultaxi.domain.rate.RateType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceDto;
 import jersey.repackaged.com.google.common.collect.Lists;
@@ -17,6 +15,7 @@ public class RateDevDataFactory {
 
         RatePersistenceDto limousineRatePersistenceDto = new RatePersistenceDto();
         limousineRatePersistenceDto.setValue(A_VALID_RATE);
+        limousineRatePersistenceDto.setRateType(RateType.DISTANCE);
         limousineRatePersistenceDto.setVehicleType(VehicleType.LIMOUSINE);
 
         List<RatePersistenceDto> rates = Lists.newArrayList();
