@@ -44,7 +44,6 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
                 driverToken)) {
             };
         return Response.ok(availableTransportRequests).build();
-
     }
 
     @Override
