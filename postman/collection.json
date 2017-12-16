@@ -1,7 +1,8 @@
 {
 	"info": {
 		"name": "ULtaxi",
-		"_postman_id": "b98d4ce4-8710-ec1a-b130-0719df94b4d5",
+		"_postman_id": "19d31ae0-998d-b1e7-0bdd-94771cfed071",
+		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -638,6 +639,57 @@
 					"response": []
 				},
 				{
+					"name": "Create a transport request copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setEnvironmentVariable(\"transport_request_id\", responseBody);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"note\": {{transport_request_note}},\n\t\"startingPositionLatitude\": {{starting_position_latitude}},\n\t\"startingPositionLongitude\": {{starting_position_longitude}},\n\t\"vehicleType\": {{transport_request_vehicle_type}}\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}:{{server_port}}/api/transport-requests/",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{server_port}}",
+							"path": [
+								"api",
+								"transport-requests",
+								""
+							]
+						},
+						"description": "transport request"
+					},
+					"response": []
+				},
+				{
 					"name": "Sign out as client",
 					"event": [
 						{
@@ -854,6 +906,51 @@
 								"transport-requests",
 								"notification",
 								"arrived"
+							]
+						},
+						"description": "transport request"
+					},
+					"response": []
+				},
+				{
+					"name": "Notify ride has started",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiMzAwZDJjZC00MWMyLTQ0NjQtYTc3OS1jNjgyMzcxMjJiYzIiLCJpYXQiOjE1MDgzNjU5OTEsInN1YiI6Imx1aXMiLCJleHAiOjE1MDgzNjk1OTF9.EwIeJ3Y-0Z1CPyNow3C-fr4KHwFu13jA-jKe4FaKJ-aHTBsZG-G6LjANJUBafsc83yW_jf24az9cygZBnxxEfw"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}:{{server_port}}/api/transport-requests/notification/started",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{server_port}}",
+							"path": [
+								"api",
+								"transport-requests",
+								"notification",
+								"started"
 							]
 						},
 						"description": "transport request"
@@ -1462,6 +1559,51 @@
 								"transport-requests",
 								"notification",
 								"arrived"
+							]
+						},
+						"description": "transport request"
+					},
+					"response": []
+				},
+				{
+					"name": "Notify ride has started",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiMzAwZDJjZC00MWMyLTQ0NjQtYTc3OS1jNjgyMzcxMjJiYzIiLCJpYXQiOjE1MDgzNjU5OTEsInN1YiI6Imx1aXMiLCJleHAiOjE1MDgzNjk1OTF9.EwIeJ3Y-0Z1CPyNow3C-fr4KHwFu13jA-jKe4FaKJ-aHTBsZG-G6LjANJUBafsc83yW_jf24az9cygZBnxxEfw"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}:{{server_port}}/api/transport-requests/notification/started",
+							"host": [
+								"{{base_url}}"
+							],
+							"port": "{{server_port}}",
+							"path": [
+								"api",
+								"transport-requests",
+								"notification",
+								"started"
 							]
 						},
 						"description": "transport request"

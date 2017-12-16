@@ -95,16 +95,6 @@ public class TransportRequest {
         return this.status;
     }
 
-    public void updateStatus(TransportRequestStatus newStatus) {
-        if (newStatus == TransportRequestStatus.ARRIVED && this.status != TransportRequestStatus.ACCEPTED) {
-            throw new InvalidTransportRequestStatusException(
-                String.format("The status can't be updated to %s when the current status is %s.", newStatus, status)
-            );
-        }
-
-        this.status = newStatus;
-    }
-
     public boolean isAvailable() {
         if (this.status == TransportRequestStatus.PENDING) {
             return true;
@@ -112,11 +102,21 @@ public class TransportRequest {
         return false;
     }
 
-    public void setAvailable() {
+    public void setToAvailable() {
+        if (this.status != TransportRequestStatus.ACCEPTED) {
+            throw new InvalidTransportRequestStatusException(
+                "The status can't be updated to PENDING when the current status is not ACCEPTED."
+            );
+        }
         this.status = TransportRequestStatus.PENDING;
     }
 
-    public void setUnavailable() {
+    public void setToUnavailable() {
+        if (this.status != TransportRequestStatus.PENDING) {
+            throw new InvalidTransportRequestStatusException(
+                "The status can't be updated to ACCEPTED when the current status is not PENDING."
+            );
+        }
         this.status = TransportRequestStatus.ACCEPTED;
     }
 
@@ -124,6 +124,11 @@ public class TransportRequest {
         if (driver.getCurrentTransportRequestId() != this.id) {
             throw new InvalidTransportRequestCompletionException(
                     "The transport request you are trying to complete is not assigned to the driver");
+        }
+        if (this.status != TransportRequestStatus.STARTED) {
+            throw new InvalidTransportRequestStatusException(
+                    "The status can't be set to COMPLETED when the current status is not STARTED."
+            );
         }
         this.endingPosition = endingPosition;
         this.status = TransportRequestStatus.COMPLETED;
@@ -136,4 +141,21 @@ public class TransportRequest {
 
 
 
+
+    public void setToArrived() {
+        if (this.status != TransportRequestStatus.ACCEPTED) {
+            throw new InvalidTransportRequestStatusException(
+                "The status can't be set to ARRIVED when the current status is not ACCEPTED."
+            );
+        }
+        this.status = TransportRequestStatus.ARRIVED;
+    }
+
+    public void setToStarted() {
+        if (this.status != TransportRequestStatus.ARRIVED) {
+            throw new InvalidTransportRequestStatusException(
+                "The status can't be set to STARTED when the current status is not ARRIVED."
+            );
+        }
+    }
 }

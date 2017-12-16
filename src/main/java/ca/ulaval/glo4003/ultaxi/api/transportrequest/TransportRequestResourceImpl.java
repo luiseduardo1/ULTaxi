@@ -48,7 +48,15 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
                 driverToken)) {
             };
         return Response.ok(availableTransportRequests).build();
+    }
 
+    @Override
+    @Secured({Role.DRIVER})
+    public Response assignTransportRequest(String driverToken, String transportRequestId) throws
+        InvalidTransportRequestAssignationException, NonExistentTransportRequestException, NonExistentUserException,
+        InvalidTokenException {
+        transportRequestService.assignTransportRequest(driverToken, transportRequestId);
+        return Response.ok().build();
     }
 
     @Override
@@ -61,10 +69,9 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
     @Override
     @Secured({Role.DRIVER})
-    public Response assignTransportRequest(String driverToken, String transportRequestId) throws
-        InvalidTransportRequestAssignationException, NonExistentTransportRequestException, NonExistentUserException,
-        InvalidTokenException {
-        transportRequestService.assignTransportRequest(driverToken, transportRequestId);
+    public Response notifyHasStarted(String driverToken) throws InvalidTransportRequestStatusException,
+        NonExistentTransportRequestException, InvalidTokenException {
+        transportRequestService.notifyRideHasStarted(driverToken);
         return Response.ok().build();
     }
 

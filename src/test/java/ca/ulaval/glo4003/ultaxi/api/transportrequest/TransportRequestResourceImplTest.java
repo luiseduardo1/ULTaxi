@@ -124,4 +124,19 @@ public class TransportRequestResourceImplTest {
 
         verify(transportRequestService).assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
     }
+
+    @Test
+    public void givenAnAuthenticatedDriver_whenNotifyRideHasStarted_thenDelegateToRequestTransportService() {
+        transportRequestResource.notifyHasStarted(A_VALID_DRIVER_TOKEN);
+
+        verify(transportRequestService).notifyRideHasStarted(A_VALID_DRIVER_TOKEN);
+    }
+
+    @Test
+    public void givenAnAuthenticatedDriver_whenNotifyRideHasStarted_thenReturnsOk() {
+        Response response = transportRequestResource.notifyHasStarted(A_VALID_DRIVER_TOKEN);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
 }
