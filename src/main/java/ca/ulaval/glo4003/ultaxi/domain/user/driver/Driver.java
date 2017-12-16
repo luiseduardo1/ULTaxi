@@ -67,8 +67,8 @@ public class Driver extends User {
     public void associateVehicle(Vehicle vehicle) {
         if (this.vehicle != null || vehicle == null) {
             throw new InvalidVehicleAssociationException("Can't associate this vehicle: it may be because the driver " +
-                                                             "already have a vehicle associated or the given vehicle " +
-                                                             "is invalid.");
+                    "already have a vehicle associated or the given vehicle " +
+                    "is invalid.");
         }
 
         vehicle.associateDriver(this);
@@ -78,8 +78,8 @@ public class Driver extends User {
     public void dissociateVehicle() {
         if (vehicle == null) {
             throw new InvalidVehicleDissociationException("Can't dissociate this vehicle: it may be because the " +
-                                                              "driver has no vehicle associated or the given vehicle " +
-                                                              "is invalid.");
+                    "driver has no vehicle associated or the given vehicle " +
+                    "is invalid.");
         }
         vehicle.dissociateDriver();
         vehicle = null;
@@ -88,22 +88,26 @@ public class Driver extends User {
     public String getCurrentTransportRequestId() {
         if (this.currentTransportRequestId == null) {
             throw new DriverHasNoTransportRequestAssignedException("This driver don't have a transport request " +
-                                                                       "assigned.");
+                    "assigned.");
         }
         return this.currentTransportRequestId;
     }
 
     public void assignTransportRequestId(TransportRequest transportRequest) {
         boolean transportRequestAssignationIsValid = (
-            this.currentTransportRequestId == null
-                && transportRequest.isAvailable()
-                && (this.vehicle != null && this.vehicle.getType() ==
-                transportRequest.getVehicleType() || this.vehicle == null));
+                this.currentTransportRequestId == null
+                        && transportRequest.isAvailable()
+                        && (this.vehicle != null && this.vehicle.getType() ==
+                        transportRequest.getVehicleType() || this.vehicle == null));
 
         if (!transportRequestAssignationIsValid) {
             throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
         }
         this.currentTransportRequestId = transportRequest.getId();
-        transportRequest.setUnavailable();
+        transportRequest.setToUnavailable();
+    }
+
+    public void unassignTransportRequestId() {
+        this.currentTransportRequestId = null;
     }
 }

@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.ultaxi.api.vehicle.VehicleResourceImpl;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.email.EmailSender;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
+import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
 import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
@@ -24,6 +25,7 @@ import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.AuthorizationFilte
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.MessagingConfigurationReaderFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.email.JavaMailEmailSender;
 import ca.ulaval.glo4003.ultaxi.infrastructure.messaging.sms.SmsSenderStub;
+import ca.ulaval.glo4003.ultaxi.infrastructure.rate.RateDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.rate.RateRepositoryInMemory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestDevDataFactory;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestRepositoryInMemory;
@@ -42,8 +44,11 @@ import ca.ulaval.glo4003.ultaxi.service.vehicle.VehicleService;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.user.driver.DriverAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.CalculateDistanceStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.HaversineDistance;
 import ca.ulaval.glo4003.ultaxi.utils.hashing.BcryptHashing;
 
 import java.util.List;
@@ -55,6 +60,9 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final TransportRequestRepository transportRequestRepository = new TransportRequestRepositoryInMemory();
     private final VehicleAssembler vehicleAssembler = new VehicleAssembler();
     private final TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
+    private final TransportRequestTotalAmountAssembler
+            transportRequestTotalAmountAssembler = new TransportRequestTotalAmountAssembler();
+    private CalculateDistanceStrategy distanceCalculatorStrategy = new HaversineDistance();
     private final DistanceRateAssembler distanceRateAssembler = new DistanceRateAssembler();
     private final TokenManager tokenManager = new JWTTokenManager();
     private final ClientAssembler clientAssembler = new ClientAssembler(this.hashingStrategy);
@@ -78,20 +86,23 @@ public class DevelopmentServerFactory extends ServerFactory {
     public DevelopmentServerFactory(ULTaxiOptions options, MessagingTaskQueue messagingTaskQueue) throws Exception {
         super(options, messagingTaskQueue);
         EmailSender emailSender = new JavaMailEmailSender(
-            MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
+                MessagingConfigurationReaderFactory.getEmailSenderConfigurationFileReader(options)
         );
         SmsSender smsSender = new SmsSenderStub(new Random());
         clientService = new ClientService(
             userRepository, clientAssembler, messagingTaskProducer, emailSender, userAuthenticationService
         );
         transportRequestService = new TransportRequestService(
-            transportRequestRepository,
-            transportRequestAssembler,
-            userRepository,
-            userAuthenticationService,
-            messagingTaskProducer,
-            smsSender
+                transportRequestRepository,
+                transportRequestAssembler,
+                userRepository,
+                userAuthenticationService,
+                messagingTaskProducer,
+                smsSender,
+                transportRequestTotalAmountAssembler,
+                rateRepository
         );
+
 
         setDevelopmentEnvironmentMockData();
     }
@@ -108,6 +119,10 @@ public class DevelopmentServerFactory extends ServerFactory {
         TransportRequestDevDataFactory transportRequestDevDataFactory = new TransportRequestDevDataFactory();
         List<TransportRequest> transportRequests = transportRequestDevDataFactory.createMockData();
         transportRequests.forEach(transportRequestRepository::save);
+
+        RateDevDataFactory rateDevDataFactory = new RateDevDataFactory();
+        List<Rate> rates = rateDevDataFactory.createMockData();
+        rates.forEach(rateRepository::save);
     }
 
     @Override

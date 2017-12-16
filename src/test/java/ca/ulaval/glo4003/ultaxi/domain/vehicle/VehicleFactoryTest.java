@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.ultaxi.domain.vehicle;
 
-import static org.junit.Assert.assertTrue;
-
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleFactoryTest {

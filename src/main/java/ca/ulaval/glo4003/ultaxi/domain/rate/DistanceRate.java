@@ -6,6 +6,11 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeExcep
 public class DistanceRate extends Rate {
 
     private VehicleType vehicleType;
+    private static final RateType RATE_TYPE = RateType.DISTANCE;
+
+    public DistanceRate() {
+        super(RATE_TYPE);
+    }
 
     public void setVehicleType(VehicleType vehicleType) {
         this.vehicleType = vehicleType;
@@ -22,4 +27,6 @@ public class DistanceRate extends Rate {
     public VehicleType getVehicleType() {
         return vehicleType;
     }
+
+
 }
