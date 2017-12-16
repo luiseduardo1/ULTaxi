@@ -21,16 +21,16 @@ public class RateRepositoryInMemory implements RateRepository {
     }
 
     @Override
-    public void save(RatePersistenceDto rate) {
-        if (rate.getRateType().equals(RateType.DISTANCE)) {
-            saveInDistance(rate);
+    public void save(RatePersistenceDto ratePersistenceDto) {
+        if (ratePersistenceDto.getRateType().equals(RateType.DISTANCE)) {
+            saveInDistance(ratePersistenceDto);
         }
     }
 
     @Override
-    public void update(RatePersistenceDto rate) {
-        if (rate.getRateType().equals(RateType.DISTANCE)) {
-            updateInDistance(rate);
+    public void update(RatePersistenceDto ratePersistenceDto) {
+        if (ratePersistenceDto.getRateType().equals(RateType.DISTANCE)) {
+            updateInDistance(ratePersistenceDto);
         }
     }
 
@@ -40,22 +40,22 @@ public class RateRepositoryInMemory implements RateRepository {
     }
 
 
-    private void saveInDistance(RatePersistenceDto rate) {
-        if (ratesByVehicleType.containsKey(rate.getVehicleType())) {
+    private void saveInDistance(RatePersistenceDto ratePersistenceDto) {
+        if (ratesByVehicleType.containsKey(ratePersistenceDto.getVehicleType())) {
             throw new RateAlreadyExistsException(
-                String.format("Rate for vehicle type %s already exists.", rate.getVehicleType())
+                String.format("Rate for vehicle type %s already exists.", ratePersistenceDto.getVehicleType())
             );
         }
-        ratesByVehicleType.put(rate.getVehicleType(), rate);
+        ratesByVehicleType.put(ratePersistenceDto.getVehicleType(), ratePersistenceDto);
     }
 
-    private void updateInDistance(RatePersistenceDto rate) {
-        if (!ratesByVehicleType.containsKey(rate.getVehicleType())) {
+    private void updateInDistance(RatePersistenceDto ratePersistenceDto) {
+        if (!ratesByVehicleType.containsKey(ratePersistenceDto.getVehicleType())) {
             throw new NonExistentRateException(
-                String.format("Rate with vehicle type %s don't exist", rate.getVehicleType())
+                String.format("Rate with vehicle type %s don't exist", ratePersistenceDto.getVehicleType())
             );
         }
-        ratesByVehicleType.replace(rate.getVehicleType(), rate);
+        ratesByVehicleType.replace(ratePersistenceDto.getVehicleType(), ratePersistenceDto);
     }
 
 }
