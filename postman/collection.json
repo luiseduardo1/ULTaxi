@@ -639,6 +639,46 @@
           "response": []
         },
         {
+          "name": "Create a transport request (should return bad request)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"note\": {{transport_request_note}},\n\t\"startingPositionLatitude\": {{starting_position_latitude}},\n\t\"startingPositionLongitude\": {{starting_position_longitude}},\n\t\"vehicleType\": {{transport_request_vehicle_type}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}:{{server_port}}/api/transport-requests/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "port": "{{server_port}}",
+              "path": [
+                "api",
+                "transport-requests",
+                ""
+              ]
+            },
+            "description": "transport request"
+          },
+          "response": []
+        },
+        {
           "name": "Sign out as client",
           "event": [
             {
@@ -996,46 +1036,6 @@
               ]
             },
             "description": "# Uses\n\nSign a `User`/`Driver`/`Administrator` out."
-          },
-          "response": []
-        },
-        {
-          "name": "Create a transport request (should throw exception)",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"note\": {{transport_request_note}},\n\t\"startingPositionLatitude\": {{starting_position_latitude}},\n\t\"startingPositionLongitude\": {{starting_position_longitude}},\n\t\"vehicleType\": {{transport_request_vehicle_type}}\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}:{{server_port}}/api/transport-requests/",
-              "host": [
-                "{{base_url}}"
-              ],
-              "port": "{{server_port}}",
-              "path": [
-                "api",
-                "transport-requests",
-                ""
-              ]
-            },
-            "description": "transport request"
           },
           "response": []
         }
