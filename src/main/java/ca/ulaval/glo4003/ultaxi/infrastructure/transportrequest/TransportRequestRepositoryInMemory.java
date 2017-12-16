@@ -17,7 +17,7 @@ public class TransportRequestRepositoryInMemory implements TransportRequestRepos
         TransportRequest foundTransportRequest = transportRequests.get(id);
         if (foundTransportRequest == null) {
             throw new NonExistentTransportRequestException(
-                String.format("Transport request doesn't exist.")
+                "Transport request doesn't exist."
             );
         }
         return foundTransportRequest;
@@ -33,7 +33,7 @@ public class TransportRequestRepositoryInMemory implements TransportRequestRepos
         String transportRequestId = transportRequest.getId();
         if (findById(transportRequestId) == null) {
             throw new NonExistentTransportRequestException(
-                String.format("Transport request doesn't exist.")
+                "Transport request doesn't exist."
             );
         }
         transportRequests.put(transportRequestId, transportRequest);

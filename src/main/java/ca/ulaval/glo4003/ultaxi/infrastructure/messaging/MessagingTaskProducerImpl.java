@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 public class MessagingTaskProducerImpl implements MessagingTaskProducer {
 
-    private MessagingTaskQueue messagingTaskQueue;
-    private Logger logger = Logger.getLogger(MessagingTaskProducer.class.getName());
+    private final MessagingTaskQueue messagingTaskQueue;
+    private final Logger logger = Logger.getLogger(MessagingTaskProducer.class.getName());
 
     public MessagingTaskProducerImpl(MessagingTaskQueue messagingTaskQueue) {
         this.messagingTaskQueue = messagingTaskQueue;
@@ -19,7 +19,7 @@ public class MessagingTaskProducerImpl implements MessagingTaskProducer {
         try {
             this.messagingTaskQueue.enqueue(messagingTask);
         } catch (InterruptedException exception) {
-            logger.info(String.format("Not able to enqueue the messagingTask"));
+            logger.info("Not able to enqueue the messagingTask");
         }
     }
 }

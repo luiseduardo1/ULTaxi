@@ -6,6 +6,7 @@ public class ClientDto extends AuthenticationDto {
 
     private String phoneNumber;
     private String emailAddress;
+    private String currentTransportRequestId;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -21,5 +22,13 @@ public class ClientDto extends AuthenticationDto {
 
     public void setEmailAddress(String email) {
         this.emailAddress = email;
+    }
+
+    public String getCurrentTransportRequestId() {
+        return currentTransportRequestId;
+    }
+
+    public void setCurrentTransportRequestId(String currentTransportRequestId) {
+        this.currentTransportRequestId = currentTransportRequestId;
     }
 }

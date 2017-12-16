@@ -65,7 +65,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
     }
 
     private String createSerializedValidUser() {
-        return createSerializedUser(
+        return createSerializedClient(
             generateRandomWord(),
             A_VALID_PASSWORD,
             A_VALID_PHONE_NUMBER,
@@ -74,7 +74,7 @@ public class UserAuthenticationResourceIT extends IntegrationTest {
     }
 
     private String createSerializedUserWithWrongPassword() {
-        return createSerializedUser(
+        return createSerializedClient(
             generateRandomWord(),
             A_DIFFERENT_PASSWORD,
             A_VALID_PHONE_NUMBER,

@@ -33,8 +33,26 @@ public class TransportRequestTest {
 
     @Test(expected = InvalidTransportRequestStatusException.class)
     public void givenATransportRequestWithArrivedStatus_whenUpdatingStatusToArrived_thenThrowsException() {
-        transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
-        transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
+        transportRequest.setToArrived();
+        transportRequest.setToArrived();
+    }
+
+    @Test(expected = InvalidTransportRequestStatusException.class)
+    public void givenATransportRequestWithPendingStatus_whenUpdatingStatusToStarted_thenThrowsException() {
+        transportRequest.setToAvailable();
+        transportRequest.setToStarted();
+    }
+
+    @Test(expected = InvalidTransportRequestStatusException.class)
+    public void givenATransportRequestWithoutAcceptedStatus_whenUpdatingStatusToArrived_thenThrowsException() {
+        transportRequest.setToAvailable();
+        transportRequest.setToArrived();
+    }
+
+    @Test(expected = InvalidTransportRequestStatusException.class)
+    public void givenATransportRequestWithStartedStatus_whenUpdatingStatusToAvailable_thenThrowsException() {
+        transportRequest.setToStarted();
+        transportRequest.setToAvailable();
     }
 
     @Test

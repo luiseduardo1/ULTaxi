@@ -29,15 +29,21 @@ public interface TransportRequestResource {
     Response searchAvailableTransportRequests(@HeaderParam(value = "Authorization") String driverToken);
 
     @POST
+    @Path("/assign")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Role.DRIVER})
+    Response assignTransportRequest(@HeaderParam(value = "Authorization") String driverToken,
+        String transportRequestId);
+
+    @POST
     @Path("/notification/arrived")
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Role.DRIVER})
     Response notifyHasArrived(@HeaderParam(value = "Authorization") String driverToken);
 
     @POST
-    @Path("/assign")
+    @Path("/notification/started")
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Role.DRIVER})
-    Response assignTransportRequest(@HeaderParam(value = "Authorization") String driverToken,
-        String transportRequestId);
+    Response notifyHasStarted(@HeaderParam(value = "Authorization") String driverToken);
 }
