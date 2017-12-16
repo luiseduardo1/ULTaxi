@@ -183,6 +183,41 @@ public class TransportRequestResourceIT extends IntegrationTest {
         assertStatusCode(response, Status.FORBIDDEN);
     }
 
+    @Test
+    public void givenAValidTransportRequestId_whenNotifyHasCompleted_thenReturnsIsOk() {
+        authenticateAs(Role.DRIVER);
+        String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;
+        authenticatedPost(ASSIGN_TRANSPORT_REQUEST_ROUTE, transportRequestId);
+        authenticatedPost(DRIVER_HAS_ARRIVED_NOTIFICATION);
+        authenticatedPost(RIDE_HAS_STARTED_NOTIFICATION);
+
+        String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
+
+        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
+
+        assertStatusCode(response, Status.OK);
+    }
+
+    @Test
+    public void givenAnAuthenticatedClient_whenNotifyHasCompleted_thenReturnsForbidden() {
+        authenticateAs(Role.CLIENT);
+        String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
+
+        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
+
+        assertStatusCode(response, Status.FORBIDDEN);
+    }
+
+    @Test
+    public void givenAnUnauthenticatedDriver_whenNotifyHasCompleted_thenReturnsUnauthorized() {
+        authenticateAs(Role.DRIVER);
+        String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
+
+        Response response = unauthenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
+
+        assertStatusCode(response, Status.UNAUTHORIZED);
+    }
+
     private String createSerializedDriverWithoutAssignedTransportRequest() {
         return createSerializedDriver(
             A_USERNAME,
@@ -201,6 +236,13 @@ public class TransportRequestResourceIT extends IntegrationTest {
             A_VALID_NOTE,
             A_VALID_LATITUDE,
             A_VALID_LONGITUDE
+        );
+    }
+
+    private String createSerializedValidCompletedTransportRequest() {
+        return createSerializedCompletedTransportRequest(
+                A_VALID_LATITUDE,
+                A_VALID_LONGITUDE
         );
     }
 

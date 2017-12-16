@@ -1,15 +1,26 @@
 package ca.ulaval.glo4003.ultaxi.domain.rate;
 
+import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.money.Money;
 import ca.ulaval.glo4003.ultaxi.domain.rate.exception.InvalidRateException;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.CalculateDistanceStrategy;
+import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.HaversineDistance;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public abstract class Rate {
 
     protected BigDecimal rate;
     private RateType rateType;
 
-    public BigDecimal getRate() {
+    private CalculateDistanceStrategy distanceCalculatorStrategy;
+
+    public Rate(RateType rateType) {
+        this.rateType = rateType;
+    }
+
+    public BigDecimal getValue() {
         return rate;
     }
 
@@ -27,4 +38,17 @@ public abstract class Rate {
     public void setRateType(RateType rateType) {
         this.rateType = rateType;
     }
+
+    public Money calculateTotalAmount(Geolocation startPosition, Geolocation endPosition) {
+        Double distance = calculateDistance(startPosition, endPosition);
+
+        return new Money(BigDecimal.valueOf(distance).multiply(this.rate).setScale(2, RoundingMode.CEILING));
+    }
+
+    private Double calculateDistance(Geolocation startingPosition, Geolocation endingPosition) {
+        distanceCalculatorStrategy = new HaversineDistance();
+        return distanceCalculatorStrategy.calculDistance(startingPosition.getLatitude(), startingPosition
+                .getLongitude(), endingPosition.getLatitude(), endingPosition.getLongitude());
+    }
+
 }

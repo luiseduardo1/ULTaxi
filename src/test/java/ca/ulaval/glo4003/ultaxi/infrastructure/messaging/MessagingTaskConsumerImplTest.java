@@ -1,9 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.infrastructure.messaging;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskQueue;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +9,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MessagingTaskConsumerImplTest {

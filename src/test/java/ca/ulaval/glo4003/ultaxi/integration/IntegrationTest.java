@@ -1,9 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.integration;
 
-import static io.restassured.RestAssured.given;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateDto;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.AuthenticationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
@@ -20,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.restassured.RestAssured.given;
+
 public abstract class IntegrationTest {
 
     protected static final String API_ROUTE = "/api";
@@ -32,6 +33,7 @@ public abstract class IntegrationTest {
     protected static final String DRIVER_HAS_ARRIVED_NOTIFICATION = TRANSPORT_REQUEST_ROUTE + "/notification/arrived";
     protected static final String RIDE_HAS_STARTED_NOTIFICATION = TRANSPORT_REQUEST_ROUTE + "/notification/started";
     protected static final String ASSIGN_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/assign";
+    protected static final String COMPLETE_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/notification/completed";
     protected static final String SEARCH_TRANSPORT_REQUEST_ROUTE = API_ROUTE + "/transport-requests/search";
     protected static final String USER_AUTHENTICATION_ROUTE = USERS_ROUTE + "/auth";
     protected static final String SIGNIN_ROUTE = USER_AUTHENTICATION_ROUTE + "/signin";
@@ -181,6 +183,15 @@ public abstract class IntegrationTest {
         transportRequestDto.setStartingPositionLongitude(longitude);
 
         return serializeDto(transportRequestDto);
+    }
+
+    protected String createSerializedCompletedTransportRequest(double latitude,
+                                                      double longitude) {
+        TransportRequestCompleteDto transportRequestCompleteDto = new TransportRequestCompleteDto();
+        transportRequestCompleteDto.setEndingPositionLatitude(latitude);
+        transportRequestCompleteDto.setEndingPositionLongitude(longitude);
+
+        return serializeDto(transportRequestCompleteDto);
     }
 
     protected String createSerializedDistanceRate(String vehicleType,

@@ -14,7 +14,9 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleExcep
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.exception.InvalidTokenException;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountDto;
 
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
@@ -72,4 +74,15 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
         transportRequestService.notifyRideHasStarted(driverToken);
         return Response.ok().build();
     }
+
+    @Override
+    @Secured({Role.DRIVER})
+    public Response notifyHasCompleted(String driverToken,
+                                             TransportRequestCompleteDto transportRequestCompleteDto) {
+        TransportRequestTotalAmountDto transportRequestTotalAmountDto = transportRequestService
+                .notifyRideHasCompleted(
+                driverToken, transportRequestCompleteDto);
+        return Response.ok().entity(transportRequestTotalAmountDto).build();
+    }
+
 }

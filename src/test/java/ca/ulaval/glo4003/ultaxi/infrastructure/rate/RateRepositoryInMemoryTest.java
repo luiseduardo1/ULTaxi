@@ -32,7 +32,7 @@ public class RateRepositoryInMemoryTest {
 
     @Before
     public void setUp() {
-        willReturn(A_RATE).given(ratePersistenceDistanceDto).getRate();
+        willReturn(A_RATE).given(ratePersistenceDistanceDto).getValue();
         willReturn(A_RATE_TYPE).given(ratePersistenceDistanceDto).getRateType();
         willReturn(A_VEHICLE_TYPE).given(ratePersistenceDistanceDto).getVehicleType();
         rateRepository = new RateRepositoryInMemory();
@@ -73,11 +73,11 @@ public class RateRepositoryInMemoryTest {
 
     @Test
     public void givenExistingDistanceRate_whenUpdate_thenDistanceRateHasUpdatedParameters() {
-        ratePersistenceDistanceDto.setRate(A_RATE);
+        ratePersistenceDistanceDto.setValue(A_RATE);
         ratePersistenceDistanceDto.setRateType(A_RATE_TYPE);
         ratePersistenceDistanceDto.setVehicleType(A_VEHICLE_TYPE);
         RatePersistenceDto differentDistanceRatePersistenceDto = ratePersistenceDistanceDto;
-        differentDistanceRatePersistenceDto.setRate(BigDecimal.ONE);
+        differentDistanceRatePersistenceDto.setValue(BigDecimal.ONE);
 
         rateRepository.save(ratePersistenceDistanceDto);
         rateRepository.update(differentDistanceRatePersistenceDto);
@@ -85,6 +85,6 @@ public class RateRepositoryInMemoryTest {
         RatePersistenceDto updatedDistanceRate =
             rateRepository.findDistanceRateByVehicleType(ratePersistenceDistanceDto.getVehicleType());
         assertEquals(ratePersistenceDistanceDto.getVehicleType(), differentDistanceRatePersistenceDto.getVehicleType());
-        assertEquals(differentDistanceRatePersistenceDto.getRate(), updatedDistanceRate.getRate());
+        assertEquals(differentDistanceRatePersistenceDto.getValue(), updatedDistanceRate.getValue());
     }
 }

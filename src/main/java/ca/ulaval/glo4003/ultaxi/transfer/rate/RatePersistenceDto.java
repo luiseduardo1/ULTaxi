@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public class RatePersistenceDto {
 
-    private BigDecimal rate;
+    private BigDecimal value;
     private VehicleType vehicleType;
     private RateType rateType;
 
@@ -20,13 +20,8 @@ public class RatePersistenceDto {
         this.rateType = rateType;
     }
 
-
-    public BigDecimal getRate() {
-        return rate;
-    }
-
-    public void setRate(BigDecimal rate) {
-        this.rate = rate;
+    public void setValue(BigDecimal value) {
+        this.value = value;
     }
 
     public VehicleType getVehicleType() {
@@ -43,5 +38,9 @@ public class RatePersistenceDto {
         } catch (NullPointerException | IllegalArgumentException | IndexOutOfBoundsException exception) {
             throw new InvalidVehicleTypeException(String.format("%s is not a valid vehicle type.", vehicleType));
         }
+    }
+
+    public BigDecimal getValue() {
+        return value;
     }
 }

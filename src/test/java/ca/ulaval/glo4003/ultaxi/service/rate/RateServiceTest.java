@@ -43,7 +43,7 @@ public class RateServiceTest {
     public void setUp() {
         willReturn(distanceRate).given(distanceRateAssembler).create(distanceRateDto);
         willReturn(ratePersistenceDto).given(ratePersistenceAssembler).create(distanceRate);
-        willReturn(A_VALID_RATE).given(distanceRate).getRate();
+        willReturn(A_VALID_RATE).given(distanceRate).getValue();
         willReturn(A_VALID_VEHICLE_TYPE).given(distanceRate).getVehicleType();
         rateService = new RateService(rateRepository, distanceRateAssembler, ratePersistenceAssembler);
     }
