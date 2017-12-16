@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
@@ -62,6 +63,8 @@ public class TransportRequestServiceTest {
     @Mock
     private RateRepository rateRepository;
     @Mock
+    private RatePersistenceAssembler ratePersistenceAssembler;
+    @Mock
     private TransportRequestSearchQueryBuilder transportRequestSearchQueryBuilder;
     @Mock
     private UserRepository userRepository;
@@ -86,7 +89,7 @@ public class TransportRequestServiceTest {
     public void setUp() {
         transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
                                                               userRepository, userAuthenticationService, messagingTaskProducer,
-                                                              smsSender, transportRequestTotalAmountAssembler, rateRepository);
+                                                              smsSender, transportRequestTotalAmountAssembler, rateRepository, ratePersistenceAssembler);
         willReturn(driver).given(userAuthenticationService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(client).given(userAuthenticationService).getUserFromToken(A_VALID_TOKEN);
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();

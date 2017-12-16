@@ -35,6 +35,10 @@ public abstract class Rate {
         return rateType;
     }
 
+    public void setRateType(RateType rateType) {
+        this.rateType = rateType;
+    }
+
     public Money calculateTotalAmount(Geolocation startPosition, Geolocation endPosition) {
         Double distance = calculateDistance(startPosition, endPosition);
 

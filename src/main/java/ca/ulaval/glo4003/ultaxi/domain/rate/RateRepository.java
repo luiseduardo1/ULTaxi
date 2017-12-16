@@ -1,12 +1,13 @@
 package ca.ulaval.glo4003.ultaxi.domain.rate;
 
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceDto;
 
 public interface RateRepository {
 
-    void save(Rate rate);
+    void save(RatePersistenceDto ratePersistenceDto);
 
-    void update(Rate rate);
+    void update(RatePersistenceDto ratePersistenceDto);
 
-    DistanceRate findDistanceRateByVehicleType(VehicleType vehicleType);
+    RatePersistenceDto findDistanceRateByVehicleType(VehicleType vehicleType);
 }

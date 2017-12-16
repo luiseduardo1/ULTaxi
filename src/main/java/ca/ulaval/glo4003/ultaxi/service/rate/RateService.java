@@ -8,6 +8,8 @@ import ca.ulaval.glo4003.ultaxi.domain.rate.exception.RateAlreadyExistsException
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.rate.DistanceRateDto;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceDto;
 
 import java.util.logging.Logger;
 
@@ -15,10 +17,13 @@ public class RateService {
 
     private final Logger logger = Logger.getLogger(RateService.class.getName());
     private final DistanceRateAssembler distanceRateAssembler;
-    private final RateRepository rateRepository;
+    private final RatePersistenceAssembler ratePersistenceAssembler;
+    private RateRepository rateRepository;
 
-    public RateService(RateRepository rateRepository, DistanceRateAssembler distanceRateAssembler) {
+    public RateService(RateRepository rateRepository, DistanceRateAssembler distanceRateAssembler,
+                       RatePersistenceAssembler ratePersistenceAssembler) {
         this.rateRepository = rateRepository;
+        this.ratePersistenceAssembler = ratePersistenceAssembler;
         this.distanceRateAssembler = distanceRateAssembler;
     }
 
@@ -26,13 +31,15 @@ public class RateService {
         RateAlreadyExistsException, InvalidVehicleTypeException {
         logger.info(String.format("Add new distance rate %s", distanceRateDto));
         DistanceRate distanceRate = distanceRateAssembler.create(distanceRateDto);
-        rateRepository.save(distanceRate);
+        RatePersistenceDto ratePersistenceDto = ratePersistenceAssembler.create(distanceRate);
+        rateRepository.save(ratePersistenceDto);
     }
 
     public void updateDistanceRate(DistanceRateDto distanceRateDto) throws InvalidRateException,
         NonExistentRateException, InvalidVehicleTypeException {
         logger.info(String.format("Update distance rate with infos %s", distanceRateDto));
         DistanceRate distanceRate = distanceRateAssembler.create(distanceRateDto);
-        rateRepository.update(distanceRate);
+        RatePersistenceDto ratePersistenceDto = ratePersistenceAssembler.create(distanceRate);
+        rateRepository.update(ratePersistenceDto);
     }
 }

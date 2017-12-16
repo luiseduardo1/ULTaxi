@@ -7,7 +7,6 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.SendDriverHasArrivedSmsTask;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
-import ca.ulaval.glo4003.ultaxi.domain.rate.RateFactory;
 import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
@@ -26,6 +25,8 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeExcep
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.infrastructure.user.jwt.exception.InvalidTokenException;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
@@ -45,13 +46,15 @@ public class TransportRequestService {
     private final MessagingTaskProducer messagingTaskProducer;
     private final SmsSender smsSender;
     private final RateRepository rateRepository;
+    private final RatePersistenceAssembler ratePersistenceAssembler;
 
     public TransportRequestService(TransportRequestRepository transportRequestRepository, TransportRequestAssembler
             transportRequestAssembler, UserRepository userRepository,
                                    UserAuthenticationService userAuthenticationService,
                                    MessagingTaskProducer messagingTaskProducer, SmsSender smsSender,
                                    TransportRequestTotalAmountAssembler transportRequestTotalAmountAssembler,
-                                   RateRepository rateRepository) {
+                                   RateRepository rateRepository,
+                                   RatePersistenceAssembler ratePersistenceAssembler) {
         this.transportRequestRepository = transportRequestRepository;
         this.transportRequestAssembler = transportRequestAssembler;
         this.userRepository = userRepository;
@@ -60,6 +63,7 @@ public class TransportRequestService {
         this.smsSender = smsSender;
         this.transportRequestTotalAmountAssembler = transportRequestTotalAmountAssembler;
         this.rateRepository = rateRepository;
+        this.ratePersistenceAssembler = ratePersistenceAssembler;
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) throws
@@ -111,7 +115,9 @@ public class TransportRequestService {
         transportRequest.setToCompleted(driver,new Geolocation(transportRequestCompleteDto.getEndingPositionLatitude(),
                 transportRequestCompleteDto.getEndingPositionLongitude()));
 
-        Rate rate = RateFactory.getRate(transportRequest, rateRepository);
+        RatePersistenceDto ratePersistenceDto = rateRepository
+                .findDistanceRateByVehicleType(transportRequest.getVehicleType());
+        Rate rate = ratePersistenceAssembler.create(ratePersistenceDto);
         transportRequest.calculateTotalAmount(rate);
 
         userRepository.update(driver);

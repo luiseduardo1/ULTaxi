@@ -36,6 +36,7 @@ public class VehicleResourceImpl implements VehicleResource {
         InvalidVehicleAssociationException, NonExistentVehicleException {
         vehicleService.associateVehicle(vehicleAssociationDto);
         return Response.ok().build();
+
     }
 
     @Override
