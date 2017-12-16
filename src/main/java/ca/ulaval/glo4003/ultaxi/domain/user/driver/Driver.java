@@ -104,6 +104,6 @@ public class Driver extends User {
             throw new InvalidTransportRequestAssignationException("Can't make one-to-one assignation");
         }
         this.currentTransportRequestId = transportRequest.getId();
-        transportRequest.setUnavailable();
+        transportRequest.setToUnavailable();
     }
 }

@@ -120,7 +120,7 @@ public class DriverTest {
 
     @Test(expected = InvalidTransportRequestAssignationException.class)
     public void givenUnavailableTransportRequest_whenAssignTransportRequest_thenExceptionIsThrown() {
-        transportRequest.setUnavailable();
+        transportRequest.setToUnavailable();
         driver.assignTransportRequestId(transportRequest);
     }
 

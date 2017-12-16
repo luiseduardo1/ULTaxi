@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
-import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.ClientAlreadyHasAnActiveTransportRequestException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
@@ -91,10 +90,8 @@ public class TransportRequestService {
     public void notifyDriverHasArrived(String driverToken) throws DriverHasNoTransportRequestAssignedException,
         InvalidTransportRequestStatusException, NonExistentTransportRequestException, InvalidTokenException {
         Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
-        TransportRequest transportRequest = transportRequestRepository.findById(driver
-                                                                                    .getCurrentTransportRequestId
-                                                                                        ());
-        transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
+        TransportRequest transportRequest = transportRequestRepository.findById(driver.getCurrentTransportRequestId());
+        transportRequest.setToArrived();
         transportRequestRepository.update(transportRequest);
         User user = userRepository.findByUsername(transportRequest.getClientUsername());
         MessagingTask messagingTask = new SendDriverHasArrivedSmsTask(user.getPhoneNumber().getNumber(),
@@ -106,4 +103,11 @@ public class TransportRequestService {
 
     }
 
+    public void notifyRideHasStarted(String driverToken) throws InvalidTokenException,
+        NonExistentTransportRequestException, InvalidTransportRequestStatusException {
+        Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
+        TransportRequest transportRequest = transportRequestRepository.findById(driver.getCurrentTransportRequestId());
+        transportRequest.setToStarted();
+        transportRequestRepository.update(transportRequest);
+    }
 }

@@ -137,7 +137,7 @@ public class TransportRequestServiceTest {
     givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenTransportRequestStatusIsModified() {
         transportRequestService.notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
 
-        verify(transportRequest).updateStatus(TransportRequestStatus.ARRIVED);
+        verify(transportRequest).setToArrived();
     }
 
     @Test
