@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.CalculateDistanceStrate
 import ca.ulaval.glo4003.ultaxi.utils.distancecalculator.HaversineDistance;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public abstract class Rate {
 
@@ -37,7 +38,7 @@ public abstract class Rate {
     public Money calculateTotalAmount(Geolocation startPosition, Geolocation endPosition) {
         Double distance = calculateDistance(startPosition, endPosition);
 
-        return new Money(BigDecimal.valueOf(distance).multiply(this.rate));
+        return new Money(BigDecimal.valueOf(distance).multiply(this.rate).setScale(2, RoundingMode.CEILING));
     }
 
     private Double calculateDistance(Geolocation startingPosition, Geolocation endingPosition) {

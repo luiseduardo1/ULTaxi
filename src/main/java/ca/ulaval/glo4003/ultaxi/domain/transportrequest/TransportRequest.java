@@ -139,9 +139,6 @@ public class TransportRequest {
         this.totalAmount = rate.calculateTotalAmount(this.startingPosition, this.endingPosition);
     }
 
-
-
-
     public void setToArrived() {
         if (this.status != TransportRequestStatus.ACCEPTED) {
             throw new InvalidTransportRequestStatusException(
