@@ -8,12 +8,14 @@ import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.ClientAlreadyHasAnActiveTransportRequestException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.DriverHasNoTransportRequestAssignedException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestAssignationException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.NonExistentTransportRequestException;
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.exception.NonExistentUserException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
@@ -48,11 +50,14 @@ public class TransportRequestService {
     }
 
     public String sendRequest(TransportRequestDto transportRequestDto, String clientToken) throws
-        InvalidGeolocationException, InvalidVehicleTypeException, InvalidTokenException {
-        User user = userAuthenticationService.getUserFromToken(clientToken);
+        InvalidGeolocationException, InvalidVehicleTypeException, InvalidTokenException,
+        ClientAlreadyHasAnActiveTransportRequestException {
+        Client client = (Client) userAuthenticationService.getUserFromToken(clientToken);
         TransportRequest transportRequest = transportRequestAssembler.create(transportRequestDto);
-        transportRequest.setClientUsername(user.getUsername());
+        transportRequest.setClientUsername(client.getUsername());
+        client.assignTransportRequestId(transportRequest.getId());
         transportRequestRepository.save(transportRequest);
+        userRepository.update(client);
         return transportRequest.getId();
     }
 

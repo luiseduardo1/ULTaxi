@@ -11,11 +11,11 @@ import javax.mail.internet.InternetAddress;
 
 public abstract class User {
 
-    private String username;
-    private String password;
-    private PhoneNumber phoneNumber;
-    private String emailAddress;
-    private HashingStrategy hashingStrategy;
+    protected String username;
+    protected String password;
+    protected PhoneNumber phoneNumber;
+    protected String emailAddress;
+    protected HashingStrategy hashingStrategy;
 
     public User(String username, String password, PhoneNumber phoneNumber, String emailAddress, HashingStrategy
         hashingStrategy) {
