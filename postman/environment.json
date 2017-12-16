@@ -1,5 +1,5 @@
 {
-  "id": "7f225750-cd50-ef0a-4530-64b56ba50a6c",
+  "id": "16a333d8-c213-b471-c16d-0661b12720b8",
   "name": "ULTaxi (Development)",
   "values": [
     {
@@ -120,13 +120,13 @@
       "enabled": true,
       "key": "starting_position_latitude",
       "type": "text",
-      "value": "12.4534"
+      "value": "46.776635"
     },
     {
       "enabled": true,
       "key": "starting_position_longitude",
       "type": "text",
-      "value": "13.4534"
+      "value": "-71.270671"
     },
     {
       "enabled": true,
@@ -168,7 +168,7 @@
       "enabled": true,
       "key": "transport_request_id",
       "type": "text",
-      "value": "90cc6b9f-9f77-4b99-9e52-575d12e8f452"
+      "value": "1ca60fbe-eca4-4ca8-8648-dfc196ea0cc2"
     },
     {
       "enabled": true,
@@ -181,10 +181,40 @@
       "key": "administrator_phone_number",
       "type": "text",
       "value": "\"4172344545\""
+    },
+    {
+      "enabled": true,
+      "key": "vehicle_rate",
+      "type": "text",
+      "value": "11.0"
+    },
+    {
+      "enabled": true,
+      "key": "another_vehicle_rate",
+      "type": "text",
+      "value": "10.0"
+    },
+    {
+      "enabled": true,
+      "key": "ending_position_latitude",
+      "type": "text",
+      "value": "46.8083722"
+    },
+    {
+      "enabled": true,
+      "key": "ending_position_longitude",
+      "type": "text",
+      "value": "-71.2196447"
+    },
+    {
+      "enabled": true,
+      "key": "wrong_transport_request_id",
+      "type": "text",
+      "value": "1fdf41da-4449-4b3e-9f0d-340ac90afddb"
     }
   ],
-  "timestamp": 1511585332108,
+  "timestamp": 1513392357648,
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2017-11-25T04:51:11.166Z",
+  "_postman_exported_at": "2017-12-16T02:46:35.911Z",
   "_postman_exported_using": "Postman/5.3.2"
 }

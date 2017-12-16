@@ -1,10 +1,7 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.client.ClientDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +9,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserAuthenticationResourceImplTest {
@@ -21,7 +21,7 @@ public class UserAuthenticationResourceImplTest {
     @Mock
     private UserAuthenticationService userAuthenticationService;
     @Mock
-    private UserDto userDto;
+    private ClientDto clientDto;
 
     private UserAuthenticationResource userAuthenticationResource;
 
@@ -32,8 +32,7 @@ public class UserAuthenticationResourceImplTest {
 
     @Test
     public void givenUserWithValidCredentials_whenAuthenticating_thenReturnsOk() {
-
-        Response response = userAuthenticationResource.authenticateUser(userDto);
+        Response response = userAuthenticationResource.authenticateUser(clientDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }

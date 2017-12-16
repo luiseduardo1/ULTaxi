@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.http.authentication.filtering.Secured;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 
 import javax.ws.rs.Consumes;
@@ -20,7 +21,7 @@ public interface TransportRequestResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Role.CLIENT})
     Response sendTransportRequest(@HeaderParam(value = "Authorization") String clientToken, TransportRequestDto
-        transportRequestDto);
+            transportRequestDto);
 
     @GET
     @Path("/search")
@@ -29,15 +30,28 @@ public interface TransportRequestResource {
     Response searchAvailableTransportRequests(@HeaderParam(value = "Authorization") String driverToken);
 
     @POST
+    @Path("/assign")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Role.DRIVER})
+    Response assignTransportRequest(@HeaderParam(value = "Authorization") String driverToken,
+        String transportRequestId);
+
+    @POST
     @Path("/notification/arrived")
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Role.DRIVER})
     Response notifyHasArrived(@HeaderParam(value = "Authorization") String driverToken);
 
     @POST
-    @Path("/assign")
+    @Path("/notification/started")
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Role.DRIVER})
-    Response assignTransportRequest(@HeaderParam(value = "Authorization") String driverToken,
-        String transportRequestId);
+    Response notifyHasStarted(@HeaderParam(value = "Authorization") String driverToken);
+
+    @POST
+    @Path("/notification/completed")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Role.DRIVER})
+    Response notifyHasCompleted(@HeaderParam(value = "Authorization") String driverToken,
+                                      TransportRequestCompleteDto transportRequestCompleteDto);
 }

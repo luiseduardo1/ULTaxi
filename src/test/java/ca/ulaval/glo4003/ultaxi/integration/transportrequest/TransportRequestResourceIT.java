@@ -27,9 +27,17 @@ public class TransportRequestResourceIT extends IntegrationTest {
     private static final String A_VALID_SOCIAL_INSURANCE_NUMBER = "130692544";
     private static final String A_VALID_PHONE_NUMBER = "2342355679";
     private static final String A_USERNAME = "Karlee";
-    private static final String A_VALID_EMAIL = "Karlee@mail.com";
-    private static final String A_VALID_NAME = "Karl";
+    private static final String A_VALID_EMAIL_ADDRESS = "Karlee@mail.com";
+    private static final String A_VALID_FIRST_NAME = "Karl";
     private static final String A_VALID_LAST_NAME = "Max";
+
+    private final String aDriverWithoutTransportRequest = createSerializedDriverWithoutAssignedTransportRequest();
+    private String serializedClient = createSerializedClient(
+        generateRandomWord(),
+        A_VALID_PASSWORD,
+        A_VALID_PHONE_NUMBER,
+        A_VALID_EMAIL_ADDRESS
+    );
 
     @Before
     public void setUp() {
@@ -43,6 +51,18 @@ public class TransportRequestResourceIT extends IntegrationTest {
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
 
         assertStatusCode(response, Status.CREATED);
+    }
+
+    @Test
+    public void givenAClientWithAnActiveTransportRequest_whenSendRequest_thenReturnsBadRequest() {
+        unauthenticatedPost(CLIENTS_ROUTE, serializedClient);
+        authenticateAs(serializedClient);
+        String serializedTransportRequest = createSerializedValidTransportRequest();
+        authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
+
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     @Test
@@ -77,10 +97,18 @@ public class TransportRequestResourceIT extends IntegrationTest {
 
     @Test
     public void givenADriverWithNoTransportRequestAssigned_whenNotifyHasArrived_thenReturnsBadRequest() {
-        String aDriverWithoutTransportRequest = createSerializedDriverWithoutAssignedTransportRequest();
-        authenticateAs(aDriverWithoutTransportRequest);
+        authenticateAsDriverWithoutTransportRequestAssigned();
 
         Response response = authenticatedPost(DRIVER_HAS_ARRIVED_NOTIFICATION);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
+    }
+
+    @Test
+    public void givenADriverWithNoTransportRequestAssigned_whenNotifyRideHasStarted_thenReturnsBadRequest() {
+        authenticateAsDriverWithoutTransportRequestAssigned();
+
+        Response response = authenticatedPost(RIDE_HAS_STARTED_NOTIFICATION);
 
         assertStatusCode(response, Status.BAD_REQUEST);
     }
@@ -97,6 +125,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
     @Test
     public void givenAnAuthenticatedDriverWithoutVehicleAssociated_whenSearchTransportRequest_thenReturnsBadRequest() {
         String aDriverWithoutTransportRequest = createSerializedDriverWithoutAssignedTransportRequest();
+        authenticateAs(Role.ADMINISTRATOR);
+        authenticatedPost(DRIVERS_ROUTE, aDriverWithoutTransportRequest);
         authenticateAs(aDriverWithoutTransportRequest);
 
         Response response = authenticatedGet(SEARCH_TRANSPORT_REQUEST_ROUTE);
@@ -153,19 +183,51 @@ public class TransportRequestResourceIT extends IntegrationTest {
         assertStatusCode(response, Status.FORBIDDEN);
     }
 
+    @Test
+    public void givenAValidTransportRequestId_whenNotifyHasCompleted_thenReturnsIsOk() {
+        authenticateAs(Role.DRIVER);
+        String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;
+        authenticatedPost(ASSIGN_TRANSPORT_REQUEST_ROUTE, transportRequestId);
+        authenticatedPost(DRIVER_HAS_ARRIVED_NOTIFICATION);
+        authenticatedPost(RIDE_HAS_STARTED_NOTIFICATION);
+
+        String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
+
+        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
+
+        assertStatusCode(response, Status.OK);
+    }
+
+    @Test
+    public void givenAnAuthenticatedClient_whenNotifyHasCompleted_thenReturnsForbidden() {
+        authenticateAs(Role.CLIENT);
+        String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
+
+        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
+
+        assertStatusCode(response, Status.FORBIDDEN);
+    }
+
+    @Test
+    public void givenAnUnauthenticatedDriver_whenNotifyHasCompleted_thenReturnsUnauthorized() {
+        authenticateAs(Role.DRIVER);
+        String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
+
+        Response response = unauthenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
+
+        assertStatusCode(response, Status.UNAUTHORIZED);
+    }
+
     private String createSerializedDriverWithoutAssignedTransportRequest() {
-        authenticateAs(Role.ADMINISTRATOR);
-        authenticatedPost(DRIVERS_ROUTE, createSerializedDriver(
+        return createSerializedDriver(
             A_USERNAME,
             A_VALID_PASSWORD,
-            A_VALID_SOCIAL_INSURANCE_NUMBER,
             A_VALID_PHONE_NUMBER,
-            A_VALID_NAME,
+            A_VALID_EMAIL_ADDRESS,
+            A_VALID_FIRST_NAME,
             A_VALID_LAST_NAME,
-            A_VALID_EMAIL
-        ));
-
-        return createSerializedUser(A_USERNAME, A_VALID_PASSWORD, A_VALID_EMAIL);
+            A_VALID_SOCIAL_INSURANCE_NUMBER
+        );
     }
 
     private String createSerializedValidTransportRequest() {
@@ -174,6 +236,13 @@ public class TransportRequestResourceIT extends IntegrationTest {
             A_VALID_NOTE,
             A_VALID_LATITUDE,
             A_VALID_LONGITUDE
+        );
+    }
+
+    private String createSerializedValidCompletedTransportRequest() {
+        return createSerializedCompletedTransportRequest(
+                A_VALID_LATITUDE,
+                A_VALID_LONGITUDE
         );
     }
 
@@ -202,5 +271,11 @@ public class TransportRequestResourceIT extends IntegrationTest {
             A_VALID_LATITUDE,
             A_VALID_LONGITUDE
         );
+    }
+
+    private void authenticateAsDriverWithoutTransportRequestAssigned() {
+        authenticateAs(Role.ADMINISTRATOR);
+        authenticatedPost(DRIVERS_ROUTE, aDriverWithoutTransportRequest);
+        authenticateAs(aDriverWithoutTransportRequest);
     }
 }

@@ -1,14 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.api.transportrequest;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.service.transportrequest.TransportRequestService;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +14,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestResourceImplTest {
@@ -34,6 +35,8 @@ public class TransportRequestResourceImplTest {
     @Mock
     private TransportRequestDto transportRequestDto;
     @Mock
+    private TransportRequestCompleteDto transportRequestCompleteDto;
+    @Mock
     private List<TransportRequestDto> transportRequestDtos;
     @Mock
     private User user;
@@ -43,7 +46,7 @@ public class TransportRequestResourceImplTest {
     private TransportRequestResource transportRequestResource;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         transportRequestResource = new TransportRequestResourceImpl(transportRequestService);
         when(user.getUsername()).thenReturn(A_VALID_USERNAME);
         when(driver.getVehicleType()).thenReturn(A_VEHICLE_TYPE);
@@ -101,6 +104,14 @@ public class TransportRequestResourceImplTest {
     }
 
     @Test
+    public void givenAnAuthenticatedDriver_whenNotifyHasCompleted_thenReturnsOk() {
+        Response response = transportRequestResource.notifyHasCompleted(A_VALID_DRIVER_TOKEN,
+                transportRequestCompleteDto);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
     public void givenAnAuthenticatedDriver_whenNotifyHasArrived_thenDelegateToRequestTransportService() {
         transportRequestResource.notifyHasArrived(A_VALID_DRIVER_TOKEN);
 
@@ -112,6 +123,20 @@ public class TransportRequestResourceImplTest {
         transportRequestResource.assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
 
         verify(transportRequestService).assignTransportRequest(A_VALID_DRIVER_TOKEN, A_VALID_TRANSPORT_REQUEST_ID);
+    }
+
+    @Test
+    public void givenAnAuthenticatedDriver_whenNotifyRideHasStarted_thenDelegateToRequestTransportService() {
+        transportRequestResource.notifyHasStarted(A_VALID_DRIVER_TOKEN);
+
+        verify(transportRequestService).notifyRideHasStarted(A_VALID_DRIVER_TOKEN);
+    }
+
+    @Test
+    public void givenAnAuthenticatedDriver_whenNotifyRideHasStarted_thenReturnsOk() {
+        Response response = transportRequestResource.notifyHasStarted(A_VALID_DRIVER_TOKEN);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
 }

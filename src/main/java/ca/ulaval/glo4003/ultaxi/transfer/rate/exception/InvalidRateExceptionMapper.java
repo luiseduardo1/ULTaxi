@@ -16,8 +16,8 @@ public class InvalidRateExceptionMapper implements ExceptionMapper<InvalidRateEx
     public Response toResponse(InvalidRateException exception) {
         logger.info(exception.getMessage());
         return Response
-                .status(Response.Status.BAD_REQUEST)
-                .entity(exception.getMessage())
-                .build();
+            .status(Response.Status.BAD_REQUEST)
+            .entity(exception.getMessage())
+            .build();
     }
 }

@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "ULtaxi",
-    "_postman_id": "13891e8d-e5ca-ef09-ca52-f7685dd91c84",
+    "_postman_id": "19d31ae0-998d-b1e7-0bdd-94771cfed071",
     "description": "",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
@@ -37,7 +37,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{administrator_username}},\n\t\"password\": {{administrator_password}},\n\t\"email\": {{administrator_email}},\n\t\"phoneNumber\": {{administrator_phone_number}}\n}"
+              "raw": "{\n\t\"username\": {{administrator_username}},\n\t\"password\": {{administrator_password}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/users/auth/signin",
@@ -83,7 +83,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"name\": {{driver_first_name}},\n\t\"lastName\": {{driver_last_name}},\n\t\"password\": {{driver_password}},\n\t\"emailAddress\": {{driver_email}},\n\t\"socialInsuranceNumber\": {{driver_social_insurance_number}},\n\t\"phoneNumber\": {{driver_phone_number}}\n}"
+              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"firstName\": {{driver_first_name}},\n\t\"lastName\": {{driver_last_name}},\n\t\"password\": {{driver_password}},\n\t\"emailAddress\": {{driver_email}},\n\t\"socialInsuranceNumber\": {{driver_social_insurance_number}},\n\t\"phoneNumber\": {{driver_phone_number}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/drivers",
@@ -362,7 +362,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"rate\": 12.0,\n\t\"vehicleType\": \"Car\"\n}"
+              "raw": "{\n\t\"rate\": {{vehicle_rate}},\n\t\"vehicleType\": {{vehicle_type}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/rates",
@@ -406,7 +406,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"rate\": 22.0,\n\t\"vehicleType\": \"Car\"\n}"
+              "raw": "{\n\t\"rate\": {{another_vehicle_rate}},\n\t\"vehicleType\": {{vehicle_type}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/rates",
@@ -483,17 +483,17 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{client_username}},\n\t\"password\": {{client_password}},\n\t\"email\": {{client_email}},\n\t\"phoneNumber\": {{client_phone_number}}\n}"
+              "raw": "{\n\t\"username\": {{client_username}},\n\t\"password\": {{client_password}},\n\t\"emailAddress\": {{client_email}},\n\t\"phoneNumber\": {{client_phone_number}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}:{{server_port}}/api/users/",
+              "raw": "{{base_url}}:{{server_port}}/api/clients/",
               "host": [
                 "{{base_url}}"
               ],
               "port": "{{server_port}}",
               "path": [
                 "api",
-                "users",
+                "clients",
                 ""
               ]
             },
@@ -528,7 +528,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{client_username}},\n\t\"password\": {{client_password}},\n\t\"email\": {{client_email}}\n}"
+              "raw": "{\n\t\"username\": {{client_username}},\n\t\"password\": {{client_password}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/users/auth/signin",
@@ -569,17 +569,18 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"password\": {{client_password}},\n\t\"email\": {{client_email}},\n\t\"phoneNumber\": {{client_phone_number}}\n}"
+              "raw": "{\n\t\"password\": {{client_password}},\n\t\"emailAddress\": {{client_email}},\n\t\"phoneNumber\": {{client_phone_number}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}:{{server_port}}/api/users",
+              "raw": "{{base_url}}:{{server_port}}/api/clients/",
               "host": [
                 "{{base_url}}"
               ],
               "port": "{{server_port}}",
               "path": [
                 "api",
-                "users"
+                "clients",
+                ""
               ]
             },
             "description": "# Uses\n\nUpdate a client informations."
@@ -599,6 +600,46 @@
               }
             }
           ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"note\": {{transport_request_note}},\n\t\"startingPositionLatitude\": {{starting_position_latitude}},\n\t\"startingPositionLongitude\": {{starting_position_longitude}},\n\t\"vehicleType\": {{transport_request_vehicle_type}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}:{{server_port}}/api/transport-requests/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "port": "{{server_port}}",
+              "path": [
+                "api",
+                "transport-requests",
+                ""
+              ]
+            },
+            "description": "transport request"
+          },
+          "response": []
+        },
+        {
+          "name": "Create a transport request (should return bad request)",
           "request": {
             "auth": {
               "type": "bearer",
@@ -712,7 +753,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"password\": {{driver_password}},\n\t\"email\": {{driver_email}}\n}"
+              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"password\": {{driver_password}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/users/auth/signin",
@@ -861,6 +902,96 @@
           "response": []
         },
         {
+          "name": "Notify ride has started",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiMzAwZDJjZC00MWMyLTQ0NjQtYTc3OS1jNjgyMzcxMjJiYzIiLCJpYXQiOjE1MDgzNjU5OTEsInN1YiI6Imx1aXMiLCJleHAiOjE1MDgzNjk1OTF9.EwIeJ3Y-0Z1CPyNow3C-fr4KHwFu13jA-jKe4FaKJ-aHTBsZG-G6LjANJUBafsc83yW_jf24az9cygZBnxxEfw"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}:{{server_port}}/api/transport-requests/notification/started",
+              "host": [
+                "{{base_url}}"
+              ],
+              "port": "{{server_port}}",
+              "path": [
+                "api",
+                "transport-requests",
+                "notification",
+                "started"
+              ]
+            },
+            "description": "transport request"
+          },
+          "response": []
+        },
+        {
+          "name": "Notify ride is completed",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiMzAwZDJjZC00MWMyLTQ0NjQtYTc3OS1jNjgyMzcxMjJiYzIiLCJpYXQiOjE1MDgzNjU5OTEsInN1YiI6Imx1aXMiLCJleHAiOjE1MDgzNjk1OTF9.EwIeJ3Y-0Z1CPyNow3C-fr4KHwFu13jA-jKe4FaKJ-aHTBsZG-G6LjANJUBafsc83yW_jf24az9cygZBnxxEfw"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"endingPositionLatitude\": {{ending_position_latitude}},\n\t\"endingPositionLongitude\": {{ending_position_longitude}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}:{{server_port}}/api/transport-requests/notification/completed",
+              "host": [
+                "{{base_url}}"
+              ],
+              "port": "{{server_port}}",
+              "path": [
+                "api",
+                "transport-requests",
+                "notification",
+                "completed"
+              ]
+            },
+            "description": "transport request"
+          },
+          "response": []
+        },
+        {
           "name": "Sign out as driver",
           "event": [
             {
@@ -940,7 +1071,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{administrator_username}},\n\t\"password\": {{administrator_password}},\n\t\"email\": {{administrator_email}},\n\t\"phoneNumber\": {{administrator_phone_number}}\n}"
+              "raw": "{\n\t\"username\": {{administrator_username}},\n\t\"password\": {{administrator_password}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/users/auth/signin",
@@ -986,7 +1117,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{client_username}},\n\t\"password\": {{client_password}},\n\t\"email\": {{client_email}},\n\t\"phoneNumber\": {{client_phone_number}}\n}"
+              "raw": "{\n\t\"username\": {{client_username}},\n\t\"password\": {{client_password}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/users/auth/signin",
@@ -1032,7 +1163,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"password\": {{driver_password}},\n\t\"email\": {{driver_email}},\n\t\"phoneNumber\": {{driver_phone_number}}\n}"
+              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"password\": {{driver_password}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/users/auth/signin",
@@ -1134,7 +1265,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n\t\"username\": {{driver_username}},\n\t\"name\": {{driver_first_name}},\n\t\"lastName\": {{driver_last_name}},\n\t\"password\": {{driver_password}},\n\t\"email\": {{driver_email}},\n\t\"socialInsuranceNumber\": {{driver_social_insurance_number}},\n\t\"phoneNumber\": {{driver_phone_number}}\n}"
+                  "raw": "{\n\t\"username\": {{driver_username}},\n\t\"firstName\": {{driver_first_name}},\n\t\"lastName\": {{driver_last_name}},\n\t\"password\": {{driver_password}},\n\t\"emailAddress\": {{driver_email}},\n\t\"socialInsuranceNumber\": {{driver_social_insurance_number}},\n\t\"phoneNumber\": {{driver_phone_number}}\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}:{{server_port}}/api/drivers",
@@ -1222,17 +1353,17 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{client_username}},\n\t\"password\": {{client_password}},\n\t\"email\": {{client_email}},\n\t\"phoneNumber\": {{phone_number}}\n}"
+              "raw": "{\n\t\"username\": {{client_username}},\n\t\"password\": {{client_password}},\n\t\"emailAddress\": {{client_email}},\n\t\"phoneNumber\": {{client_phone_number}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}:{{server_port}}/api/users/",
+              "raw": "{{base_url}}:{{server_port}}/api/clients/",
               "host": [
                 "{{base_url}}"
               ],
               "port": "{{server_port}}",
               "path": [
                 "api",
-                "users",
+                "clients",
                 ""
               ]
             },
@@ -1262,17 +1393,17 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"password\": {{client_password}},\n\t\"email\": {{client_email}}\n}"
+              "raw": "{\n\t\"password\": {{client_password}},\n\t\"emailAddress\": {{client_email}},\n\t\"phoneNumber\": {{client_phone_number}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}:{{server_port}}/api/users/",
+              "raw": "{{base_url}}:{{server_port}}/api/clients/",
               "host": [
                 "{{base_url}}"
               ],
               "port": "{{server_port}}",
               "path": [
                 "api",
-                "users",
+                "clients",
                 ""
               ]
             },
@@ -1467,6 +1598,96 @@
             "description": "transport request"
           },
           "response": []
+        },
+        {
+          "name": "Notify ride has started",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiMzAwZDJjZC00MWMyLTQ0NjQtYTc3OS1jNjgyMzcxMjJiYzIiLCJpYXQiOjE1MDgzNjU5OTEsInN1YiI6Imx1aXMiLCJleHAiOjE1MDgzNjk1OTF9.EwIeJ3Y-0Z1CPyNow3C-fr4KHwFu13jA-jKe4FaKJ-aHTBsZG-G6LjANJUBafsc83yW_jf24az9cygZBnxxEfw"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}:{{server_port}}/api/transport-requests/notification/started",
+              "host": [
+                "{{base_url}}"
+              ],
+              "port": "{{server_port}}",
+              "path": [
+                "api",
+                "transport-requests",
+                "notification",
+                "started"
+              ]
+            },
+            "description": "transport request"
+          },
+          "response": []
+        },
+        {
+          "name": "Notify ride is completed",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJiMzAwZDJjZC00MWMyLTQ0NjQtYTc3OS1jNjgyMzcxMjJiYzIiLCJpYXQiOjE1MDgzNjU5OTEsInN1YiI6Imx1aXMiLCJleHAiOjE1MDgzNjk1OTF9.EwIeJ3Y-0Z1CPyNow3C-fr4KHwFu13jA-jKe4FaKJ-aHTBsZG-G6LjANJUBafsc83yW_jf24az9cygZBnxxEfw"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"endingPositionLatitude\": {{ending_position_latitude}},\n\t\"endingPositionLongitude\": {{ending_position_longitude}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}:{{server_port}}/api/transport-requests/notification/completed",
+              "host": [
+                "{{base_url}}"
+              ],
+              "port": "{{server_port}}",
+              "path": [
+                "api",
+                "transport-requests",
+                "notification",
+                "completed"
+              ]
+            },
+            "description": "transport request"
+          },
+          "response": []
         }
       ]
     },
@@ -1500,7 +1721,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"type\": {{vehicle_type}},\n    \"color\": {{vehicle_color}},\n    \"vehicle\": {{vehicle_model}},\n    \"registrationNumber\": {{vehicle_registrationNumber}}\n}"
+              "raw": "{\n\t\"type\": {{vehicle_type}},\n    \"color\": {{vehicle_color}},\n    \"vehicle\": {{vehicle_model}},\n    \"registrationNumber\": {{vehicle_registration_number}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/vehicles",
@@ -1544,7 +1765,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"registrationNumber\": {{registrationNumber}}\n}"
+              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"registrationNumber\": {{vehicle_registration_number}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/vehicles/associate",
@@ -1589,7 +1810,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"registrationNumber\": {{registrationNumber}}\n}"
+              "raw": "{\n\t\"username\": {{driver_username}},\n\t\"registrationNumber\": {{registration_umber}}\n}"
             },
             "url": {
               "raw": "{{base_url}}:{{server_port}}/api/vehicles/dissociate",
@@ -1601,6 +1822,99 @@
                 "api",
                 "vehicles",
                 "dissociate"
+              ]
+            },
+            "description": "# Uses\n\nCreate a new driver and add it to the persistence layer of the server.\n\n# Permissions\n\nOnly an `Administrator` can make this request."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "vehicle rate",
+      "item": [
+        {
+          "name": "Create a vehicle rate",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "",
+                "value": "",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"rate\": {{vehicle_rate}},\n\t\"vehicleType\": {{vehicle_type}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}:{{server_port}}/api/rates",
+              "host": [
+                "{{base_url}}"
+              ],
+              "port": "{{server_port}}",
+              "path": [
+                "api",
+                "rates"
+              ]
+            },
+            "description": "# Uses\n\nCreate a new driver and add it to the persistence layer of the server.\n\n# Permissions\n\nOnly an `Administrator` can make this request."
+          },
+          "response": []
+        },
+        {
+          "name": "Update a vehicle rate",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "",
+                "value": "",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"rate\": {{another_vehicle_rate}},\n\t\"vehicleType\": {{vehicle_type}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}:{{server_port}}/api/rates",
+              "host": [
+                "{{base_url}}"
+              ],
+              "port": "{{server_port}}",
+              "path": [
+                "api",
+                "rates"
               ]
             },
             "description": "# Uses\n\nCreate a new driver and add it to the persistence layer of the server.\n\n# Permissions\n\nOnly an `Administrator` can make this request."

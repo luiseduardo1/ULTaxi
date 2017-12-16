@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.ultaxi.api.user;
 
-import ca.ulaval.glo4003.ultaxi.transfer.user.UserDto;
+import ca.ulaval.glo4003.ultaxi.transfer.user.AuthenticationDto;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
@@ -17,7 +17,7 @@ public interface UserAuthenticationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/signin")
-    Response authenticateUser(UserDto userDto);
+    Response authenticateUser(AuthenticationDto authenticationDto);
 
     @POST
     @Path("/signout")

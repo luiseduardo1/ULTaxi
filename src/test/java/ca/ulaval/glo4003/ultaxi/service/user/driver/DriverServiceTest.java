@@ -1,15 +1,8 @@
 package ca.ulaval.glo4003.ultaxi.service.user.driver;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.domain.search.SearchResults;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
-import ca.ulaval.glo4003.ultaxi.domain.user.SocialInsuranceNumber;
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
+import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.DriverValidator;
@@ -23,16 +16,24 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriverServiceTest {
 
-    private static final Driver A_DRIVER = new Driver("Lord", "Gargamel", new SocialInsuranceNumber("215136193"));
+    public static final String A_LAST_NAME = "Macdonald";
+    public static final String ANOTHER_LAST_NAME = "Gargamel";
+
     @Mock
     private Driver driver;
+    @Mock
+    private Driver driver2;
     @Mock
     private DriverDto driverDto;
     @Mock
@@ -50,19 +51,25 @@ public class DriverServiceTest {
     @Before
     public void setUp() {
         driverService = new DriverService(userRepository, driverAssembler, driverValidator);
+
+        willReturn(driver).given(driverAssembler).create(driverDto);
+        willReturn(driverDto).given(driverAssembler).create(driver);
+        willReturn(driverDto).given(driverAssembler).create(driver2);
+        willReturn(A_LAST_NAME).given(driver).getLastName();
+        willReturn(Role.DRIVER).given(driver).getRole();
+        willReturn(ANOTHER_LAST_NAME).given(driver2).getLastName();
+        willReturn(Role.DRIVER).given(driver2).getRole();
     }
 
     @Test
     public void givenADriverWithValidName_whenAddDriver_thenDriverIsAdded() {
-        willReturn(driver).given(driverAssembler).create(driverDto);
-
         driverService.addDriver(driverDto);
 
         verify(userRepository).save(driver);
     }
 
     @Test
-    public void givenADriver_whenAddDriver__thenDriverValidatorIsCalled() {
+    public void givenADriver_whenAddDriver_thenDriverValidatorIsCalled() {
         driverService.addDriver(driverDto);
 
         verify(driverValidator).checkSocialInsuranceNumberExistence(driverDto);
@@ -80,19 +87,10 @@ public class DriverServiceTest {
     givenSearchQueryWithFirstNameAndARepositoryContainingDrivers_whenSearching_thenReturnsAssociatedDrivers() {
         willReturn("arg").given(driverSearchParameters).getLastName();
         willReturn(driverSearchResults).given(userRepository).searchDrivers(any());
-        willReturn(Lists.newArrayList(A_DRIVER)).given(driverSearchResults).getResults();
+        willReturn(Lists.newArrayList(driver)).given(driverSearchResults).getResults();
 
         List<DriverDto> driverDtos = driverService.searchBy(driverSearchParameters);
 
         assertEquals(1, driverDtos.size());
-    }
-
-    public Map<String, User> givenDrivers() {
-        Map<String, User> drivers = new HashMap<>();
-        drivers.put("1", new Driver("Ronald", "Macdonald", new SocialInsuranceNumber("972487086")));
-        drivers.put("2", new Driver("Marcel", "Lepic", new SocialInsuranceNumber("348624487")));
-        drivers.put("3", A_DRIVER);
-
-        return drivers;
     }
 }

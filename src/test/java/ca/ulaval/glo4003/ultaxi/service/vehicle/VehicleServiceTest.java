@@ -1,9 +1,5 @@
 package ca.ulaval.glo4003.ultaxi.service.vehicle;
 
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.domain.user.Role;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
@@ -14,11 +10,17 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleDissociat
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleAssociationDto;
 import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehicleDto;
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehiclePersistenceAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.vehicle.VehiclePersistenceDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleServiceTest {
@@ -28,6 +30,8 @@ public class VehicleServiceTest {
     @Mock
     private Vehicle vehicle;
     @Mock
+    private VehiclePersistenceDto vehiclePersistenceDto;
+    @Mock
     private Driver driver;
     @Mock
     private VehicleDto vehicleDto;
@@ -35,6 +39,8 @@ public class VehicleServiceTest {
     private VehicleRepository vehicleRepository;
     @Mock
     private VehicleAssembler vehicleAssembler;
+    @Mock
+    private VehiclePersistenceAssembler vehiclePersistenceAssembler;
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -44,8 +50,11 @@ public class VehicleServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        vehicleService = new VehicleService(vehicleRepository, vehicleAssembler, userRepository);
-        willReturn(vehicle).given(vehicleRepository).findByRegistrationNumber(anyString());
+        vehicleService = new VehicleService(vehicleRepository, vehicleAssembler, userRepository,
+            vehiclePersistenceAssembler);
+        willReturn(vehiclePersistenceDto).given(vehicleRepository).findByRegistrationNumber(anyString());
+        willReturn(vehicle).given(vehiclePersistenceAssembler).create(vehiclePersistenceDto);
+        willReturn(vehiclePersistenceDto).given(vehiclePersistenceAssembler).create(vehicle);
         willReturn(driver).given(userRepository).findByUsername(anyString());
         willReturn(Role.DRIVER).given(driver).getRole();
     }
@@ -56,7 +65,7 @@ public class VehicleServiceTest {
 
         vehicleService.addVehicle(vehicleDto);
 
-        verify(vehicleRepository).save(vehicle);
+        verify(vehicleRepository).save(vehiclePersistenceDto);
     }
 
     @Test

@@ -1,31 +1,28 @@
 package ca.ulaval.glo4003.ultaxi.service.transportrequest;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
+import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestSearchQueryBuilder;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestStatus;
 import ca.ulaval.glo4003.ultaxi.domain.user.PhoneNumber;
-import ca.ulaval.glo4003.ultaxi.domain.user.User;
 import ca.ulaval.glo4003.ultaxi.domain.user.UserRepository;
+import ca.ulaval.glo4003.ultaxi.domain.user.client.Client;
 import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
-import ca.ulaval.glo4003.ultaxi.service.user.UserService;
+import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
+import ca.ulaval.glo4003.ultaxi.transfer.rate.RatePersistenceAssembler;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +32,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestServiceTest {
@@ -55,11 +59,17 @@ public class TransportRequestServiceTest {
     @Mock
     private TransportRequestAssembler transportRequestAssembler;
     @Mock
+    private TransportRequestTotalAmountAssembler transportRequestTotalAmountAssembler;
+    @Mock
+    private RateRepository rateRepository;
+    @Mock
+    private RatePersistenceAssembler ratePersistenceAssembler;
+    @Mock
     private TransportRequestSearchQueryBuilder transportRequestSearchQueryBuilder;
     @Mock
     private UserRepository userRepository;
     @Mock
-    private UserService userService;
+    private UserAuthenticationService userAuthenticationService;
     @Mock
     private MessagingTaskProducer messagingTaskProducer;
     @Mock
@@ -69,36 +79,43 @@ public class TransportRequestServiceTest {
     @Mock
     private Vehicle vehicle;
     @Mock
-    private User user;
+    private Client client;
     @Mock
     private PhoneNumber phoneNumber;
 
     private TransportRequestService transportRequestService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
-                                                              userRepository, userService, messagingTaskProducer,
-                                                              smsSender);
-        willReturn(driver).given(userService).getUserFromToken(A_VALID_DRIVER_TOKEN);
-        willReturn(user).given(userService).getUserFromToken(A_VALID_TOKEN);
+                                                              userRepository, userAuthenticationService, messagingTaskProducer,
+                                                              smsSender, transportRequestTotalAmountAssembler, rateRepository, ratePersistenceAssembler);
+        willReturn(driver).given(userAuthenticationService).getUserFromToken(A_VALID_DRIVER_TOKEN);
+        willReturn(client).given(userAuthenticationService).getUserFromToken(A_VALID_TOKEN);
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();
-        willReturn(user).given(userRepository).findByUsername(A_USERNAME);
+        willReturn(client).given(userRepository).findByUsername(A_USERNAME);
         willReturn(vehicle).given(driver).getVehicle();
-        willReturn(phoneNumber).given(user).getPhoneNumber();
+        willReturn(phoneNumber).given(client).getPhoneNumber();
         willReturn(A_VALID_PHONE_NUMBER).given(phoneNumber).getNumber();
         willReturn(CAR_VEHICULE_TYPE).given(driver).getVehicleType();
         willReturn(A_TRANSPORT_REQUEST_ID).given(driver).getCurrentTransportRequestId();
         willReturn(transportRequest).given(transportRequestRepository).findById(A_TRANSPORT_REQUEST_ID);
+        willReturn(transportRequest).given(transportRequestAssembler).create(transportRequestDto);
+
     }
 
     @Test
     public void givenAValidTransportRequest_whenSendRequest_thenRequestIsAdded() {
-        willReturn(transportRequest).given(transportRequestAssembler).create(transportRequestDto);
-
         transportRequestService.sendRequest(transportRequestDto, A_VALID_TOKEN);
 
         verify(transportRequestRepository).save(transportRequest);
+    }
+
+    @Test
+    public void givenAValidTransportRequest_whenSendRequest_thenClientIsUpdated() {
+        transportRequestService.sendRequest(transportRequestDto, A_VALID_TOKEN);
+
+        verify(userRepository).update(any());
     }
 
     @Test(expected = EmptySearchResultsException.class)
@@ -130,7 +147,7 @@ public class TransportRequestServiceTest {
     givenADriverArrivedAtStartingPosition_whenNotifyingDriverHasArrived_thenTransportRequestStatusIsModified() {
         transportRequestService.notifyDriverHasArrived(A_VALID_DRIVER_TOKEN);
 
-        verify(transportRequest).updateStatus(TransportRequestStatus.ARRIVED);
+        verify(transportRequest).setToArrived();
     }
 
     @Test
@@ -151,4 +168,5 @@ public class TransportRequestServiceTest {
             .CAR));
         return transportRequests;
     }
+
 }

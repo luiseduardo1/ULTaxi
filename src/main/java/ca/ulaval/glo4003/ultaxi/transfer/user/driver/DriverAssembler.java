@@ -14,28 +14,28 @@ public class DriverAssembler {
     }
 
     public Driver create(DriverDto driverDto) {
-        Driver driver = new Driver();
-        driver.setUsername(driverDto.getUsername());
-        driver.setPassword(driverDto.getPassword(), hashingStrategy);
-        driver.setName(driverDto.getName());
-        driver.setLastName(driverDto.getLastName());
-        SocialInsuranceNumber socialInsuranceNumber = new SocialInsuranceNumber(driverDto.getSocialInsuranceNumber());
-        driver.setSocialInsuranceNumber(socialInsuranceNumber);
-        PhoneNumber phoneNumber = new PhoneNumber(driverDto.getPhoneNumber());
-        driver.setPhoneNumber(phoneNumber);
-        driver.setEmailAddress(driverDto.getEmailAddress());
-        return driver;
+
+        return new Driver(
+            driverDto.getUsername(),
+            driverDto.getPassword(),
+            new PhoneNumber(driverDto.getPhoneNumber()),
+            driverDto.getEmailAddress(),
+            hashingStrategy,
+            driverDto.getFirstName(),
+            driverDto.getLastName(),
+            new SocialInsuranceNumber(driverDto.getSocialInsuranceNumber())
+        );
     }
 
     public DriverDto create(Driver driver) {
         DriverDto driverDto = new DriverDto();
         driverDto.setUsername(driver.getUsername());
         driverDto.setPassword(driver.getPassword());
-        driverDto.setName(driver.getName());
-        driverDto.setLastName(driver.getLastName());
-        driverDto.setSocialInsuranceNumber(driver.getSocialInsuranceNumber().getNumber());
         driverDto.setPhoneNumber(driver.getPhoneNumber().getNumber());
         driverDto.setEmailAddress(driver.getEmailAddress());
+        driverDto.setFirstName(driver.getFirstName());
+        driverDto.setLastName(driver.getLastName());
+        driverDto.setSocialInsuranceNumber(driver.getSocialInsuranceNumber().getNumber());
         return driverDto;
     }
 }
