@@ -104,7 +104,7 @@ public class TransportRequestResourceImplTest {
     }
 
     @Test
-    public void givenAnAuthenticatedDriver_whenCompleteTransportRequest_thenReturnsOk() {
+    public void givenAnAuthenticatedDriver_whenNotifyHasCompleted_thenReturnsOk() {
         Response response = transportRequestResource.notifyHasCompleted(A_VALID_DRIVER_TOKEN,
                 transportRequestCompleteDto);
 

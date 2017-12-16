@@ -157,5 +157,6 @@ public class TransportRequest {
                 "The status can't be set to STARTED when the current status is not ARRIVED."
             );
         }
+        this.status = TransportRequestStatus.STARTED;
     }
 }

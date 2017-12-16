@@ -48,8 +48,6 @@ public class TransportRequestServiceTest {
     private static final String A_VALID_DRIVER_TOKEN = "Driver token";
     private static final VehicleType CAR_VEHICULE_TYPE = VehicleType.CAR;
     private static final String A_TRANSPORT_REQUEST_ID = "Transport request Id";
-    private static final Double A_VALID_ENDING_LATITUDE= 46.8083722;
-    private static final Double A_VALID_ENDING_LONGITUDE = -71.2196447;
 
     @Mock
     private TransportRequest transportRequest;
@@ -59,8 +57,6 @@ public class TransportRequestServiceTest {
     private TransportRequestRepository transportRequestRepository;
     @Mock
     private TransportRequestAssembler transportRequestAssembler;
-    @Mock
-    private TransportRequestCompleteDto transportRequestCompleteDto;
     @Mock
     private TransportRequestTotalAmountAssembler transportRequestTotalAmountAssembler;
     @Mock
@@ -83,8 +79,6 @@ public class TransportRequestServiceTest {
     private Client client;
     @Mock
     private PhoneNumber phoneNumber;
-    @Mock
-    private Geolocation endingPosition;
 
     private TransportRequestService transportRequestService;
 

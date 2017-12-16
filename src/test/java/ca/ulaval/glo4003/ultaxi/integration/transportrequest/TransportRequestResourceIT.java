@@ -184,35 +184,37 @@ public class TransportRequestResourceIT extends IntegrationTest {
     }
 
     @Test
-    public void givenAValidTransportRequestId_whenCompleteTransportRequest_thenReturnsIsOk() {
+    public void givenAValidTransportRequestId_whenNotifyHasCompleted_thenReturnsIsOk() {
         authenticateAs(Role.DRIVER);
         String transportRequestId = A_VALID_TRANSPORT_REQUEST_ID;
         authenticatedPost(ASSIGN_TRANSPORT_REQUEST_ROUTE, transportRequestId);
+        authenticatedPost(DRIVER_HAS_ARRIVED_NOTIFICATION);
+        authenticatedPost(RIDE_HAS_STARTED_NOTIFICATION);
 
         authenticateAs(Role.DRIVER);
-        String serializedCompleteTransportRequest = createSerializedValidCompleteTransportRequest();
+        String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
 
-        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompleteTransportRequest);
+        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
 
         assertStatusCode(response, Status.OK);
     }
 
     @Test
-    public void givenAnAuthenticatedClient_whenCompleteTransportRequest_thenReturnsForbidden() {
+    public void givenAnAuthenticatedClient_whenNotifyHasCompleted_thenReturnsForbidden() {
         authenticateAs(Role.CLIENT);
-        String serializedCompleteTransportRequest = createSerializedValidCompleteTransportRequest();
+        String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
 
-        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompleteTransportRequest);
+        Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
 
         assertStatusCode(response, Status.FORBIDDEN);
     }
 
     @Test
-    public void givenAnUnauthenticatedDriver_whenCompleteTransportRequest_thenReturnsUnauthorized() {
+    public void givenAnUnauthenticatedDriver_whenNotifyHasCompleted_thenReturnsUnauthorized() {
         authenticateAs(Role.DRIVER);
-        String serializedCompleteTransportRequest = createSerializedValidCompleteTransportRequest();
+        String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
 
-        Response response = unauthenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompleteTransportRequest);
+        Response response = unauthenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
 
         assertStatusCode(response, Status.UNAUTHORIZED);
     }
@@ -238,8 +240,8 @@ public class TransportRequestResourceIT extends IntegrationTest {
         );
     }
 
-    private String createSerializedValidCompleteTransportRequest() {
-        return createSerializedCompleteTransportRequest(
+    private String createSerializedValidCompletedTransportRequest() {
+        return createSerializedCompletedTransportRequest(
                 A_VALID_LATITUDE,
                 A_VALID_LONGITUDE
         );

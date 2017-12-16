@@ -79,7 +79,10 @@ public class TransportRequestTest {
     }
 
     @Test
-    public void givenADriverWithTheSameTransportRequest_whenComplete_thenTransportRequestIsCompleted() {
+    public void givenADriverWithTheSameTransportRequest_whenSetToCompleted_thenTransportRequestIsCompleted() {
+        transportRequest.setToUnavailable();
+        transportRequest.setToArrived();
+        transportRequest.setToStarted();
         transportRequest.setStartingPosition(A_VALID_STARTING_GEOLOCATION);
         willReturn(transportRequest.getId()).given(driver).getCurrentTransportRequestId();
 
@@ -89,7 +92,18 @@ public class TransportRequestTest {
     }
 
     @Test(expected = InvalidTransportRequestCompletionException.class)
-    public void givenADriverWithADifferentTransportRequest_whenComplete_thenThrowsException() {
+    public void givenADriverWithDifferentTransportRequest_whenSetToCompleted_thenThrowsException() {
+        transportRequest.setToUnavailable();
+        transportRequest.setToArrived();
+        transportRequest.setToStarted();
+
+        transportRequest.setToCompleted(driver, A_VALID_ENDING_GEOLOCATION);
+    }
+
+    @Test(expected = InvalidTransportRequestStatusException.class)
+    public void givenInvalidTransportRequestStatus_whenSetToCompleted_thenThrowsException() {
+        transportRequest.setToAvailable();
+
         transportRequest.setToCompleted(driver, A_VALID_ENDING_GEOLOCATION);
     }
 
