@@ -191,7 +191,6 @@ public class TransportRequestResourceIT extends IntegrationTest {
         authenticatedPost(DRIVER_HAS_ARRIVED_NOTIFICATION);
         authenticatedPost(RIDE_HAS_STARTED_NOTIFICATION);
 
-        authenticateAs(Role.DRIVER);
         String serializedCompletedTransportRequest = createSerializedValidCompletedTransportRequest();
 
         Response response = authenticatedPost(COMPLETE_TRANSPORT_REQUEST_ROUTE, serializedCompletedTransportRequest);
