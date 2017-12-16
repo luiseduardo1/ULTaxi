@@ -2,26 +2,28 @@ package ca.ulaval.glo4003.ultaxi.transfer.transportrequest;
 
 public class TransportRequestDto {
 
-    private double startingPositionLatitude;
-    private double startingPositionLongitude;
+    private String id;
+    private String clientUsername;
     private String vehicleType;
     private String note;
-    private String clientUsername;
+    private double startingPositionLatitude;
+    private double startingPositionLongitude;
 
-    public double getStartingPositionLongitude() {
-        return startingPositionLongitude;
+
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setStartingPositionLongitude(double startingPositionLongitude) {
-        this.startingPositionLongitude = startingPositionLongitude;
+    public String getId() {
+        return id;
     }
 
-    public String getNote() {
-        return note;
+    public String getClientUsername() {
+        return clientUsername;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
     }
 
     public String getVehicleType() {
@@ -32,19 +34,27 @@ public class TransportRequestDto {
         this.vehicleType = vehicleType;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public double getStartingPositionLongitude() {
+        return startingPositionLongitude;
+    }
+
+    public void setStartingPositionLongitude(double startingPositionLongitude) {
+        this.startingPositionLongitude = startingPositionLongitude;
+    }
+
     public double getStartingPositionLatitude() {
         return startingPositionLatitude;
     }
 
     public void setStartingPositionLatitude(double startingPositionLatitude) {
         this.startingPositionLatitude = startingPositionLatitude;
-    }
-
-    public String getClientUsername() {
-        return clientUsername;
-    }
-
-    public void setClientUsername(String clientUsername) {
-        this.clientUsername = clientUsername;
     }
 }

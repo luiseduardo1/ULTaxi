@@ -15,8 +15,8 @@ import ca.ulaval.glo4003.ultaxi.utils.hashing.HashingStrategy;
 
 public class Driver extends User {
 
-    private String firstName;
-    private String lastName;
+    private final String firstName;
+    private final String lastName;
     private SocialInsuranceNumber socialInsuranceNumber;
     private Vehicle vehicle;
     private String currentTransportRequestId;

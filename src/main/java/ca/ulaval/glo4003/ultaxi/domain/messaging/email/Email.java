@@ -2,10 +2,10 @@ package ca.ulaval.glo4003.ultaxi.domain.messaging.email;
 
 public class Email {
 
-    private String toAddress;
-    private String subject;
-    private String content;
-    private String signature;
+    private final String toAddress;
+    private final String subject;
+    private final String content;
+    private final String signature;
 
     public Email(String toAddress, String subject, String content, String signature) {
         this.toAddress = toAddress;
