@@ -66,7 +66,6 @@ public class DevelopmentServerFactory extends ServerFactory {
     private final TransportRequestAssembler transportRequestAssembler = new TransportRequestAssembler();
     private final TransportRequestTotalAmountAssembler
             transportRequestTotalAmountAssembler = new TransportRequestTotalAmountAssembler();
-    private CalculateDistanceStrategy distanceCalculatorStrategy = new HaversineDistance();
     private final DistanceRateAssembler distanceRateAssembler = new DistanceRateAssembler();
     private final RatePersistenceAssembler ratePersistenceAssembler = new RatePersistenceAssembler();
     private final TokenManager tokenManager = new JWTTokenManager();
@@ -107,7 +106,8 @@ public class DevelopmentServerFactory extends ServerFactory {
                 messagingTaskProducer,
                 smsSender,
                 transportRequestTotalAmountAssembler,
-                rateRepository
+                rateRepository,
+                ratePersistenceAssembler
         );
 
 
