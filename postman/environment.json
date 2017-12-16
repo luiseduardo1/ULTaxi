@@ -126,7 +126,7 @@
       "enabled": true,
       "key": "starting_position_longitude",
       "type": "text",
-      "value": "71.270671"
+      "value": "-71.270671"
     },
     {
       "enabled": true,
@@ -168,7 +168,7 @@
       "enabled": true,
       "key": "transport_request_id",
       "type": "text",
-      "value": "9c8fa165-c8bf-42a8-ab97-63c8cded3cb7"
+      "value": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html;charset=ISO-8859-1\"/>\n<title>Error 401 </title>\n</head>\n<body>\n<h2>HTTP ERROR: 401</h2>\n<p>Problem accessing /api/transport-requests/. Reason:\n<pre>    Unauthorized</pre></p>\n<hr /><i><small>Powered by Jetty://</small></i>\n</body>\n</html>\n"
     },
     {
       "enabled": true,
@@ -213,8 +213,8 @@
       "value": "1fdf41da-4449-4b3e-9f0d-340ac90afddb"
     }
   ],
-  "timestamp": 1513389901908,
+  "timestamp": 1513391684989,
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2017-12-16T02:10:36.771Z",
+  "_postman_exported_at": "2017-12-16T02:35:58.014Z",
   "_postman_exported_using": "Postman/5.3.2"
 }
