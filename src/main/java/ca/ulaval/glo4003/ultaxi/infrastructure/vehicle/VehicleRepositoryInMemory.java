@@ -27,8 +27,8 @@ public class VehicleRepositoryInMemory implements VehicleRepository {
     }
 
     @Override
-    public void save(VehiclePersistenceDto vehicle) {
-        String registrationNumber = vehicle.getRegistrationNumber().toUpperCase().trim();
+    public void save(VehiclePersistenceDto vehiclePersistenceDto) {
+        String registrationNumber = vehiclePersistenceDto.getRegistrationNumber().toUpperCase().trim();
         String hashedRegistrationNumber = hashingStrategy.hash(registrationNumber);
         if (vehicles.containsKey(hashedRegistrationNumber)) {
             throw new VehicleAlreadyExistsException(
@@ -36,19 +36,19 @@ public class VehicleRepositoryInMemory implements VehicleRepository {
                                   " exists.", registrationNumber)
             );
         }
-        vehicles.put(hashedRegistrationNumber, vehicle);
+        vehicles.put(hashedRegistrationNumber, vehiclePersistenceDto);
     }
 
     @Override
-    public void update(VehiclePersistenceDto vehicle) {
-        String registrationNumber = vehicle.getRegistrationNumber();
+    public void update(VehiclePersistenceDto vehiclePersistenceDto) {
+        String registrationNumber = vehiclePersistenceDto.getRegistrationNumber();
         if (findByRegistrationNumber(registrationNumber) == null) {
             throw new NonExistentVehicleException(
                 String.format("Vehicle with the registration number %s don't" +
                                   " exists.", registrationNumber)
             );
         }
-        vehicles.put(registrationNumber, vehicle);
+        vehicles.put(registrationNumber, vehiclePersistenceDto);
     }
 
 }

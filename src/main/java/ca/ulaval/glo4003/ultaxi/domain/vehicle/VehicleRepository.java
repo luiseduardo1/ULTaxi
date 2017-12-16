@@ -6,7 +6,7 @@ public interface VehicleRepository {
 
     VehiclePersistenceDto findByRegistrationNumber(String registrationNumber);
 
-    void save(VehiclePersistenceDto vehicle);
+    void save(VehiclePersistenceDto vehiclePersistenceDto);
 
-    void update(VehiclePersistenceDto vehicle);
+    void update(VehiclePersistenceDto vehiclePersistenceDto);
 }

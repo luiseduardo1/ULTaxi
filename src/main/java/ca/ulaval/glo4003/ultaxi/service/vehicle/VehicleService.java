@@ -61,9 +61,9 @@ public class VehicleService {
         validateAssociationEntities(vehiclePersistenceDto, driver);
         Vehicle vehicle = vehiclePersistenceAssembler.create(vehiclePersistenceDto);
         driver.associateVehicle(vehicle);
-        VehiclePersistenceDto updatedVehicle = vehiclePersistenceAssembler.create(vehicle);
+        VehiclePersistenceDto updatedVehiclePersistenceDto = vehiclePersistenceAssembler.create(vehicle);
         userRepository.update(driver);
-        vehicleRepository.update(updatedVehicle);
+        vehicleRepository.update(updatedVehiclePersistenceDto);
     }
 
     public void dissociateVehicle(String username) {
@@ -81,13 +81,13 @@ public class VehicleService {
         Vehicle vehicle = driver.getVehicle();
         driver.dissociateVehicle();
 
-        VehiclePersistenceDto updatedVehicle = vehiclePersistenceAssembler.create(vehicle);
+        VehiclePersistenceDto updatedVehiclePersistenceDto = vehiclePersistenceAssembler.create(vehicle);
         userRepository.update(user);
-        vehicleRepository.update(updatedVehicle);
+        vehicleRepository.update(updatedVehiclePersistenceDto);
     }
 
-    private void validateAssociationEntities(VehiclePersistenceDto vehicle, User user) {
-        if (user == null || vehicle == null || user.getRole() != Role.DRIVER) {
+    private void validateAssociationEntities(VehiclePersistenceDto vehiclePersistenceDto, User user) {
+        if (user == null || vehiclePersistenceDto == null || user.getRole() != Role.DRIVER) {
             throw new InvalidVehicleAssociationException("Can't associate this vehicle with the given driver. Verify " +
                 "that the driver and the vehicle exist.");
         }

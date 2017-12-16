@@ -12,26 +12,26 @@ public class VehicleDevDataFactory {
     public List<VehiclePersistenceDto> createMockData() {
         List<VehiclePersistenceDto> vehicles = Lists.newArrayList();
 
-        VehiclePersistenceDto vehicle1 = new VehiclePersistenceDto(
+        VehiclePersistenceDto vehiclePersistenceDto1 = new VehiclePersistenceDto(
             "CAR",
             "Metallic Blue",
             "Honda Civic Si",
             "T98765");
-        vehicles.add(vehicle1);
+        vehicles.add(vehiclePersistenceDto1);
 
-        VehiclePersistenceDto vehicle2 = new VehiclePersistenceDto(
+        VehiclePersistenceDto vehiclePersistenceDto2 = new VehiclePersistenceDto(
             "VAN",
             "Dark Grey",
             "Toyota Sienna XLE",
             "T31337");
-        vehicles.add(vehicle2);
+        vehicles.add(vehiclePersistenceDto2);
 
-        VehiclePersistenceDto vehicle3 = new VehiclePersistenceDto(
+        VehiclePersistenceDto vehiclePersistenceDto3 = new VehiclePersistenceDto(
             "LIMOUSINE",
             "Gloss Black",
             "Chrysler 300 New York Edition",
             "TS00700");
-        vehicles.add(vehicle3);
+        vehicles.add(vehiclePersistenceDto3);
 
         return vehicles;
     }

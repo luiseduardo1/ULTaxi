@@ -13,7 +13,8 @@ import java.util.Map;
 public class RateRepositoryInMemory implements RateRepository {
 
     private final Map<RateType, Object> rates = new HashMap<>();
-    private final Map<VehicleType, RatePersistenceDto> ratesByVehicleType = new HashMap<VehicleType, RatePersistenceDto>();
+    private final Map<VehicleType, RatePersistenceDto> ratesByVehicleType =
+        new HashMap<VehicleType, RatePersistenceDto>();
 
     public RateRepositoryInMemory() {
         rates.put(RateType.DISTANCE, ratesByVehicleType);

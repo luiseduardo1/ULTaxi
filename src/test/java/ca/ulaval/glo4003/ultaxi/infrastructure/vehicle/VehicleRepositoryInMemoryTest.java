@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.willReturn;
 
-import ca.ulaval.glo4003.ultaxi.domain.vehicle.Vehicle;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleRepository;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.NonExistentVehicleException;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.VehicleAlreadyExistsException;
@@ -22,54 +21,58 @@ public class VehicleRepositoryInMemoryTest {
     private static final String A_REGISTRATION_NUMBER = "T31337";
 
     @Mock
-    private VehiclePersistenceDto vehicle;
+    private VehiclePersistenceDto vehiclePersistenceDto;
+
     private VehicleRepository vehicleRepository;
 
     @Before
     public void setUp() {
         vehicleRepository = new VehicleRepositoryInMemory(new BcryptHashing());
 
-        willReturn(A_REGISTRATION_NUMBER).given(vehicle).getRegistrationNumber();
+        willReturn(A_REGISTRATION_NUMBER).given(vehiclePersistenceDto).getRegistrationNumber();
     }
 
     @Test
     public void givenExistingRegistrationNumber_whenFindByRegistrationNumber_thenReturnsCorrespondingVehicle() {
-        vehicleRepository.save(vehicle);
+        vehicleRepository.save(vehiclePersistenceDto);
 
-        VehiclePersistenceDto returnedVehicle = vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
+        VehiclePersistenceDto returnedVehiclePersistenceDto =
+            vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
 
-        assertEquals(A_REGISTRATION_NUMBER, returnedVehicle.getRegistrationNumber());
+        assertEquals(A_REGISTRATION_NUMBER, returnedVehiclePersistenceDto.getRegistrationNumber());
     }
 
     @Test
     public void givenNonExistingRegistrationNumber_whenFindByRegistrationNumber_thenReturnsNull() {
-        VehiclePersistenceDto returnedVehicle = vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
+        VehiclePersistenceDto returnedVehiclePersistenceDto =
+            vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
 
-        assertNull(returnedVehicle);
+        assertNull(returnedVehiclePersistenceDto);
     }
 
     @Test
     public void givenVehicle_whenSave_thenSavesVehicle() {
-        vehicleRepository.save(vehicle);
-        VehiclePersistenceDto savedVehicle = vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
+        vehicleRepository.save(vehiclePersistenceDto);
+        VehiclePersistenceDto savedVehiclePersistenceDto =
+            vehicleRepository.findByRegistrationNumber(A_REGISTRATION_NUMBER);
 
-        assertEquals(vehicle, savedVehicle);
+        assertEquals(vehiclePersistenceDto, savedVehiclePersistenceDto);
     }
 
     @Test(expected = VehicleAlreadyExistsException.class)
     public void givenExistingVehicle_whenSave_thenThrowsException() {
-        vehicleRepository.save(vehicle);
-        vehicleRepository.save(vehicle);
+        vehicleRepository.save(vehiclePersistenceDto);
+        vehicleRepository.save(vehiclePersistenceDto);
     }
 
     @Test
     public void givenExistentVehicle_whenUpdating_thenNoThrowsException() {
-        vehicleRepository.save(vehicle);
-        vehicleRepository.update(vehicle);
+        vehicleRepository.save(vehiclePersistenceDto);
+        vehicleRepository.update(vehiclePersistenceDto);
     }
 
     @Test(expected = NonExistentVehicleException.class)
     public void givenNonExistentVehicle_whenUpdating_thenThrowsException() {
-        vehicleRepository.update(vehicle);
+        vehicleRepository.update(vehiclePersistenceDto);
     }
 }
