@@ -1,7 +1,11 @@
 package ca.ulaval.glo4003.ultaxi.domain.transportrequest;
 
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
+import ca.ulaval.glo4003.ultaxi.domain.money.Money;
+import ca.ulaval.glo4003.ultaxi.domain.rate.Rate;
+import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestCompletionException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.exception.InvalidTransportRequestStatusException;
+import ca.ulaval.glo4003.ultaxi.domain.user.driver.Driver;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.domain.vehicle.exception.InvalidVehicleTypeException;
 
@@ -12,9 +16,11 @@ public class TransportRequest {
     private String id = UUID.randomUUID().toString();
     private String clientUsername;
     private Geolocation startingPosition;
+    private Geolocation endingPosition;
     private String note;
     private VehicleType vehicleType;
     private TransportRequestStatus status = TransportRequestStatus.PENDING;
+    private Money totalAmount;
 
     public TransportRequest() {
     }
@@ -40,6 +46,14 @@ public class TransportRequest {
 
     public void setStartingPosition(Geolocation startingPosition) {
         this.startingPosition = startingPosition;
+    }
+
+    public Geolocation getEndingPosition() {
+        return endingPosition;
+    }
+
+    public void setEndingPosition(Geolocation endingPosition) {
+        this.endingPosition = endingPosition;
     }
 
     public String getId() {
@@ -73,6 +87,10 @@ public class TransportRequest {
         }
     }
 
+    public Money getTotalAmount() {
+        return this.totalAmount;
+    }
+
     public TransportRequestStatus getTransportRequestStatus() {
         return this.status;
     }
@@ -102,6 +120,28 @@ public class TransportRequest {
         this.status = TransportRequestStatus.ACCEPTED;
     }
 
+    public void setToCompleted(Driver driver, Geolocation endingPosition) {
+        if (driver.getCurrentTransportRequestId() != this.id) {
+            throw new InvalidTransportRequestCompletionException(
+                    "The transport request you are trying to complete is not assigned to the driver");
+        }
+        if (this.status != TransportRequestStatus.STARTED) {
+            throw new InvalidTransportRequestStatusException(
+                    "The status can't be set to COMPLETED when the current status is not STARTED."
+            );
+        }
+        this.endingPosition = endingPosition;
+        this.status = TransportRequestStatus.COMPLETED;
+        driver.unassignTransportRequestId();
+    }
+
+    public void calculateTotalAmount(Rate rate) {
+        this.totalAmount = rate.calculateTotalAmount(this.startingPosition, this.endingPosition);
+    }
+
+
+
+
     public void setToArrived() {
         if (this.status != TransportRequestStatus.ACCEPTED) {
             throw new InvalidTransportRequestStatusException(
@@ -117,5 +157,6 @@ public class TransportRequest {
                 "The status can't be set to STARTED when the current status is not ARRIVED."
             );
         }
+        this.status = TransportRequestStatus.STARTED;
     }
 }

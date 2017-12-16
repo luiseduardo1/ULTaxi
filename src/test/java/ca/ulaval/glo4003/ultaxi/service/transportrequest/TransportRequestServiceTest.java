@@ -1,16 +1,10 @@
 package ca.ulaval.glo4003.ultaxi.service.transportrequest;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-
 import ca.ulaval.glo4003.ultaxi.domain.geolocation.Geolocation;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.MessagingTaskProducer;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.messagingtask.MessagingTask;
 import ca.ulaval.glo4003.ultaxi.domain.messaging.sms.SmsSender;
+import ca.ulaval.glo4003.ultaxi.domain.rate.RateRepository;
 import ca.ulaval.glo4003.ultaxi.domain.search.exception.EmptySearchResultsException;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequest;
 import ca.ulaval.glo4003.ultaxi.domain.transportrequest.TransportRequestRepository;
@@ -25,7 +19,9 @@ import ca.ulaval.glo4003.ultaxi.domain.vehicle.VehicleType;
 import ca.ulaval.glo4003.ultaxi.infrastructure.transportrequest.TransportRequestSearchQueryBuilderInMemory;
 import ca.ulaval.glo4003.ultaxi.service.user.UserAuthenticationService;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestAssembler;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestCompleteDto;
 import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestDto;
+import ca.ulaval.glo4003.ultaxi.transfer.transportrequest.TransportRequestTotalAmountAssembler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +31,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransportRequestServiceTest {
@@ -54,6 +57,10 @@ public class TransportRequestServiceTest {
     private TransportRequestRepository transportRequestRepository;
     @Mock
     private TransportRequestAssembler transportRequestAssembler;
+    @Mock
+    private TransportRequestTotalAmountAssembler transportRequestTotalAmountAssembler;
+    @Mock
+    private RateRepository rateRepository;
     @Mock
     private TransportRequestSearchQueryBuilder transportRequestSearchQueryBuilder;
     @Mock
@@ -76,10 +83,10 @@ public class TransportRequestServiceTest {
     private TransportRequestService transportRequestService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         transportRequestService = new TransportRequestService(transportRequestRepository, transportRequestAssembler,
-                                                              userRepository, userAuthenticationService,
-                                                              messagingTaskProducer, smsSender);
+                                                              userRepository, userAuthenticationService, messagingTaskProducer,
+                                                              smsSender, transportRequestTotalAmountAssembler, rateRepository);
         willReturn(driver).given(userAuthenticationService).getUserFromToken(A_VALID_DRIVER_TOKEN);
         willReturn(client).given(userAuthenticationService).getUserFromToken(A_VALID_TOKEN);
         willReturn(A_USERNAME).given(transportRequest).getClientUsername();
@@ -158,4 +165,5 @@ public class TransportRequestServiceTest {
             .CAR));
         return transportRequests;
     }
+
 }
