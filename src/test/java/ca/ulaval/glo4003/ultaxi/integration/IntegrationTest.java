@@ -49,12 +49,12 @@ public abstract class IntegrationTest {
         );
     }
 
-    protected Response authenticateAs(String serializedUser) {
+    protected Response authenticateAs(String serializedCredentials) {
         if (authenticationToken != "") {
             signout();
         }
         Response response = executePostRequest(
-            createBasicRequestSpecification(SIGNIN_ROUTE), serializedUser
+            createBasicRequestSpecification(SIGNIN_ROUTE), serializedCredentials
         );
         authenticationToken = extractAuthenticationToken(response);
         return response;
@@ -139,7 +139,7 @@ public abstract class IntegrationTest {
         return serializeDto(authenticationDto);
     }
 
-    protected String createSerializedUser(String username, String password, String phoneNumber, String email) {
+    protected String createSerializedClient(String username, String password, String phoneNumber, String email) {
         ClientDto clientDto = new ClientDto();
         clientDto.setUsername(username);
         clientDto.setPassword(password);
