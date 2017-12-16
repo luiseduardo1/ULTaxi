@@ -120,7 +120,7 @@ public class TransportRequest {
         this.status = TransportRequestStatus.ACCEPTED;
     }
 
-    public void complete(Driver driver, Geolocation endingPosition) {
+    public void setToCompleted(Driver driver, Geolocation endingPosition) {
         if (driver.getCurrentTransportRequestId() != this.id) {
             throw new InvalidTransportRequestCompletionException(
                     "The transport request you are trying to complete is not assigned to the driver");

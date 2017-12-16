@@ -105,7 +105,7 @@ public class TransportRequestResourceImplTest {
 
     @Test
     public void givenAnAuthenticatedDriver_whenCompleteTransportRequest_thenReturnsOk() {
-        Response response = transportRequestResource.completeTransportRequest(A_VALID_DRIVER_TOKEN,
+        Response response = transportRequestResource.notifyHasCompleted(A_VALID_DRIVER_TOKEN,
                 transportRequestCompleteDto);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());

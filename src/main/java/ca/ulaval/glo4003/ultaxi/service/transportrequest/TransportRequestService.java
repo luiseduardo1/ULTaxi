@@ -103,13 +103,13 @@ public class TransportRequestService {
         transportRequestRepository.update(transportRequest);
     }
 
-    public TransportRequestTotalAmountDto completeTransportRequest(
+    public TransportRequestTotalAmountDto notifyRideHasCompleted(
             String driverToken, TransportRequestCompleteDto transportRequestCompleteDto) {
         Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository
                 .findById(driver.getCurrentTransportRequestId());
 
-        transportRequest.complete(driver,new Geolocation(transportRequestCompleteDto.getEndingPositionLatitude(),
+        transportRequest.setToCompleted(driver,new Geolocation(transportRequestCompleteDto.getEndingPositionLatitude(),
                 transportRequestCompleteDto.getEndingPositionLongitude()));
 
         Rate rate = RateFactory.getRate(transportRequest, rateRepository);
@@ -125,8 +125,7 @@ public class TransportRequestService {
         InvalidTransportRequestStatusException, NonExistentTransportRequestException, InvalidTokenException {
         Driver driver = (Driver) userAuthenticationService.getUserFromToken(driverToken);
         TransportRequest transportRequest = transportRequestRepository.findById(driver
-                                                                                    .getCurrentTransportRequestId
-                                                                                        ());
+                                                                                    .getCurrentTransportRequestId());
         transportRequest.updateStatus(TransportRequestStatus.ARRIVED);
         transportRequestRepository.update(transportRequest);
         User user = userRepository.findByUsername(transportRequest.getClientUsername());

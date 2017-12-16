@@ -70,10 +70,10 @@ public class TransportRequestResourceImpl implements TransportRequestResource {
 
     @Override
     @Secured({Role.DRIVER})
-    public Response completeTransportRequest(String driverToken,
+    public Response notifyHasCompleted(String driverToken,
                                              TransportRequestCompleteDto transportRequestCompleteDto) {
         TransportRequestTotalAmountDto transportRequestTotalAmountDto = transportRequestService
-                .completeTransportRequest(
+                .notifyRideHasCompleted(
                 driverToken, transportRequestCompleteDto);
         return Response.ok().entity(transportRequestTotalAmountDto).build();
     }

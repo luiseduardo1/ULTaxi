@@ -65,14 +65,14 @@ public class TransportRequestTest {
         transportRequest.setStartingPosition(A_VALID_STARTING_GEOLOCATION);
         willReturn(transportRequest.getId()).given(driver).getCurrentTransportRequestId();
 
-        transportRequest.complete(driver, A_VALID_ENDING_GEOLOCATION);
+        transportRequest.setToCompleted(driver, A_VALID_ENDING_GEOLOCATION);
 
         assertEquals(TransportRequestStatus.COMPLETED, transportRequest.getTransportRequestStatus());
     }
 
     @Test(expected = InvalidTransportRequestCompletionException.class)
     public void givenADriverWithADifferentTransportRequest_whenComplete_thenThrowsException() {
-        transportRequest.complete(driver, A_VALID_ENDING_GEOLOCATION);
+        transportRequest.setToCompleted(driver, A_VALID_ENDING_GEOLOCATION);
     }
 
     @Test
