@@ -31,6 +31,13 @@ public class TransportRequestResourceIT extends IntegrationTest {
     private static final String A_VALID_FIRST_NAME = "Karl";
     private static final String A_VALID_LAST_NAME = "Max";
 
+    private String serializedClient = createSerializedClient(
+        generateRandomWord(),
+        A_VALID_PASSWORD,
+        A_VALID_PHONE_NUMBER,
+        A_VALID_EMAIL_ADDRESS
+    );
+
     @Before
     public void setUp() {
     }
@@ -43,6 +50,18 @@ public class TransportRequestResourceIT extends IntegrationTest {
         Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
 
         assertStatusCode(response, Status.CREATED);
+    }
+
+    @Test
+    public void givenAClientWithAnActiveTransportRequest_whenSendRequest_thenReturnsBadRequest() {
+        unauthenticatedPost(CLIENTS_ROUTE, serializedClient);
+        authenticateAs(serializedClient);
+        String serializedTransportRequest = createSerializedValidTransportRequest();
+        authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
+
+        Response response = authenticatedPost(TRANSPORT_REQUEST_ROUTE, serializedTransportRequest);
+
+        assertStatusCode(response, Status.BAD_REQUEST);
     }
 
     @Test
